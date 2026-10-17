@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   WCAG 2.1 AA ACCESSIBILITY & INCLUSIVITY STYLES
+   ========================================================================== */
+
+/* High-contrast keyboard focus indicators */
+*:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+/* Reduced Motion for users with vestibular or motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* High-fidelity print styles for official secondary school lesson records */
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10pt;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+  .print\:block {
+    display: block !important;
+  }
+}

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/eduplan-ng/eduplan-ng/discussions
+    about: Ask pedagogical questions or discuss curriculum features with other Nigerian educators.
+  - name: Security Vulnerability Reporting
+    url: mailto:security@eduplan.ng
+    about: Privately report security concerns directly to our security engineering team.

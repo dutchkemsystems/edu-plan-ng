@@ -1,0 +1,37 @@
+name: Bug Report
+description: File a bug report to help improve EduPlan NG
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for reporting an issue in EduPlan NG.
+  - type: input
+    id: summary
+    attributes:
+      label: One-line Summary
+      description: Brief summary of the issue
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to reproduce the behavior
+      placeholder: |
+        1. Go to '/lesson-plans'
+        2. Click on 'Create New Lesson Plan'
+        3. Enter topic...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Environment & Browser
+      description: Browser, OS, mobile/desktop device

@@ -1,0 +1,17 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: 'Welcome to EduPlan NG! Thank you for opening your first issue and helping us build acquisition-grade educational software for Nigeria.'
+          pr-message: 'Thank you for your first pull request! Our engineering team will review it shortly.'

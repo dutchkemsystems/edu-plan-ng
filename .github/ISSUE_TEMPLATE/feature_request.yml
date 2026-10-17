@@ -1,0 +1,35 @@
+name: Feature Request
+description: Suggest a pedagogical feature or technical capability
+labels: ["enhancement"]
+body:
+  - type: input
+    id: feature_name
+    attributes:
+      label: Feature Name
+      description: Concise title for the proposal
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What challenge do Nigerian teachers or students encounter?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should the platform solve this?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Target Subject or Level
+      options:
+        - Junior Secondary (JSS 1-3)
+        - Senior Secondary (SSS 1-3)
+        - Broadsheet & Grade Book
+        - Kora Pay Billing
+        - AI Assistant & Bloom's Taxonomy

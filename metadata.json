@@ -1,0 +1,6 @@
+{
+  "name": "EduPlan NG",
+  "description": "Acquisition-grade lesson planning, NERDC curriculum browsing, scheme of work, and assessment platform for Nigerian teachers (JSS 1-3, SSS 1-3).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

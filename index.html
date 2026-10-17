@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduPlan NG — Acquisition-Grade Nigerian Curriculum & Lesson Planning</title>
+    <meta name="description" content="Acquisition-grade lesson planning, NERDC curriculum browsing, scheme of work, and assessment platform for Nigerian teachers (JSS 1-3, SSS 1-3)." />
+    <meta property="og:title" content="EduPlan NG — Acquisition-Grade Nigerian Curriculum & Lesson Planning" />
+    <meta property="og:description" content="Acquisition-grade lesson planning, NERDC curriculum browsing, scheme of work, and assessment platform for Nigerian teachers (JSS 1-3, SSS 1-3)." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- PWA Manifest & Theme -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#047857" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="EduPlan NG" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23047857'/><text x='50' y='68' font-size='50' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'>EP</text></svg>" />
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            console.log('[PWA] Service Worker registered successfully with scope:', reg.scope);
+          }).catch((err) => {
+            console.warn('[PWA] Service Worker registration skipped or failed:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+name: Engineering Task
+description: Track a technical task, refactoring, or infrastructure item
+labels: ["tech-debt"]
+body:
+  - type: input
+    id: task_title
+    attributes:
+      label: Task Title
+      description: Concise description of task
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Detailed Technical Specification
+      description: What code or infrastructure needs to be modified?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Bulleted list of conditions to mark this complete
+    validations:
+      required: true

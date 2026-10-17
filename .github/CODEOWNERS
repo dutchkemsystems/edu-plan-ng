@@ -1,0 +1,9 @@
+# EduPlan NG Codeowners
+* @eduplan-core-team
+
+/src/ @eduplan-frontend-lead
+/server.ts @eduplan-backend-lead
+/src/db/ @eduplan-data-eng
+/.github/ @eduplan-devops
+/docs/ @eduplan-tech-writing
+/data/ @eduplan-curriculum-specialists
