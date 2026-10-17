@@ -72,10 +72,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </button>
             <button
               onClick={() => onNavigate('schemes')}
+              aria-label="Generate 13-Week Scheme of Work"
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-700/60 hover:bg-emerald-700 border border-emerald-500/40 text-white transition-colors"
             >
               <CalendarCheck2 className="w-4 h-4 text-amber-300" />
-              <span>{t.generateScheme}</span>
+              <span>{t.generateScheme || 'Generate Scheme of Work'}</span>
             </button>
           </div>
         </div>

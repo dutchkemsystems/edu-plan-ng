@@ -160,6 +160,23 @@ export async function requestAIAssist(payload: {
   return res.json();
 }
 
+export async function autoGeneratePlanAndNote(payload: {
+  level: string;
+  subject: string;
+  topic?: string;
+  week?: number;
+  term?: number;
+  language?: string;
+}): Promise<{ success: boolean; data: any; provider: string }> {
+  const res = await fetch(`${API_BASE}/lesson-plans/auto-generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to auto-generate statutory content');
+  return res.json();
+}
+
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   const res = await fetch(`${API_BASE}/dashboard/stats`);
   if (!res.ok) throw new Error('Failed to fetch dashboard stats');

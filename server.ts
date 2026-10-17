@@ -22,6 +22,7 @@ import {
 import { eq, desc, and, like, or } from 'drizzle-orm';
 import { logger } from './src/lib/logger.ts';
 import { GoogleGenAI } from '@google/genai';
+import { generateNerdcOeqaContent } from './src/data/allCurriculumSubjects.ts';
 
 dotenv.config({ path: '.env.local' });
 dotenv.config();
@@ -543,6 +544,102 @@ Include local Nigerian contextual examples (e.g. Lagos traffic, cassava farming,
   } catch (err) {
     logger.error('AI assistant error', err);
     res.status(500).json({ error: 'AI generation failed.' });
+  }
+});
+
+// Statutory NERDC & OEQA Automated Lesson Plan & Lesson Note Synthesizer
+app.post('/api/lesson-plans/auto-generate', async (req: Request, res: Response) => {
+  try {
+    const { level, subject, topic, week, term, language } = req.body;
+    const targetLang = language || 'en';
+    const wk = week ? parseInt(week, 10) : 1;
+    const trm = term ? parseInt(term, 10) : 1;
+    const lvl = level || 'jss-1';
+    const sub = subject || 'Mathematics';
+    const top = topic || `${sub} Standard Module Week ${wk}`;
+
+    const statutoryContent = generateNerdcOeqaContent({
+      level: lvl,
+      subject: sub,
+      topic: top,
+      week: wk,
+      term: trm,
+      language: targetLang,
+    });
+
+    if (process.env.GEMINI_API_KEY) {
+      try {
+        const ai = new GoogleGenAI({
+          apiKey: process.env.GEMINI_API_KEY,
+          httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+        });
+        const prompt = `You are an expert Nigerian Curriculum Specialist and Inspector adhering strictly to NERDC (Nigerian Educational Research and Development Council) and Lagos State OEQA (Office of Education Quality Assurance) guidelines.
+Generate a comprehensive, high-quality, practical lesson plan and chalkboard lesson note for:
+- Level: ${lvl.toUpperCase()}
+- Subject: ${sub}
+- Topic: "${top}"
+- Term: ${trm}, Week: ${wk}
+- Language: ${targetLang}
+
+Format output STRICTLY as raw JSON (no backticks, no Markdown formatting wrappers) matching this schema:
+{
+  "objectives": ["Bloom verb 1...", "Bloom verb 2...", "Bloom verb 3...", "Bloom verb 4..."],
+  "materials": ["NERDC Textbook...", "Local Realia specimen...", "Chalkboard..."],
+  "previousKnowledge": "...",
+  "introduction": "...",
+  "teacherActivity": "...",
+  "studentActivity": "...",
+  "evaluation": "...",
+  "assignment": "...",
+  "differentiatedInstruction": {
+    "struggling": "...",
+    "onLevel": "...",
+    "advanced": "..."
+  },
+  "safetyPrecautions": "...",
+  "lessonNote": {
+    "subtopics": "...",
+    "definitions": "...",
+    "workedExamples": "...",
+    "blackboardSummary": "...",
+    "classDrill": "..."
+  }
+}`;
+
+        const aiResponse = await ai.models.generateContent({
+          model: 'gemini-3.8-flash',
+          contents: prompt,
+        });
+
+        if (aiResponse.text) {
+          const cleaned = aiResponse.text.replace(/```json/gi, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(cleaned);
+          return res.json({
+            success: true,
+            provider: 'gemini-api',
+            data: {
+              ...statutoryContent,
+              ...parsed,
+              lessonNote: {
+                ...statutoryContent.lessonNote,
+                ...(parsed.lessonNote || {})
+              }
+            }
+          });
+        }
+      } catch (geminiErr) {
+        logger.warn('Gemini auto-generate fallback to statutory engine', { error: String(geminiErr) });
+      }
+    }
+
+    res.json({
+      success: true,
+      provider: 'nerdc-oeqa-statutory-engine',
+      data: statutoryContent
+    });
+  } catch (err) {
+    logger.error('Failed to auto-generate lesson plan & note', err);
+    res.status(500).json({ error: 'Auto-generation failed.' });
   }
 });
 
@@ -1079,22 +1176,100 @@ app.post('/api/schemes/generate', async (req: Request, res: Response) => {
     const targetTerm = term ? parseInt(term, 10) : 1;
     const levelId = level || 'jss-1';
 
-    // Retrieve the 13 weeks of curriculum topics for this level/subject/term
-    const topics = await db.select().from(curriculumTopics).where(
-      and(
-        eq(curriculumTopics.levelId, levelId),
-        eq(curriculumTopics.term, targetTerm)
-      )
-    ).orderBy(curriculumTopics.week);
+    const targetSubject = subject || 'Mathematics';
 
-    const weeksData = topics.slice(0, 13).map((top) => ({
-      week: top.week,
-      topic: top.topic,
-      subtopics: JSON.parse(top.subtopics || '[]'),
-      periods: 4,
-      materials: JSON.parse(top.materials || '[]'),
-      evaluation: JSON.parse(top.evaluation || '[]'),
-    }));
+    // Retrieve matching subject id if present
+    const matchedSubject = await db.select().from(curriculumSubjects).where(
+      and(
+        eq(curriculumSubjects.levelId, levelId),
+        eq(curriculumSubjects.name, targetSubject)
+      )
+    ).limit(1);
+
+    let topics: Array<any> = [];
+    if (matchedSubject.length > 0) {
+      topics = await db.select().from(curriculumTopics).where(
+        and(
+          eq(curriculumTopics.levelId, levelId),
+          eq(curriculumTopics.subjectId, matchedSubject[0].id),
+          eq(curriculumTopics.term, targetTerm)
+        )
+      ).orderBy(curriculumTopics.week);
+    }
+
+    if (topics.length === 0) {
+      topics = await db.select().from(curriculumTopics).where(
+        and(
+          eq(curriculumTopics.levelId, levelId),
+          eq(curriculumTopics.term, targetTerm)
+        )
+      ).orderBy(curriculumTopics.week);
+    }
+
+    // Build standard 13-week progression with Midterm at Week 7 and Terminal Exam at Week 13
+    const weeksData = Array.from({ length: 13 }, (_, i) => {
+      const wk = i + 1;
+      const existing = topics.find((t) => t.week === wk);
+
+      if (wk === 7) {
+        return {
+          week: 7,
+          topic: 'Mid-Term Continuous Assessment (CA Test) & Intervention',
+          subtopics: ['Standardized 20-mark diagnostic test', 'Identification of learning gaps', 'Remedial and differentiated instruction'],
+          periods: 4,
+          materials: ['Printed CA Question Papers', 'NERDC Standardized Marking Guide', 'Continuous Assessment Broadsheet'],
+          evaluation: ['Continuous Assessment Test 1 (20 Marks)'],
+        };
+      }
+
+      if (wk === 12) {
+        return {
+          week: 12,
+          topic: 'Comprehensive Termly Revision & Examination Prep',
+          subtopics: ['Synthesized review of Weeks 1 to 11 key competencies', 'Past examination question clinic', 'Problem-solving drills'],
+          periods: 4,
+          materials: ['Termly revision worksheets', 'WAEC/NECO/BECE model questions'],
+          evaluation: ['Diagnostic mock examination drill'],
+        };
+      }
+
+      if (wk === 13) {
+        return {
+          week: 13,
+          topic: 'Terminal Examination, Marking & Broadsheet Entry',
+          subtopics: ['Administration of End-of-Term Examination (60 Marks)', 'Script collation, vetting, and moderation', 'Final report card scoring'],
+          periods: 4,
+          materials: ['Official examination booklets', 'Approved marking schemes', 'Class broadsheet'],
+          evaluation: ['Terminal Examination (60 Marks total)'],
+        };
+      }
+
+      if (existing) {
+        let parsedSub = [];
+        let parsedMat = ['NERDC Approved Textbook', 'Whiteboard', 'Charts'];
+        let parsedEval = ['Classwork drill and formative questioning'];
+        try { parsedSub = JSON.parse(existing.subtopics || '[]'); } catch (_) {}
+        try { parsedMat = JSON.parse(existing.materials || '[]'); } catch (_) {}
+        try { parsedEval = JSON.parse(existing.evaluation || '[]'); } catch (_) {}
+        return {
+          week: wk,
+          topic: existing.topic,
+          subtopics: Array.isArray(parsedSub) ? parsedSub : [parsedSub],
+          periods: 4,
+          materials: Array.isArray(parsedMat) ? parsedMat : [parsedMat],
+          evaluation: Array.isArray(parsedEval) ? parsedEval : [parsedEval],
+        };
+      }
+
+      return {
+        week: wk,
+        topic: `${targetSubject} Standard Learning Competency — Module ${wk}`,
+        subtopics: [`Introduction to concepts for Week ${wk}`, `Guided classroom examples`, `Independent learner activities`],
+        periods: 4,
+        materials: ['NERDC Approved Textbook', 'Whiteboard and dry-erase markers', 'Wall charts'],
+        evaluation: [`Formative evaluation drill and homework review for Week ${wk}`],
+      };
+    });
 
     const newId = `sow_${Date.now()}`;
     const newScheme = {

@@ -270,11 +270,11 @@ export async function initDb() {
     await runTableDDL(activeClient);
   }
 
-  // Check if curriculum is seeded. If empty, automatically seed!
+  // Check if curriculum is fully seeded with all core subjects. If incomplete, seed now!
   try {
-    const existingLevels = await db.select().from(schema.curriculumLevels).limit(1);
-    if (existingLevels.length === 0) {
-      console.log('🌱 Curriculum table is empty. Auto-seeding database...');
+    const existingSubjects = await db.select().from(schema.curriculumSubjects);
+    if (existingSubjects.length < 30) {
+      console.log(`🌱 Curriculum subjects count is ${existingSubjects.length} (< 30). Seeding all statutory core subjects across JSS & SSS...`);
       await seedDatabase();
     }
   } catch (err) {

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { CurriculumLevel, CurriculumSubject, CurriculumTopic } from '../types/index.ts';
 import { fetchCurriculumLevels, fetchLevelDetail, fetchSubjectDetail } from '../lib/api.ts';
+import { ALL_CURRICULUM_SUBJECTS } from '../data/allCurriculumSubjects.ts';
 
 interface CurriculumBrowserProps {
   onCreatePlanFromTopic: (topic: CurriculumTopic, level: string, subject: string) => void;
@@ -32,6 +33,7 @@ export const CurriculumBrowser: React.FC<CurriculumBrowserProps> = ({
   const [selectedTerm, setSelectedTerm] = useState<number>(1);
   const [selectedTopic, setSelectedTopic] = useState<CurriculumTopic | null>(null);
   const [loading, setLoading] = useState(false);
+  const [deptFilter, setDeptFilter] = useState<string>('all');
 
   useEffect(() => {
     loadLevels();
@@ -205,7 +207,7 @@ export const CurriculumBrowser: React.FC<CurriculumBrowserProps> = ({
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-emerald-700 font-bold">
-                      <span>4 Core Subjects • 39 Weeks</span>
+                      <span>17 Statutory Subjects • 39 Weeks</span>
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -243,7 +245,7 @@ export const CurriculumBrowser: React.FC<CurriculumBrowserProps> = ({
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-blue-700 font-bold">
-                      <span>4 Core Subjects • 39 Weeks</span>
+                      <span>21 Statutory Subjects • 39 Weeks</span>
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -255,31 +257,77 @@ export const CurriculumBrowser: React.FC<CurriculumBrowserProps> = ({
 
       {/* VIEW 2: SUBJECTS LIST (/curriculum/[level]) */}
       {selectedLevel && !selectedSubject && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {subjects.map((sub) => (
-            <div
-              key={sub.id}
-              onClick={() => handleSelectSubject(sub)}
-              className="p-6 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-emerald-500 transition-all cursor-pointer group flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-sm mb-4 group-hover:scale-105 transition-transform">
-                  <BookOpen className="w-5 h-5 text-emerald-700" />
-                </div>
-                <h2 className="text-base font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">
-                  {sub.name}
-                </h2>
-                <p className="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed">
-                  {sub.description}
-                </p>
-              </div>
+        <div className="space-y-4">
+          {/* Department Filter Tabs */}
+          <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
+            {[
+              { id: 'all', label: `All Subjects (${subjects.length})` },
+              { id: 'Core', label: 'Core Statutory' },
+              { id: 'Science & Math', label: 'Science & Math' },
+              { id: 'Commercial', label: 'Commercial' },
+              { id: 'Humanities & Arts', label: 'Humanities & Arts' },
+              { id: 'Vocational & Tech', label: 'Vocational & Tech' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setDeptFilter(tab.id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  deptFilter === tab.id
+                    ? 'bg-emerald-700 text-white shadow-xs'
+                    : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-emerald-700 font-bold">
-                <span>3 Terms • 13 Weeks Each</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {subjects
+              .filter((sub) => {
+                if (deptFilter === 'all') return true;
+                const meta = ALL_CURRICULUM_SUBJECTS.find(
+                  (m) => m.name.toLowerCase() === sub.name.toLowerCase()
+                );
+                return meta?.department === deptFilter;
+              })
+              .map((sub) => {
+                const meta = ALL_CURRICULUM_SUBJECTS.find(
+                  (m) => m.name.toLowerCase() === sub.name.toLowerCase()
+                );
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => handleSelectSubject(sub)}
+                    className="p-6 bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md hover:border-emerald-500 transition-all cursor-pointer group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-sm group-hover:scale-105 transition-transform">
+                          <BookOpen className="w-5 h-5 text-emerald-700" />
+                        </div>
+                        {meta?.department && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                            {meta.department}
+                          </span>
+                        )}
+                      </div>
+                      <h2 className="text-base font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">
+                        {sub.name}
+                      </h2>
+                      <p className="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed">
+                        {sub.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-emerald-700 font-bold">
+                      <span>3 Terms • 13 Weeks Each</span>
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       )}
 

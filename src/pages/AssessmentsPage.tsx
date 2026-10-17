@@ -36,6 +36,7 @@ export const AssessmentsPage: React.FC = () => {
   const [schoolHeader, setSchoolHeader] = useState('King\'s College, Lagos — Department of Mathematics');
   const [loading, setLoading] = useState(false);
   const [showMarkingScheme, setShowMarkingScheme] = useState(true);
+  const [includeOmrSheet, setIncludeOmrSheet] = useState(true);
 
   // Practice Mode state
   const [selectedExamFilter, setSelectedExamFilter] = useState<string>('ALL');
@@ -334,7 +335,18 @@ ${
         <div className="space-y-6">
           {/* Action Row */}
           {selectedAssessment && (
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <button
+                onClick={() => setIncludeOmrSheet(!includeOmrSheet)}
+                className={`px-3 py-2 text-xs font-bold rounded-xl border transition-colors ${
+                  includeOmrSheet
+                    ? 'bg-purple-50 text-purple-800 border-purple-200'
+                    : 'bg-gray-100 text-gray-600 border-gray-200'
+                }`}
+                title="Toggle candidate OMR bubble answer sheet for photocopying"
+              >
+                <span>{includeOmrSheet ? 'OMR Sheet: Included' : '+ Include OMR Sheet'}</span>
+              </button>
               <button
                 onClick={() => setShowMarkingScheme(!showMarkingScheme)}
                 className="px-3 py-2 text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl"
@@ -494,6 +506,72 @@ ${
                     ))}
                 </div>
               </div>
+
+              {/* OMR (Optical Mark Recognition) Candidate Bubble Answer Sheet */}
+              {includeOmrSheet && (
+                <div className="pt-6 border-t-2 border-dashed border-gray-400 space-y-4 print:break-before-page">
+                  <div className="text-center pb-2 border-b-2 border-purple-900">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-900 bg-purple-50 px-3 py-0.5 rounded-full border border-purple-200">
+                      Standardized Candidate Objective Response Sheet (OMR)
+                    </span>
+                    <h3 className="text-sm font-extrabold text-gray-900 mt-1 uppercase">
+                      {selectedAssessment.schoolHeader || "King's College, Lagos"}
+                    </h3>
+                    <p className="text-[10px] text-gray-500">
+                      Use HB Pencil Only • Shade Completely within the Oval • Example: [ ● ]
+                    </p>
+                  </div>
+
+                  {/* Candidate Particulars Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 rounded-xl bg-purple-50/40 border border-purple-200 text-xs">
+                    <div>
+                      <span className="text-[9px] font-bold text-gray-400 uppercase">Candidate Name:</span>
+                      <div className="border-b border-gray-400 h-5 mt-1"></div>
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-bold text-gray-400 uppercase">Examination / Reg No:</span>
+                      <div className="border-b border-gray-400 h-5 mt-1 font-mono"></div>
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-bold text-gray-400 uppercase">Class & Arm:</span>
+                      <div className="border-b border-gray-400 h-5 mt-1 font-semibold">{selectedAssessment.level.toUpperCase()}</div>
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-bold text-gray-400 uppercase">Subject:</span>
+                      <div className="border-b border-gray-400 h-5 mt-1 font-semibold">{selectedAssessment.subject}</div>
+                    </div>
+                  </div>
+
+                  {/* 20 OMR Bubble Rows */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-white border border-gray-200 rounded-xl">
+                    {Array.from({ length: 20 }, (_, i) => (
+                      <div key={i} className="flex items-center justify-between py-1 px-2 border-b border-gray-100 text-xs">
+                        <span className="font-bold text-gray-600 w-6 text-right mr-2">{i + 1}.</span>
+                        <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold text-gray-700">
+                          {['A', 'B', 'C', 'D'].map((letter) => (
+                            <span
+                              key={letter}
+                              className="w-5 h-5 rounded-full border border-gray-400 inline-flex items-center justify-center hover:bg-gray-200 cursor-pointer"
+                            >
+                              {letter}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Invigilator / Supervisor Seal */}
+                  <div className="grid grid-cols-2 gap-6 pt-2 text-center text-xs text-gray-500">
+                    <div className="border-t border-dashed border-gray-300 pt-1">
+                      <div className="text-[10px] font-bold text-gray-700">Candidate's Signature & Date</div>
+                    </div>
+                    <div className="border-t border-dashed border-gray-300 pt-1">
+                      <div className="text-[10px] font-bold text-emerald-800">Invigilator / Supervisor's Verification Stamp</div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Marking Scheme */}
               {showMarkingScheme && selectedAssessment.markingScheme && (

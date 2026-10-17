@@ -139,7 +139,11 @@ export default function App() {
   };
 
   const handleCreatePlanFromTopic = (topic: CurriculumTopic, level: string, subject: string) => {
-    setInitialTopicForComposer(topic);
+    setInitialTopicForComposer({
+      ...topic,
+      levelId: level || topic.levelId,
+      subjectName: subject,
+    } as any);
     setActivePlanId(null);
     setCurrentRoute('lesson-plans-new');
   };
@@ -319,6 +323,7 @@ export default function App() {
               }}
               onDuplicatePlan={handleDuplicatePlan}
               onDeletePlan={handleDeletePlan}
+              onBatchPlansCreated={(newPlans) => setPlans([...newPlans, ...plans])}
             />
           )}
 
@@ -332,7 +337,7 @@ export default function App() {
                       userId: user?.id || 'usr_teacher_demo_01',
                       title: initialTopicForComposer.topic,
                       level: initialTopicForComposer.levelId,
-                      subject: 'Mathematics',
+                      subject: (initialTopicForComposer as any).subjectName || 'Mathematics',
                       term: initialTopicForComposer.term,
                       week: initialTopicForComposer.week,
                       duration: '40 mins',
@@ -363,6 +368,7 @@ export default function App() {
                   id: `sow_plan_${Date.now()}`,
                   levelId: topicData.levelId,
                   subjectId: topicData.subject.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+                  subjectName: topicData.subject,
                   term: 1,
                   week: topicData.week,
                   topic: topicData.topic,
@@ -384,7 +390,7 @@ export default function App() {
                     `Oral formative questions assessing recall and comprehension`,
                     `Exit card exercise to verify mastery before class dismissal`,
                   ],
-                });
+                } as any);
                 setCurrentRoute('lesson-plans-new');
               }}
             />

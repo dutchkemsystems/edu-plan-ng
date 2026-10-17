@@ -75,7 +75,250 @@ export async function seedDatabase() {
     }
   }
 
-  console.log(`✅ Seeded curriculum subjects and ${totalTopics} topics.`);
+  // --- SEED ALL STATUTORY JUNIOR & SENIOR SECONDARY SUBJECTS ---
+  const { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, getSubjectTermTopics } = await import('../data/allCurriculumSubjects.ts');
+
+  const juniorLevels = [
+    { id: 'jss-1', name: 'Junior Secondary School 1', code: 'JSS 1', order: 1 },
+    { id: 'jss-2', name: 'Junior Secondary School 2', code: 'JSS 2', order: 2 },
+    { id: 'jss-3', name: 'Junior Secondary School 3', code: 'JSS 3', order: 3 },
+  ];
+
+  const seniorLevels = [
+    { id: 'sss-1', name: 'Senior Secondary School 1', code: 'SSS 1', order: 4 },
+    { id: 'sss-2', name: 'Senior Secondary School 2', code: 'SSS 2', order: 5 },
+    { id: 'sss-3', name: 'Senior Secondary School 3', code: 'SSS 3', order: 6 },
+  ];
+
+  // Seed Junior Subjects & Topics
+  for (const lvl of juniorLevels) {
+    for (const sub of JUNIOR_SECONDARY_SUBJECTS) {
+      const subjectId = `${lvl.id}-${sub.id}`;
+      totalSubjects++;
+
+      await db.insert(curriculumSubjects).values({
+        id: subjectId,
+        levelId: lvl.id,
+        name: sub.name,
+        code: sub.code,
+        description: sub.description,
+        icon: sub.icon,
+        termCount: 3,
+      }).onConflictDoNothing();
+
+      for (let term = 1; term <= 3; term++) {
+        const weeklyTopics = getSubjectTermTopics(sub, term, lvl.id);
+        for (let wk = 1; wk <= 13; wk++) {
+          const topicId = `${subjectId}-t${term}-w${wk}`;
+          const topicName = weeklyTopics[wk - 1] || `${sub.name}: Week ${wk} Curriculum Module`;
+          const isMidterm = wk === 7;
+          const isRevision = wk === 12;
+          const isExam = wk === 13;
+
+          const objectives = isMidterm
+            ? [
+                `Demonstrate mastery on diagnostic Continuous Assessment questions covering Weeks 1–6 (20 Marks).`,
+                `Identify personal learning gaps and misconceptions through teacher review.`,
+                `Formulate targeted remedial revision goals.`
+              ]
+            : isRevision
+            ? [
+                `Synthesize core operational formulas, definitions, and rules from Weeks 1–11.`,
+                `Solve past BECE and state examination model questions within timed limits.`,
+                `Critique typical candidate errors identified in Chief Examiner reports.`
+              ]
+            : isExam
+            ? [
+                `Complete statutory End-of-Term Examination according to NERDC specifications (60 Marks).`,
+                `Demonstrate high-order analytical proficiency across multiple-choice and theory sections.`
+              ]
+            : [
+                `Define and explain the core principles of ${topicName.split(':')[0]} (Bloom: Remember & Understand).`,
+                `Apply standard methods to solve 5 structured exercises accurately (Bloom: Apply).`,
+                `Illustrate real-world Nigerian commercial, environmental, or community applications (Bloom: Analyze).`,
+                `Score at least 80% on the formative exit card evaluation questions.`
+              ];
+
+          const teacherActs = isMidterm
+            ? [
+                'Distribute standardized 20-mark CA test papers.',
+                'Enforce strict examination ethics and timing.',
+                'Record CA1 scores onto the academic broadsheet.'
+              ]
+            : [
+                `Introduce ${topicName.split(':')[0]} using local Nigerian contextual analogies.`,
+                'Demonstrate step-by-step methodology and formulas on the chalkboard.',
+                'Facilitate cooperative paired problem-solving and provide real-time corrections.',
+                'Administer formative exit-ticket evaluation to assess individual learner mastery.'
+              ];
+
+          const studentActs = isMidterm
+            ? [
+                'Complete Continuous Assessment test independently under examination conditions.',
+                'Participate in post-test diagnostic question review.'
+              ]
+            : [
+                'Record chalkboard notes, definitions, formulas, and diagrams in subject notebooks.',
+                'Participate actively in classroom brainstorming and answer exploratory questions.',
+                'Solve paired classroom drill questions with desk partners.',
+                'Complete individual exit evaluation exercise.'
+              ];
+
+          const materials = [
+            `NERDC Approved ${sub.name} Textbook for ${lvl.code}`,
+            'Chalkboard, white chalk/dry-erase markers, and instructional wall charts',
+            'Authentic Nigerian local realia, concrete models, and everyday artifacts'
+          ];
+
+          const evaluation = isMidterm
+            ? ['Continuous Assessment Test 1 (20 Marks) administered and recorded']
+            : isExam
+            ? ['End-of-Term Examination (60 Marks) completed and scripts moderated']
+            : [
+                `State 3 key characteristics or definitions of ${topicName.split(':')[0]}`,
+                'Solve the 2 practice drill questions on the chalkboard',
+                'Explain one real-life Nigerian application in business, household, or community'
+              ];
+
+          totalTopics++;
+          await db.insert(curriculumTopics).values({
+            id: topicId,
+            subjectId: subjectId,
+            levelId: lvl.id,
+            term: term,
+            week: wk,
+            topic: topicName,
+            subtopics: JSON.stringify([
+              `Foundational concepts and operational definitions for ${topicName.split(':')[0]}`,
+              `Contextual Nigerian applications and demonstration examples`,
+              `Chalkboard summary, class drill, and formative examination preparation`
+            ]),
+            objectives: JSON.stringify(objectives),
+            teacherActivities: JSON.stringify(teacherActs),
+            studentActivities: JSON.stringify(studentActs),
+            materials: JSON.stringify(materials),
+            evaluation: JSON.stringify(evaluation),
+          }).onConflictDoNothing();
+        }
+      }
+    }
+  }
+
+  // Seed Senior Subjects & Topics
+  for (const lvl of seniorLevels) {
+    for (const sub of SENIOR_SECONDARY_SUBJECTS) {
+      const subjectId = `${lvl.id}-${sub.id}`;
+      totalSubjects++;
+
+      await db.insert(curriculumSubjects).values({
+        id: subjectId,
+        levelId: lvl.id,
+        name: sub.name,
+        code: sub.code,
+        description: sub.description,
+        icon: sub.icon,
+        termCount: 3,
+      }).onConflictDoNothing();
+
+      for (let term = 1; term <= 3; term++) {
+        const weeklyTopics = getSubjectTermTopics(sub, term, lvl.id);
+        for (let wk = 1; wk <= 13; wk++) {
+          const topicId = `${subjectId}-t${term}-w${wk}`;
+          const topicName = weeklyTopics[wk - 1] || `${sub.name}: Week ${wk} Curriculum Module`;
+          const isMidterm = wk === 7;
+          const isRevision = wk === 12;
+          const isExam = wk === 13;
+
+          const objectives = isMidterm
+            ? [
+                `Demonstrate mastery on standardized Continuous Assessment questions covering Weeks 1–6 (20 Marks).`,
+                `Identify personal learning gaps and review WAEC/NECO marking scheme standards.`,
+                `Formulate targeted remedial revision goals.`
+              ]
+            : isRevision
+            ? [
+                `Synthesize core operational formulas, definitions, and rules from Weeks 1–11.`,
+                `Solve past WASSCE and NECO SSCE model questions with correct method, accuracy, and unit marks.`,
+                `Critique typical candidate errors identified in WAEC Chief Examiner reports.`
+              ]
+            : isExam
+            ? [
+                `Complete statutory End-of-Term Examination according to NERDC and WAEC specifications (60 Marks).`,
+                `Demonstrate high-order analytical proficiency across essay, practical, and objective sections.`
+              ]
+            : [
+                `Define and explain the core principles of ${topicName.split(':')[0]} (Bloom: Remember & Understand).`,
+                `Apply standard methods and SI units to solve 5 structured problems accurately (Bloom: Apply).`,
+                `Illustrate real-world Nigerian industrial, commercial, scientific, or governance applications (Bloom: Analyze).`,
+                `Score at least 80% on the formative exit card evaluation questions.`
+              ];
+
+          const teacherActs = isMidterm
+            ? [
+                'Distribute standardized 20-mark CA test papers.',
+                'Enforce strict examination ethics and timing.',
+                'Record CA1 scores onto the academic broadsheet.'
+              ]
+            : [
+                `Introduce ${topicName.split(':')[0]} using local Nigerian contextual analogies and industrial case studies.`,
+                'Demonstrate step-by-step methodology, statutory equations, and SI units on the chalkboard.',
+                'Facilitate cooperative paired problem-solving and provide real-time corrections.',
+                'Administer formative exit-ticket evaluation to assess individual learner mastery.'
+              ];
+
+          const studentActs = isMidterm
+            ? [
+                'Complete Continuous Assessment test independently under WAEC-standard examination conditions.',
+                'Participate in post-test diagnostic question review.'
+              ]
+            : [
+                'Record chalkboard notes, definitions, formulas, and diagrams in subject notebooks.',
+                'Participate actively in classroom brainstorming and answer exploratory questions.',
+                'Solve paired classroom drill questions with desk partners.',
+                'Complete individual exit evaluation exercise.'
+              ];
+
+          const materials = [
+            `NERDC Approved ${sub.name} Textbook for ${lvl.code} (WASSCE / NECO aligned)`,
+            'Chalkboard, white chalk/dry-erase markers, and instructional wall charts',
+            'Authentic Nigerian local realia, laboratory apparatus, or industry specimens'
+          ];
+
+          const evaluation = isMidterm
+            ? ['Continuous Assessment Test 1 (20 Marks) administered and recorded']
+            : isExam
+            ? ['End-of-Term Examination (60 Marks) completed and scripts moderated']
+            : [
+                `State 3 key characteristics or definitions of ${topicName.split(':')[0]}`,
+                'Solve the 2 practice drill questions on the chalkboard showing all steps and units',
+                'Explain one real-life Nigerian application in commerce, industry, or public governance'
+              ];
+
+          totalTopics++;
+          await db.insert(curriculumTopics).values({
+            id: topicId,
+            subjectId: subjectId,
+            levelId: lvl.id,
+            term: term,
+            week: wk,
+            topic: topicName,
+            subtopics: JSON.stringify([
+              `Foundational concepts, statutory laws, and operational definitions for ${topicName.split(':')[0]}`,
+              `Contextual Nigerian applications, worked mathematical/theoretical examples`,
+              `Chalkboard summary, class drill, and formative examination preparation`
+            ]),
+            objectives: JSON.stringify(objectives),
+            teacherActivities: JSON.stringify(teacherActs),
+            studentActivities: JSON.stringify(studentActs),
+            materials: JSON.stringify(materials),
+            evaluation: JSON.stringify(evaluation),
+          }).onConflictDoNothing();
+        }
+      }
+    }
+  }
+
+  console.log(`✅ Fully seeded all core subjects (${totalSubjects} subjects) and ${totalTopics} curriculum topics across JSS & SSS.`);
 
   // Create demo teacher user if not exists
   const demoUserId = 'usr_teacher_demo_01';

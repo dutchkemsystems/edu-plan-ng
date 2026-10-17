@@ -23,8 +23,9 @@ import {
   Check
 } from 'lucide-react';
 import { LessonPlan, DifferentiatedInstruction } from '../types/index.ts';
-import { createLessonPlan, updateLessonPlan, duplicateLessonPlan, requestAIAssist } from '../lib/api.ts';
+import { createLessonPlan, updateLessonPlan, duplicateLessonPlan, requestAIAssist, autoGeneratePlanAndNote } from '../lib/api.ts';
 import { curriculumDiagrams, EducationalDiagram } from '../data/diagrams.ts';
+import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, getSubjectTermTopics, generateNerdcOeqaContent } from '../data/allCurriculumSubjects.ts';
 import confetti from 'canvas-confetti';
 
 interface LessonPlanComposerProps {
@@ -48,6 +49,16 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
   const [duration, setDuration] = useState(initialPlan?.duration || '40 mins');
   const [language, setLanguage] = useState<'en' | 'yo' | 'ig' | 'ha'>(initialPlan?.language || 'en');
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(initialPlan?.status || 'draft');
+  const [isAutoGenerating, setIsAutoGenerating] = useState(false);
+  const [isCustomSubject, setIsCustomSubject] = useState(false);
+
+  const isJunior = level.toLowerCase().startsWith('jss');
+  const statutorySubjects = isJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+  const currentSubjectMeta = statutorySubjects.find(
+    (s) => s.name.toLowerCase() === subject.toLowerCase()
+  );
+  const syllabusTopics = currentSubjectMeta ? getSubjectTermTopics(currentSubjectMeta, term, level) : [];
+  const currentSyllabusTopic = syllabusTopics[week - 1] || '';
 
   const [objectives, setObjectives] = useState<string[]>(
     initialPlan?.objectives?.length
@@ -535,6 +546,18 @@ ${diagramHtml}
           setStudentActivity('Àwọn akẹ́kọ̀ọ́ tẹ́tí sílẹ̀, kọ àkọsílẹ̀, kí wọ́n sì yanjú àpẹẹrẹ méjì.');
           setEvaluation('Olùkọ́ bi akẹ́kọ̀ọ́ mẹ́ta ní ìbéèrè láti díwọ̀n ìmọ̀ wọn.');
           setAssignment('Ṣe iṣẹ́ ẹ̀kọ́ lórí ojú-ewé 15 nínú ìwé ẹ̀kọ́ rẹ.');
+          setDiffInstruction({
+            struggling: 'Àwọn akẹ́kọ̀ọ́ tó nílò ìrànwọ́ yóò lo àwọn àwòrán àkàwé àti ìrànlọ́wọ́ olùkọ́ ní tààrà.',
+            onLevel: 'Àwọn akẹ́kọ̀ọ́ lórí ìwọ̀ntúnwọ̀nsì yóò ṣe àwọn àpẹẹrẹ tó wà nínú ìwé ẹ̀kọ́ láìsí ìrànwọ́.',
+            advanced: 'Àwọn akẹ́kọ̀ọ́ tó tayọ yóò yanjú àwọn ìbéèrè tó nira síi pẹ̀lú àpẹẹrẹ iṣòwò Nàìjíríà.'
+          });
+          setLessonNote({
+            subtopics: `1. Ìtumọ̀ ${title} ní Èdè Yorùbá\n2. Àwọn Àbùdá àti Òfin Pàtàkì\n3. Àpẹẹrẹ Lórí Pátákó fún Akẹ́kọ̀ọ́\n4. Àkọsílẹ̀ Pátákó àti Iṣẹ́ Ṣíṣe`,
+            definitions: `${title} jẹ́ ẹ̀kọ́ pàtàkì nínú ètò ẹ̀kọ́ NERDC fún ${level.toUpperCase()} ${subject}. Ó ń kọ́ akẹ́kọ̀ọ́ nípa bí a ṣe ń fi ìmọ̀ yìí ṣe iṣẹ́ nínú àwùjọ wa ní Nàìjíríà bíi ọjà, ilé, àti ilé-iṣẹ́.`,
+            workedExamples: `Àpẹẹrẹ 1 (Lórí Pátákó):\nOlùkọ́ ṣe àlàyé ìgbésẹ̀ kọ̀ọ̀kan ní ṣísẹ̀-n-tẹ̀lé pẹ̀lú kókó tí a fún wa.\n\nÀpẹẹrẹ 2 (Àpẹẹrẹ Àwùjọ Nàìjíríà):\nOníṣòwò kan ní Ọjà Ọ̀yìngbò ní Èkó lo ìmọ̀ ${title} láti ṣe ìṣirò owó Naira àti Kobo tí ó wọlé fún un ní ọ̀sẹ̀ yìí.`,
+            blackboardSummary: `• Kókó 1: Rántí ìtumọ̀ pàtàkì ti ${title}.\n• Kókó 2: Má ṣe gbàgbé àwọn àpẹẹrẹ tí a ṣe lórí pátákó.\n• Kókó 3: Kọ gbogbo àkọsílẹ̀ yìí sínú ìwé rẹ kí kíláàsì tó parí.`,
+            classDrill: `1. Sọ ìtumọ̀ ${title} ní ọ̀rọ̀ ara rẹ.\n2. Yanjú àwọn ìbéèrè méjì tí ó wà lórí pátákó kí o sì fi han olùkọ́.`
+          });
         } else if (targetLang === 'ig') {
           setObjectives([
             `Kọwaa ihe ${title} pụtara nke ọma n'okwu ọnụ ha.`,
@@ -552,6 +575,18 @@ ${diagramHtml}
           setStudentActivity('Ụmụ akwụkwọ deturu ihe dị mkpa n\'akwụkwọ ha ma zaa ajụjụ.');
           setEvaluation('Onye nkuzi jụrụ ajụjụ ọnụ iji hụ na onye ọ bụla ghọtara.');
           setAssignment('Zaa ajụjụ 1 ruo 5 dị n\'akwụkwọ ọgụgụ gị.');
+          setDiffInstruction({
+            struggling: 'Ụmụ akwụkwọ chọrọ enyemaka ga-eji ihe e ji anya ahụ na enyemaka onye nkuzi mụọ ihe.',
+            onLevel: 'Ụmụ akwụkwọ nọ n\'ọkwa kwesịrị ga-aza ajụjụ ndị dị n\'akwụkwọ n\'onwe ha.',
+            advanced: 'Ụmụ akwụkwọ nwere amamihe pụrụ iche ga-edozi nsogbu gbagwojuru anya gbasara azụmahịa.'
+          });
+          setLessonNote({
+            subtopics: `1. Nkọwa nke ${title} n'Asụsụ Igbo\n2. Iwu na Usoro Ndị Dị Mkpa\n3. Ihe Nlereanya e Dere na Bọọdụ\n4. Ihe Odide Bọọdụ na Ọrụ Klas`,
+            definitions: `${title} bụ isiokwu dị oke mkpa n'usoro ọmụmụ NERDC maka ${level.toUpperCase()} ${subject}. Ọ na-akụziri ụmụ akwụkwọ ka ha ga-esi jiri nghọta a dozie nsogbu dị iche iche na ndụ anyị kwa ụbọchị na Naịjirịa.`,
+            workedExamples: `Ihe Nlereanya 1 (Nkọwa Bọọdụ):\nOnye nkuzi na-akọwa usoro nke mbụ, nke abụọ na nke ikpeazụ iji nweta azịza ziri ezi.\n\nIhe Nlereanya 2 (Ndụ Anyị na Naịjirịa):\nOnye ahịa nọ n'Ahịa Ọnịcha jiri usoro ${title} gbakọọ ego Naira na Kobo batara n'ahịa ya n'ụbọchị ahụ.`,
+            blackboardSummary: `• Isi nke 1: Buru nkọwa nke ${title} n'isi.\n• Isi nke 2: Cheta usoro na iwu niile e ji arụ ọrụ.\n• Isi nke 3: Detuo ihe niile a n'akwụkwọ gị tupu klaasị akwụsị.`,
+            classDrill: `1. Kọwaa ${title} n'okwu ọnụ nke gị.\n2. Zaa ajụjụ abụọ dị na bọọdụ ma gosi onye nkuzi.`
+          });
         } else if (targetLang === 'ha') {
           setObjectives([
             `Bayyana ma'anar ${title} daidai da kalaman kansu.`,
@@ -569,12 +604,49 @@ ${diagramHtml}
           setStudentActivity('Ɗalibai sun rubuta bayanin allo kuma suka amsa tambayoyi.');
           setEvaluation('Malami ya yi tambayoyin gaggawa don tabbatar da an fahimta.');
           setAssignment('Amsa tambayoyi 1 zuwa 5 a littafin karatu.');
+          setDiffInstruction({
+            struggling: 'Ɗaliban da ke buƙatar tallafi za su yi amfani da kayan gani da tallafin malami.',
+            onLevel: 'Ɗaliban matsakaicin matsayi za su yi ayyukan da ke littafin karatu da kansu.',
+            advanced: 'Ɗalibai masu basira za su warware tambayoyi masu zurfi da suka shafi kasuwancin Najeriya.'
+          });
+          setLessonNote({
+            subtopics: `1. Ma'anar ${title} a Harshen Hausa\n2. Ƙa'idoji da Dokokin Karatu\n3. Misalai da Ayyukan Allo don Koyi\n4. Bayanin Allo da Gwajin Ɗalibai`,
+            definitions: `${title} muhimmin darasi ne a cikin manhajar karatu ta NERDC na ${level.toUpperCase()} ${subject}. Yana koya wa ɗalibai dabarun warware matsaloli a rayuwar yau da kullum a Najeriya kamar kasuwanci da fasaha.`,
+            workedExamples: `Misali na 1 (Bayanin Allo):\nMalami ya nuna mataki na 1, na 2 da na 3 don samun amsa madaidaiciya.\n\nMisali na 2 (Rayuwar Najeriya):\nƊan kasuwa a Kasuwar Kurmi da ke Kano ya yi amfani da dabarar ${title} wajen lissafin kuɗin Naira da Kobo da ya samu.`,
+            blackboardSummary: `• Batu na 1: Haddace ma'anar ${title} sosai.\n• Batu na 2: Kula da ka'idojin lissafi da aka koya a yau.\n• Batu na 3: Kwafi wannan bayani a cikin littafin rubutunku kafin tashi daga aji.`,
+            classDrill: `1. Bayyana ma'anar ${title} da kalaman kanka.\n2. Amsa tambayoyi 2 da ke kan allo ka nuna wa malami.`
+          });
         } else {
           setObjectives([
-            `Define the core theoretical principles of ${title}.`,
-            `Analyze 3 localized Nigerian real-world commercial and scientific applications.`,
-            `Solve 5 standard classroom drills with at least 80% accuracy.`
+            `Define the core conceptual principles of ${title} accurately and state statutory NERDC applications.`,
+            `Apply standard formulas and analytical methods to solve 5 structured problems with Nigerian realia.`,
+            `Analyze 3 localized Nigerian commercial or scientific case studies (e.g. Balogun market, energy conservation, civic institutions).`,
+            `Demonstrate Bloom's-aligned cognitive mastery by achieving at least 80% on the formative exit questions.`
           ]);
+          setMaterials([
+            `NERDC Approved Textbook for ${level.toUpperCase()} ${subject}`,
+            `Instructional Wall Charts, Whiteboard & Geometric Markers`,
+            `Specimens, Manipulative Models & Nigerian Local Realia`,
+            `EduPlan NG Bloom-Aligned Pupil Practice Worksheets`
+          ]);
+          setPreviousKnowledge(`Students recall foundational concepts from preceding lessons and can apply basic rules of ${subject}.`);
+          setIntroduction(`Teacher introduces ${title} with an interactive 5-minute Nigerian real-world scenario engaging students' daily observations.`);
+          setTeacherActivity(`Teacher defines key terms on the chalkboard, breaks down fundamental formulas step-by-step, and works through 2 demonstration examples.`);
+          setStudentActivity(`Students follow teacher demonstration, copy structured chalkboard notes into exercise books, and solve 2 guided classroom drill exercises in pairs.`);
+          setEvaluation(`Administer 3 rapid comprehension check questions and a chalkboard drill problem before class dismissal.`);
+          setAssignment(`Complete Review Exercise questions 1 to 5 on page 24 of the recommended NERDC textbook.`);
+          setDiffInstruction({
+            struggling: `Provide scaffolded step-by-step formula templates, concrete manipulative aids, and peer-buddy review.`,
+            onLevel: `Independent completion of standard curriculum drill exercises with textbook references.`,
+            advanced: `Higher-order application word problems incorporating multi-variable analysis in Nigerian industrial contexts.`
+          });
+          setLessonNote({
+            subtopics: `1. Conceptual Definition of ${title}\n2. Core Laws, Rules & Standard Notation\n3. Worked Classroom Demonstration Examples\n4. Chalkboard Summary & Pupil Exercise`,
+            definitions: `${title} is a core competency within the NERDC ${level.toUpperCase()} ${subject} curriculum. It establishes the mathematical, scientific, and analytical foundation required for both classroom mastery and external examination success in WAEC, NECO, and BECE.`,
+            workedExamples: `Worked Example 1 (Board Demonstration):\nGiven standard problem parameters, apply the core operational formula:\nStep 1: Identify and state known parameters with their units.\nStep 2: State statutory formula and substitute variables.\nStep 3: Calculate solution and verify dimensional accuracy.\n\nWorked Example 2 (Nigerian Context):\nA commercial entrepreneur in Lagos manages daily inventory transactions. Applying ${title} ensures accurate balance sheets and resource allocation.`,
+            blackboardSummary: `• Point 1: Always write out formula and substitution steps before computing the final answer.\n• Point 2: Pay attention to units (Naira, meters, kilograms, seconds) in all final answers.\n• Point 3: Ensure complete notes and worked examples are copied into your subject notebook.`,
+            classDrill: `1. Define ${title} in your own words in 2 sentences.\n2. Work through the 2 practice exercises written on the chalkboard and have your desk partner verify your working.`
+          });
         }
         markDirty();
         confetti({ particleCount: 60, spread: 50 });
@@ -583,6 +655,80 @@ ${diagramHtml}
       console.error(e);
     } finally {
       setLangGenerating(null);
+    }
+  };
+
+  const handleAutoGenerateFullPlanAndNote = async (
+    overrideLang?: 'en' | 'yo' | 'ig' | 'ha',
+    customTopic?: string
+  ) => {
+    setIsAutoGenerating(true);
+    const targetLang = overrideLang || language;
+    const targetTopic =
+      customTopic ||
+      (title && title !== 'Untitled NERDC Lesson Plan'
+        ? title
+        : currentSyllabusTopic || `${subject} Core Competency — Week ${week}`);
+
+    setTitle(targetTopic);
+
+    try {
+      const res = await autoGeneratePlanAndNote({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+        language: targetLang,
+      });
+
+      const data = res.data;
+      if (data) {
+        if (data.objectives && Array.isArray(data.objectives)) setObjectives(data.objectives);
+        if (data.materials && Array.isArray(data.materials)) setMaterials(data.materials);
+        if (data.previousKnowledge) setPreviousKnowledge(data.previousKnowledge);
+        if (data.introduction) setIntroduction(data.introduction);
+        if (data.teacherActivity) setTeacherActivity(data.teacherActivity);
+        if (data.studentActivity) setStudentActivity(data.studentActivity);
+        if (data.evaluation) setEvaluation(data.evaluation);
+        if (data.assignment) setAssignment(data.assignment);
+        if (data.differentiatedInstruction) setDiffInstruction(data.differentiatedInstruction);
+        if (data.lessonNote) {
+          setLessonNote({
+            subtopics: data.lessonNote.subtopics || lessonNote.subtopics,
+            definitions: data.lessonNote.definitions || lessonNote.definitions,
+            workedExamples: data.lessonNote.workedExamples || lessonNote.workedExamples,
+            blackboardSummary: data.lessonNote.blackboardSummary || lessonNote.blackboardSummary,
+            classDrill: data.lessonNote.classDrill || lessonNote.classDrill,
+          });
+        }
+        markDirty();
+        confetti({ particleCount: 75, spread: 60 });
+      }
+    } catch (err) {
+      console.warn('Backend auto-generate error, falling back to statutory NERDC client engine', err);
+      const fallback = generateNerdcOeqaContent({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+        language: targetLang,
+      });
+      setObjectives(fallback.objectives);
+      setMaterials(fallback.materials);
+      setPreviousKnowledge(fallback.previousKnowledge);
+      setIntroduction(fallback.introduction);
+      setTeacherActivity(fallback.teacherActivity);
+      setStudentActivity(fallback.studentActivity);
+      setEvaluation(fallback.evaluation);
+      setAssignment(fallback.assignment);
+      setDiffInstruction(fallback.differentiatedInstruction);
+      setLessonNote(fallback.lessonNote);
+      markDirty();
+      confetti({ particleCount: 50, spread: 50 });
+    } finally {
+      setIsAutoGenerating(false);
     }
   };
 
@@ -699,63 +845,99 @@ ${diagramHtml}
       {/* MODE 1: LESSON PLAN METHODOLOGY */}
       {composerMode === 'plan' && (
         <div className="space-y-6">
-          {/* Multilingual AI Lesson Plan Generator Toolbar */}
-          <div className="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-4 sm:p-5 rounded-2xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 print:hidden">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white/10 text-amber-300">
-                <Sparkles className="w-5 h-5" />
+          {/* Statutory NERDC & OEQA Automated Lesson Plan & Chalkboard Note Generator */}
+          <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-emerald-500/30 space-y-4 print:hidden">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div className="flex items-start gap-3.5">
+                <div className="p-3 rounded-xl bg-white/10 text-amber-300 ring-1 ring-white/20 shrink-0 mt-0.5">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm sm:text-base font-bold text-white tracking-tight">
+                      Statutory NERDC & OEQA Automated Lesson Plan & Note Generator
+                    </h3>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 uppercase font-extrabold tracking-wider">
+                      OEQA Compliant
+                    </span>
+                  </div>
+                  <p className="text-xs text-emerald-100/90 mt-1 max-w-2xl leading-relaxed">
+                    Auto-synthesizes full lesson plans with Bloom's behavioral objectives, instructional realia, presentation steps, formative evaluation, differentiated learning tiers, and comprehensive chalkboard lesson notes.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
-                  <span>Speaks Local Languages — 1-Click AI NERDC Generator</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-700/80 text-emerald-200 uppercase font-extrabold">Multilingual</span>
-                </h3>
-                <p className="text-[11px] text-emerald-200 mt-0.5">
-                  Draft complete lesson plans, objectives, and chalkboard notes in Nigerian native languages.
-                </p>
+
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote()}
+                  className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-gray-950 transition-all shadow-md hover:scale-102 flex items-center gap-2 disabled:opacity-50"
+                >
+                  <Sparkles className={`w-4 h-4 text-emerald-950 ${isAutoGenerating ? 'animate-spin' : ''}`} />
+                  <span>{isAutoGenerating ? 'Auto-Generating Plan & Note...' : '⚡ Auto-Generate Plan & Note'}</span>
+                </button>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                disabled={!!langGenerating}
-                onClick={() => handleGenerateInLanguage('yo')}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-1.5 disabled:opacity-50"
-              >
-                <span>🇳🇬 Yorùbá</span>
-                {langGenerating === 'yo' && <span className="animate-spin text-[10px]">⌛</span>}
-              </button>
+            {/* Language Selector Toolbar */}
+            <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <span className="text-emerald-200/80 font-medium">
+                Syllabus Language:
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('en')}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                    language === 'en'
+                      ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
+                      : 'bg-white/10 hover:bg-white/20 text-white/90 border border-white/10'
+                  }`}
+                >
+                  <span>English (NERDC Standard)</span>
+                </button>
 
-              <button
-                type="button"
-                disabled={!!langGenerating}
-                onClick={() => handleGenerateInLanguage('ig')}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-1.5 disabled:opacity-50"
-              >
-                <span>🇳🇬 Asụsụ Igbo</span>
-                {langGenerating === 'ig' && <span className="animate-spin text-[10px]">⌛</span>}
-              </button>
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('yo')}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                    language === 'yo'
+                      ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
+                      : 'bg-white/10 hover:bg-white/20 text-white/90 border border-white/10'
+                  }`}
+                >
+                  <span>🇳🇬 Èdè Yorùbá</span>
+                </button>
 
-              <button
-                type="button"
-                disabled={!!langGenerating}
-                onClick={() => handleGenerateInLanguage('ha')}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-1.5 disabled:opacity-50"
-              >
-                <span>🇳🇬 Harshen Hausa</span>
-                {langGenerating === 'ha' && <span className="animate-spin text-[10px]">⌛</span>}
-              </button>
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('ig')}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                    language === 'ig'
+                      ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
+                      : 'bg-white/10 hover:bg-white/20 text-white/90 border border-white/10'
+                  }`}
+                >
+                  <span>🇳🇬 Asụsụ Igbo</span>
+                </button>
 
-              <button
-                type="button"
-                disabled={!!langGenerating}
-                onClick={() => handleGenerateInLanguage('en')}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 disabled:opacity-50 shadow-xs"
-              >
-                <span>English (NERDC)</span>
-                {langGenerating === 'en' && <span className="animate-spin text-[10px]">⌛</span>}
-              </button>
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('ha')}
+                  className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
+                    language === 'ha'
+                      ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
+                      : 'bg-white/10 hover:bg-white/20 text-white/90 border border-white/10'
+                  }`}
+                >
+                  <span>🇳🇬 Harshen Hausa</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -767,6 +949,7 @@ ${diagramHtml}
                 <input
                   type="text"
                   value={title}
+                  placeholder="e.g. Simultaneous Linear Equations / Cell Structure"
                   onChange={(e) => {
                     setTitle(e.target.value);
                     markDirty();
@@ -780,31 +963,72 @@ ${diagramHtml}
                 <select
                   value={level}
                   onChange={(e) => {
-                    setLevel(e.target.value);
+                    const newLvl = e.target.value;
+                    setLevel(newLvl);
+                    const isNewJunior = newLvl.toLowerCase().startsWith('jss');
+                    const newSubs = isNewJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+                    if (!newSubs.some((s) => s.name.toLowerCase() === subject.toLowerCase())) {
+                      setSubject(newSubs[0].name);
+                    }
                     markDirty();
                   }}
                   className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
                 >
-                  <option value="jss-1">JSS 1</option>
-                  <option value="jss-2">JSS 2</option>
-                  <option value="jss-3">JSS 3</option>
-                  <option value="sss-1">SSS 1</option>
-                  <option value="sss-2">SSS 2</option>
-                  <option value="sss-3">SSS 3</option>
+                  <option value="jss-1">JSS 1 (Junior 1)</option>
+                  <option value="jss-2">JSS 2 (Junior 2)</option>
+                  <option value="jss-3">JSS 3 (Junior 3 / BECE)</option>
+                  <option value="sss-1">SSS 1 (Senior 1)</option>
+                  <option value="sss-2">SSS 2 (Senior 2)</option>
+                  <option value="sss-3">SSS 3 (Senior 3 / WASSCE)</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Subject</label>
-                <input
-                  type="text"
-                  value={subject}
-                  onChange={(e) => {
-                    setSubject(e.target.value);
-                    markDirty();
-                  }}
-                  className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
-                />
+                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
+                  Subject ({statutorySubjects.length} Core & Statutory)
+                </label>
+                {!isCustomSubject ? (
+                  <select
+                    value={subject}
+                    onChange={(e) => {
+                      if (e.target.value === '__custom__') {
+                        setIsCustomSubject(true);
+                      } else {
+                        setSubject(e.target.value);
+                        markDirty();
+                      }
+                    }}
+                    className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
+                  >
+                    {statutorySubjects.map((s) => (
+                      <option key={s.id} value={s.name}>
+                        {s.name} ({s.department})
+                      </option>
+                    ))}
+                    <option value="__custom__">✏️ Enter Custom Subject...</option>
+                  </select>
+                ) : (
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="text"
+                      value={subject}
+                      onChange={(e) => {
+                        setSubject(e.target.value);
+                        markDirty();
+                      }}
+                      placeholder="Type custom subject..."
+                      className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setIsCustomSubject(false)}
+                      className="text-[10px] font-bold text-gray-400 hover:text-gray-700 p-1"
+                      title="Back to Statutory List"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -841,17 +1065,44 @@ ${diagramHtml}
 
               <div>
                 <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Duration</label>
-                <input
-                  type="text"
+                <select
                   value={duration}
                   onChange={(e) => {
                     setDuration(e.target.value);
                     markDirty();
                   }}
                   className="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
-                />
+                >
+                  <option value="40 mins">40 mins (Single Period)</option>
+                  <option value="80 mins">80 mins (Double Period)</option>
+                  <option value="120 mins">120 mins (Practical Block)</option>
+                </select>
               </div>
             </div>
+
+            {/* NERDC Official Syllabus Topic Helper */}
+            {currentSyllabusTopic && (
+              <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2 text-emerald-950 min-w-0">
+                  <span className="font-bold shrink-0 text-emerald-800">
+                    NERDC Syllabus (Wk {week}):
+                  </span>
+                  <span className="truncate text-gray-700 italic">
+                    "{currentSyllabusTopic}"
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  disabled={isAutoGenerating}
+                  onClick={() => handleAutoGenerateFullPlanAndNote(undefined, currentSyllabusTopic)}
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white shrink-0 flex items-center gap-1.5 transition-colors shadow-2xs"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Use Topic & Auto-Generate</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Objectives & Materials */}
