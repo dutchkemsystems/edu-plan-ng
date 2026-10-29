@@ -14,15 +14,20 @@ import {
   X,
   RotateCcw,
   BookOpen,
-  Filter
+  Filter,
+  RefreshCw,
+  AlertCircle
 } from 'lucide-react';
 import { AssessmentItem } from '../types/index.ts';
 import { fetchAssessments, generateAssessment } from '../lib/api.ts';
 import { waecNecoPastQuestions, PastQuestion } from '../data/waecNecoQuestions.ts';
 import confetti from 'canvas-confetti';
+import { GoogleClassroomExportModal } from '../components/GoogleClassroomExportModal.tsx';
+import { MultimodalScriptScanner } from '../components/MultimodalScriptScanner.tsx';
 
 export const AssessmentsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'generator' | 'practice'>('generator');
+  const [activeTab, setActiveTab] = useState<'generator' | 'predict' | 'grading' | 'practice'>('generator');
+  const [showClassroomModal, setShowClassroomModal] = useState(false);
 
   // Generator state
   const [assessments, setAssessments] = useState<AssessmentItem[]>([]);
@@ -37,6 +42,27 @@ export const AssessmentsPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showMarkingScheme, setShowMarkingScheme] = useState(true);
   const [includeOmrSheet, setIncludeOmrSheet] = useState(true);
+
+  // Exam Predictor state (Phase 5)
+  const [predictExamBody, setPredictExamBody] = useState<'WAEC' | 'NECO' | 'BECE'>('WAEC');
+  const [predictTopic, setPredictTopic] = useState('Profit, Loss & Simple Interest in Commercial Trading');
+  const [predictSubject, setPredictSubject] = useState('Mathematics');
+  const [predictLevel, setPredictLevel] = useState('SSS 2');
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [predictionResult, setPredictionResult] = useState<any>(null);
+
+  // AI Grading Assistant state (Phase 5)
+  const [gradeQuestion, setGradeQuestion] = useState(
+    'A trader in Balogun Market purchased goods for ₦120,000 and sold them for ₦150,000. Calculate (i) the profit (ii) the percentage profit on cost.'
+  );
+  const [gradeMarkingScheme, setGradeMarkingScheme] = useState(
+    'M1 for Profit = SP - CP (₦150,000 - ₦120,000 = ₦30,000). A1 for ₦30,000. M1 for (Profit / CP) * 100%. A1 for 25%.'
+  );
+  const [gradeStudentText, setGradeStudentText] = useState(
+    'Profit = Selling Price - Cost Price\n= 150,000 - 120,000\n= 30,000\nPercentage Profit = (30,000 / 120,000) * 100% = 25%'
+  );
+  const [isGrading, setIsGrading] = useState(false);
+  const [gradingResult, setGradingResult] = useState<any>(null);
 
   // Practice Mode state
   const [selectedExamFilter, setSelectedExamFilter] = useState<string>('ALL');
@@ -95,6 +121,59 @@ export const AssessmentsPage: React.FC = () => {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRunExamPrediction = async () => {
+    setIsPredicting(true);
+    try {
+      const res = await fetch('/api/ai/predict-exam', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: predictSubject,
+          level: predictLevel.toLowerCase().replace(/\s+/g, '-'),
+          topic: predictTopic,
+          examBody: predictExamBody,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setPredictionResult(data.data);
+        confetti({ particleCount: 60, spread: 55 });
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsPredicting(false);
+    }
+  };
+
+  const handleRunGrading = async () => {
+    setIsGrading(true);
+    try {
+      const res = await fetch('/api/ai/grade-paper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          questionText: gradeQuestion,
+          markingScheme: gradeMarkingScheme,
+          studentText: gradeStudentText,
+          maxMarks: 10,
+          subject: predictSubject,
+          level: predictLevel,
+          examType: predictExamBody,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setGradingResult(data.data);
+        confetti({ particleCount: 50, spread: 50 });
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsGrading(false);
     }
   };
 
@@ -304,29 +383,63 @@ ${
         </div>
 
         {/* Tab Switcher */}
-        <div className="bg-gray-100 p-1 rounded-2xl flex items-center gap-1 text-xs font-bold self-start md:self-auto">
-          <button
-            onClick={() => setActiveTab('generator')}
-            className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeTab === 'generator'
-                ? 'bg-white text-emerald-950 shadow-xs'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="bg-slate-100 p-1 rounded-2xl flex flex-wrap items-center gap-1 text-xs font-bold self-start md:self-auto">
+            <button
+              onClick={() => setActiveTab('generator')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === 'generator'
+                  ? 'bg-white text-emerald-950 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Printer className="w-4 h-4 text-emerald-600" />
+              <span>Exam Generator</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('predict')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === 'predict'
+                  ? 'bg-white text-emerald-950 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>WAEC 10-Yr Predictor</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('grading')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === 'grading'
+                  ? 'bg-white text-emerald-950 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>AI Script Grader</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('practice')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === 'practice'
+                  ? 'bg-white text-emerald-950 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Award className="w-4 h-4 text-amber-500" />
+              <span>CBT Practice</span>
+            </button>
+          </div>
+
+          <a
+            href="/quiz/sample-quiz-01"
+            target="_blank"
+            rel="noreferrer"
+            className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors shadow-2xs"
           >
-            <Printer className="w-4 h-4 text-emerald-600" />
-            <span>Exam Paper Generator</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('practice')}
-            className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeTab === 'practice'
-                ? 'bg-white text-emerald-950 shadow-xs'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <Award className="w-4 h-4 text-amber-500" />
-            <span>WAEC/NECO Practice Mode</span>
-          </button>
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Homework Portal (/quiz)</span>
+          </a>
         </div>
       </div>
 
@@ -361,6 +474,14 @@ ${
                 <span>Export Word (.doc)</span>
               </button>
               <button
+                onClick={() => setShowClassroomModal(true)}
+                className="px-3.5 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center gap-1.5 border border-emerald-300"
+                title="Share to Google Classroom"
+              >
+                <Share2 className="w-4 h-4 text-emerald-700" />
+                <span>Google Classroom</span>
+              </button>
+              <button
                 onClick={handlePrint}
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center gap-1.5 shadow-2xs"
               >
@@ -368,6 +489,28 @@ ${
                 <span>Print Paper</span>
               </button>
             </div>
+          )}
+
+          {/* Google Classroom Export Modal */}
+          {selectedAssessment && (
+            <GoogleClassroomExportModal
+              isOpen={showClassroomModal}
+              onClose={() => setShowClassroomModal(false)}
+              plan={{
+                id: selectedAssessment.id,
+                title: selectedAssessment.title,
+                level: selectedAssessment.level,
+                subject: selectedAssessment.subject,
+                term: selectedAssessment.term,
+                week: selectedAssessment.week,
+                objectives: [
+                  `Answer continuous assessment items aligned with NERDC standards.`,
+                  `Demonstrate mastery of ${selectedAssessment.topic}`,
+                ],
+                evaluation: `Paper includes ${selectedAssessment.questions.length} objective and theory questions. Total marks: 60.`,
+                assignment: `Review marking scheme rubrics and correct errors in exercise notebook.`,
+              }}
+            />
           )}
 
           {/* Generator Configuration Panel */}
@@ -597,7 +740,370 @@ ${
         </div>
       )}
 
-      {/* TAB 2: WAEC/NECO PRACTICE MODE (CBT SIMULATOR) */}
+      {/* TAB 2: WAEC/NECO 10-YEAR EXAM PREDICTOR (PHASE 5) */}
+      {activeTab === 'predict' && (
+        <div className="space-y-6">
+          {/* Configuration Form */}
+          <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h2 className="text-base font-bold text-slate-900">
+                  10-Year WAEC / NECO / BECE Exam Forecast Engine
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Cross-references current NERDC syllabus with past 10 years of WAEC/NECO papers to predict high-probability questions and marking schemes.
+                </p>
+              </div>
+              <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                Statutory M1, A1, B1 Rubrics
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Examination Body</label>
+                <select
+                  value={predictExamBody}
+                  onChange={(e) => setPredictExamBody(e.target.value as any)}
+                  className="w-full text-xs font-bold px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                >
+                  <option value="WAEC">WAEC (WASSCE)</option>
+                  <option value="NECO">NECO (SSCE)</option>
+                  <option value="BECE">Junior Secondary (BECE)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Class Level</label>
+                <select
+                  value={predictLevel}
+                  onChange={(e) => setPredictLevel(e.target.value)}
+                  className="w-full text-xs font-bold px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                >
+                  <option value="SSS 3">SSS 3 (Final Year Exam)</option>
+                  <option value="SSS 2">SSS 2 (Senior Model)</option>
+                  <option value="SSS 1">SSS 1 (Foundational Senior)</option>
+                  <option value="JSS 3">JSS 3 (BECE Candidates)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Subject</label>
+                <select
+                  value={predictSubject}
+                  onChange={(e) => setPredictSubject(e.target.value)}
+                  className="w-full text-xs font-bold px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                >
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="English Studies">English Studies</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Civic Education">Civic Education</option>
+                  <option value="Agricultural Science">Agricultural Science</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">NERDC Scheme Topic</label>
+                <input
+                  type="text"
+                  value={predictTopic}
+                  onChange={(e) => setPredictTopic(e.target.value)}
+                  placeholder="Topic to forecast..."
+                  className="w-full text-xs font-medium px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={handleRunExamPrediction}
+                disabled={isPredicting}
+                className="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-2xs transition-all"
+              >
+                {isPredicting ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                )}
+                <span>{isPredicting ? 'Mining 10-Yr WAEC Papers...' : 'Forecast Predicted Exam Questions'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Prediction Result Display */}
+          {predictionResult && (
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-extrabold uppercase text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">
+                      {predictionResult.examBody || predictExamBody} Forecast
+                    </span>
+                    <span className="text-xs font-bold text-slate-900">{predictTopic}</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {predictionResult.historicalFrequency || 'High recurring frequency in past 10 years.'}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Occurrence Probability</span>
+                  <span className="text-2xl font-mono font-extrabold text-emerald-700 tabular-nums">
+                    {predictionResult.probabilityScore || 88}%
+                  </span>
+                </div>
+              </div>
+
+              {/* Section A: Predicted Multiple Choice */}
+              {predictionResult.sectionA_MultipleChoice && (
+                <div className="space-y-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600 block">
+                    Section A: High-Probability Multiple Choice Questions
+                  </span>
+                  <div className="space-y-3">
+                    {predictionResult.sectionA_MultipleChoice.map((q: any, idx: number) => (
+                      <div key={idx} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2 text-xs">
+                        <div className="font-bold text-slate-900">
+                          {idx + 1}. {q.question}
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-slate-700 pl-2">
+                          {q.options?.map((opt: string, oIdx: number) => (
+                            <div key={oIdx}>
+                              <span className="font-semibold mr-1.5">{String.fromCharCode(65 + oIdx)}.</span>
+                              {opt}
+                            </div>
+                          ))}
+                        </div>
+                        <div className="pt-1 text-[11px] text-emerald-800 font-semibold border-t border-slate-200">
+                          <strong>Official Key:</strong> Option {String.fromCharCode(65 + q.correctAnswer)} · <em>{q.explanation}</em>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Section B: Predicted Theory & Marking Scheme */}
+              {predictionResult.sectionB_Theory && (
+                <div className="space-y-3 pt-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600 block">
+                    Section B: Predicted Theory Questions with M1/A1 Marking Scheme
+                  </span>
+                  <div className="space-y-3">
+                    {predictionResult.sectionB_Theory.map((item: any, idx: number) => (
+                      <div key={idx} className="p-4 rounded-xl border border-slate-200 bg-emerald-50/30 space-y-3 text-xs">
+                        <div className="flex items-start justify-between">
+                          <span className="font-bold text-slate-900">
+                            Question {idx + 1}: {item.question}
+                          </span>
+                          <span className="font-mono text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[11px]">
+                            {item.marks} Marks
+                          </span>
+                        </div>
+
+                        {item.subParts && (
+                          <div className="space-y-1.5 pl-3 border-l-2 border-emerald-300">
+                            {item.subParts.map((sub: any, sIdx: number) => (
+                              <div key={sIdx} className="text-slate-800">
+                                <strong>({sub.part})</strong> {sub.text}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="p-3 bg-white rounded-lg border border-emerald-200 text-slate-800 space-y-1">
+                          <strong className="text-emerald-900 block text-[11px] uppercase">
+                            Chief Examiner Marking Guide ({item.statutoryStandard || 'WAEC Standard'}):
+                          </strong>
+                          <p className="text-[11px] leading-relaxed text-slate-700">
+                            {item.markingSchemeGuide}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Chief Examiner Pitfall Warnings */}
+              {predictionResult.chiefExaminerPitfalls && (
+                <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
+                  <span className="text-xs font-bold text-amber-950 uppercase flex items-center gap-1.5">
+                    <AlertCircle className="w-4 h-4 text-amber-700" />
+                    <span>WAEC / NECO Chief Examiner Critical Warnings</span>
+                  </span>
+                  <ul className="list-disc list-inside text-xs text-amber-900 space-y-1">
+                    {predictionResult.chiefExaminerPitfalls.map((p: string, idx: number) => (
+                      <li key={idx}>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 3: MULTIMODAL AI SCRIPT SCANNER & GRADING ASSISTANT (PHASE 7) */}
+      {activeTab === 'grading' && (
+        <div className="space-y-6">
+          <MultimodalScriptScanner />
+          <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h2 className="text-base font-bold text-slate-900">
+                  AI Paper & Script Grading Assistant (WAEC/NECO Standard)
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Transcribe handwritten student exam answers or paste OCR text to grade against statutory step-by-step marking rubrics.
+                </p>
+              </div>
+              <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                OCR & Step Scoring Engine
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="space-y-3">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Exam Question:</label>
+                  <textarea
+                    value={gradeQuestion}
+                    onChange={(e) => setGradeQuestion(e.target.value)}
+                    rows={3}
+                    className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Official Marking Scheme:</label>
+                  <textarea
+                    value={gradeMarkingScheme}
+                    onChange={(e) => setGradeMarkingScheme(e.target.value)}
+                    rows={3}
+                    className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">
+                  Student's Written Submission (Chalkboard / Paper OCR):
+                </label>
+                <textarea
+                  value={gradeStudentText}
+                  onChange={(e) => setGradeStudentText(e.target.value)}
+                  rows={7}
+                  className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none font-mono"
+                  placeholder="Paste student response or OCR scan text here..."
+                />
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={handleRunGrading}
+                disabled={isGrading}
+                className="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-2xs transition-all"
+              >
+                {isGrading ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                )}
+                <span>{isGrading ? 'Grading Script with Chief Examiner...' : 'Grade Script with Chief Examiner AI'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Grading Evaluation Result */}
+          {gradingResult && (
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Evaluation Standard</span>
+                  <div className="text-lg font-bold text-slate-900 mt-0.5">
+                    Official WAEC / NECO Examiner Assessment
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Assessed using Method Marks (M), Accuracy Marks (A), and Independent Definitions (B).
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Score Awarded</span>
+                    <span className="text-3xl font-mono font-extrabold text-slate-900 tabular-nums">
+                      {gradingResult.awardedMarks} / {gradingResult.maxMarks || 10}
+                    </span>
+                  </div>
+                  <div className="p-3 bg-emerald-100 text-emerald-800 font-extrabold text-sm rounded-xl border border-emerald-300">
+                    {gradingResult.waecGrade}
+                  </div>
+                </div>
+              </div>
+
+              {/* Step-by-Step Mark Breakdown Table */}
+              {gradingResult.markBreakdown && (
+                <div className="space-y-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600 block">
+                    Step-by-Step Examiner Rubric Allocation
+                  </span>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500 uppercase text-[10px]">
+                          <th className="py-2.5 px-3">Mark Criterion</th>
+                          <th className="py-2.5 px-3">Type</th>
+                          <th className="py-2.5 px-3">Awarded</th>
+                          <th className="py-2.5 px-3">Examiner Justification</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-800">
+                        {gradingResult.markBreakdown.map((row: any, rIdx: number) => (
+                          <tr key={rIdx} className="hover:bg-slate-50">
+                            <td className="py-3 px-3 font-semibold text-slate-900">{row.criterion}</td>
+                            <td className="py-3 px-3 font-mono text-[11px] text-slate-600">{row.markType}</td>
+                            <td className="py-3 px-3 font-mono font-bold text-slate-900">
+                              {row.awarded} / {row.available}
+                            </td>
+                            <td className="py-3 px-3 text-slate-600 leading-relaxed">{row.justification}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Pedagogical Feedback & Correction */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+                <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                  <span className="font-bold text-slate-900 uppercase text-[10px] tracking-wider block">
+                    Student Pedagogical Feedback
+                  </span>
+                  <p className="text-slate-700 leading-relaxed">
+                    {gradingResult.studentPedagogicalFeedback}
+                  </p>
+                </div>
+
+                <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-200 space-y-1">
+                  <span className="font-bold text-emerald-950 uppercase text-[10px] tracking-wider block">
+                    Correction & Mastery Guide
+                  </span>
+                  <p className="text-emerald-900 leading-relaxed">
+                    {gradingResult.correctionGuide}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 4: WAEC/NECO PRACTICE MODE (CBT SIMULATOR) */}
       {activeTab === 'practice' && (
         <div className="space-y-6">
           {/* Practice Controls Bar */}

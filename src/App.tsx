@@ -5,10 +5,14 @@ import { CommandPalette } from './components/CommandPalette.tsx';
 import { NotificationModal } from './components/NotificationModal.tsx';
 import { OnboardingModal } from './components/OnboardingModal.tsx';
 import { AuthModal } from './components/AuthModal.tsx';
+import { PaywallModal } from './components/PaywallModal.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
+import { PWAInstallBanner } from './components/PWAInstallBanner.tsx';
+import { checkUserAccess } from './lib/trial.ts';
 
 // Pages
 import { LandingPage } from './pages/LandingPage.tsx';
+import { LoginPage } from './pages/LoginPage.tsx';
 import { DashboardPage } from './pages/DashboardPage.tsx';
 import { AITeacherCoachPage } from './pages/AITeacherCoachPage.tsx';
 import { CurriculumBrowser } from './pages/CurriculumBrowser.tsx';
@@ -29,8 +33,17 @@ import { SettingsPage } from './pages/SettingsPage.tsx';
 import { LegalPages } from './pages/LegalPages.tsx';
 import { SMSAccessPage } from './pages/SMSAccessPage.tsx';
 import { OEQAPage } from './pages/OEQAPage.tsx';
+import { LessonViewerPage } from './pages/LessonViewerPage.tsx';
+import { StudentQuizPortalPage } from './pages/StudentQuizPortalPage.tsx';
+import { MarketplacePage } from './pages/MarketplacePage.tsx';
+import { MinistryCommandPage } from './pages/MinistryCommandPage.tsx';
+import { LivePollPage } from './pages/LivePollPage.tsx';
+import { STEMLabPage } from './pages/STEMLabPage.tsx';
+import { AIPedagogicalCoPilotPage } from './pages/AIPedagogicalCoPilotPage.tsx';
+import { AudioLessonNarratorModal } from './components/AudioLessonNarratorModal.tsx';
 
 import { AppLanguage } from './lib/i18n.ts';
+import { generateNerdcOeqaContent } from './data/allCurriculumSubjects.ts';
 import {
   DashboardStats,
   LessonPlan,
@@ -45,12 +58,30 @@ import {
   fetchNotifications,
   deleteLessonPlan,
   duplicateLessonPlan,
-  createLessonPlan
+  createLessonPlan,
+  signOutUser
 } from './lib/api.ts';
 import { Menu, WifiOff, Download, Sparkles, LogOut } from 'lucide-react';
 
 export default function App() {
-  const [currentRoute, setCurrentRoute] = useState<string>('dashboard');
+  const [currentRoute, setCurrentRoute] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (hash && hash !== 'pricing') return hash;
+      const path = window.location.pathname;
+      if (path === '/dashboard') return 'dashboard';
+      if (path === '/login') return 'login';
+      if (path === '/curriculum') return 'curriculum';
+      if (path === '/pricing') return 'pricing';
+      if (path === '/marketplace') return 'marketplace';
+      if (path === '/ministry') return 'ministry';
+      if (path === '/poll' || path.startsWith('/poll')) return 'live-poll';
+      if (path === '/stem-lab') return 'stem-lab';
+      if (path === '/ai-copilot') return 'ai-copilot';
+      if (path.startsWith('/quiz')) return 'quiz';
+    }
+    return 'landing';
+  });
   const [currentLang, setCurrentLang] = useState<AppLanguage>('en');
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
@@ -70,9 +101,11 @@ export default function App() {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+  const [selectedPlanForCheckout, setSelectedPlanForCheckout] = useState<string>('full_session');
 
   // PWA Offline status
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   useEffect(() => {
     loadInitialData();
@@ -82,6 +115,17 @@ export default function App() {
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+
+    // Hash route synchronization
+    const handleHashSync = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (hash && hash !== 'pricing') {
+        setCurrentRoute(hash);
+      } else if (!hash && window.location.pathname === '/') {
+        setCurrentRoute('landing');
+      }
+    };
+    window.addEventListener('hashchange', handleHashSync);
 
     // SSE notification stream
     try {
@@ -96,7 +140,12 @@ export default function App() {
           // ignore
         }
       };
-      return () => eventSource.close();
+      return () => {
+        eventSource.close();
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+        window.removeEventListener('hashchange', handleHashSync);
+      };
     } catch (e) {
       // SSE fallback
     }
@@ -104,6 +153,7 @@ export default function App() {
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('hashchange', handleHashSync);
     };
   }, []);
 
@@ -121,6 +171,9 @@ export default function App() {
         if (!userData.onboardingCompletedAt) {
           setIsOnboardingOpen(true);
         }
+
+        // Free Trial status is verified silently without blocking the user
+        // Users can browse and explore the entire page uninterrupted
       }
       if (statsData) setStats(statsData);
       if (plansData) setPlans(plansData);
@@ -133,9 +186,18 @@ export default function App() {
     }
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    setCurrentRoute('landing');
+  const handleSelectPlanFromLanding = (planId: string) => {
+    setSelectedPlanForCheckout(planId);
+    if (!user) {
+      setIsAuthOpen(true);
+    } else {
+      setIsPaywallOpen(true);
+    }
+  };
+
+  const handleLogout = async () => {
+    // Total Wipe: Server session invalidation, cookies purge, storage clear, cache purge, hard redirect
+    await signOutUser(true, '/');
   };
 
   const handleCreatePlanFromTopic = (topic: CurriculumTopic, level: string, subject: string) => {
@@ -188,29 +250,133 @@ export default function App() {
 
   const activePlan = plans.find((p) => p.id === activePlanId) || null;
 
-  // Render Frontpage / Landing page if selected
-  if (currentRoute === 'landing') {
+  // Render Student Homework Quiz Portal
+  if (currentRoute === 'quiz' || currentRoute.startsWith('quiz')) {
     return (
-      <>
-        <LandingPage
-          onEnterApp={() => setCurrentRoute('dashboard')}
-          onOpenAuth={() => setIsAuthOpen(true)}
-          onExploreCurriculum={() => setCurrentRoute('curriculum')}
-        />
-        <AuthModal
-          isOpen={isAuthOpen}
-          onClose={() => setIsAuthOpen(false)}
+      <ErrorBoundary>
+        <StudentQuizPortalPage onExit={() => setCurrentRoute('dashboard')} />
+      </ErrorBoundary>
+    );
+  }
+
+  // TASK 3: Route Guard - If already authenticated, redirect away from login directly to dashboard
+  if (currentRoute === 'login' && user) {
+    setCurrentRoute('dashboard');
+    return null;
+  }
+
+  // TASK 3: Route Guard - If logged-out user tries to access protected views, immediately redirect to login
+  const protectedRoutes = ['dashboard', 'admin', 'settings', 'progress', 'gradebook', 'lesson-plans-new', 'lesson-plan-edit'];
+  if (!user && protectedRoutes.includes(currentRoute)) {
+    return (
+      <ErrorBoundary>
+        <LoginPage
           onSuccess={() => {
             loadInitialData();
             setCurrentRoute('dashboard');
           }}
+          onGoToHome={() => {
+            setCurrentRoute('landing');
+          }}
         />
-      </>
+      </ErrorBoundary>
+    );
+  }
+
+  // Render Dedicated Login Screen if selected or after logout
+  if (currentRoute === 'login') {
+    return (
+      <ErrorBoundary>
+        <LoginPage
+          onSuccess={() => {
+            loadInitialData();
+            setCurrentRoute('dashboard');
+          }}
+          onGoToHome={() => {
+            setCurrentRoute('landing');
+          }}
+        />
+      </ErrorBoundary>
+    );
+  }
+
+  const userAccess = checkUserAccess(user);
+
+  // Render Frontpage / Landing page if selected
+  if (currentRoute === 'landing') {
+    return (
+      <ErrorBoundary>
+        <LandingPage
+          onEnterApp={() => setCurrentRoute(user ? 'dashboard' : 'login')}
+          onOpenAuth={() => {
+            if (user) {
+              setCurrentRoute('dashboard');
+            } else {
+              setIsAuthOpen(true);
+            }
+          }}
+          onExploreCurriculum={() => setCurrentRoute('curriculum')}
+          onSelectPlan={handleSelectPlanFromLanding}
+          user={user}
+        />
+        <AuthModal
+          isOpen={isAuthOpen}
+          onClose={() => {
+            setIsAuthOpen(false);
+          }}
+          onGoToHome={() => {
+            setIsAuthOpen(false);
+            setCurrentRoute('landing');
+          }}
+          onSuccess={() => {
+            setIsAuthOpen(false);
+            loadInitialData();
+            setCurrentRoute('dashboard');
+            // If they registered after selecting a plan, show checkout
+            if (selectedPlanForCheckout) {
+              setIsPaywallOpen(true);
+            }
+          }}
+        />
+        <PaywallModal
+          isOpen={isPaywallOpen}
+          onClose={() => setIsPaywallOpen(false)}
+          user={user}
+          selectedPlanId={selectedPlanForCheckout || 'full_session'}
+          isExpiredTrial={userAccess.isTrialExpired && !userAccess.hasActiveSubscription}
+          onSuccess={() => {
+            setIsPaywallOpen(false);
+            loadInitialData();
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col selection:bg-emerald-200 selection:text-emerald-950">
+      {/* 24-Hour Free Trial Countdown Alert Banner */}
+      {userAccess.isTrialActive && (
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white text-xs py-2 px-4 border-b border-amber-400/30 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase">
+              24-Hour Free Trial Active
+            </span>
+            <span className="text-slate-200">
+              You have <strong>{userAccess.hoursRemaining} hours remaining</strong> of unrestricted access to all NERDC and OEQA tools.
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              setSelectedPlanForCheckout('full_session');
+              setIsPaywallOpen(true);
+            }}
+            className="px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-colors"
+          >
+            Upgrade to Full Session (₦3,000 Best Value)
+          </button>
+        </div>
+      )}
       {/* WCAG 2.1 AA Skip Navigation Link */}
       <a
         href="#main-content"
@@ -219,13 +385,8 @@ export default function App() {
         Skip to main content
       </a>
 
-      {/* Offline Alert Banner */}
-      {!isOnline && (
-        <div className="bg-amber-600 text-white text-xs font-bold py-1.5 px-4 text-center flex items-center justify-center gap-2">
-          <WifiOff className="w-3.5 h-3.5" />
-          <span>Offline Mode Active. Cached curriculum and drafted lesson plans are safely stored locally.</span>
-        </div>
-      )}
+      {/* Progressive Web App Status & Offline Sync Banner */}
+      <PWAInstallBanner />
 
       {/* Main Top Header Navbar */}
       <Navbar
@@ -303,6 +464,7 @@ export default function App() {
           {currentRoute === 'ai-coach' && (
             <AITeacherCoachPage
               onNavigateToComposer={() => setCurrentRoute('lesson-plans-new')}
+              onNavigateToCopilot={() => setCurrentRoute('ai-copilot')}
             />
           )}
 
@@ -327,33 +489,63 @@ export default function App() {
             />
           )}
 
+          {(currentRoute === '3d-visual-lab' || currentRoute === 'lesson-view') && (
+            <LessonViewerPage
+              topic={activePlan?.title || initialTopicForComposer?.topic || 'Transport System: Human Circulatory Anatomy & Heart Mechanics'}
+              subject={activePlan?.subject || (initialTopicForComposer as any)?.subjectName || 'Biology'}
+              level={activePlan?.level || initialTopicForComposer?.levelId || 'sss1'}
+              onBack={() => setCurrentRoute('lesson-plans')}
+            />
+          )}
+
           {(currentRoute === 'lesson-plans-new' || currentRoute === 'lesson-plan-edit') && (
             <LessonPlanComposer
               initialPlan={
                 activePlan ||
                 (initialTopicForComposer
-                  ? {
-                      id: '',
-                      userId: user?.id || 'usr_teacher_demo_01',
-                      title: initialTopicForComposer.topic,
-                      level: initialTopicForComposer.levelId,
-                      subject: (initialTopicForComposer as any).subjectName || 'Mathematics',
-                      term: initialTopicForComposer.term,
-                      week: initialTopicForComposer.week,
-                      duration: '40 mins',
-                      previousKnowledge: 'Students recall foundational definitions from previous class session.',
-                      introduction: 'Teacher engages the class with practical real-life examples from Nigerian daily context.',
-                      teacherActivity: initialTopicForComposer.teacherActivities?.[0] || 'Teacher introduces topic on whiteboard.',
-                      studentActivity: initialTopicForComposer.studentActivities?.[0] || 'Students take summary notes and solve drill problems.',
-                      evaluation: initialTopicForComposer.evaluation?.[0] || 'Administer formative comprehension questions.',
-                      assignment: 'Complete assigned practice review exercises from textbook.',
-                      references: 'NERDC Approved Curriculum Syllabus Guide.',
-                      objectives: initialTopicForComposer.objectives || ['Define core concepts', 'Solve exercises'],
-                      materials: initialTopicForComposer.materials || ['NERDC Textbook', 'Whiteboard'],
-                      status: 'draft',
-                      createdAt: new Date().toISOString(),
-                      updatedAt: new Date().toISOString(),
-                    }
+                  ? (() => {
+                      const topicSub = (initialTopicForComposer as any).subjectName || 'Mathematics';
+                      const topicLvl = initialTopicForComposer.levelId;
+                      const synth = generateNerdcOeqaContent({
+                        level: topicLvl,
+                        subject: topicSub,
+                        topic: initialTopicForComposer.topic,
+                        week: initialTopicForComposer.week,
+                        term: initialTopicForComposer.term,
+                        language: 'en',
+                      });
+                      return {
+                        id: '',
+                        userId: user?.id || 'usr_teacher_demo_01',
+                        title: initialTopicForComposer.topic,
+                        level: topicLvl,
+                        subject: topicSub,
+                        term: initialTopicForComposer.term,
+                        week: initialTopicForComposer.week,
+                        duration: '40 mins',
+                        previousKnowledge: synth.previousKnowledge,
+                        introduction: synth.introduction,
+                        teacherActivity: Array.isArray(initialTopicForComposer.teacherActivities) && initialTopicForComposer.teacherActivities.length > 0
+                          ? initialTopicForComposer.teacherActivities.join('\n')
+                          : synth.teacherActivity,
+                        studentActivity: Array.isArray(initialTopicForComposer.studentActivities) && initialTopicForComposer.studentActivities.length > 0
+                          ? initialTopicForComposer.studentActivities.join('\n')
+                          : synth.studentActivity,
+                        evaluation: Array.isArray(initialTopicForComposer.evaluation) && initialTopicForComposer.evaluation.length > 0
+                          ? initialTopicForComposer.evaluation.join('\n')
+                          : synth.evaluation,
+                        assignment: synth.assignment,
+                        references: `NERDC Approved National Curriculum Guide / Lagos State OEQA Syllabus for ${topicLvl.toUpperCase()} ${topicSub}.`,
+                        objectives: initialTopicForComposer.objectives?.length ? initialTopicForComposer.objectives : synth.objectives,
+                        materials: initialTopicForComposer.materials?.length ? initialTopicForComposer.materials : synth.materials,
+                        differentiatedInstruction: synth.differentiatedInstruction,
+                        safetyPrecautions: synth.safetyPrecautions,
+                        lessonNote: synth.lessonNote,
+                        status: 'draft',
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString(),
+                      };
+                    })()
                   : null)
               }
               onBack={() => setCurrentRoute('lesson-plans')}
@@ -423,10 +615,26 @@ export default function App() {
             />
           )}
 
-          {currentRoute === 'admin' && <AdminDashboardPage />}
+          {currentRoute === 'marketplace' && (
+            <MarketplacePage
+              onNavigateToComposer={(planId) => {
+                handleSelectPlan(planId);
+              }}
+            />
+          )}
+
+          {currentRoute === 'live-poll' && <LivePollPage />}
+
+          {currentRoute === 'stem-lab' && <STEMLabPage />}
+
+          {currentRoute === 'ai-copilot' && <AIPedagogicalCoPilotPage />}
+
+          {currentRoute === 'ministry' && <MinistryCommandPage />}
+
+          {currentRoute === 'admin' && <AdminDashboardPage user={user} />}
 
           {currentRoute === 'pricing' && (
-            <PricingPage onPlanUpgraded={loadInitialData} />
+            <PricingPage user={user} onPlanUpgraded={loadInitialData} />
           )}
 
           {currentRoute === 'settings' && (
@@ -501,11 +709,30 @@ export default function App() {
 
       <AuthModal
         isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
+        onClose={() => {
+          setIsAuthOpen(false);
+          setCurrentRoute('landing');
+        }}
+        onGoToHome={() => {
+          setIsAuthOpen(false);
+          setCurrentRoute('landing');
+        }}
         onSuccess={() => {
           setIsAuthOpen(false);
           loadInitialData();
           setCurrentRoute('dashboard');
+        }}
+      />
+
+      <PaywallModal
+        isOpen={isPaywallOpen}
+        onClose={() => setIsPaywallOpen(false)}
+        user={user}
+        selectedPlanId={selectedPlanForCheckout || 'full_session'}
+        isExpiredTrial={userAccess.isTrialExpired && !userAccess.hasActiveSubscription}
+        onSuccess={() => {
+          setIsPaywallOpen(false);
+          loadInitialData();
         }}
       />
     </div>

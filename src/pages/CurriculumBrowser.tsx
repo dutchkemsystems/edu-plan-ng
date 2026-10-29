@@ -207,7 +207,7 @@ export const CurriculumBrowser: React.FC<CurriculumBrowserProps> = ({
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-emerald-700 font-bold">
-                      <span>17 Statutory Subjects • 39 Weeks</span>
+                      <span>19 Statutory Subjects • 39 Weeks</span>
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>

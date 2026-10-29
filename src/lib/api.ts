@@ -19,23 +19,149 @@ export async function fetchHealth() {
   return res.json();
 }
 
+export function getAuthToken(): string | null {
+  try {
+    return localStorage.getItem('eduplan_token');
+  } catch {
+    return null;
+  }
+}
+
+export function setAuthToken(token: string | null) {
+  try {
+    if (token) localStorage.setItem('eduplan_token', token);
+    else localStorage.removeItem('eduplan_token');
+  } catch {}
+}
+
+export function isUserLoggedOut(): boolean {
+  try {
+    return localStorage.getItem('eduplan_logged_out') === 'true';
+  } catch {
+    return false;
+  }
+}
+
+export function setLoggedOutFlag(loggedOut: boolean) {
+  try {
+    if (loggedOut) localStorage.setItem('eduplan_logged_out', 'true');
+    else localStorage.removeItem('eduplan_logged_out');
+  } catch {}
+}
+
 export async function fetchCurrentUser(): Promise<TeacherUser> {
-  const res = await fetch(`${API_BASE}/auth/me`);
-  if (!res.ok) throw new Error('Could not fetch user');
+  const token = getAuthToken();
+  const loggedOut = isUserLoggedOut();
+  if (loggedOut) {
+    throw new Error('User is logged out');
+  }
+
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  } else {
+    // If no token stored at all and user hasn't explicitly logged out, provide default demo teacher on initial preview
+    headers['Authorization'] = `Bearer auth_tok_usr_teacher_demo_01`;
+  }
+  const res = await fetch(`${API_BASE}/auth/me`, { headers });
+  if (!res.ok) {
+    setAuthToken(null);
+    throw new Error('Could not fetch user');
+  }
   return res.json();
 }
 
-export async function signInUser(email: string, password?: string): Promise<{ success: boolean; user: TeacherUser }> {
+export async function signInUser(email: string, password?: string): Promise<{ success: boolean; user: TeacherUser; token?: string }> {
+  setLoggedOutFlag(false);
+  if (typeof document !== 'undefined') {
+    document.cookie = 'eduplan_logged_out=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; SameSite=Lax';
+  }
+
   const res = await fetch(`${API_BASE}/auth/sign-in`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify({ email, password: password || 'default_pass' }),
   });
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || 'Authentication failed');
+    throw new Error(err.message || err.error || 'Authentication failed');
   }
-  return res.json();
+
+  const data = await res.json();
+  if (data.token) {
+    setAuthToken(data.token);
+  }
+  if (data.user && typeof localStorage !== 'undefined') {
+    localStorage.setItem('eduplan_auth_user', JSON.stringify(data.user));
+  }
+
+  // Dispatch auth state event
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('eduplan_auth_state_changed', { detail: data.user }));
+  }
+
+  return data;
+}
+
+export async function signOutUser(hardRedirect: boolean = false, redirectUrl: string = '/'): Promise<{ success: boolean }> {
+  setLoggedOutFlag(true);
+
+  // 1. Server-side session invalidation
+  try {
+    const token = getAuthToken();
+    await fetch(`${API_BASE}/auth/sign-out`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      credentials: 'include'
+    });
+  } catch (e) {
+    console.warn('[Auth] Server sign out non-blocking warning:', e);
+  }
+
+  // 2. Cookie cleanup
+  if (typeof document !== 'undefined') {
+    const cookieNames = ['eduplan_session', 'better-auth.session_token', 'auth_token', 'session'];
+    cookieNames.forEach((name) => {
+      document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; SameSite=Lax`;
+    });
+    document.cookie = 'eduplan_logged_out=true; Path=/; Max-Age=31536000; SameSite=Lax';
+  }
+
+  // 3. Clear client-side state
+  setAuthToken(null);
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const region = localStorage.getItem('eduplan_region');
+      localStorage.clear();
+      if (region) localStorage.setItem('eduplan_region', region);
+      localStorage.setItem('eduplan_logged_out', 'true');
+    } catch {}
+  }
+  if (typeof sessionStorage !== 'undefined') {
+    try {
+      sessionStorage.clear();
+    } catch {}
+  }
+
+  // 4. Invalidate caches
+  if (typeof window !== 'undefined' && 'caches' in window) {
+    try {
+      const keys = await window.caches.keys();
+      await Promise.all(keys.map((k) => window.caches.delete(k)));
+    } catch {}
+  }
+
+  // 5. Hard redirect if requested to ensure complete wipe of React memory
+  if (hardRedirect && typeof window !== 'undefined') {
+    window.location.href = redirectUrl;
+  }
+
+  return { success: true };
 }
 
 export async function signUpUser(data: {
@@ -46,6 +172,7 @@ export async function signUpUser(data: {
   state?: string;
   lga?: string;
 }): Promise<{ success: boolean; user: TeacherUser }> {
+  setLoggedOutFlag(false);
   const res = await fetch(`${API_BASE}/auth/sign-up`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +182,11 @@ export async function signUpUser(data: {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.message || 'Registration failed');
   }
-  return res.json();
+  const result = await res.json();
+  if (result.token) {
+    setAuthToken(result.token);
+  }
+  return result;
 }
 
 export async function updateProfile(data: Partial<TeacherUser>): Promise<{ success: boolean; message: string }> {
@@ -220,16 +351,24 @@ export async function deleteResource(id: string) {
 }
 
 export async function initializeKoraPayment(data: {
-  plan: string;
+  plan?: string;
+  planId?: string;
   email: string;
   name: string;
   amount?: number;
   interval?: 'monthly' | 'annual';
+  userId?: string;
+  redirectUrl?: string;
 }) {
-  const res = await fetch(`${API_BASE}/payment/initialize`, {
+  const payload = {
+    ...data,
+    planId: data.planId || data.plan,
+    plan: data.plan || data.planId,
+  };
+  const res = await fetch(`${API_BASE}/payments/initialize`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   });
   return res.json();
 }
@@ -301,6 +440,46 @@ export async function requestTeacherCoach(data: {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function generateDedicatedLessonPlan(data: {
+  level: string;
+  subject: string;
+  topic: string;
+  subtopics?: string[];
+  week: number;
+  term: number;
+  durationMinutes?: number;
+  language?: string;
+}) {
+  const res = await fetch(`${API_BASE}/ai/lesson-plan`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function generateDedicatedLessonNote(data: {
+  level: string;
+  subject: string;
+  topic: string;
+  week: number;
+  term: number;
+}) {
+  const res = await fetch(`${API_BASE}/ai/lesson-note`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function triggerCurriculumSync() {
+  const res = await fetch(`${API_BASE}/cron/curriculum-sync`, {
+    method: 'POST',
   });
   return res.json();
 }

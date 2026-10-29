@@ -9,6 +9,7 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve('.'),
+        'next/server': path.resolve('./src/lib/next-shim.ts'),
       },
     },
     server: {

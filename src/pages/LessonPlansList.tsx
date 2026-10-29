@@ -16,9 +16,13 @@ import {
   Layers,
   CheckCircle2,
   X,
-  Printer
+  Printer,
+  Edit3,
+  FileSpreadsheet
 } from 'lucide-react';
 import { LessonPlan } from '../types/index.ts';
+import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, generateNerdcOeqaContent } from '../data/allCurriculumSubjects.ts';
+import { getBestDiagramForSubject } from '../data/diagrams.ts';
 import confetti from 'canvas-confetti';
 
 interface LessonPlansListProps {
@@ -48,6 +52,16 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   const [batchLang, setBatchLang] = useState<'en' | 'yo' | 'ig' | 'ha'>('en');
   const [batchGenerating, setBatchGenerating] = useState(false);
 
+  // Custom / Manual Topic Modal State
+  const [showTopicModal, setShowTopicModal] = useState(false);
+  const [customTopicInput, setCustomTopicInput] = useState('');
+  const [customLevel, setCustomLevel] = useState('jss-1');
+  const [customSubject, setCustomSubject] = useState('Mathematics');
+  const [customTerm, setCustomTerm] = useState(1);
+  const [customWeek, setCustomWeek] = useState(1);
+  const [customLang, setCustomLang] = useState<'en' | 'yo' | 'ig' | 'ha'>('en');
+  const [isCustomGenerating, setIsCustomGenerating] = useState(false);
+
   const filtered = plans.filter((p) => {
     const matchesSearch =
       p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -74,6 +88,15 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
           ? 'Terminal Examination, Paper Moderation & Broadsheet Entry'
           : `${batchSubject} Week ${wk}: Foundational NERDC Curriculum Competency`;
 
+        const nerdcContent = generateNerdcOeqaContent({
+          level: batchLevel,
+          subject: batchSubject,
+          topic: topicTitle,
+          week: wk,
+          term: batchTerm,
+          language: batchLang,
+        });
+
         return {
           id: `plan_term_${Date.now()}_wk_${wk}`,
           userId: 'usr_teacher_demo_01',
@@ -86,28 +109,18 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
           status: 'published',
           language: batchLang,
           bloomTags: isMid || isRev || isExam ? ['Analyze', 'Evaluate'] : ['Remember', 'Understand', 'Apply'],
-          objectives: [
-            `Define and explain the core principles of ${topicTitle}`,
-            `Demonstrate problem-solving mastery through structured practice exercises`,
-            `Analyze real-world Nigerian applications in daily commerce and society`
-          ],
-          materials: [
-            `NERDC Approved Textbook for ${batchLevel.toUpperCase()}`,
-            'Chalkboard, dry-erase markers, and instructional wall charts',
-            'Real-life specimens and local Nigerian manipulative realia'
-          ],
-          previousKnowledge: `Learners possess working familiarity with prerequisite concepts taught in Week ${Math.max(1, wk - 1)}.`,
-          introduction: `Teacher introduces ${topicTitle} using a relatable 5-minute Nigerian community scenario.`,
-          teacherActivity: 'Teacher presents conceptual framework on the chalkboard and works through 2 demonstration problems.',
-          studentActivity: 'Students copy structured notes into exercise notebooks and solve 2 guided classroom drill exercises in pairs.',
-          evaluation: 'Teacher administers 3 oral comprehension check questions and an exit card drill.',
-          assignment: `Complete Review Exercise questions 1 to 5 from the recommended textbook for Week ${wk}.`,
-          references: 'NERDC National Curriculum for Basic Education / New General Series.',
-          differentiatedInstruction: {
-            struggling: 'Step-by-step scaffolding with concrete manipulative aids and teacher buddy support.',
-            onLevel: 'Independent completion of standard curriculum drill exercises.',
-            advanced: 'Higher-order word problems applying concepts to Nigerian commercial and industrial contexts.'
-          },
+          objectives: nerdcContent.objectives,
+          materials: nerdcContent.materials,
+          previousKnowledge: nerdcContent.previousKnowledge,
+          introduction: nerdcContent.introduction,
+          teacherActivity: nerdcContent.teacherActivity,
+          studentActivity: nerdcContent.studentActivity,
+          evaluation: nerdcContent.evaluation,
+          assignment: nerdcContent.assignment,
+          references: 'NERDC National Curriculum for Basic Education / FME & OEQA Standardized Scheme.',
+          differentiatedInstruction: nerdcContent.differentiatedInstruction,
+          safetyPrecautions: nerdcContent.safetyPrecautions,
+          lessonNote: nerdcContent.lessonNote,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -120,6 +133,59 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
       setShowBatchModal(false);
       confetti({ particleCount: 80, spread: 70 });
     }, 600);
+  };
+
+  const handleCreateFromCustomTopic = (mode: 'plan' | 'note' | 'both') => {
+    setIsCustomGenerating(true);
+    const topicTitle = customTopicInput.trim() || `${customSubject} Core Topic — Week ${customWeek}`;
+
+    setTimeout(() => {
+      const nerdcContent = generateNerdcOeqaContent({
+        level: customLevel,
+        subject: customSubject,
+        topic: topicTitle,
+        week: customWeek,
+        term: customTerm,
+        language: customLang,
+      });
+
+      const newPlan: LessonPlan = {
+        id: `plan_custom_${Date.now()}`,
+        userId: 'usr_teacher_demo_01',
+        title: topicTitle,
+        level: customLevel,
+        subject: customSubject,
+        term: customTerm,
+        week: customWeek,
+        duration: '40 mins',
+        status: 'published',
+        language: customLang,
+        bloomTags: ['Remember', 'Understand', 'Apply', 'Analyze'],
+        objectives: nerdcContent.objectives,
+        materials: nerdcContent.materials,
+        previousKnowledge: nerdcContent.previousKnowledge,
+        introduction: nerdcContent.introduction,
+        teacherActivity: nerdcContent.teacherActivity,
+        studentActivity: nerdcContent.studentActivity,
+        evaluation: nerdcContent.evaluation,
+        assignment: nerdcContent.assignment,
+        references: 'NERDC National Curriculum for Basic Education / FME & OEQA Standardized Scheme.',
+        differentiatedInstruction: nerdcContent.differentiatedInstruction,
+        safetyPrecautions: nerdcContent.safetyPrecautions,
+        lessonNote: nerdcContent.lessonNote,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      if (onBatchPlansCreated) {
+        onBatchPlansCreated([newPlan]);
+      }
+      setIsCustomGenerating(false);
+      setShowTopicModal(false);
+      setCustomTopicInput('');
+      confetti({ particleCount: 75, spread: 65 });
+      onSelectPlan(newPlan.id);
+    }, 500);
   };
 
   const handleExportFullTermPackDocx = () => {
@@ -160,21 +226,25 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   </div>
 </div>
 
-${target.map((p, idx) => `
+${target.map((p, idx) => {
+  const diag = getBestDiagramForSubject(p.subject, p.title);
+  const note = p.lessonNote || generateNerdcOeqaContent({ level: p.level, subject: p.subject, topic: p.title, week: p.week, term: p.term }).lessonNote;
+  return `
 <div class="plan-page">
   <div style="text-align: center; border-bottom: 2pt solid #047857; padding-bottom: 4pt; margin-bottom: 8pt;">
-    <strong style="color: #065f46; font-size: 12pt;">WEEK ${p.week}: ${p.title.toUpperCase()}</strong>
-    <div style="font-size: 8.5pt; color: #64748b;">Class: ${p.level.toUpperCase()} | Subject: ${p.subject} | Duration: ${p.duration}</div>
+    <strong style="color: #065f46; font-size: 13pt;">WEEK ${p.week}: ${p.title.toUpperCase()}</strong>
+    <div style="font-size: 9pt; color: #475569; margin-top: 2pt;">Class: ${p.level.toUpperCase()} | Subject: ${p.subject} | Duration: ${p.duration} | Academic Session: 2026/2027</div>
   </div>
 
+  <h3 style="color: #065f46; font-size: 11pt; border-left: 3pt solid #047857; padding-left: 6pt; margin: 10pt 0 4pt 0;">PART I: STATUTORY LESSON PLAN SPECIFICATIONS</h3>
   <table>
     <tr><th style="width: 25%;">Component</th><th>NERDC Instructional Specifications</th></tr>
-    <tr><td><strong>Behavioral Objectives</strong></td><td><ul>${p.objectives.map(o => `<li>${o}</li>`).join('')}</ul></td></tr>
+    <tr><td><strong>Behavioral Objectives</strong></td><td><ol style="margin: 0; padding-left: 15pt;">${p.objectives.map(o => `<li style="margin-bottom: 2pt;">${o}</li>`).join('')}</ol></td></tr>
     <tr><td><strong>Instructional Materials</strong></td><td>${p.materials.join(', ')}</td></tr>
     <tr><td><strong>Previous Knowledge</strong></td><td>${p.previousKnowledge}</td></tr>
     <tr><td><strong>Introduction</strong></td><td>${p.introduction}</td></tr>
-    <tr><td><strong>Teacher's Presentation</strong></td><td>${p.teacherActivity}</td></tr>
-    <tr><td><strong>Students' Activities</strong></td><td>${p.studentActivity}</td></tr>
+    <tr><td><strong>Teacher's Presentation</strong></td><td style="white-space: pre-line;">${p.teacherActivity}</td></tr>
+    <tr><td><strong>Students' Activities</strong></td><td style="white-space: pre-line;">${p.studentActivity}</td></tr>
     <tr><td><strong>Formative Evaluation</strong></td><td>${p.evaluation}</td></tr>
     <tr><td><strong>Home Assignment</strong></td><td>${p.assignment}</td></tr>
     <tr><td><strong>Differentiated Instruction</strong></td><td>
@@ -183,8 +253,56 @@ ${target.map((p, idx) => `
       <strong>Tier 3 (Advanced):</strong> ${p.differentiatedInstruction?.advanced || 'Extension tasks'}
     </td></tr>
   </table>
+
+  ${diag ? `
+  <div style="margin: 15pt 0; text-align: center; border: 1pt solid #cbd5e1; padding: 12pt; background-color: #f8fafc; border-radius: 4pt;">
+    <h4 style="margin: 0 0 8pt 0; color: #0f172a; font-size: 10.5pt;">PART II: INSTRUCTIONAL CHALKBOARD DIAGRAM & ILLUSTRATION</h4>
+    <div style="font-weight: bold; color: #065f46; margin-bottom: 6pt; font-size: 10pt;">${diag.title}</div>
+    <div style="max-width: 480pt; margin: 0 auto;">
+      ${diag.svgContent}
+    </div>
+    <p style="font-size: 9.5pt; color: #475569; font-style: italic; margin-top: 8pt;">Figure ${idx + 1}: ${diag.caption}</p>
+  </div>` : ''}
+
+  ${note ? `
+  <h3 style="color: #065f46; font-size: 11pt; border-left: 3pt solid #047857; padding-left: 6pt; margin: 12pt 0 4pt 0;">PART III: CHALKBOARD LESSON NOTE (PUPILS' NOTEBOOK COPY)</h3>
+  <div style="background-color: #f8fafc; border: 1pt solid #cbd5e1; padding: 10pt; margin-bottom: 12pt; border-radius: 4pt;">
+    <p style="margin: 0 0 6pt 0;"><strong>Subtopics:</strong></p>
+    <p style="margin: 0 0 8pt 0; white-space: pre-line; color: #1e293b;">${note.subtopics || '1. Core Definitions\n2. Worked Examples\n3. Summary & Practice'}</p>
+    
+    <p style="margin: 0 0 6pt 0;"><strong>Key Conceptual Definitions:</strong></p>
+    <p style="margin: 0 0 8pt 0; white-space: pre-line; color: #1e293b;">${note.definitions || ''}</p>
+
+    <p style="margin: 0 0 6pt 0;"><strong>Step-by-Step Worked Classroom Examples:</strong></p>
+    <div style="background-color: #ffffff; padding: 8pt; border: 1pt dashed #94a3b8; margin-bottom: 8pt; white-space: pre-line; color: #0f172a;">
+      ${note.workedExamples || ''}
+    </div>
+
+    <p style="margin: 0 0 6pt 0;"><strong>Blackboard Summary Takeaways:</strong></p>
+    <p style="margin: 0 0 8pt 0; white-space: pre-line; color: #1e293b;">${note.blackboardSummary || ''}</p>
+
+    <p style="margin: 0 0 6pt 0;"><strong>Classroom Practice Drill:</strong></p>
+    <p style="margin: 0; white-space: pre-line; color: #1e293b;">${note.classDrill || ''}</p>
+  </div>` : ''}
+
+  <div style="margin-top: 20pt; padding-top: 10pt; border-top: 1pt solid #cbd5e1;">
+    <table style="border: none; margin: 0;">
+      <tr style="border: none;">
+        <td style="border: none; width: 33%; text-align: center;">
+          <div style="border-top: 1pt dashed #64748b; margin-top: 25pt; padding-top: 4pt; font-size: 8.5pt; font-weight: bold;">Subject Teacher</div>
+        </td>
+        <td style="border: none; width: 33%; text-align: center;">
+          <div style="border-top: 1pt dashed #64748b; margin-top: 25pt; padding-top: 4pt; font-size: 8.5pt; font-weight: bold;">HOD Moderation & Stamp</div>
+        </td>
+        <td style="border: none; width: 33%; text-align: center;">
+          <div style="border-top: 1pt dashed #64748b; margin-top: 25pt; padding-top: 4pt; font-size: 8.5pt; font-weight: bold;">Principal / Director of Academics</div>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
-`).join('')}
+`;
+}).join('')}
 </body>
 </html>`;
 
@@ -228,12 +346,21 @@ ${target.map((p, idx) => `
 
         <div className="flex flex-wrap items-center gap-2">
           <button
+            onClick={() => setShowTopicModal(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-700 to-teal-800 hover:from-emerald-600 hover:to-teal-700 text-white shadow-xs transition-all hover:scale-102"
+            title="Type any custom topic to auto-generate a full lesson plan and chalkboard note"
+          >
+            <Edit3 className="w-4 h-4 text-amber-300" />
+            <span>⚡ Custom Topic Generator</span>
+          </button>
+
+          <button
             onClick={() => setShowBatchModal(true)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-xs transition-all hover:scale-102"
             title="Auto-generate complete 13-week term dossier"
           >
             <Sparkles className="w-4 h-4 text-slate-950" />
-            <span>⚡ 13-Week Term Pack</span>
+            <span>13-Week Term Pack</span>
           </button>
 
           <button
@@ -420,7 +547,15 @@ ${target.map((p, idx) => `
                   <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Class Level</label>
                   <select
                     value={batchLevel}
-                    onChange={(e) => setBatchLevel(e.target.value)}
+                    onChange={(e) => {
+                      const newLvl = e.target.value;
+                      setBatchLevel(newLvl);
+                      const isNewJunior = newLvl.toLowerCase().startsWith('jss');
+                      const subs = isNewJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+                      if (!subs.some((s) => s.name.toLowerCase() === batchSubject.toLowerCase())) {
+                        setBatchSubject(subs[0].name);
+                      }
+                    }}
                     className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-600"
                   >
                     <option value="jss-1">JSS 1</option>
@@ -433,19 +568,19 @@ ${target.map((p, idx) => `
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Subject</label>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
+                    Subject ({(batchLevel.toLowerCase().startsWith('jss') ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS).length} Statutory)
+                  </label>
                   <select
                     value={batchSubject}
                     onChange={(e) => setBatchSubject(e.target.value)}
                     className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-600"
                   >
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="English Studies">English Studies</option>
-                    <option value="Basic Science & Technology">Basic Science & Tech</option>
-                    <option value="Civic Education">Civic Education</option>
-                    <option value="Biology">Biology</option>
-                    <option value="Economics">Economics</option>
-                    <option value="Agricultural Science">Agricultural Science</option>
+                    {(batchLevel.toLowerCase().startsWith('jss') ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS).map((s) => (
+                      <option key={s.id} value={s.name}>
+                        {s.name} ({s.department})
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -511,6 +646,188 @@ ${target.map((p, idx) => `
                 <Sparkles className={`w-4 h-4 text-amber-300 ${batchGenerating ? 'animate-spin' : ''}`} />
                 <span>{batchGenerating ? 'Synthesizing 13 Plans...' : 'Generate 13-Week Dossier'}</span>
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FEATURE: MANUAL / CUSTOM TOPIC GENERATOR MODAL */}
+      {showTopicModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-6 sm:p-8 space-y-5 border border-gray-200 animate-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-900">
+                  <Edit3 className="w-5 h-5 text-emerald-800" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-gray-900">Manual / Custom Topic Generator</h3>
+                  <p className="text-xs text-gray-500">Generate full NERDC lesson plans and chalkboard notes from any custom topic</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowTopicModal(false)}
+                className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Manual Topic Input */}
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">
+                  Custom Lesson Topic Title <span className="text-emerald-700 font-normal">(Required)</span>
+                </label>
+                <input
+                  type="text"
+                  value={customTopicInput}
+                  onChange={(e) => setCustomTopicInput(e.target.value)}
+                  placeholder="e.g. Simultaneous Equations by Elimination, Photosynthesis, Separation of Powers, etc."
+                  className="w-full text-xs font-bold px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+                />
+              </div>
+
+              {/* Class Level & Subject */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Class Level</label>
+                  <select
+                    value={customLevel}
+                    onChange={(e) => {
+                      const newLvl = e.target.value;
+                      setCustomLevel(newLvl);
+                      const isNewJunior = newLvl.toLowerCase().startsWith('jss');
+                      const subs = isNewJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+                      if (!subs.some((s) => s.name.toLowerCase() === customSubject.toLowerCase())) {
+                        setCustomSubject(subs[0].name);
+                      }
+                    }}
+                    className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  >
+                    <option value="jss-1">JSS 1</option>
+                    <option value="jss-2">JSS 2</option>
+                    <option value="jss-3">JSS 3</option>
+                    <option value="sss-1">SSS 1</option>
+                    <option value="sss-2">SSS 2</option>
+                    <option value="sss-3">SSS 3</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Subject</label>
+                  <select
+                    value={customSubject}
+                    onChange={(e) => setCustomSubject(e.target.value)}
+                    className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  >
+                    {(customLevel.toLowerCase().startsWith('jss') ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS).map((s) => (
+                      <option key={s.id} value={s.name}>
+                        {s.name} ({s.department})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Academic Term, Week, and Language */}
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Term</label>
+                  <select
+                    value={customTerm}
+                    onChange={(e) => setCustomTerm(parseInt(e.target.value, 10))}
+                    className="w-full text-xs font-semibold px-2 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
+                  >
+                    <option value={1}>1st Term</option>
+                    <option value={2}>2nd Term</option>
+                    <option value={3}>3rd Term</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Week</label>
+                  <select
+                    value={customWeek}
+                    onChange={(e) => setCustomWeek(parseInt(e.target.value, 10))}
+                    className="w-full text-xs font-semibold px-2 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
+                  >
+                    {Array.from({ length: 13 }).map((_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        Week {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Language</label>
+                  <select
+                    value={customLang}
+                    onChange={(e) => setCustomLang(e.target.value as any)}
+                    className="w-full text-xs font-semibold px-2 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
+                  >
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="ig">Igbo</option>
+                    <option value="ha">Hausa</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Inclusions summary */}
+              <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-950 space-y-1">
+                <span className="font-bold">What will be synthesized:</span>
+                <p className="text-[11px] text-amber-900 leading-relaxed">
+                  Both documents adhere strictly to national NERDC phrasing ("By the end of the lesson, learners should be able to..."), Lagos State OEQA Alausa presentation matrix, subject 21st-century skills, and include rich chalkboard diagrams and instructional materials.
+                </p>
+              </div>
+            </div>
+
+            {/* Direct Generation Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-3 border-t border-gray-100">
+              <button
+                type="button"
+                onClick={() => setShowTopicModal(false)}
+                className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-900 order-last sm:order-first"
+              >
+                Cancel
+              </button>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  disabled={isCustomGenerating}
+                  onClick={() => handleCreateFromCustomTopic('plan')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
+                  title="Generate administrative Lesson Plan"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-200" />
+                  <span>Generate Plan</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isCustomGenerating}
+                  onClick={() => handleCreateFromCustomTopic('note')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-700 hover:bg-teal-600 text-white transition flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
+                  title="Generate deep chalkboard Lesson Note"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-teal-200" />
+                  <span>Generate Note</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isCustomGenerating}
+                  onClick={() => handleCreateFromCustomTopic('both')}
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-gray-950 transition shadow-md flex items-center gap-1.5 disabled:opacity-50"
+                  title="Generate both lesson plan and chalkboard lesson note"
+                >
+                  <Sparkles className={`w-3.5 h-3.5 text-gray-950 ${isCustomGenerating ? 'animate-spin' : ''}`} />
+                  <span>{isCustomGenerating ? 'Generating...' : '⚡ Generate Both'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

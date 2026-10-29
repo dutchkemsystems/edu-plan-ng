@@ -16,11 +16,13 @@ import {
   AlertTriangle,
   LogOut,
   Clock,
-  Check
+  Check,
+  Zap
 } from 'lucide-react';
 import { TeacherUser } from '../types/index.ts';
 import { updateProfile } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
+import { useLowDataMode } from '../lib/LowDataContext.tsx';
 
 interface SettingsPageProps {
   user: TeacherUser | null;
@@ -29,7 +31,8 @@ interface SettingsPageProps {
 }
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({ user, onRefreshUser, onLogout }) => {
-  const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'mfa' | 'ndpr' | 'subscription' | 'notifications'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'mfa' | 'ndpr' | 'subscription' | 'notifications' | 'data'>('profile');
+  const { isLowDataMode, toggleLowDataMode, dataSavingsEstimateKb } = useLowDataMode();
 
   // Profile Form State
   const [name, setName] = useState(user?.name || 'Mrs. Amina Balogun');
@@ -192,6 +195,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ user, onRefreshUser,
             { id: 'account', label: 'Security & Login', icon: Shield },
             { id: 'mfa', label: 'MFA / 2FA (TOTP)', icon: KeyRound, badge: mfaEnabled ? 'ON' : 'OFF' },
             { id: 'ndpr', label: 'NDPR Data Privacy', icon: Lock },
+            { id: 'data', label: 'Low-Data Mode (2G/3G)', icon: Zap, badge: isLowDataMode ? 'ACTIVE' : 'OFF' },
             { id: 'subscription', label: 'Billing & Invoices', icon: CreditCard },
             { id: 'notifications', label: 'Notifications', icon: Bell },
           ].map((item) => {
@@ -600,6 +604,83 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ user, onRefreshUser,
                   <span className="ml-1">dpo@eduplan.ng • NDPC Reg: NDPC/DPCO/2026/0411</span>
                 </div>
                 <span className="text-[10px] font-bold text-emerald-700">Audit Compliant</span>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: LOW-DATA & BANDWIDTH OPTIMIZATION */}
+          {activeTab === 'data' && (
+            <div className="space-y-6">
+              <div className="pb-3 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 uppercase">
+                    2G / 3G Telecom Optimization
+                  </span>
+                  <span className="text-xs text-gray-400">•</span>
+                  <span className="text-xs text-gray-500">MTN, Airtel, Glo & 9mobile Data Saver</span>
+                </div>
+                <h2 className="text-base font-bold text-gray-900 mt-1">
+                  Low-Data Mode & Rural Classroom Acceleration
+                </h2>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Engineered specifically for Nigerian teachers facing spotty mobile data connections and high megabyte costs.
+                </p>
+              </div>
+
+              {/* Main Toggle Card */}
+              <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-amber-600" />
+                    <h3 className="text-sm font-bold text-slate-900">
+                      Low-Data Mode: {isLowDataMode ? 'Active (Saving MBs)' : 'Disabled'}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-600 max-w-lg">
+                    When active, EduPlan NG strips heavy decorative textures, halts background CSS animations, replaces complex 3D viewports with fast SVG outlines, and caches lesson plans for offline access.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={toggleLowDataMode}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 ${
+                    isLowDataMode
+                      ? 'bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/20'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                  }`}
+                >
+                  {isLowDataMode ? 'Turn OFF Low-Data Mode' : 'Turn ON Low-Data Mode'}
+                </button>
+              </div>
+
+              {/* Data Savings Telemetry */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                  <span className="text-[11px] font-medium text-slate-500">Estimated Mobile Data Saved</span>
+                  <div className="text-2xl font-mono font-extrabold text-emerald-700 tabular-nums mt-1">
+                    ~{(dataSavingsEstimateKb / 1024).toFixed(2)} MB
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">Stored across active sessions</span>
+                </div>
+
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                  <span className="text-[11px] font-medium text-slate-500">Asset Mode</span>
+                  <div className="text-base font-bold text-slate-900 mt-1">
+                    {isLowDataMode ? 'Text & SVG Only' : 'Rich Media & Illustrations'}
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">
+                    {isLowDataMode ? 'Zero heavy WebGL/canvas loads' : 'Full visual lab enabled'}
+                  </span>
+                </div>
+
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                  <span className="text-[11px] font-medium text-slate-500">Network Compatibility</span>
+                  <div className="text-base font-bold text-blue-900 mt-1">
+                    EDGE / 2G / 3G / 4G
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">Zero latency in remote school areas</span>
+                </div>
               </div>
             </div>
           )}

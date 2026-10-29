@@ -21,9 +21,10 @@ import confetti from 'canvas-confetti';
 
 interface AITeacherCoachPageProps {
   onNavigateToComposer?: () => void;
+  onNavigateToCopilot?: () => void;
 }
 
-export const AITeacherCoachPage: React.FC<AITeacherCoachPageProps> = ({ onNavigateToComposer }) => {
+export const AITeacherCoachPage: React.FC<AITeacherCoachPageProps> = ({ onNavigateToComposer, onNavigateToCopilot }) => {
   const [topic, setTopic] = useState('Indices and Standard Form');
   const [subject, setSubject] = useState('General Mathematics');
   const [level, setLevel] = useState('sss-1');
@@ -99,6 +100,35 @@ export const AITeacherCoachPage: React.FC<AITeacherCoachPageProps> = ({ onNaviga
         </div>
         <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-64 h-64 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none" />
       </div>
+
+      {/* Phase 10 Co-Pilot Quick Launcher */}
+      {onNavigateToCopilot && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-xs">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold text-gray-900">AI Pedagogical Co-Pilot (Teacher Mastery)</h2>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold uppercase">
+                  Phase 10
+                </span>
+              </div>
+              <p className="text-xs text-gray-600 mt-0.5">
+                Practice with the Nigerian Secondary Classroom Simulator, test explanations on the Feynman Bot, and generate 3-minute WhatsApp flipped audio scripts.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onNavigateToCopilot}
+            className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 shrink-0"
+          >
+            <span>Launch Co-Pilot</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* Quick Select Preset Topics */}
       <div className="space-y-2">
@@ -324,7 +354,7 @@ export const AITeacherCoachPage: React.FC<AITeacherCoachPageProps> = ({ onNaviga
                   Pedagogical Insights for "{topic}"
                 </h3>
                 <p className="text-[10px] text-gray-500">
-                  Model: {provider === 'gemini-api' ? 'Gemini 2.5 Flash (NERDC Grounded)' : 'EduPlan NERDC Pedagogical Engine'}
+                  Model: {provider === 'gemini-api' ? 'Gemini 3.8 Flash (NERDC Grounded)' : 'EduPlan NERDC Pedagogical Engine'}
                 </p>
               </div>
             </div>

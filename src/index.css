@@ -43,3 +43,22 @@
     display: block !important;
   }
 }
+
+/* ==========================================================================
+   LOW-DATA MODE FOR NIGERIAN 2G/3G TELECOM NETWORKS (MTN, AIRTEL, GLO)
+   ========================================================================== */
+html.low-data-mode * {
+  animation: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html.low-data-mode canvas:not(.essential-canvas) {
+  display: none !important;
+}
+
+html.low-data-mode .low-data-hide {
+  display: none !important;
+}
+

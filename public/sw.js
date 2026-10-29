@@ -1,19 +1,21 @@
-// EduPlan NG Service Worker — Offline Resilience for Nigerian Secondary Schools
-const CACHE_NAME = 'eduplan-ng-v1.0.0';
-const STATIC_ASSETS = [
+// EduPlan NG Service Worker — Resilience for Nigerian Secondary Schools
+const CACHE_NAME = 'eduplan-ng-v2.1.0';
+
+// Only pre-cache static assets when safely available
+const PRECACHE_ASSETS = [
   '/',
-  '/index.html',
   '/manifest.json',
   '/api/curriculum/levels',
-  '/api/dashboard/stats'
+  '/api/dashboard/stats',
+  '/api/quizzes/sample-quiz-01',
+  '/api/sync/nerdc-curriculum/status'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching static assets and offline curriculum');
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('[SW] Cache addAll warning (continuing):', err);
+      return cache.addAll(PRECACHE_ASSETS).catch((err) => {
+        console.warn('[SW] Cache add warning (continuing):', err);
       });
     })
   );
@@ -26,58 +28,54 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('[SW] Removing old cache version:', key);
+            console.log('[SW] Cleared outdated cache:', key);
             return caches.delete(key);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Network-First with Offline Cache Fallback
+// Network-First strategy to ensure fresh code and avoid blank-screen cache desyncs
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // For API endpoints: Network first, cache fallback
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          if (response.status === 200) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(event.request))
-    );
+  // Bypass service worker entirely for Vite internals, source code, and HMR
+  if (
+    url.pathname.startsWith('/@') ||
+    url.pathname.startsWith('/src/') ||
+    url.pathname.includes('/node_modules/') ||
+    url.search.includes('v=') ||
+    url.pathname.endsWith('.tsx') ||
+    url.pathname.endsWith('.ts')
+  ) {
     return;
   }
 
-  // For navigation & static assets: Stale-While-Revalidate
+  // Network-First: Always fetch live network, fallback to cache if offline
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          // If offline and request is an HTML page, return root
-          if (event.request.headers.get('accept')?.includes('text/html')) {
-            return caches.match('/');
-          }
-        });
-
-      return cachedResponse || fetchPromise;
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          // Cache clone for offline resilience
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, clone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(async () => {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+        if (event.request.headers.get('accept')?.includes('text/html')) {
+          return caches.match('/') || caches.match('/index.html');
+        }
+        return new Response('Offline', { status: 503, statusText: 'Offline' });
+      })
   );
 });

@@ -11,11 +11,13 @@ import {
   X,
   Home,
   User as UserIcon,
-  LogOut
+  LogOut,
+  Zap
 } from 'lucide-react';
 import { AppLanguage, translations } from '../lib/i18n.ts';
 import { TeacherUser, NotificationItem } from '../types/index.ts';
 import { PWAInstallButton } from './PWAInstallButton.tsx';
+import { useLowDataMode } from '../lib/LowDataContext.tsx';
 
 interface NavbarProps {
   currentLang: AppLanguage;
@@ -43,6 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   streak,
 }) => {
   const t = translations[currentLang];
+  const { isLowDataMode, toggleLowDataMode, dataSavingsEstimateKb } = useLowDataMode();
 
   return (
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-950/10 px-4 lg:px-8 py-3 flex items-center justify-between shadow-xs">
@@ -120,6 +123,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span>{streak}d Streak</span>
         </div>
 
+        {/* West African Regional Curriculum Selector */}
+        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-emerald-900 bg-emerald-50 border border-emerald-200/90 rounded-lg shadow-2xs">
+          <span className="text-xs">🌍</span>
+          <select
+            value={localStorage.getItem('eduplan_region') || 'nigeria'}
+            onChange={(e) => {
+              localStorage.setItem('eduplan_region', e.target.value);
+              window.dispatchEvent(new Event('eduplan_region_changed'));
+            }}
+            className="bg-transparent border-none text-xs font-bold text-emerald-950 focus:outline-none cursor-pointer"
+            title="Switch Regional Curriculum Authority"
+          >
+            <option value="nigeria">🇳🇬 Nigeria (NERDC)</option>
+            <option value="ghana">🇬🇭 Ghana (GES)</option>
+            <option value="sierraleone">🇸🇱 Sierra Leone (MBSSE)</option>
+          </select>
+        </div>
+
         {/* Multilingual Selector */}
         <div className="relative group">
           <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors">
@@ -160,35 +181,75 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span>Pro Active</span>
         </button>
 
+        {/* Low-Data Mode Global Toggle */}
+        <button
+          onClick={toggleLowDataMode}
+          title={
+            isLowDataMode
+              ? `Low-Data Mode Active · ~${(dataSavingsEstimateKb / 1024).toFixed(1)}MB saved on MTN/Airtel/Glo`
+              : 'Enable Low-Data Mode (Saves mobile data on 2G/3G networks)'
+          }
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-2xs ${
+            isLowDataMode
+              ? 'bg-amber-100 text-amber-950 border border-amber-300'
+              : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200/80'
+          }`}
+        >
+          <Zap className={`w-3.5 h-3.5 ${isLowDataMode ? 'text-amber-600 fill-amber-500' : 'text-slate-500'}`} />
+          <span className="hidden sm:inline font-mono text-[11px]">
+            {isLowDataMode ? '2G Low-Data ON' : 'Low-Data'}
+          </span>
+        </button>
+
         {/* PWA Install Button */}
         <PWAInstallButton variant="navbar" />
 
-        {/* User Avatar & School */}
-        <button
-          onClick={onOpenAuth}
-          className="flex items-center gap-2 pl-2 hover:opacity-85 transition-opacity text-left"
-          title="Switch User / Sign In"
-        >
-          <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 font-bold text-xs">
-            {user?.name ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2) : 'AB'}
-          </div>
-          <div className="hidden xl:block text-xs">
-            <p className="font-semibold text-gray-800 leading-tight">{user?.name || 'Mrs. Amina Balogun'}</p>
-            <p className="text-[10px] text-gray-500 leading-tight truncate max-w-[120px]">
-              {user?.schoolName || 'King\'s College, Lagos'}
-            </p>
-          </div>
-        </button>
+        {/* User Profile & Logout or Sign In */}
+        {user ? (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onOpenAuth}
+              className="flex items-center gap-2 pl-2 hover:opacity-85 transition-opacity text-left"
+              title="Switch User Profile / View Account"
+            >
+              <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 font-bold text-xs">
+                {user.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+              </div>
+              <div className="hidden xl:block text-xs">
+                <div className="flex items-center gap-1.5">
+                  <p className="font-semibold text-gray-800 leading-tight">{user.name}</p>
+                  <span
+                    className={`text-[9px] px-1.5 py-0.2 rounded font-extrabold uppercase ${
+                      user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-emerald-100 text-emerald-800'
+                    }`}
+                  >
+                    {user.role === 'admin' ? 'Principal' : 'Teacher'}
+                  </span>
+                </div>
+                <p className="text-[10px] text-gray-500 leading-tight truncate max-w-[120px]">
+                  {user.schoolName || 'King\'s College, Lagos'}
+                </p>
+              </div>
+            </button>
 
-        {/* Clear Logout Button */}
-        <button
-          onClick={onLogout}
-          className="p-2 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold"
-          title="Sign Out / Log Out"
-        >
-          <LogOut className="w-4 h-4 text-rose-600" />
-          <span className="hidden md:inline">Log Out</span>
-        </button>
+            {/* Clear Logout Button */}
+            <button
+              onClick={onLogout}
+              className="p-2 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold"
+              title="Sign Out / Log Out"
+            >
+              <LogOut className="w-4 h-4 text-rose-600" />
+              <span className="hidden md:inline">Log Out</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenAuth}
+            className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all flex items-center gap-1.5"
+          >
+            <span>Sign In / Demo</span>
+          </button>
+        )}
       </div>
     </header>
   );

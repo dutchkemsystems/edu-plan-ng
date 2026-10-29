@@ -1,79 +1,229 @@
 import React, { useState } from 'react';
 import {
-  Check,
-  Sparkles,
   ShieldCheck,
-  Zap,
-  Users,
-  Gift,
-  Copy,
   CreditCard,
   Building2,
-  PhoneCall,
-  QrCode,
-  CheckCircle2,
-  Lock,
+  Users,
+  Sparkles,
+  Check,
+  Copy,
+  Clock,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  PhoneCall,
+  CheckCircle2,
+  AlertCircle,
+  HelpCircle,
+  Zap,
+  Printer
 } from 'lucide-react';
-import { initializeKoraPayment } from '../lib/api.ts';
+import { TeacherUser } from '../types/index.ts';
 import confetti from 'canvas-confetti';
 
 interface PricingPageProps {
+  user?: TeacherUser | null;
   onPlanUpgraded?: () => void;
 }
 
-export const PricingPage: React.FC<PricingPageProps> = ({ onPlanUpgraded }) => {
-  const [interval, setInterval] = useState<'monthly' | 'annual'>('annual');
+interface VirtualAccountData {
+  accountNumber: string;
+  bankName: string;
+  accountName: string;
+  ussdCode: string;
+  expiresInMinutes: number;
+  transferInstructions: string;
+}
+
+interface CheckoutState {
+  reference: string;
+  planId: string;
+  planName: string;
+  amount: number;
+  amountFormatted: string;
+  accountType: 'b2c_individual' | 'b2b_school';
+  virtualAccount: VirtualAccountData;
+  checkoutUrl?: string;
+}
+
+export const PricingPage: React.FC<PricingPageProps> = ({ user, onPlanUpgraded }) => {
+  const [accountType, setAccountType] = useState<'b2c' | 'b2b'>('b2c');
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [checkoutModal, setCheckoutModal] = useState<{
-    reference: string;
-    checkoutUrl: string;
-    amount: number;
-    mode: string;
-    plan: string;
-  } | null>(null);
-  const [copiedRef, setCopiedRef] = useState(false);
-  const [activePaymentMethod, setActivePaymentMethod] = useState<'card' | 'transfer' | 'ussd' | 'opay'>('card');
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [processingPayment, setProcessingPayment] = useState(false);
+  const [checkoutModal, setCheckoutModal] = useState<CheckoutState | null>(null);
+  const [copiedAccount, setCopiedAccount] = useState(false);
+  const [copiedUssd, setCopiedUssd] = useState(false);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [verifyingPayment, setVerifyingPayment] = useState(false);
+  const [activeTab, setActiveTab] = useState<'transfer' | 'ussd'>('transfer');
 
-  // Form states for card simulation
-  const [cardNumber, setCardNumber] = useState('5399 4120 8931 4410');
-  const [cardExpiry, setCardExpiry] = useState('11/28');
-  const [cardCvv, setCardCvv] = useState('819');
-  const [cardPin, setCardPin] = useState('1234');
+  const b2cPlans = [
+    {
+      id: 'trial_5day',
+      name: '5-Day Fast Trial',
+      tagline: 'Ideal for short teaching assessments & interviews',
+      price: 500,
+      priceFormatted: '₦500',
+      duration: '5 Days',
+      badge: null,
+      features: [
+        'Full NERDC Scheme of Work access',
+        'Generate up to 10 AI lesson plans',
+        'Standard Lagos OEQA lesson note format',
+        'Export to PDF & Printable Chalkboard View',
+      ],
+      cta: 'Start 5-Day Trial',
+    },
+    {
+      id: 'monthly',
+      name: '1-Month Standard',
+      tagline: 'Flexible month-to-month teaching support',
+      price: 1000,
+      priceFormatted: '₦1,000',
+      duration: '30 Days',
+      badge: null,
+      features: [
+        'Unlimited NERDC Lesson Plan generations',
+        'Nigerian Cultural Context Engine (Balogun, Naira, etc.)',
+        'Printable Chalkboard Lesson Notes',
+        'WAEC / NECO Exam Past Question Predictor',
+        'Voice-to-Plan Audio Note Composer',
+      ],
+      cta: 'Subscribe Monthly',
+    },
+    {
+      id: 'termly',
+      name: 'Termly Master (Recommended)',
+      tagline: 'Complete 13-week academic term coverage',
+      price: 1500,
+      priceFormatted: '₦1,500',
+      duration: '1 Term (105 Days)',
+      badge: 'Most Popular for Educators',
+      popular: true,
+      features: [
+        'Everything in 1-Month Standard',
+        'Full 13-Week Automated Scheme of Work Generator',
+        'Continuous Assessment (CA) & Exam Rubrics',
+        'Low-Data Offline PWA Access (MTN/Airtel/Glo saved)',
+        'WhatsApp Parent Communication Autopilot',
+        'Priority NERDC Syllabus Sync updates',
+      ],
+      cta: 'Activate Termly Plan',
+    },
+    {
+      id: 'full_session',
+      name: 'Full Academic Session',
+      tagline: 'Best value for career Nigerian educators (3 terms)',
+      price: 3000,
+      priceFormatted: '₦3,000',
+      duration: '1 Full Year (365 Days)',
+      badge: 'Best Annual Value',
+      features: [
+        'Full 3-Term Coverage (1st, 2nd, and 3rd Term)',
+        'All 47 Senior & Junior Secondary NERDC subjects',
+        '10-Year WAEC/NECO Examination Prediction Engine',
+        'Unlimited AI Teacher Coaching & Socratic Upskilling',
+        'Early access to new Ministry curriculum updates',
+        'Official EduPlan NG Certified Educator Badge',
+      ],
+      cta: 'Get Full Session Access',
+    },
+  ];
 
-  const referralLink = 'https://eduplan.ng/ref/AMINA-EDU-2026';
+  const b2bPlans = [
+    {
+      id: 'b2b_bronze',
+      name: 'Bronze School Tier',
+      tagline: 'For private academies & developing community schools',
+      price: 45000,
+      priceFormatted: '₦45,000',
+      duration: 'Per Term (105 Days)',
+      capacity: 'Up to 15 Faculty Members',
+      features: [
+        '15 Dedicated Teacher Seats with unified dashboard',
+        'Full NERDC / OEQA compliance tracking',
+        'Centralized Lesson Plan vetting by HODs',
+        'School-wide syllabus pacing indicator',
+        'Virtual Account & Bulk Bank Transfer invoicing',
+      ],
+      cta: 'Enroll School on Bronze',
+    },
+    {
+      id: 'b2b_silver',
+      name: 'Silver Model School',
+      tagline: 'For established private colleges & state model schools',
+      price: 120000,
+      priceFormatted: '₦120,000',
+      duration: 'Per Term (105 Days)',
+      capacity: 'Up to 50 Faculty Members',
+      popular: true,
+      badge: 'Recommended for Mid-Sized Schools',
+      features: [
+        '50 Dedicated Teacher Seats across all departments',
+        'Advanced HOD Approval Workflow & revision tracking',
+        'School-wide WAEC/NECO Readiness Heatmap',
+        'Dedicated WhatsApp Parent Broadcast engine',
+        'Official Ministry of Education Inspection Dossier Export',
+        'Priority telephone & WhatsApp VIP support',
+      ],
+      cta: 'Enroll School on Silver',
+    },
+    {
+      id: 'b2b_gold',
+      name: 'Gold Enterprise Unity',
+      tagline: 'For Federal Unity Colleges & Large Multi-Campus Institutions',
+      price: 250000,
+      priceFormatted: '₦250,000',
+      duration: 'Per Term (105 Days)',
+      capacity: 'Up to 500 Faculty Members',
+      badge: 'Full Institutional Power',
+      features: [
+        'Up to 500 Faculty Members with unlimited scale',
+        'Principal’s Gold Analytics Dashboard (Real-time OEQA audit)',
+        'Automatic Scheme of Work sync with Lagos & Federal portals',
+        'Teacher Lesson Plan Quality Index & submission heatmaps',
+        'White-label portal support (portal.yourschool.com)',
+        'Dedicated EdTech Account Manager & on-site faculty training',
+      ],
+      cta: 'Deploy Gold Enterprise',
+    },
+  ];
 
-  const handleSubscribe = async (planKey: string, amount: number) => {
-    setLoadingPlan(planKey);
-    setPaymentSuccess(false);
+  const handleInitializeCheckout = async (planId: string) => {
+    setLoadingPlan(planId);
+    setPaymentConfirmed(false);
+
     try {
-      const res = await initializeKoraPayment({
-        plan: planKey,
-        email: 'amina.balogun@schools.ng',
-        name: 'Mrs. Amina Balogun',
-        amount,
-        interval,
+      const response = await fetch('/api/payments/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planId,
+          userId: user?.id || 'usr_teacher_demo_01',
+          schoolId: accountType === 'b2b' ? user?.schoolId || 'sch_kings_college_01' : undefined,
+          paymentMethod: 'virtual_account',
+        }),
       });
 
-      setCheckoutModal({ ...res, plan: planKey });
-      confetti({ particleCount: 70, spread: 60 });
-    } catch (e) {
-      console.error(e);
+      const data = await response.json();
+      if (data.success && data.virtualAccount) {
+        setCheckoutModal(data);
+        confetti({ particleCount: 50, spread: 50 });
+      } else {
+        alert(data.error || 'Unable to generate virtual payment account. Please retry.');
+      }
+    } catch (err) {
+      console.error('Payment init error', err);
+      alert('Network error connecting to payment gateway. Please check your connection.');
     } finally {
       setLoadingPlan(null);
     }
   };
 
-  const handleSimulatePaymentCompletion = async () => {
+  const handleVerifyPayment = async () => {
     if (!checkoutModal) return;
-    setProcessingPayment(true);
+    setVerifyingPayment(true);
 
     try {
-      // Post to Kora Pay Webhook to activate subscription in database
-      const response = await fetch('/api/payment/webhook', {
+      const res = await fetch('/api/payments/webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -83,445 +233,417 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onPlanUpgraded }) => {
             status: 'success',
             amount: checkoutModal.amount,
             currency: 'NGN',
-            customer: {
-              email: 'amina.balogun@schools.ng',
-              name: 'Mrs. Amina Balogun',
-            },
-            metadata: {
-              userId: 'usr_teacher_demo_01',
-              plan: checkoutModal.plan,
-            },
           },
         }),
       });
 
-      if (response.ok) {
-        setPaymentSuccess(true);
-        confetti({ particleCount: 120, spread: 80 });
+      if (res.ok) {
+        setPaymentConfirmed(true);
+        confetti({ particleCount: 100, spread: 70 });
         if (onPlanUpgraded) onPlanUpgraded();
       }
     } catch (e) {
-      console.error(e);
+      console.error('Webhook verification error', e);
     } finally {
-      setProcessingPayment(false);
+      setVerifyingPayment(false);
     }
   };
 
-  const handleCopyRef = () => {
-    navigator.clipboard.writeText(referralLink);
-    setCopiedRef(true);
-    setTimeout(() => setCopiedRef(false), 2000);
+  const handleCopy = (text: string, type: 'account' | 'ussd') => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      if (type === 'account') {
+        setCopiedAccount(true);
+        setTimeout(() => setCopiedAccount(false), 2500);
+      } else {
+        setCopiedUssd(true);
+        setTimeout(() => setCopiedUssd(false), 2500);
+      }
+    }
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-150">
-      {/* Header */}
-      <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Naira-First Subscriptions for Nigerian Teachers</span>
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-in fade-in duration-150">
+      {/* Title & Tier Switcher */}
+      <div className="text-center space-y-4 max-w-2xl mx-auto">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          <ShieldCheck className="w-4 h-4 text-emerald-700" />
+          <span>Statutory Nigerian Curriculum SaaS · NGN Pricing Only</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-          Simple, Transparent Plans for Every Nigerian Educator
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+          Transparent, High-Impact Pricing for Nigerian Education
         </h1>
-        <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
-          Pay via Nigerian Bank Transfer, Debit Card (Verve / Mastercard / Visa), USSD, or OPay via Kora Pay.
+        <p className="text-sm text-slate-600">
+          Empowering individual classroom teachers (B2C) and modern schools of all sizes (B2B) across all 36 States and the FCT.
         </p>
 
-        {/* Annual / Monthly Toggle (Annual First) */}
-        <div className="inline-flex items-center p-1 bg-gray-100 rounded-2xl border border-gray-200">
-          <button
-            onClick={() => setInterval('annual')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              interval === 'annual'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <span>Annual Billing</span>
-            <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-400 text-amber-950 font-extrabold uppercase">
-              Save 27%
-            </span>
-          </button>
-          <button
-            onClick={() => setInterval('monthly')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              interval === 'monthly'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Monthly Billing
-          </button>
+        {/* B2C vs B2B Segmented Switcher */}
+        <div className="pt-2 flex justify-center">
+          <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-2xs">
+            <button
+              onClick={() => setAccountType('b2c')}
+              className={`px-5 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+                accountType === 'b2c'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Users className="w-4 h-4 text-emerald-700" />
+              <span>Individual Educators (B2C)</span>
+            </button>
+            <button
+              onClick={() => setAccountType('b2b')}
+              className={`px-5 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+                accountType === 'b2b'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Building2 className="w-4 h-4 text-emerald-700" />
+              <span>Schools & Colleges (B2B)</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 3 Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {/* FREE TIER */}
-        <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-xs flex flex-col justify-between">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-base font-bold text-gray-900">Free Tier</h3>
-              <p className="text-xs text-gray-500 mt-1">For student teachers and lesson observation.</p>
+      {/* Plan Grid */}
+      {accountType === 'b2c' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {b2cPlans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`bg-white rounded-2xl border p-6 flex flex-col justify-between transition-shadow relative ${
+                plan.popular
+                  ? 'border-emerald-600 shadow-md ring-1 ring-emerald-600'
+                  : 'border-slate-200/90 shadow-2xs hover:shadow-xs'
+              }`}
+            >
+              {plan.badge && (
+                <div className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-md inline-block self-start mb-3 border border-emerald-200">
+                  {plan.badge}
+                </div>
+              )}
+
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-slate-900">{plan.name}</h3>
+                <p className="text-xs text-slate-500 min-h-[32px]">{plan.tagline}</p>
+
+                <div className="pt-2 pb-4 border-b border-slate-100">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-extrabold text-slate-900 font-mono tabular-nums">
+                      {plan.priceFormatted}
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">/ {plan.duration}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2.5 pt-2">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Features Included
+                  </span>
+                  {plan.features.map((feat, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-100">
+                <button
+                  onClick={() => handleInitializeCheckout(plan.id)}
+                  disabled={loadingPlan === plan.id}
+                  className={`w-full py-2.5 px-4 text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5 ${
+                    plan.popular
+                      ? 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-emerald-800/20'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                  }`}
+                >
+                  {loadingPlan === plan.id ? (
+                    <span>Generating Virtual Account...</span>
+                  ) : (
+                    <>
+                      <span>{plan.cta}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-
-            <div className="text-3xl font-black text-gray-900">
-              ₦0 <span className="text-xs font-medium text-gray-500">/ forever</span>
-            </div>
-
-            <ul className="space-y-2.5 text-xs text-gray-600 pt-2 border-t border-gray-100">
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>5 Lesson Plans per month</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Full NERDC Curriculum Access</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-400">
-                <span>— No Scheme of Work generator</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-400">
-                <span>— No WAEC exam builder</span>
-              </li>
-            </ul>
-          </div>
-
-          <button
-            disabled
-            className="w-full mt-6 py-2.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-500 cursor-default"
-          >
-            Current Baseline
-          </button>
+          ))}
         </div>
+      ) : (
+        /* B2B School Plans */
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {b2bPlans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`bg-white rounded-2xl border p-6 flex flex-col justify-between transition-shadow relative ${
+                plan.id === 'b2b_gold'
+                  ? 'border-amber-500 shadow-md ring-1 ring-amber-500'
+                  : plan.popular
+                  ? 'border-emerald-600 shadow-md ring-1 ring-emerald-600'
+                  : 'border-slate-200/90 shadow-2xs hover:shadow-xs'
+              }`}
+            >
+              {plan.badge && (
+                <div
+                  className={`text-[11px] font-bold px-2.5 py-0.5 rounded-md inline-block self-start mb-3 border ${
+                    plan.id === 'b2b_gold'
+                      ? 'text-amber-900 bg-amber-50 border-amber-200'
+                      : 'text-emerald-800 bg-emerald-50 border-emerald-200'
+                  }`}
+                >
+                  {plan.badge}
+                </div>
+              )}
 
-        {/* PRO TIER (RECOMMENDED) */}
-        <div className="bg-gradient-to-b from-emerald-950 via-emerald-900 to-slate-900 text-white p-6 rounded-3xl shadow-xl flex flex-col justify-between relative border-2 border-emerald-500">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-950 px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
-            Most Popular
-          </div>
+              <div className="space-y-3">
+                <h3 className="text-lg font-bold text-slate-900">{plan.name}</h3>
+                <p className="text-xs text-slate-500 min-h-[32px]">{plan.tagline}</p>
 
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-base font-bold text-white">Pro Teacher</h3>
-              <p className="text-xs text-emerald-200/90 mt-1">Full pedagogical automation suite for Nigerian educators.</p>
+                <div className="pt-2 pb-4 border-b border-slate-100">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-extrabold text-slate-900 font-mono tabular-nums">
+                      {plan.priceFormatted}
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">/ Term</span>
+                  </div>
+                  <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded mt-2 inline-block">
+                    {plan.capacity}
+                  </span>
+                </div>
+
+                <div className="space-y-2.5 pt-2">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Institutional Capabilities
+                  </span>
+                  {plan.features.map((feat, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-100">
+                <button
+                  onClick={() => handleInitializeCheckout(plan.id)}
+                  disabled={loadingPlan === plan.id}
+                  className={`w-full py-2.5 px-4 text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5 ${
+                    plan.id === 'b2b_gold'
+                      ? 'bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/20'
+                      : plan.popular
+                      ? 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-emerald-800/20'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                  }`}
+                >
+                  {loadingPlan === plan.id ? (
+                    <span>Generating Virtual Account...</span>
+                  ) : (
+                    <>
+                      <span>{plan.cta}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-
-            <div className="text-3xl font-black text-white">
-              {interval === 'annual' ? '₦22,000' : '₦2,500'}{' '}
-              <span className="text-xs font-medium text-emerald-300">
-                {interval === 'annual' ? '/ year (₦1,833/mo)' : '/ month'}
-              </span>
-            </div>
-
-            <ul className="space-y-2.5 text-xs text-emerald-100 pt-2 border-t border-emerald-800">
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span><strong>Unlimited</strong> Lesson Plans (Auto-save)</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span><strong>1-Click</strong> 13-Week Scheme of Work Generator</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>WAEC/BECE Exam & Marking Scheme Builder</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>Chalkboard Lesson Notes & Diagrams</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>Export to Microsoft Word (.doc) & PDF</span>
-              </li>
-            </ul>
-          </div>
-
-          <button
-            onClick={() => handleSubscribe('pro_' + interval, interval === 'annual' ? 22000 : 2500)}
-            disabled={loadingPlan !== null}
-            className="w-full mt-6 py-3 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-emerald-950 shadow-md transition-all hover:scale-105 flex items-center justify-center gap-2"
-          >
-            <CreditCard className="w-4 h-4" />
-            <span>{loadingPlan ? 'Connecting Kora Pay...' : 'Pay with Kora Pay'}</span>
-          </button>
+          ))}
         </div>
+      )}
 
-        {/* SCHOOL LICENSE */}
-        <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-xs flex flex-col justify-between">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-base font-bold text-gray-900">School License</h3>
-              <p className="text-xs text-gray-500 mt-1">For Principals, Administrators, and HODs.</p>
-            </div>
-
-            <div className="text-3xl font-black text-gray-900">
-              ₦45,000{' '}
-              <span className="text-xs font-medium text-gray-500">/ yr (Up to 10 Teachers)</span>
-            </div>
-
-            <ul className="space-y-2.5 text-xs text-gray-600 pt-2 border-t border-gray-100">
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>10 Pro Teacher Accounts</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Principal Syllabus Audit Dashboard</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Official School Letterhead on All Exams</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-600" />
-                <span>Dedicated Lagos-based Phone Support</span>
-              </li>
-            </ul>
-          </div>
-
-          <button
-            onClick={() => handleSubscribe('school', 45000)}
-            disabled={loadingPlan !== null}
-            className="w-full mt-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition-all"
-          >
-            {loadingPlan ? 'Connecting...' : 'Activate School License'}
-          </button>
-        </div>
-      </div>
-
-      {/* Referral Program Widget */}
-      <div className="max-w-3xl mx-auto bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-bold text-emerald-900 uppercase">
-            <Gift className="w-4 h-4 text-emerald-600" />
-            <span>Teacher Referral Program</span>
-          </div>
-          <h3 className="text-base font-bold text-gray-900">Give 1 Free Month, Get 1 Free Month</h3>
-          <p className="text-xs text-gray-600 max-w-md leading-relaxed">
-            Invite fellow secondary school teachers. When they subscribe to Pro, you both receive 30 days free Pro access added to your account.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <input
-            type="text"
-            readOnly
-            value={referralLink}
-            className="text-xs font-mono bg-white px-3 py-2 border border-emerald-200 rounded-xl text-gray-600 max-w-[200px]"
-          />
-          <button
-            onClick={handleCopyRef}
-            className="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs transition-colors"
-          >
-            {copiedRef ? 'Copied!' : 'Copy Link'}
-          </button>
-        </div>
-      </div>
-
-      {/* Kora Pay Interactive Checkout Gateway Modal */}
+      {/* Kora Pay Dynamic Virtual Account & USSD Checkout Modal */}
       {checkoutModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 space-y-4 border border-gray-100">
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-xs shadow-xs">
-                  KP
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl border border-slate-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                  ₦
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Kora Pay Secure Nigerian Gateway</h4>
-                  <p className="text-[10px] text-gray-500">256-bit SSL Encrypted • CBN Regulated</p>
+                  <h3 className="text-sm font-bold text-slate-900">
+                    Kora Pay Checkout · {checkoutModal.planName}
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Ref: {checkoutModal.reference}
+                  </p>
                 </div>
               </div>
               <button
                 onClick={() => setCheckoutModal(null)}
-                className="text-xs font-semibold text-gray-400 hover:text-gray-600 p-1"
+                className="text-slate-400 hover:text-slate-700 text-lg font-bold p-1"
               >
-                Close
+                ✕
               </button>
             </div>
 
-            {/* Price Box */}
-            <div className="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200 flex items-center justify-between">
-              <div>
-                <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider">Amount Due</span>
-                <div className="text-xl font-black text-emerald-950">
-                  ₦{checkoutModal.amount.toLocaleString()} NGN
+            {/* Success state */}
+            {paymentConfirmed ? (
+              <div className="py-8 text-center space-y-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-10 h-10" />
                 </div>
-              </div>
-              <span className="text-[10px] font-mono text-emerald-800 bg-white px-2 py-1 rounded-md border border-emerald-200">
-                {checkoutModal.reference}
-              </span>
-            </div>
-
-            {paymentSuccess ? (
-              <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                <h4 className="text-base font-bold text-emerald-950">Payment Approved!</h4>
-                <p className="text-xs text-emerald-800">
-                  Your EduPlan Pro subscription is now active. All curriculum tools, Schemes of Work, and exports are fully unlocked.
+                <h4 className="text-lg font-bold text-slate-900">
+                  Payment Confirmed Successfully!
+                </h4>
+                <p className="text-xs text-slate-600 max-w-sm mx-auto">
+                  Your subscription to <strong>{checkoutModal.planName}</strong> is now active. All curriculum tools, OEQA formats, and exam predictors are unlocked.
                 </p>
                 <button
-                  onClick={() => setCheckoutModal(null)}
-                  className="px-6 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+                  onClick={() => {
+                    setCheckoutModal(null);
+                    window.location.reload();
+                  }}
+                  className="px-6 py-2.5 bg-emerald-700 text-white text-xs font-bold rounded-xl hover:bg-emerald-800 shadow-2xs"
                 >
-                  Continue to Workspace
+                  Return to Workspace
                 </button>
               </div>
             ) : (
-              <div className="space-y-4">
-                {/* Method Tabs */}
-                <div className="grid grid-cols-4 gap-1 p-1 bg-gray-100 rounded-xl text-[11px] font-bold">
+              /* Payment instructions */
+              <div className="space-y-4 pt-4">
+                {/* Amount strip */}
+                <div className="p-3 bg-slate-50 rounded-xl flex items-center justify-between border border-slate-200/80">
+                  <span className="text-xs text-slate-600 font-medium">Amount Due:</span>
+                  <span className="text-xl font-mono font-extrabold text-slate-900 tabular-nums">
+                    {checkoutModal.amountFormatted}
+                  </span>
+                </div>
+
+                {/* Tabs: Bank Transfer vs USSD */}
+                <div className="flex p-1 bg-slate-100 rounded-lg">
                   <button
-                    onClick={() => setActivePaymentMethod('card')}
-                    className={`py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 ${
-                      activePaymentMethod === 'card' ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-600'
+                    onClick={() => setActiveTab('transfer')}
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                      activeTab === 'transfer'
+                        ? 'bg-white text-slate-900 shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    <CreditCard className="w-3 h-3" />
-                    <span>Card</span>
+                    Bank Transfer (Virtual NUBAN)
                   </button>
                   <button
-                    onClick={() => setActivePaymentMethod('transfer')}
-                    className={`py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 ${
-                      activePaymentMethod === 'transfer' ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-600'
+                    onClick={() => setActiveTab('ussd')}
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                      activeTab === 'ussd'
+                        ? 'bg-white text-slate-900 shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    <Building2 className="w-3 h-3" />
-                    <span>Transfer</span>
-                  </button>
-                  <button
-                    onClick={() => setActivePaymentMethod('ussd')}
-                    className={`py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 ${
-                      activePaymentMethod === 'ussd' ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-600'
-                    }`}
-                  >
-                    <PhoneCall className="w-3 h-3" />
-                    <span>USSD</span>
-                  </button>
-                  <button
-                    onClick={() => setActivePaymentMethod('opay')}
-                    className={`py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 ${
-                      activePaymentMethod === 'opay' ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-600'
-                    }`}
-                  >
-                    <QrCode className="w-3 h-3" />
-                    <span>OPay</span>
+                    Direct USSD Dial Code
                   </button>
                 </div>
 
-                {/* TAB 1: CARD */}
-                {activePaymentMethod === 'card' && (
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
-                        Card Number (Verve / Mastercard / Visa)
-                      </label>
-                      <input
-                        type="text"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        className="w-full text-xs font-mono px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:border-emerald-600"
-                      />
+                {activeTab === 'transfer' ? (
+                  /* Virtual Account Card */
+                  <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200 space-y-3">
+                    <div className="flex items-center justify-between text-xs text-emerald-900 font-semibold">
+                      <span>Bank Name:</span>
+                      <span className="font-bold">{checkoutModal.virtualAccount.bankName}</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Expiry</label>
-                        <input
-                          type="text"
-                          value={cardExpiry}
-                          onChange={(e) => setCardExpiry(e.target.value)}
-                          className="w-full text-xs font-mono px-3 py-2 border border-gray-300 rounded-xl focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">CVV</label>
-                        <input
-                          type="password"
-                          value={cardCvv}
-                          onChange={(e) => setCardCvv(e.target.value)}
-                          className="w-full text-xs font-mono px-3 py-2 border border-gray-300 rounded-xl focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
 
-                {/* TAB 2: BANK TRANSFER */}
-                {activePaymentMethod === 'transfer' && (
-                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-xs space-y-2">
-                    <p className="font-bold text-gray-900">Transfer directly to Providus Virtual Account:</p>
-                    <div className="flex items-center justify-between p-2.5 bg-white rounded-lg border border-gray-200 font-mono">
-                      <div>
-                        <span className="text-[10px] text-gray-400 block font-sans">Account Number:</span>
-                        <span className="font-bold text-gray-900 text-sm">9920 1849 20</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">
-                        Providus Bank
-                      </span>
+                    <div className="flex items-center justify-between text-xs text-emerald-900 font-semibold">
+                      <span>Account Name:</span>
+                      <span className="font-bold">{checkoutModal.virtualAccount.accountName}</span>
                     </div>
-                    <p className="text-[10px] text-gray-500">
-                      Beneficiary: <strong>EduPlan NG / Kora Pay</strong> • Funds reflect instantly.
+
+                    <div className="p-3 bg-white rounded-lg border border-emerald-300 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                          Dedicated Account Number
+                        </span>
+                        <span className="text-xl font-mono font-extrabold tracking-wider text-slate-900 tabular-nums">
+                          {checkoutModal.virtualAccount.accountNumber}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() =>
+                          handleCopy(checkoutModal.virtualAccount.accountNumber, 'account')
+                        }
+                        className="p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                      >
+                        {copiedAccount ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <p className="text-[11px] text-slate-500 leading-tight">
+                      Open your bank app (Opay, PalmPay, GTBank, Zenith, Access, Kuda, FirstBank) and transfer exactly{' '}
+                      <strong>{checkoutModal.amountFormatted}</strong> to the account above. It is dedicated to this transaction and expires in 60 minutes.
+                    </p>
+                  </div>
+                ) : (
+                  /* USSD Card */
+                  <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-200 space-y-3">
+                    <span className="text-xs text-blue-900 font-bold block">
+                      Dial on your registered SIM:
+                    </span>
+
+                    <div className="p-3 bg-white rounded-lg border border-blue-300 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                          Wema / Kora USSD String
+                        </span>
+                        <span className="text-lg font-mono font-extrabold text-blue-950">
+                          {checkoutModal.virtualAccount.ussdCode}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() =>
+                          handleCopy(checkoutModal.virtualAccount.ussdCode, 'ussd')
+                        }
+                        className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                      >
+                        {copiedUssd ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <PhoneCall className="w-3.5 h-3.5" />
+                            <span>Copy Code</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <p className="text-[11px] text-slate-500">
+                      Dial directly from your MTN, Airtel, Glo, or 9mobile device to approve with your 4-digit bank USSD PIN.
                     </p>
                   </div>
                 )}
 
-                {/* TAB 3: USSD */}
-                {activePaymentMethod === 'ussd' && (
-                  <div className="space-y-2 text-xs">
-                    <p className="font-bold text-gray-900">Dial from your registered mobile phone:</p>
-                    <div className="space-y-1 font-mono text-[11px]">
-                      <div className="p-2 bg-gray-50 rounded border border-gray-200 flex justify-between">
-                        <span>GTBank:</span> <strong>*737*2*{checkoutModal.amount}*891#</strong>
-                      </div>
-                      <div className="p-2 bg-gray-50 rounded border border-gray-200 flex justify-between">
-                        <span>Zenith Bank:</span> <strong>*966*00*{checkoutModal.amount}#</strong>
-                      </div>
-                      <div className="p-2 bg-gray-50 rounded border border-gray-200 flex justify-between">
-                        <span>FirstBank:</span> <strong>*894*00*{checkoutModal.amount}#</strong>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* TAB 4: OPAY */}
-                {activePaymentMethod === 'opay' && (
-                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-center space-y-2 text-xs">
-                    <QrCode className="w-16 h-16 text-gray-800 mx-auto" />
-                    <p className="font-bold text-gray-900">Scan with your OPay or PalmPay App</p>
-                    <p className="text-[10px] text-gray-500">Instant merchant clearance via NIBSS.</p>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="pt-2 flex flex-col gap-2">
+                {/* Confirm Action Button */}
+                <div className="pt-2">
                   <button
-                    onClick={handleSimulatePaymentCompletion}
-                    disabled={processingPayment}
-                    className="w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all flex items-center justify-center gap-1.5"
+                    onClick={handleVerifyPayment}
+                    disabled={verifyingPayment}
+                    className="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition-all shadow-2xs flex items-center justify-center gap-2"
                   >
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>
-                      {processingPayment
-                        ? 'Verifying with Kora Pay...'
-                        : `Authorize & Pay ₦${checkoutModal.amount.toLocaleString()} NGN`}
-                    </span>
+                    {verifyingPayment ? (
+                      <span>Verifying Transfer with Gateway...</span>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>I Have Transferred {checkoutModal.amountFormatted}</span>
+                      </>
+                    )}
                   </button>
-
-                  <div className="text-center">
-                    <a
-                      href={checkoutModal.checkoutUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[11px] font-semibold text-gray-500 hover:text-emerald-700 inline-flex items-center gap-1"
-                    >
-                      <span>Or open standard Kora Pay checkout page</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
                 </div>
               </div>
             )}

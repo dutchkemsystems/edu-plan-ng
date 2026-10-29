@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { db } from './index.ts';
 import {
+  schools,
   users,
   curriculumLevels,
   curriculumSubjects,
@@ -320,7 +321,28 @@ export async function seedDatabase() {
 
   console.log(`✅ Fully seeded all core subjects (${totalSubjects} subjects) and ${totalTopics} curriculum topics across JSS & SSS.`);
 
-  // Create demo teacher user if not exists
+  // Seed Default B2B School (King's College Lagos - Gold Tier)
+  const demoSchoolId = 'sch_kings_college_01';
+  await db.insert(schools).values({
+    id: demoSchoolId,
+    name: "King's College, Lagos",
+    slug: 'kings-college',
+    b2bTier: 'gold',
+    state: 'Lagos',
+    lga: 'Lagos Island',
+    adminUserId: 'usr_principal_demo_02',
+    maxTeachers: 500,
+    status: 'active',
+    subscriptionPlan: 'gold',
+    subscriptionExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+    virtualAccountNumber: '9901847291',
+    virtualBankName: 'Wema Bank (Kora Pay)',
+    customDomain: 'portal.kingscollege.sch.ng',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }).onConflictDoNothing();
+
+  // Create demo teacher user if not exists (B2C Individual)
   const demoUserId = 'usr_teacher_demo_01';
   const existingUser = await db.select().from(users).where(eq(users.id, demoUserId));
   
@@ -331,18 +353,55 @@ export async function seedDatabase() {
       name: 'Mrs. Amina Balogun',
       email: 'amina.balogun@schools.ng',
       passwordHash: 'argon2id_mock_hash_eduplan_demo',
+      accountType: 'b2c_individual',
+      schoolId: null,
       schoolName: 'King\'s College, Lagos',
       state: 'Lagos',
       lga: 'Lagos Island',
       assignedLevels: JSON.stringify(['jss-1', 'jss-2', 'sss-1']),
       assignedSubjects: JSON.stringify(['Mathematics', 'Basic Science & Technology', 'General Mathematics']),
       role: 'teacher',
+      b2bTier: null,
       onboardingCompletedAt: new Date().toISOString(),
       streakCount: 5,
       lastActiveDate: new Date().toISOString().split('T')[0],
       referralCode: 'AMINA-EDU-2026',
+      referralPoints: 120,
+      referralsCount: 4,
+      subscriptionPlan: 'full_session',
+      subscriptionExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       createdAt: new Date().toISOString(),
     }).onConflictDoNothing();
+  }
+
+  // Ensure Principal / School Admin demo user is always seeded (B2B School Principal)
+  await db.insert(users).values({
+    id: 'usr_principal_demo_02',
+    name: 'Dr. Emmanuel Okafor',
+    email: 'principal@kingscollege.sch.ng',
+    passwordHash: 'argon2id_mock_hash_eduplan_demo',
+    accountType: 'b2b_school',
+    schoolId: demoSchoolId,
+    schoolName: 'King\'s College, Lagos',
+    state: 'Lagos',
+    lga: 'Lagos Island',
+    assignedLevels: JSON.stringify(['jss-1', 'jss-2', 'jss-3', 'sss-1', 'sss-2', 'sss-3']),
+    assignedSubjects: JSON.stringify(['Mathematics', 'English Studies', 'Basic Science', 'Biology', 'Chemistry', 'Physics']),
+    role: 'principal',
+    b2bTier: 'gold',
+    onboardingCompletedAt: new Date().toISOString(),
+    streakCount: 14,
+    lastActiveDate: new Date().toISOString().split('T')[0],
+    referralCode: 'KINGS-ADMIN-2026',
+    referralPoints: 500,
+    referralsCount: 8,
+    subscriptionPlan: 'gold',
+    subscriptionExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+    trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date().toISOString(),
+  }).onConflictDoNothing();
+
 
     // Seed Active Pro Subscription
     await db.insert(subscriptions).values({
@@ -424,6 +483,9 @@ export async function seedDatabase() {
           onLevel: 'Standard place value worksheet with numbers up to 8 digits.',
           advanced: 'Solve Nigerian national GDP comparison figures and convert into expanded index notation.'
         }),
+        remedialTask: 'Tier 1 (Remedial): Practice 5 basic 4-digit place value decompositions using physical abacus beads with teacher guidance.',
+        standardTask: 'Tier 2 (Standard): Solve standard NERDC exercise 1.2 questions 1-10 on place value and write large budget amounts in words.',
+        advancedTask: 'Tier 3 (Advanced): Convert Nigerian national revenue figures into expanded powers of 10 and analyze GDP sectoral allocations.',
         bloomTags: JSON.stringify(['Remember', 'Understand', 'Apply']),
         language: 'en',
         status: 'published',
@@ -462,6 +524,9 @@ export async function seedDatabase() {
           onLevel: 'Write short descriptions of how plants carry out respiration and irritability.',
           advanced: 'Debate viruses: why viruses exhibit both living and non-living characteristics.'
         }),
+        remedialTask: 'Tier 1 (Remedial): Match 8 biological specimen flashcards to the corresponding MR NIGER D characteristic with a peer buddy.',
+        standardTask: 'Tier 2 (Standard): Complete the comparative table contrasting 5 plant specimens against 5 non-living classroom objects.',
+        advancedTask: 'Tier 3 (Advanced): Write a short analytical essay evaluating whether crystalline viruses meet the biological definition of life.',
         bloomTags: JSON.stringify(['Understand', 'Analyze']),
         language: 'en',
         status: 'published',
@@ -499,6 +564,9 @@ export async function seedDatabase() {
           onLevel: 'Direct application of product and quotient index rules on algebraic terms.',
           advanced: 'Solve fractional index equations involving radicals and simultaneous unknowns.'
         }),
+        remedialTask: 'Tier 1 (Remedial): Expand 5 exponential terms into repeated multiplication factors before applying the product law.',
+        standardTask: 'Tier 2 (Standard): Solve 6 WASSCE Paper 1 past question problems applying multiplication and division index laws.',
+        advancedTask: 'Tier 3 (Advanced): Solve fractional index simultaneous equations with multiple unknowns from WAEC Further Mathematics.',
         bloomTags: JSON.stringify(['Apply', 'Analyze']),
         language: 'en',
         status: 'published',
@@ -609,7 +677,5 @@ export async function seedDatabase() {
     }
 
     console.log('✅ Demo user, lesson plans, resources, schemes, and broadsheets seeded.');
-  }
-
-  console.log('🎉 Database seeding complete!');
+    console.log('🎉 Database seeding complete!');
 }

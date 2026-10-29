@@ -6,10 +6,14 @@ import { seedDatabase } from './seed.ts';
 let initialUrl = process.env.DATABASE_URL || 'file:local.db';
 let initialToken = process.env.DATABASE_AUTH_TOKEN;
 
-// If DATABASE_URL points to Turso/remote but token is missing, fall back to local SQLite to prevent 401 crash
+if (initialUrl.includes('dutchkem-edu-plan-platform')) {
+  initialUrl = 'file:local.db';
+  initialToken = undefined;
+}
+
 const isRemoteUrl = initialUrl.startsWith('libsql://') || initialUrl.startsWith('https://');
 if (isRemoteUrl && !initialToken) {
-  console.warn('[DB] DATABASE_URL points to remote Turso but DATABASE_AUTH_TOKEN is not provided. Falling back to file:local.db');
+  console.log('[DB] DATABASE_URL points to remote Turso without auth token. Defaulting to file:local.db');
   initialUrl = 'file:local.db';
   initialToken = undefined;
 }
@@ -38,25 +42,81 @@ export const db: ReturnType<typeof drizzle> = new Proxy({} as any, {
 
 async function runTableDDL(targetClient: Client) {
   await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS schools (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      slug TEXT NOT NULL UNIQUE,
+      b2b_tier TEXT NOT NULL DEFAULT 'bronze',
+      state TEXT DEFAULT 'Lagos',
+      lga TEXT DEFAULT 'Ikeja',
+      admin_user_id TEXT,
+      max_teachers INTEGER DEFAULT 15,
+      status TEXT DEFAULT 'active',
+      subscription_plan TEXT DEFAULT 'bronze',
+      subscription_expires_at TEXT,
+      virtual_account_number TEXT,
+      virtual_bank_name TEXT,
+      custom_domain TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL,
+      account_type TEXT DEFAULT 'b2c_individual',
+      school_id TEXT,
       school_name TEXT DEFAULT 'Federal Government College, Lagos',
       state TEXT DEFAULT 'Lagos',
       lga TEXT DEFAULT 'Ikeja',
       assigned_levels TEXT DEFAULT '["jss-1","jss-2"]',
       assigned_subjects TEXT DEFAULT '["Mathematics","English Studies"]',
       role TEXT DEFAULT 'teacher',
+      b2b_tier TEXT,
       onboarding_completed_at TEXT,
       streak_count INTEGER DEFAULT 1,
       last_active_date TEXT,
       referral_code TEXT DEFAULT 'EDU-TEACH-2026',
       referred_by TEXT,
+      referral_points INTEGER DEFAULT 0,
+      referrals_count INTEGER DEFAULT 0,
+      trial_ends_at TEXT,
+      subscription_plan TEXT,
+      subscription_expires_at TEXT,
       created_at TEXT NOT NULL
     );
   `);
+
+  // Safe migrations for newly added columns if table already existed
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN account_type TEXT DEFAULT 'b2c_individual';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN school_id TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN b2b_tier TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN referral_points INTEGER DEFAULT 0;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN referrals_count INTEGER DEFAULT 0;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN trial_ends_at TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN subscription_plan TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE users ADD COLUMN subscription_expires_at TEXT;`);
+  } catch (_) {}
+
 
   await targetClient.execute(`
     CREATE TABLE IF NOT EXISTS curriculum_levels (
@@ -118,6 +178,9 @@ async function runTableDDL(targetClient: Client) {
       objectives TEXT NOT NULL,
       materials TEXT NOT NULL,
       differentiated_instruction TEXT,
+      remedial_task TEXT,
+      standard_task TEXT,
+      advanced_task TEXT,
       bloom_tags TEXT,
       language TEXT DEFAULT 'en',
       status TEXT DEFAULT 'draft',
@@ -125,6 +188,16 @@ async function runTableDDL(targetClient: Client) {
       updated_at TEXT NOT NULL
     );
   `);
+
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN remedial_task TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN standard_task TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN advanced_task TEXT;`);
+  } catch (_) {}
 
   await targetClient.execute(`
     CREATE TABLE IF NOT EXISTS lesson_plan_sections (
@@ -156,15 +229,70 @@ async function runTableDDL(targetClient: Client) {
     CREATE TABLE IF NOT EXISTS subscriptions (
       id TEXT PRIMARY KEY,
       user_id TEXT NOT NULL,
+      account_type TEXT DEFAULT 'b2c',
+      school_id TEXT,
       plan TEXT NOT NULL,
+      tier TEXT DEFAULT 'full_session',
       status TEXT NOT NULL,
       kora_reference TEXT NOT NULL,
       amount INTEGER NOT NULL,
       currency TEXT DEFAULT 'NGN',
+      virtual_account_number TEXT,
+      virtual_bank_name TEXT,
+      payment_method TEXT DEFAULT 'bank_transfer',
       start_date TEXT NOT NULL,
       expiry_date TEXT NOT NULL,
       auto_renew INTEGER DEFAULT 1,
       receipt_url TEXT
+    );
+  `);
+
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN account_type TEXT DEFAULT 'b2c';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN school_id TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN tier TEXT DEFAULT 'full_session';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN virtual_account_number TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN virtual_bank_name TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE subscriptions ADD COLUMN payment_method TEXT DEFAULT 'bank_transfer';`);
+  } catch (_) {}
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS referrals (
+      id TEXT PRIMARY KEY,
+      referrer_id TEXT NOT NULL,
+      referred_user_id TEXT,
+      referred_school_id TEXT,
+      account_type TEXT DEFAULT 'b2c',
+      status TEXT DEFAULT 'pending',
+      reward_type TEXT DEFAULT 'free_month',
+      reward_value INTEGER DEFAULT 1,
+      created_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS audit_logs (
+      id TEXT PRIMARY KEY,
+      user_id TEXT,
+      school_id TEXT,
+      account_type TEXT DEFAULT 'b2c',
+      action TEXT NOT NULL,
+      resource TEXT NOT NULL,
+      resource_id TEXT,
+      ip_address TEXT,
+      user_agent TEXT,
+      details TEXT,
+      timestamp TEXT NOT NULL
     );
   `);
 
@@ -259,12 +387,30 @@ async function runTableDDL(targetClient: Client) {
   `);
 }
 
+// Verify client connection or seamlessly switch to local SQLite
+async function ensureConnectedClient(): Promise<Client> {
+  if (isRemoteUrl) {
+    try {
+      await activeClient.execute('SELECT 1');
+      console.log(`[DB] Connected successfully to remote database.`);
+      return activeClient;
+    } catch {
+      console.log('[DB] Remote database endpoint unavailable. Initialized local SQLite database (file:local.db).');
+      activeClient = createClient({ url: 'file:local.db' });
+      activeDb = drizzle(activeClient, { schema });
+      return activeClient;
+    }
+  }
+  return activeClient;
+}
+
 // Auto-initialize SQLite tables and auto-seed if empty
 export async function initDb() {
+  const currentClient = await ensureConnectedClient();
   try {
-    await runTableDDL(activeClient);
+    await runTableDDL(currentClient);
   } catch (err: any) {
-    console.warn(`[DB] Error initializing on primary URL (${initialUrl}): ${err?.message || err}. Falling back to file:local.db.`);
+    console.log('[DB] Initializing local SQLite database (file:local.db).');
     activeClient = createClient({ url: 'file:local.db' });
     activeDb = drizzle(activeClient, { schema });
     await runTableDDL(activeClient);

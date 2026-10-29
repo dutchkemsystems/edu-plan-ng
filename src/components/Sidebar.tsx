@@ -19,7 +19,13 @@ import {
   LogOut,
   GraduationCap,
   Smartphone,
-  ShieldCheck
+  ShieldCheck,
+  Box,
+  ShoppingBag,
+  Building2,
+  Radio,
+  FlaskConical,
+  Bot
 } from 'lucide-react';
 import { AppLanguage, translations } from '../lib/i18n.ts';
 import { PWAInstallButton } from './PWAInstallButton.tsx';
@@ -45,9 +51,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const mainNav = [
     { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
+    { id: 'live-poll', label: 'EduPoll Live Clicker', icon: Radio, badge: 'Live 2G' },
+    { id: 'stem-lab', label: 'STEM Realia Lab', icon: FlaskConical, badge: 'Sim Lab' },
     { id: 'ai-coach', label: 'AI Teacher Coach', icon: Sparkles, badge: 'CPD' },
+    { id: 'ai-copilot', label: 'Pedagogical Co-Pilot', icon: Bot, badge: 'Mastery' },
+    { id: 'marketplace', label: 'Creator Marketplace', icon: ShoppingBag, badge: '80% Royalty' },
     { id: 'curriculum', label: t.curriculum, icon: BookOpen },
     { id: 'lesson-plans', label: t.lessonPlans || 'Lesson Plans', icon: FileText, badge: 'Core' },
+    { id: '3d-visual-lab', label: '3D Lab & Teacher Hub', icon: Box, badge: 'AI Hub' },
     { id: 'schemes', label: t.schemeOfWork || 'Scheme of Work', icon: CalendarCheck2, badge: '13-Wk' },
     { id: 'assessments', label: t.assessments, icon: HelpCircle, isPro: true },
     { id: 'grades', label: t.gradeBook, icon: Award },
@@ -61,6 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const adminNav = [
+    { id: 'ministry', label: 'Ministry & LEA Command', icon: Building2, badge: 'SUBEB' },
     { id: 'oeqa', label: 'OEQA Compliance', icon: ShieldCheck, badge: 'MoE' },
     { id: 'admin', label: t.admin, icon: ShieldAlert, badge: 'Principal/HOD' },
     { id: 'pricing', label: t.pricing, icon: CreditCard },

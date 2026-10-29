@@ -7,6 +7,28 @@ export interface CurriculumLevel {
   sortOrder: number;
 }
 
+import type {
+  SubjectCoreSkill,
+  SkillObjectiveMapping,
+  VisualAidItem,
+  OeqaTabularStep,
+  LessonNote,
+  Subject,
+  CurriculumSyncResult,
+  CurriculumSyncDiff
+} from './curriculum.ts';
+
+export type {
+  SubjectCoreSkill,
+  SkillObjectiveMapping,
+  VisualAidItem,
+  OeqaTabularStep,
+  LessonNote,
+  Subject,
+  CurriculumSyncResult,
+  CurriculumSyncDiff
+};
+
 export interface CurriculumSubject {
   id: string;
   levelId: string;
@@ -15,6 +37,7 @@ export interface CurriculumSubject {
   description: string;
   icon: string;
   termCount?: number;
+  coreSkills?: SubjectCoreSkill[];
 }
 
 export interface CurriculumTopic {
@@ -36,6 +59,12 @@ export interface DifferentiatedInstruction {
   struggling: string;
   onLevel: string;
   advanced: string;
+}
+
+export interface InstructionalMaterials {
+  physical: string[];
+  visual3D?: string; // e.g. "heart_model", "solar_system", "geometry_cube", "dna_helix", "atom_model", "plant_cell"
+  video4K?: string;  // e.g. "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 }
 
 export interface LessonPlan {
@@ -60,9 +89,55 @@ export interface LessonPlan {
   bloomTags?: string[];
   language?: 'en' | 'yo' | 'ig' | 'ha';
   status: 'draft' | 'published' | 'archived';
+
+  // Phase 10: Differentiated Tasks
+  remedialTask?: string;
+  standardTask?: string;
+  advancedTask?: string;
+
+  // Visual Aids Engine (3D & 4K)
+  instructionalMaterials?: InstructionalMaterials;
+
+  // Specific NERDC & OEQA separated additions
+  nerdcObjectives?: string[];
+  subjectSkillsMapping?: SkillObjectiveMapping[];
+  visualAids?: VisualAidItem[];
+  oeqaPresentationSteps?: OeqaTabularStep[];
+  curriculumReference?: string;
+
+  // New High-Value Teacher AI Support Features
+  pedagogicalTip?: string;
+  cheatSheet?: TeacherCheatSheet;
+  misconceptions?: MisconceptionAlert[];
+
+  lessonNote?: {
+    subtopics: string;
+    definitions: string;
+    workedExamples: string;
+    blackboardSummary: string;
+    classDrill: string;
+  };
+  diagramId?: string;
+  diagramCaption?: string;
+  safetyPrecautions?: string;
   createdAt: string;
   updatedAt: string;
 }
+
+export interface TeacherCheatSheet {
+  lessonTopic: string;
+  level: string;
+  subject?: string;
+  coreConcept: string; // 1 concise paragraph
+  mustKnowFacts: string[]; // exactly 3 key facts
+  localExamples: string[]; // 2 authentic Nigerian contexts
+}
+
+export interface MisconceptionAlert {
+  misconception: string;
+  teacherCorrection: string;
+}
+
 
 export interface ResourceItem {
   id: string;
@@ -78,20 +153,87 @@ export interface ResourceItem {
   createdAt: string;
 }
 
+export type AccountType = 'b2c_individual' | 'b2b_school';
+export type B2BTier = 'bronze' | 'silver' | 'gold';
+export type UserRole = 'teacher' | 'hod' | 'principal' | 'superadmin' | 'admin';
+
+export interface School {
+  id: string;
+  name: string;
+  slug: string;
+  b2bTier: B2BTier;
+  state: string;
+  lga: string;
+  adminUserId?: string | null;
+  maxTeachers: number;
+  status: 'active' | 'trial' | 'suspended';
+  subscriptionPlan: string;
+  subscriptionExpiresAt?: string | null;
+  virtualAccountNumber?: string | null;
+  virtualBankName?: string | null;
+  customDomain?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface TeacherUser {
   id: string;
   name: string;
   email: string;
+  accountType?: AccountType;
+  schoolId?: string | null;
   schoolName: string;
   state: string;
   lga: string;
   assignedLevels: string[];
   assignedSubjects: string[];
-  role: 'teacher' | 'hod' | 'principal' | 'admin';
+  role: UserRole;
+  b2bTier?: B2BTier | null;
   onboardingCompletedAt?: string | null;
   streakCount: number;
   referralCode?: string;
+  referredBy?: string | null;
+  referralPoints?: number;
+  referralsCount?: number;
+  trialEndsAt?: string | null;
+  subscriptionPlan?: string | null;
+  subscriptionExpiresAt?: string | null;
 }
+
+export interface Referral {
+  id: string;
+  referrerId: string;
+  referredUserId?: string | null;
+  referredSchoolId?: string | null;
+  accountType: 'b2c' | 'b2b';
+  status: 'pending' | 'completed' | 'rewarded';
+  rewardType: 'free_month' | 'edupoints' | 'cash_bonus';
+  rewardValue: number;
+  createdAt: string;
+}
+
+export interface AuditLog {
+  id: string;
+  userId?: string | null;
+  schoolId?: string | null;
+  accountType: 'b2c' | 'b2b';
+  action: 'read' | 'create' | 'update' | 'delete' | 'export' | 'prompt_blocked' | 'auth';
+  resource: string;
+  resourceId?: string | null;
+  ipAddress?: string | null;
+  userAgent?: string | null;
+  details?: string | null;
+  timestamp: string;
+}
+
+export interface RLSContext {
+  userId: string;
+  accountType: AccountType;
+  schoolId?: string | null;
+  role: UserRole;
+  b2bTier?: B2BTier | null;
+}
+
 
 export interface NotificationItem {
   id: string;

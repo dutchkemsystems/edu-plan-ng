@@ -20,13 +20,31 @@ import {
   BookOpen,
   Edit3,
   Eye,
-  Check
+  Check,
+  FileSpreadsheet,
+  Mic,
+  Tv,
+  Video,
+  Box
 } from 'lucide-react';
-import { LessonPlan, DifferentiatedInstruction } from '../types/index.ts';
-import { createLessonPlan, updateLessonPlan, duplicateLessonPlan, requestAIAssist, autoGeneratePlanAndNote } from '../lib/api.ts';
-import { curriculumDiagrams, EducationalDiagram } from '../data/diagrams.ts';
+import { VoiceToPlan } from '../components/VoiceToPlan.tsx';
+import { VisualAidViewer } from '../components/VisualAidViewer.tsx';
+import { VideoAidPlayer } from '../components/VideoAidPlayer.tsx';
+import { LessonPlan, DifferentiatedInstruction, InstructionalMaterials } from '../types/index.ts';
+import {
+  createLessonPlan,
+  updateLessonPlan,
+  duplicateLessonPlan,
+  requestAIAssist,
+  autoGeneratePlanAndNote,
+  generateDedicatedLessonPlan,
+  generateDedicatedLessonNote
+} from '../lib/api.ts';
+import { curriculumDiagrams, EducationalDiagram, getBestDiagramForSubject } from '../data/diagrams.ts';
 import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, getSubjectTermTopics, generateNerdcOeqaContent } from '../data/allCurriculumSubjects.ts';
 import confetti from 'canvas-confetti';
+import { offlineStorage } from '../lib/offline/offline-storage.ts';
+import { GoogleClassroomExportModal } from '../components/GoogleClassroomExportModal.tsx';
 
 interface LessonPlanComposerProps {
   initialPlan?: LessonPlan | null;
@@ -39,7 +57,28 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
   onBack,
   onSaved,
 }) => {
-  const [composerMode, setComposerMode] = useState<'plan' | 'note'>('plan');
+  const [composerMode, setComposerMode] = useState<'plan' | 'note' | 'preview' | 'visual-aids'>('plan');
+  const [visual3DModel, setVisual3DModel] = useState<string>(
+    initialPlan?.instructionalMaterials?.visual3D ||
+    (initialPlan?.title?.toLowerCase().includes('heart') ? 'heart_model'
+      : (initialPlan?.title?.toLowerCase().includes('solar') || initialPlan?.title?.toLowerCase().includes('planet')) ? 'solar_system'
+      : (initialPlan?.title?.toLowerCase().includes('cube') || initialPlan?.title?.toLowerCase().includes('geometry') || initialPlan?.subject?.toLowerCase().includes('math')) ? 'geometry_cube'
+      : (initialPlan?.title?.toLowerCase().includes('dna') || initialPlan?.title?.toLowerCase().includes('genet')) ? 'dna_helix'
+      : (initialPlan?.title?.toLowerCase().includes('atom') || initialPlan?.title?.toLowerCase().includes('matter') || initialPlan?.subject?.toLowerCase().includes('chem')) ? 'atom_model'
+      : (initialPlan?.title?.toLowerCase().includes('cell') || initialPlan?.title?.toLowerCase().includes('plant')) ? 'plant_cell'
+      : 'geometry_cube')
+  );
+  const [video4KUrl, setVideo4KUrl] = useState<string>(
+    initialPlan?.instructionalMaterials?.video4K ||
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+  );
+  const [physicalMaterials, setPhysicalMaterials] = useState<string[]>(
+    initialPlan?.instructionalMaterials?.physical ||
+    initialPlan?.materials ||
+    ['Chalkboard & Dry-Erase Markers', 'Standard NERDC Textbook', 'Mathematical Set & Ruler']
+  );
+  const [activeVisualAidSubtab, setActiveVisualAidSubtab] = useState<'3d' | 'video' | 'physical'>('3d');
+  const [newPhysicalItem, setNewPhysicalItem] = useState('');
   const [id, setId] = useState<string>(initialPlan?.id || '');
   const [title, setTitle] = useState(initialPlan?.title || 'Untitled NERDC Lesson Plan');
   const [level, setLevel] = useState(initialPlan?.level || 'jss-1');
@@ -51,6 +90,9 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(initialPlan?.status || 'draft');
   const [isAutoGenerating, setIsAutoGenerating] = useState(false);
   const [isCustomSubject, setIsCustomSubject] = useState(false);
+  const [manualTopicInput, setManualTopicInput] = useState('');
+  const [showVoiceToPlan, setShowVoiceToPlan] = useState(false);
+  const [showClassroomExport, setShowClassroomExport] = useState(false);
 
   const isJunior = level.toLowerCase().startsWith('jss');
   const statutorySubjects = isJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
@@ -110,6 +152,21 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
     }
   );
 
+  // Phase 10 Differentiated Tasks (Remedial, Standard, Advanced)
+  const [remedialTask, setRemedialTask] = useState<string>(
+    initialPlan?.remedialTask ||
+    `Tier 1 (Remedial Task): Scaffolded step-by-step worksheet on "${initialPlan?.title || 'the core concept'}" with visual templates, worked examples, and peer buddy assistance.`
+  );
+  const [standardTask, setStandardTask] = useState<string>(
+    initialPlan?.standardTask ||
+    `Tier 2 (Standard Task): Independent completion of standard NERDC curriculum questions 1-5 applying concepts with practical realia.`
+  );
+  const [advancedTask, setAdvancedTask] = useState<string>(
+    initialPlan?.advancedTask ||
+    `Tier 3 (Advanced Task): Non-routine analysis problem applying principles to Nigerian commercial trade or real-world industrial systems.`
+  );
+  const [isDiffTasksLoading, setIsDiffTasksLoading] = useState(false);
+
   // Lesson Note (Chalkboard Content) State
   const [lessonNote, setLessonNote] = useState({
     subtopics: '1. Conceptual Definitions & Nomenclature\n2. Fundamental Rules & Formulae\n3. Worked Classroom Examples\n4. Chalkboard Summary & Pupil Exercise',
@@ -131,17 +188,21 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
   });
 
   // Educational Illustration / Diagram state
-  const [selectedDiagram, setSelectedDiagram] = useState<EducationalDiagram | null>(
-    subject.toLowerCase().includes('science')
-      ? curriculumDiagrams[0]
-      : subject.toLowerCase().includes('civic')
-      ? curriculumDiagrams[4]
-      : curriculumDiagrams[1]
+  const [selectedDiagram, setSelectedDiagram] = useState<EducationalDiagram | null>(() =>
+    getBestDiagramForSubject(subject, title)
   );
   const [diagramCaption, setDiagramCaption] = useState(
     selectedDiagram ? selectedDiagram.caption : 'Figure 1: Instructional Chalkboard Diagram'
   );
   const [showDiagramModal, setShowDiagramModal] = useState(false);
+  const [diagramCategoryFilter, setDiagramCategoryFilter] = useState<string>('All');
+
+  // Automatically update the self-explanatory diagram when subject changes
+  useEffect(() => {
+    const best = getBestDiagramForSubject(subject, title);
+    setSelectedDiagram(best);
+    setDiagramCaption(best.caption);
+  }, [subject]);
 
   // Autosave and AI Assistant state
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'dirty'>('saved');
@@ -165,7 +226,7 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
       }
     }, 20000);
     return () => clearInterval(interval);
-  }, [saveStatus, title, level, subject, term, week, duration, objectives, materials, previousKnowledge, introduction, teacherActivity, studentActivity, evaluation, assignment, references, diffInstruction, language, status, lessonNote, selectedDiagram, diagramCaption]);
+  }, [saveStatus, title, level, subject, term, week, duration, objectives, materials, previousKnowledge, introduction, teacherActivity, studentActivity, evaluation, assignment, references, diffInstruction, remedialTask, standardTask, advancedTask, language, status, lessonNote, selectedDiagram, diagramCaption]);
 
   const markDirty = () => setSaveStatus('dirty');
 
@@ -188,11 +249,27 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
         references,
         objectives,
         materials,
+        instructionalMaterials: {
+          physical: physicalMaterials,
+          visual3D: visual3DModel,
+          video4K: video4KUrl,
+        },
         differentiatedInstruction: diffInstruction,
+        remedialTask,
+        standardTask,
+        advancedTask,
         bloomTags: hasHigherOrderBloom ? ['Remember', 'Understand', 'Apply', 'Analyze', 'Evaluate'] : ['Remember', 'Understand'],
         language,
         status,
       };
+
+      if (!offlineStorage.isOnline()) {
+        const savedDraft = offlineStorage.saveDraftPlan({ ...payload, id: id || undefined } as any);
+        if (!id) setId(savedDraft.id);
+        setSaveStatus('saved');
+        setLastSavedTime(`${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (Offline Safe)`);
+        return;
+      }
 
       if (!id) {
         const res = await createLessonPlan(payload);
@@ -208,8 +285,10 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
         confetti({ particleCount: 80, spread: 60 });
       }
     } catch (e) {
-      console.error(e);
-      setSaveStatus('dirty');
+      console.warn('Network save failed, safeguarding draft in offline storage', e);
+      offlineStorage.saveDraftPlan({ title, level, subject, term, week, objectives, materials, evaluation, assignment } as any);
+      setSaveStatus('saved');
+      setLastSavedTime(`${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (Local Cache)`);
     }
   };
 
@@ -693,6 +772,9 @@ ${diagramHtml}
         if (data.evaluation) setEvaluation(data.evaluation);
         if (data.assignment) setAssignment(data.assignment);
         if (data.differentiatedInstruction) setDiffInstruction(data.differentiatedInstruction);
+        if (data.remedialTask) setRemedialTask(data.remedialTask);
+        if (data.standardTask) setStandardTask(data.standardTask);
+        if (data.advancedTask) setAdvancedTask(data.advancedTask);
         if (data.lessonNote) {
           setLessonNote({
             subtopics: data.lessonNote.subtopics || lessonNote.subtopics,
@@ -702,6 +784,9 @@ ${diagramHtml}
             classDrill: data.lessonNote.classDrill || lessonNote.classDrill,
           });
         }
+        const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+        setSelectedDiagram(bestDiag);
+        setDiagramCaption(bestDiag.caption);
         markDirty();
         confetti({ particleCount: 75, spread: 60 });
       }
@@ -724,9 +809,168 @@ ${diagramHtml}
       setEvaluation(fallback.evaluation);
       setAssignment(fallback.assignment);
       setDiffInstruction(fallback.differentiatedInstruction);
+      if (fallback.remedialTask) setRemedialTask(fallback.remedialTask);
+      if (fallback.standardTask) setStandardTask(fallback.standardTask);
+      if (fallback.advancedTask) setAdvancedTask(fallback.advancedTask);
       setLessonNote(fallback.lessonNote);
+      const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+      setSelectedDiagram(bestDiag);
+      setDiagramCaption(bestDiag.caption);
       markDirty();
       confetti({ particleCount: 50, spread: 50 });
+    } finally {
+      setIsAutoGenerating(false);
+    }
+  };
+
+  const handleGenerateLessonPlanOnly = async (customTopic?: string) => {
+    setIsAutoGenerating(true);
+    const targetTopic =
+      customTopic ||
+      manualTopicInput.trim() ||
+      (title && title !== 'Untitled NERDC Lesson Plan'
+        ? title
+        : currentSyllabusTopic || `${subject} Core Topic — Week ${week}`);
+
+    setTitle(targetTopic);
+
+    try {
+      const res = await generateDedicatedLessonPlan({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+        durationMinutes: parseInt(duration, 10) || 40,
+        language,
+      });
+
+      const data = res?.data;
+      if (data) {
+        if (data.nerdcObjectives && Array.isArray(data.nerdcObjectives)) {
+          setObjectives(data.nerdcObjectives);
+        } else if (data.objectives && Array.isArray(data.objectives)) {
+          setObjectives(data.objectives);
+        }
+        if (data.instructionalMaterials && Array.isArray(data.instructionalMaterials)) {
+          setMaterials(data.instructionalMaterials);
+        } else if (data.materials && Array.isArray(data.materials)) {
+          setMaterials(data.materials);
+        }
+        if (data.entryBehavior) setPreviousKnowledge(data.entryBehavior);
+        else if (data.previousKnowledge) setPreviousKnowledge(data.previousKnowledge);
+        if (data.setInduction) setIntroduction(data.setInduction);
+        else if (data.introduction) setIntroduction(data.introduction);
+        if (data.teacherActivity) setTeacherActivity(data.teacherActivity);
+        if (data.studentActivity) setStudentActivity(data.studentActivity);
+        if (data.formativeEvaluationQuestions) {
+          setEvaluation(data.formativeEvaluationQuestions.join(' '));
+        } else if (data.evaluation) setEvaluation(data.evaluation);
+        if (data.homeworkAssignment) setAssignment(data.homeworkAssignment);
+        else if (data.assignment) setAssignment(data.assignment);
+        if (data.differentiatedInstruction) setDiffInstruction(data.differentiatedInstruction);
+
+        const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+        setSelectedDiagram(bestDiag);
+        setDiagramCaption(bestDiag.caption);
+
+        setComposerMode('plan');
+        markDirty();
+        confetti({ particleCount: 65, spread: 55 });
+      }
+    } catch (err) {
+      console.warn('Dedicated lesson plan generation error, falling back to statutory engine', err);
+      const fallback = generateNerdcOeqaContent({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+        language,
+      });
+      setObjectives(fallback.objectives);
+      setMaterials(fallback.materials);
+      setPreviousKnowledge(fallback.previousKnowledge);
+      setIntroduction(fallback.introduction);
+      setTeacherActivity(fallback.teacherActivity);
+      setStudentActivity(fallback.studentActivity);
+      setEvaluation(fallback.evaluation);
+      setAssignment(fallback.assignment);
+      setDiffInstruction(fallback.differentiatedInstruction);
+      const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+      setSelectedDiagram(bestDiag);
+      setDiagramCaption(bestDiag.caption);
+      setComposerMode('plan');
+      markDirty();
+      confetti({ particleCount: 40 });
+    } finally {
+      setIsAutoGenerating(false);
+    }
+  };
+
+  const handleGenerateLessonNoteOnly = async (customTopic?: string) => {
+    setIsAutoGenerating(true);
+    const targetTopic =
+      customTopic ||
+      manualTopicInput.trim() ||
+      (title && title !== 'Untitled NERDC Lesson Plan'
+        ? title
+        : currentSyllabusTopic || `${subject} Core Topic — Week ${week}`);
+
+    setTitle(targetTopic);
+
+    try {
+      const res = await generateDedicatedLessonNote({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+      });
+
+      const data = res?.data;
+      if (data && data.chalkboardNote) {
+        const cn = data.chalkboardNote;
+        setLessonNote({
+          subtopics: Array.isArray(cn.subtopicsSummary) ? cn.subtopicsSummary.join('\n') : cn.subtopicsSummary || lessonNote.subtopics,
+          definitions: Array.isArray(cn.conceptualDefinitions) ? cn.conceptualDefinitions.join('\n\n') : cn.conceptualDefinitions || lessonNote.definitions,
+          workedExamples: Array.isArray(cn.workedClassroomExamples)
+            ? cn.workedClassroomExamples
+                .map(
+                  (ex: any) =>
+                    `Example ${ex.exampleNumber || 1}: ${ex.problemStatement}\n${Array.isArray(ex.stepByStepSolution) ? ex.stepByStepSolution.join('\n') : ex.stepByStepSolution}\nAnswer: ${ex.finalAnswerWithUnits}\n⚠️ Pitfall: ${ex.pedagogicalPitfallWarning || ''}`
+                )
+                .join('\n\n')
+            : cn.workedExamples || lessonNote.workedExamples,
+          blackboardSummary: Array.isArray(cn.blackboardSummaryRules) ? cn.blackboardSummaryRules.join('\n') : cn.blackboardSummaryRules || lessonNote.blackboardSummary,
+          classDrill: Array.isArray(cn.inClassSeatworkDrill) ? cn.inClassSeatworkDrill.join('\n') : cn.inClassSeatworkDrill || lessonNote.classDrill,
+        });
+
+        const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+        setSelectedDiagram(bestDiag);
+        setDiagramCaption(bestDiag.caption);
+
+        setComposerMode('note');
+        markDirty();
+        confetti({ particleCount: 65, spread: 55 });
+      }
+    } catch (err) {
+      console.warn('Dedicated lesson note generation error, falling back to statutory engine', err);
+      const fallback = generateNerdcOeqaContent({
+        level,
+        subject,
+        topic: targetTopic,
+        week,
+        term,
+        language,
+      });
+      setLessonNote(fallback.lessonNote);
+      const bestDiag = getBestDiagramForSubject(subject, targetTopic);
+      setSelectedDiagram(bestDiag);
+      setDiagramCaption(bestDiag.caption);
+      setComposerMode('note');
+      markDirty();
+      confetti({ particleCount: 40 });
     } finally {
       setIsAutoGenerating(false);
     }
@@ -772,7 +1016,7 @@ ${diagramHtml}
 
         {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Mode Switcher: Lesson Plan vs Lesson Note */}
+          {/* Mode Switcher: Lesson Plan vs Lesson Note vs Formatted Dossier Preview */}
           <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1 text-xs font-bold">
             <button
               onClick={() => setComposerMode('plan')}
@@ -792,7 +1036,41 @@ ${diagramHtml}
               <BookOpen className="w-3.5 h-3.5" />
               <span>Lesson Note (Chalkboard)</span>
             </button>
+            <button
+              onClick={() => setComposerMode('visual-aids')}
+              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                composerMode === 'visual-aids' ? 'bg-white text-emerald-800 shadow-2xs font-extrabold ring-1 ring-emerald-500/30' : 'text-gray-600'
+              }`}
+              title="Interactive 3D Realia & 4K Classroom Video Aids"
+            >
+              <Tv className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Visual Aids</span>
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-emerald-100 text-emerald-700">3D/4K</span>
+            </button>
+            <button
+              onClick={() => setComposerMode('preview')}
+              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+                composerMode === 'preview' ? 'bg-white text-emerald-800 shadow-2xs font-extrabold' : 'text-gray-600'
+              }`}
+              title="Official Formatted Dossier: Inspection-ready view with illustrations"
+            >
+              <Eye className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Official Dossier Preview</span>
+            </button>
           </div>
+
+          <button
+            onClick={() => setShowVoiceToPlan((prev) => !prev)}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors ${
+              showVoiceToPlan
+                ? 'bg-emerald-700 text-white shadow-2xs'
+                : 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200'
+            }`}
+            title="Speak Lesson Topic in Nigerian English or Pidgin"
+          >
+            <Mic className="w-4 h-4 text-emerald-600" />
+            <span>Voice-to-Plan</span>
+          </button>
 
           <button
             onClick={() => setShowDiagramModal(true)}
@@ -822,6 +1100,15 @@ ${diagramHtml}
           </button>
 
           <button
+            onClick={() => setShowClassroomExport(true)}
+            className="px-3.5 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center gap-1.5 border border-emerald-300"
+            title="Export to Google Classroom LMS"
+          >
+            <Share2 className="w-4 h-4 text-emerald-700" />
+            <span>Classroom LMS</span>
+          </button>
+
+          <button
             onClick={() => handleSave(true)}
             className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center gap-1.5 shadow-2xs"
           >
@@ -830,6 +1117,44 @@ ${diagramHtml}
           </button>
         </div>
       </div>
+
+      {/* Google Classroom Export Modal */}
+      <GoogleClassroomExportModal
+        isOpen={showClassroomExport}
+        onClose={() => setShowClassroomExport(false)}
+        plan={{
+          id,
+          title,
+          level,
+          subject,
+          term,
+          week,
+          objectives,
+          materials,
+          evaluation,
+          assignment,
+          studentActivity,
+          bloomTags: hasHigherOrderBloom ? ['Remember', 'Understand', 'Apply', 'Analyze', 'Evaluate'] : ['Remember', 'Understand'],
+        }}
+      />
+
+      {/* Voice-to-Plan Interactive Speech Interface */}
+      {showVoiceToPlan && (
+        <div className="print:hidden">
+          <VoiceToPlan
+            onPlanGenerated={(parsed) => {
+              setTitle(parsed.topic);
+              setSubject(parsed.subject);
+              const cleanLvl = parsed.level.toLowerCase().replace(/\s+/g, '-');
+              setLevel(cleanLvl);
+              setTerm(parsed.term);
+              setWeek(parsed.week);
+              setShowVoiceToPlan(false);
+              handleAutoGenerateFullPlanAndNote(language, parsed.topic);
+            }}
+          />
+        </div>
+      )}
 
       {/* Bloom's Higher-Order Thinking Alert */}
       {!hasHigherOrderBloom && (
@@ -871,17 +1196,139 @@ ${diagramHtml}
                 <button
                   type="button"
                   disabled={isAutoGenerating}
-                  onClick={() => handleAutoGenerateFullPlanAndNote()}
-                  className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-gray-950 transition-all shadow-md hover:scale-102 flex items-center gap-2 disabled:opacity-50"
+                  onClick={() => {
+                    const t = manualTopicInput.trim() || title;
+                    handleAutoGenerateFullPlanAndNote(undefined, t);
+                  }}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-gray-950 transition-all shadow-md hover:scale-102 flex items-center gap-2 disabled:opacity-50"
+                  title="Generate both administrative Lesson Plan and deep Lesson Note"
                 >
                   <Sparkles className={`w-4 h-4 text-emerald-950 ${isAutoGenerating ? 'animate-spin' : ''}`} />
-                  <span>{isAutoGenerating ? 'Auto-Generating Plan & Note...' : '⚡ Auto-Generate Plan & Note'}</span>
+                  <span>{isAutoGenerating ? 'Synthesizing...' : '⚡ Generate Full Plan & Note'}</span>
                 </button>
               </div>
             </div>
 
+            {/* FEATURE: MANUAL TOPIC ENTRY & SELECTIVE GENERATION */}
+            <div className="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/20 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <label className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <Edit3 className="w-4 h-4 text-amber-300" />
+                  <span>Enter Custom / Manual Lesson Topic:</span>
+                </label>
+                <span className="text-[11px] text-emerald-200/90 font-medium">
+                  Type any custom topic below to generate full lesson notes or lesson plans on demand
+                </span>
+              </div>
+
+              <div className="flex flex-col md:flex-row items-stretch gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={manualTopicInput}
+                    onChange={(e) => {
+                      setManualTopicInput(e.target.value);
+                      setTitle(e.target.value);
+                      markDirty();
+                    }}
+                    placeholder={`e.g. ${
+                      subject.toLowerCase().includes('math')
+                        ? 'Simultaneous Linear Equations by Substitution and Elimination'
+                        : subject.toLowerCase().includes('sci') || subject.toLowerCase().includes('bio')
+                        ? 'Photosynthesis and Light Reactions in Green Plants'
+                        : subject.toLowerCase().includes('civic') || subject.toLowerCase().includes('gov')
+                        ? 'Rule of Law, Separation of Powers & EFCC Statutory Mandate'
+                        : `${subject} Core Curriculum Competency`
+                    }`}
+                    className="w-full text-xs font-bold px-3.5 py-2.5 bg-black/40 border border-white/30 rounded-xl text-white placeholder:text-gray-300/60 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/40"
+                  />
+                  {manualTopicInput && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setManualTopicInput('');
+                      }}
+                      className="absolute right-3 top-2.5 text-xs text-white/60 hover:text-white"
+                      title="Clear topic input"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Option 1: Generate Administrative Lesson Plan */}
+                  <button
+                    type="button"
+                    disabled={isAutoGenerating}
+                    onClick={() => {
+                      const t = manualTopicInput.trim() || title;
+                      handleGenerateLessonPlanOnly(t);
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-600 text-white transition shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+                    title="Generate administrative OEQA tabular lesson plan for inspectors and HODs"
+                  >
+                    <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-200" />
+                    <span>Generate Lesson Plan</span>
+                  </button>
+
+                  {/* Option 2: Generate Deep Chalkboard Lesson Note */}
+                  <button
+                    type="button"
+                    disabled={isAutoGenerating}
+                    onClick={() => {
+                      const t = manualTopicInput.trim() || title;
+                      handleGenerateLessonNoteOnly(t);
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-teal-700 hover:bg-teal-600 text-white transition shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+                    title="Generate detailed teacher chalkboard notes with worked examples & pupil drill"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-teal-200" />
+                    <span>Generate Lesson Note</span>
+                  </button>
+
+                  {/* Option 3: Generate Both */}
+                  <button
+                    type="button"
+                    disabled={isAutoGenerating}
+                    onClick={() => {
+                      const t = manualTopicInput.trim() || title;
+                      handleAutoGenerateFullPlanAndNote(undefined, t);
+                    }}
+                    className="px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-gray-950 transition shadow-md flex items-center gap-1.5 disabled:opacity-50"
+                    title="Generate both lesson plan and chalkboard lesson note from this manual topic"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-gray-950" />
+                    <span>⚡ Both (Plan & Note)</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick Topic Suggestions based on current syllabus */}
+              {syllabusTopics.length > 0 && (
+                <div className="pt-2 border-t border-white/10 flex flex-wrap items-center gap-1.5 text-[11px]">
+                  <span className="text-emerald-200/70 font-semibold mr-1">Quick Syllabus Suggestions:</span>
+                  {syllabusTopics.slice(0, 4).map((sugTopic, sIdx) => (
+                    <button
+                      key={sIdx}
+                      type="button"
+                      onClick={() => {
+                        setManualTopicInput(sugTopic);
+                        setTitle(sugTopic);
+                        markDirty();
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white/90 border border-white/10 transition truncate max-w-[220px]"
+                      title={`Click to load: ${sugTopic}`}
+                    >
+                      {sugTopic}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Language Selector Toolbar */}
-            <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
               <span className="text-emerald-200/80 font-medium">
                 Syllabus Language:
               </span>
@@ -889,7 +1336,7 @@ ${diagramHtml}
                 <button
                   type="button"
                   disabled={isAutoGenerating}
-                  onClick={() => handleAutoGenerateFullPlanAndNote('en')}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('en', manualTopicInput.trim() || undefined)}
                   className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
                     language === 'en'
                       ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
@@ -902,7 +1349,7 @@ ${diagramHtml}
                 <button
                   type="button"
                   disabled={isAutoGenerating}
-                  onClick={() => handleAutoGenerateFullPlanAndNote('yo')}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('yo', manualTopicInput.trim() || undefined)}
                   className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
                     language === 'yo'
                       ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
@@ -915,7 +1362,7 @@ ${diagramHtml}
                 <button
                   type="button"
                   disabled={isAutoGenerating}
-                  onClick={() => handleAutoGenerateFullPlanAndNote('ig')}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('ig', manualTopicInput.trim() || undefined)}
                   className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
                     language === 'ig'
                       ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
@@ -928,7 +1375,7 @@ ${diagramHtml}
                 <button
                   type="button"
                   disabled={isAutoGenerating}
-                  onClick={() => handleAutoGenerateFullPlanAndNote('ha')}
+                  onClick={() => handleAutoGenerateFullPlanAndNote('ha', manualTopicInput.trim() || undefined)}
                   className={`px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 ${
                     language === 'ha'
                       ? 'bg-emerald-600 text-white border border-emerald-400/50 shadow-xs'
@@ -1345,6 +1792,120 @@ ${diagramHtml}
               </div>
             </div>
           </div>
+
+          {/* PHASE 10: Differentiated Tasks for Every Topic */}
+          <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-4 print:hidden">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-gray-100">
+              <div>
+                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-900 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-emerald-600" />
+                  <span>Differentiated Tasks (Remedial, Standard & Advanced)</span>
+                </h2>
+                <p className="text-[11px] text-gray-500 mt-0.5">
+                  Statutory 3-tier differentiated assignments tailored for every student profile in this topic.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                disabled={isDiffTasksLoading}
+                onClick={async () => {
+                  setIsDiffTasksLoading(true);
+                  try {
+                    const res = await fetch('/api/ai/differentiated-tasks', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        topic: title,
+                        subject,
+                        level,
+                      }),
+                    });
+                    const d = await res.json();
+                    if (d.tasks) {
+                      setRemedialTask(d.tasks.remedialTask);
+                      setStandardTask(d.tasks.standardTask);
+                      setAdvancedTask(d.tasks.advancedTask);
+                      markDirty();
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  } finally {
+                    setIsDiffTasksLoading(false);
+                  }
+                }}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition-colors flex items-center gap-1.5 self-start sm:self-auto disabled:opacity-50"
+              >
+                <Sparkles className={`w-3.5 h-3.5 text-emerald-600 ${isDiffTasksLoading ? 'animate-spin' : ''}`} />
+                <span>{isDiffTasksLoading ? 'Generating Tasks...' : '⚡ AI Re-Generate 3-Tier Tasks'}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-300 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-amber-900 uppercase tracking-wide">
+                    Remedial Task (Tier 1)
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-200/80 text-amber-900 font-bold">
+                    Scaffolded
+                  </span>
+                </div>
+                <textarea
+                  rows={4}
+                  value={remedialTask}
+                  onChange={(e) => {
+                    setRemedialTask(e.target.value);
+                    markDirty();
+                  }}
+                  placeholder="Scaffolded task with templates & visual aids..."
+                  className="w-full text-xs p-2.5 bg-white border border-amber-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+
+              <div className="p-4 rounded-xl bg-teal-50/70 border border-teal-300 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-teal-900 uppercase tracking-wide">
+                    Standard Task (Tier 2)
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-200/80 text-teal-900 font-bold">
+                    Core NERDC
+                  </span>
+                </div>
+                <textarea
+                  rows={4}
+                  value={standardTask}
+                  onChange={(e) => {
+                    setStandardTask(e.target.value);
+                    markDirty();
+                  }}
+                  placeholder="Standard curriculum exercise questions 1-5..."
+                  className="w-full text-xs p-2.5 bg-white border border-teal-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-teal-500"
+                />
+              </div>
+
+              <div className="p-4 rounded-xl bg-purple-50/70 border border-purple-300 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-purple-900 uppercase tracking-wide">
+                    Advanced Task (Tier 3)
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-200/80 text-purple-900 font-bold">
+                    Higher-Order Bloom
+                  </span>
+                </div>
+                <textarea
+                  rows={4}
+                  value={advancedTask}
+                  onChange={(e) => {
+                    setAdvancedTask(e.target.value);
+                    markDirty();
+                  }}
+                  placeholder="Advanced multi-step analysis or commercial case study..."
+                  className="w-full text-xs p-2.5 bg-white border border-purple-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -1358,22 +1919,32 @@ ${diagramHtml}
                 Detailed academic summary written on the blackboard for students to copy into their notebooks.
               </p>
             </div>
-            <button
-              onClick={() => {
-                setLessonNote({
-                  subtopics: `1. Definition of ${title}\n2. Core Laws & Theoretical Rules\n3. Worked Classroom Demonstrations\n4. Blackboard Practice Drill`,
-                  definitions: `${title} is the systematic study and application of fundamental concepts in ${subject}. It is essential for understanding advanced secondary principles and solving WAEC/NECO examination problems.`,
-                  workedExamples: `Worked Example 1:\nSolve the basic configuration given on the board with full working.\n\nWorked Example 2:\nA commercial scenario in Nigeria illustrating the practical use of ${title}.`,
-                  blackboardSummary: `• Always double-check calculations and definitions.\n• Memorize the standard rules and formulas.\n• Complete the review questions in your notebook.`,
-                  classDrill: `1. Define ${title} in 2 sentences.\n2. Work through the 2 test drills written on the board.`
-                });
-                markDirty();
-              }}
-              className="px-3.5 py-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 flex items-center gap-1.5 self-start"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Auto-Generate from Topic</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="text"
+                value={manualTopicInput}
+                onChange={(e) => {
+                  setManualTopicInput(e.target.value);
+                  setTitle(e.target.value);
+                  markDirty();
+                }}
+                placeholder="Type custom note topic..."
+                className="text-xs font-semibold px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-emerald-600 w-56 sm:w-64"
+              />
+              <button
+                type="button"
+                disabled={isAutoGenerating}
+                onClick={() => {
+                  const targetTopic = manualTopicInput.trim() || (title && title !== 'Untitled NERDC Lesson Plan' ? title : (currentSyllabusTopic || `${subject} Core Topic`));
+                  handleGenerateLessonNoteOnly(targetTopic);
+                }}
+                className="px-3.5 py-1.5 text-xs font-bold text-white bg-teal-700 hover:bg-teal-800 rounded-xl flex items-center gap-1.5 self-start transition-all hover:scale-102 shadow-2xs disabled:opacity-50"
+                title="Synthesize domain-specific chalkboard notes from topic"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>{isAutoGenerating ? 'Generating...' : '⚡ Generate Note from Topic'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -1443,42 +2014,703 @@ ${diagramHtml}
                 />
               </div>
             </div>
+
+            {/* 6. Official Chalkboard Diagram / Visual Aid for Pupils' Notes */}
+            {selectedDiagram ? (
+              <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 text-white border border-slate-800 space-y-4 shadow-md">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                      6. Chalkboard Illustration (Pupils to Draw in Notebook): {selectedDiagram.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const best = getBestDiagramForSubject(subject, title);
+                        setSelectedDiagram(best);
+                        setDiagramCaption(best.caption);
+                        markDirty();
+                      }}
+                      className="text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors"
+                      title="Re-match best diagram for this topic"
+                    >
+                      ⚡ Auto-Match
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowDiagramModal(true)}
+                      className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 underline"
+                    >
+                      Change Illustration
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDiagram(null)}
+                      className="text-[11px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+
+                <div className="max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-inner">
+                  <div
+                    className="w-full flex justify-center max-h-72"
+                    dangerouslySetInnerHTML={{ __html: selectedDiagram.svgContent }}
+                  />
+                </div>
+
+                <div className="space-y-1.5 text-center">
+                  <input
+                    type="text"
+                    value={diagramCaption}
+                    onChange={(e) => {
+                      setDiagramCaption(e.target.value);
+                      markDirty();
+                    }}
+                    placeholder="Enter diagram caption..."
+                    className="w-full text-center text-xs font-medium text-slate-300 bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 focus:outline-none focus:border-emerald-400 italic"
+                  />
+                  <p className="text-[11px] text-emerald-300/80">
+                    💡 <strong>Pedagogical Instruction:</strong> Instruct students to rule their notebook margin and sketch this diagram with all labels before copying the definitions.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="p-5 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-300 text-center space-y-3">
+                <div className="w-10 h-10 mx-auto rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                  <ImageIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    Add Chalkboard Visual Aid / Illustration for Students
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5 max-w-md mx-auto">
+                    Include a clear, self-explanatory diagram or technical drawing for pupils to copy into their notebooks to reinforce learning.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const best = getBestDiagramForSubject(subject, title);
+                      setSelectedDiagram(best);
+                      setDiagramCaption(best.caption);
+                      markDirty();
+                      confetti({ particleCount: 40 });
+                    }}
+                    className="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all hover:scale-102 flex items-center gap-1.5"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <span>⚡ Auto-Attach Best Illustration</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowDiagramModal(true)}
+                    className="px-4 py-2 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 transition-colors flex items-center gap-1.5"
+                  >
+                    <ImageIcon className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Browse Visual Aids Gallery</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Embedded Diagram / Illustration Preview */}
-      {selectedDiagram && (
-        <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-3 print:border-none print:shadow-none print:p-0">
-          <div className="flex items-center justify-between pb-2 border-b border-gray-100 print:hidden">
-            <div className="flex items-center gap-2">
-              <ImageIcon className="w-4 h-4 text-emerald-600" />
-              <h3 className="text-xs font-bold text-gray-900 uppercase">
-                Attached Educational Illustration: {selectedDiagram.title}
-              </h3>
+      {/* Embedded Diagram / Illustration Section (Plan Mode) */}
+      {composerMode === 'plan' && (
+        selectedDiagram ? (
+          <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-3 print:border-none print:shadow-none print:p-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-gray-100 gap-2 print:hidden">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-emerald-600" />
+                <h3 className="text-xs font-bold text-gray-900 uppercase">
+                  Statutory Instructional Illustration & Realia Visual Aid: {selectedDiagram.title}
+                </h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const best = getBestDiagramForSubject(subject, title);
+                    setSelectedDiagram(best);
+                    setDiagramCaption(best.caption);
+                    markDirty();
+                  }}
+                  className="text-xs text-amber-600 font-bold hover:underline"
+                  title="Re-match best diagram for this topic"
+                >
+                  ⚡ Auto-Match
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowDiagramModal(true)}
+                  className="text-xs text-emerald-600 font-bold hover:underline"
+                >
+                  Change Diagram
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedDiagram(null)}
+                  className="text-xs text-rose-600 font-bold hover:underline"
+                >
+                  Remove Diagram
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => setSelectedDiagram(null)}
-              className="text-xs text-rose-600 font-bold hover:underline"
-            >
-              Remove Diagram
-            </button>
+
+            <div className="max-w-xl mx-auto p-4 bg-gray-50 rounded-2xl border border-gray-200 print:bg-transparent print:border-none">
+              <div
+                className="w-full flex justify-center max-h-72"
+                dangerouslySetInnerHTML={{ __html: selectedDiagram.svgContent }}
+              />
+              <div className="mt-3 text-center print:mt-1">
+                <input
+                  type="text"
+                  value={diagramCaption}
+                  onChange={(e) => {
+                    setDiagramCaption(e.target.value);
+                    markDirty();
+                  }}
+                  className="w-full text-center text-xs font-semibold text-gray-600 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-emerald-600 focus:outline-none italic"
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs text-center space-y-3 print:hidden">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <ImageIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wider">
+                Instructional Realia & Visual Aid (NERDC Standard)
+              </h4>
+              <p className="text-[11px] text-gray-500 mt-0.5 max-w-md mx-auto">
+                Attach an educational diagram or visual aid to illustrate key subject concepts during lesson delivery.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => {
+                  const best = getBestDiagramForSubject(subject, title);
+                  setSelectedDiagram(best);
+                  setDiagramCaption(best.caption);
+                  markDirty();
+                  confetti({ particleCount: 40 });
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all hover:scale-102 flex items-center gap-1.5"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>⚡ Auto-Attach Best Diagram</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDiagramModal(true)}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors flex items-center gap-1.5"
+              >
+                <ImageIcon className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Browse Diagram Library</span>
+              </button>
+            </div>
+          </div>
+        )
+      )}
+
+      {/* MODE 3: INSPECTION-READY OFFICIAL FORMATTED DOSSIER PREVIEW */}
+      {composerMode === 'preview' && (
+        <div className="space-y-6 print:hidden">
+          {/* Action Toolbar */}
+          <div className="bg-slate-900 text-white p-4 rounded-2xl border border-slate-800 shadow-md flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+              <div>
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                  Professionally Edited Inspection Dossier
+                </h3>
+                <p className="text-[11px] text-slate-300">
+                  Unified Lesson Plan, Self-Explanatory Illustration & Chalkboard Lesson Note
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setComposerMode('plan')}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5"
+              >
+                <FileText className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Edit Plan</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setComposerMode('note')}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Edit Note</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowDiagramModal(true)}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5"
+              >
+                <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+                <span>Change Illustration</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExportDocx}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-xs transition-colors flex items-center gap-1.5"
+              >
+                <FileDown className="w-3.5 h-3.5" />
+                <span>Export Word (.doc)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrintPdf}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center gap-1.5"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print PDF</span>
+              </button>
+            </div>
           </div>
 
-          <div className="max-w-xl mx-auto p-4 bg-gray-50 rounded-2xl border border-gray-200 print:bg-transparent print:border-none">
-            <div
-              className="w-full flex justify-center"
-              dangerouslySetInnerHTML={{ __html: selectedDiagram.svgContent }}
-            />
-            <div className="mt-3 text-center print:mt-1">
-              <input
-                type="text"
-                value={diagramCaption}
-                onChange={(e) => setDiagramCaption(e.target.value)}
-                className="w-full text-center text-xs font-semibold text-gray-600 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-emerald-600 focus:outline-none italic"
-              />
+          {/* Formatted Paper Dossier Container */}
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-slate-200 shadow-xl space-y-6 text-slate-900 max-w-4xl mx-auto">
+            {/* Header Letterhead */}
+            <div className="text-center pb-5 border-b-2 border-emerald-800 space-y-1.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-900 text-[11px] font-bold border border-emerald-200">
+                <span>FEDERAL REPUBLIC OF NIGERIA</span>
+                <span>•</span>
+                <span>NERDC & OEQA ACCREDITED</span>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-tight">
+                KING'S COLLEGE, LAGOS — OFFICIAL ACADEMIC DOSSIER
+              </h1>
+              <h2 className="text-base font-bold text-emerald-800 uppercase tracking-wide">
+                {title}
+              </h2>
+              <p className="text-xs text-slate-500 font-medium">
+                Standard Statutory Unified Secondary Curriculum Framework • 2026/2027 Academic Session
+              </p>
+            </div>
+
+            {/* Metadata Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="block text-[10px] font-bold text-slate-400 uppercase">Class Level</span>
+                <span className="font-bold text-slate-900">{level.toUpperCase()}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="block text-[10px] font-bold text-slate-400 uppercase">Subject</span>
+                <span className="font-bold text-slate-900">{subject}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="block text-[10px] font-bold text-slate-400 uppercase">Term & Week</span>
+                <span className="font-bold text-slate-900">Term {term} • Week {week}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span className="block text-[10px] font-bold text-slate-400 uppercase">Duration</span>
+                <span className="font-bold text-slate-900">{duration}</span>
+              </div>
+            </div>
+
+            {/* PART I: BEHAVIORAL OBJECTIVES */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between pb-1.5 border-b border-emerald-100">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                  Part I: Behavioral Instructional Objectives (Bloom's Taxonomy)
+                </h3>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                  Cognitive & Psychomotor
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 italic">By the end of this instructional period, learners should be able to:</p>
+              <ol className="list-decimal pl-5 space-y-1.5 text-xs text-slate-800">
+                {objectives.map((o, idx) => (
+                  <li key={idx} className="leading-relaxed pl-1">
+                    {o}
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* PART II: INSTRUCTIONAL MATERIALS */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2 pb-1.5 border-b border-emerald-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                Part II: Instructional Materials & Teaching Aids
+              </h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                {materials.map((m, idx) => (
+                  <li key={idx} className="p-2 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2 text-slate-700">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                    <span>{m}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* PART III: METHODOLOGY & LESSON DELIVERY MATRIX */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2 pb-1.5 border-b border-emerald-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                Part III: Sequential Methodology & Step-by-Step Delivery
+              </h3>
+              <div className="overflow-x-auto rounded-xl border border-slate-200">
+                <table className="w-full text-xs text-left border-collapse">
+                  <tbody>
+                    <tr className="border-b border-slate-200 bg-slate-50/60">
+                      <td className="p-2.5 font-bold text-slate-700 w-1/4 border-r border-slate-200">Previous Knowledge:</td>
+                      <td className="p-2.5 text-slate-800">{previousKnowledge}</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="p-2.5 font-bold text-slate-700 border-r border-slate-200">Introduction (Set Induction):</td>
+                      <td className="p-2.5 text-slate-800">{introduction}</td>
+                    </tr>
+                    <tr className="border-b border-slate-200 bg-slate-50/60">
+                      <td className="p-2.5 font-bold text-slate-700 border-r border-slate-200">Teacher's Activities:</td>
+                      <td className="p-2.5 text-slate-800 whitespace-pre-line leading-relaxed">{teacherActivity}</td>
+                    </tr>
+                    <tr className="border-b border-slate-200">
+                      <td className="p-2.5 font-bold text-slate-700 border-r border-slate-200">Students' Activities:</td>
+                      <td className="p-2.5 text-slate-800 whitespace-pre-line leading-relaxed">{studentActivity}</td>
+                    </tr>
+                    <tr className="border-b border-slate-200 bg-slate-50/60">
+                      <td className="p-2.5 font-bold text-slate-700 border-r border-slate-200">Formative Evaluation:</td>
+                      <td className="p-2.5 text-slate-800">{evaluation}</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2.5 font-bold text-slate-700 border-r border-slate-200">Home Assignment:</td>
+                      <td className="p-2.5 text-slate-800">{assignment}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* PART IV: DIFFERENTIATED INSTRUCTION */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2 pb-1.5 border-b border-emerald-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                Part IV: Differentiated Instruction Framework
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
+                  <span className="text-[10px] font-bold text-amber-900 uppercase block">Tier 1: Struggling Learners</span>
+                  <p className="text-slate-700 text-[11px] leading-relaxed">{diffInstruction.struggling}</p>
+                </div>
+                <div className="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1">
+                  <span className="text-[10px] font-bold text-emerald-900 uppercase block">Tier 2: On-Level Learners</span>
+                  <p className="text-slate-700 text-[11px] leading-relaxed">{diffInstruction.onLevel}</p>
+                </div>
+                <div className="p-3 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-1">
+                  <span className="text-[10px] font-bold text-indigo-900 uppercase block">Tier 3: Advanced Learners</span>
+                  <p className="text-slate-700 text-[11px] leading-relaxed">{diffInstruction.advanced}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* PART V: OFFICIAL SELF-EXPLANATORY EDUCATIONAL ILLUSTRATION */}
+            {selectedDiagram && (
+              <div className="space-y-2 pt-2">
+                <div className="flex items-center justify-between pb-1.5 border-b border-emerald-100">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                    Part V: Official Instructional Illustration & Chalkboard Diagram
+                  </h3>
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                    Self-Explanatory Diagram
+                  </span>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 shadow-2xs">
+                  <div className="inline-block px-3 py-1 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs">
+                    {selectedDiagram.title}
+                  </div>
+                  <div className="max-w-xl mx-auto p-3 bg-white rounded-2xl border border-slate-200 shadow-inner flex justify-center">
+                    <div
+                      className="w-full flex justify-center max-h-72"
+                      dangerouslySetInnerHTML={{ __html: selectedDiagram.svgContent }}
+                    />
+                  </div>
+                  <p className="text-xs text-slate-600 italic max-w-lg mx-auto">
+                    {diagramCaption}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* PART VI: CHALKBOARD LESSON NOTE (PUPILS' COPY) */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between pb-1.5 border-b border-emerald-100">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                  Part VI: Official Chalkboard Lesson Note (Pupils' Notebook Copy)
+                </h3>
+                <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                  Lesson Note
+                </span>
+              </div>
+
+              <div className="space-y-3 text-xs">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                  <strong className="block text-slate-900 font-bold uppercase text-[11px] tracking-wider">
+                    1. Subtopics Covered:
+                  </strong>
+                  <p className="text-slate-800 whitespace-pre-line leading-relaxed">{lessonNote.subtopics}</p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                  <strong className="block text-slate-900 font-bold uppercase text-[11px] tracking-wider">
+                    2. Conceptual Definitions & Theoretical Framework:
+                  </strong>
+                  <p className="text-slate-800 whitespace-pre-line leading-relaxed">{lessonNote.definitions}</p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                  <strong className="block text-slate-900 font-bold uppercase text-[11px] tracking-wider">
+                    3. Step-by-Step Worked Classroom Examples (WAEC/NECO Standard):
+                  </strong>
+                  <div className="p-3 rounded-xl bg-white border border-slate-200 font-mono text-[11.5px] text-slate-900 whitespace-pre-line leading-relaxed">
+                    {lessonNote.workedExamples}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                    <strong className="block text-slate-900 font-bold uppercase text-[11px] tracking-wider">
+                      4. Blackboard Summary Takeaways:
+                    </strong>
+                    <p className="text-slate-800 whitespace-pre-line leading-relaxed">{lessonNote.blackboardSummary}</p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                    <strong className="block text-slate-900 font-bold uppercase text-[11px] tracking-wider">
+                      5. Classroom Practice Drill & Homework:
+                    </strong>
+                    <p className="text-slate-800 whitespace-pre-line leading-relaxed">{lessonNote.classDrill}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PART VII: ADMINISTRATIVE VETTING & QUALITY ASSURANCE */}
+            <div className="pt-8 border-t-2 border-slate-200 space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 text-center">
+                Administrative Moderation, Quality Assurance & Approvals
+              </h3>
+              <div className="grid grid-cols-3 gap-6 text-center text-xs">
+                <div className="space-y-2">
+                  <div className="h-10 border-b border-dashed border-slate-400 flex items-end justify-center pb-1">
+                    <span className="font-serif italic text-slate-700 text-sm">A. Balogun</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Subject Teacher</p>
+                    <p className="text-[10px] text-slate-400">Date: {new Date().toLocaleDateString('en-GB')}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="h-10 border-b border-dashed border-slate-400 flex items-end justify-center pb-1">
+                    <span className="text-[10px] uppercase font-bold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded">Vetted & Recommended</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Head of Department (HOD)</p>
+                    <p className="text-[10px] text-slate-400">Stamp & Official Signature</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="h-10 border-b border-dashed border-slate-400 flex items-end justify-center pb-1">
+                    <span className="text-[10px] uppercase font-bold text-purple-800 bg-purple-100/70 px-2 py-0.5 rounded">Approved for Delivery</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Vice-Principal / Principal</p>
+                    <p className="text-[10px] text-slate-400">OEQA Academic Directorate</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* MODE 4: VISUAL AIDS ENGINE (3D & 4K INSTRUCTIONAL REALIA) */}
+      {composerMode === 'visual-aids' && (
+        <div className="space-y-6">
+          {/* Top Realia Engine Banner */}
+          <div className="bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 p-6 rounded-3xl text-white border border-emerald-800/40 shadow-xl relative overflow-hidden">
+            <div className="relative z-10 max-w-3xl space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>3D & 4K STEM Visual Aid Engine</span>
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-slate-200">
+                  Nigerian Classroom Realia
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                Procedural 3D Models & 4K Visual Aids for {subject}
+              </h2>
+              <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed">
+                Overcome shortages of physical laboratory equipment in Nigerian schools. Project interactive, rotatable 3D realia models and Ultra-HD demonstration clips onto any classroom chalkboard or projector screen.
+              </p>
+
+              {/* Sub-tab Navigation: 3D Model, 4K Video, Physical Realia */}
+              <div className="pt-2 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveVisualAidSubtab('3d')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    activeVisualAidSubtab === '3d'
+                      ? 'bg-emerald-500 text-slate-950 shadow-md font-black'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  <Box className="w-4 h-4" />
+                  <span>3D Procedural Realia (WebGL)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveVisualAidSubtab('video')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    activeVisualAidSubtab === 'video'
+                      ? 'bg-emerald-500 text-slate-950 shadow-md font-black'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  <Video className="w-4 h-4" />
+                  <span>4K Demonstration Video</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveVisualAidSubtab('physical')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    activeVisualAidSubtab === 'physical'
+                      ? 'bg-emerald-500 text-slate-950 shadow-md font-black'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  <Layers className="w-4 h-4" />
+                  <span>Low-Cost Physical Realia</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Subtab 1: 3D Interactive Model */}
+          {activeVisualAidSubtab === '3d' && (
+            <div className="space-y-4">
+              <VisualAidViewer
+                modelType={visual3DModel}
+                topicTitle={title}
+                onModelChange={(newModel) => {
+                  setVisual3DModel(newModel);
+                  markDirty();
+                }}
+              />
+            </div>
+          )}
+
+          {/* Subtab 2: 4K Video Player */}
+          {activeVisualAidSubtab === 'video' && (
+            <div className="space-y-4">
+              <VideoAidPlayer
+                videoUrl={video4KUrl}
+                topicTitle={title}
+                onUrlChange={(newUrl) => {
+                  setVideo4KUrl(newUrl);
+                  markDirty();
+                }}
+              />
+            </div>
+          )}
+
+          {/* Subtab 3: Physical Low-Cost Realia */}
+          {activeVisualAidSubtab === 'physical' && (
+            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-xs space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900">Physical & Locally Sourced Teaching Aids</h3>
+                  <p className="text-xs text-gray-500">
+                    Low-cost instructional materials sourced from the local environment (NERDC Improvised Realia Standard)
+                  </p>
+                </div>
+              </div>
+
+              {/* Physical items list */}
+              <div className="flex flex-wrap gap-2">
+                {physicalMaterials.map((mat, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center gap-2"
+                  >
+                    <span>{mat}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = physicalMaterials.filter((_, idx) => idx !== i);
+                        setPhysicalMaterials(updated);
+                        markDirty();
+                      }}
+                      className="text-emerald-700 hover:text-red-600 transition-colors"
+                      title="Remove material"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+
+              {/* Add item input */}
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="text"
+                  placeholder="e.g. Empty matchboxes, broomstick bundle, local orange for spherical geometry..."
+                  value={newPhysicalItem}
+                  onChange={(e) => setNewPhysicalItem(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && newPhysicalItem.trim()) {
+                      e.preventDefault();
+                      setPhysicalMaterials([...physicalMaterials, newPhysicalItem.trim()]);
+                      setNewPhysicalItem('');
+                      markDirty();
+                    }
+                  }}
+                  className="flex-1 px-4 py-2 text-xs border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (newPhysicalItem.trim()) {
+                      setPhysicalMaterials([...physicalMaterials, newPhysicalItem.trim()]);
+                      setNewPhysicalItem('');
+                      markDirty();
+                    }
+                  }}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-colors"
+                >
+                  Add Realia
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -1675,8 +2907,28 @@ ${diagramHtml}
               </button>
             </div>
 
+            {/* Category Filter Tabs */}
+            <div className="flex flex-wrap items-center gap-1.5 pb-2 border-b border-gray-100 text-xs">
+              {['All', 'Science', 'Mathematics', 'Technology', 'Social Studies', 'Commercial', 'Humanities'].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setDiagramCategoryFilter(cat)}
+                  className={`px-3 py-1 rounded-xl font-bold transition-colors ${
+                    diagramCategoryFilter === cat
+                      ? 'bg-emerald-600 text-white shadow-2xs'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {curriculumDiagrams.map((diag) => (
+              {curriculumDiagrams
+                .filter((d) => diagramCategoryFilter === 'All' || d.category === diagramCategoryFilter)
+                .map((diag) => (
                 <div
                   key={diag.id}
                   onClick={() => {

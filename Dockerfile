@@ -19,15 +19,14 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/src ./src
 COPY --from=builder /app/server.ts ./server.ts
-COPY --from=builder /app/src/db ./src/db
-COPY --from=builder /app/src/lib ./src/lib
-COPY --from=builder /app/data ./data
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
-# Install tsx globally for direct execution
+# Install tsx for running TypeScript directly in production
 RUN npm install -g tsx
 
 EXPOSE 3000
 
-CMD ["tsx", "server.ts"]
+CMD ["node", "server.ts"]

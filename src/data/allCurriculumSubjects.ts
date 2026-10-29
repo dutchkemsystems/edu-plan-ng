@@ -377,6 +377,54 @@ export const JUNIOR_SECONDARY_SUBJECTS: SubjectMetadata[] = [
     ]
   },
   {
+    id: 'igb',
+    name: 'Asụsụ Igbo',
+    code: 'IGB',
+    category: 'junior',
+    department: 'Humanities & Arts',
+    icon: 'Languages',
+    description: 'Ụdaasụsụ, usoro edemede (mkpụrụedemede 36), ụtọasụsụ, omenaala na agụmagụ Igbo nile.',
+    defaultTopics: [
+      'Mkpụrụedemede Igbo (Abidii Igbo): Ụdaume (Udaume 8) na Mgbochiume (28)',
+      'Udaume na Mgbochiume: Ụdaume mfe na ụdaume arọ',
+      'Akara Ụdaolu na Igbo: Ụdaelu, ụdandarị, na ụdaala na mmetụta ha na nkọwa okwu',
+      'Nkejiasụsụ Igbo: Ụdị mkpọaha na ojiji ha',
+      'Ekele na Nsọpụrụ n\'Ala Igbo: Ụzọ dị iche iche e si ekene n\'ụtụtụ, ehihie, na anyasị',
+      'Edemede Nkọwa: "Ụlọakwụkwọ m" ma ọ bụ "Ahịa Obodo Anyị"',
+      'Nlele Nnwale Nke Etiti Oge na Nchikota Akara',
+      'Agụmagụ Ọdịnala: Akụkọ ifo, abụ ọdịnala, na ilu Igbo',
+      'Omenaala na Ewumewu: Alụmdi na nwunye, ọmụmụ nwa, na ichi ọchịchị n\'ala Igbo',
+      'Ilu na Akpaalaokwu Igbo: Nkọwa na otu e si eji ha na nkwurịta okwu',
+      'Nka na Ọrụ aka ndị Igbo: Ịkpu ite, ịkpụ ụzụ, na ịkwa akwa',
+      'Nchịkọta na Nlegharị Anya maka Ule Ọgwụgwụ Oge',
+      'Ule Ọgwụgwụ Oge na Ndekọ Akara Broadsheet'
+    ]
+  },
+  {
+    id: 'hau',
+    name: 'Harshen Hausa',
+    code: 'HAU',
+    category: 'junior',
+    department: 'Humanities & Arts',
+    icon: 'Languages',
+    description: 'Bayanin sautin harshe, haruffan Hausa, ƙa\'idojin rubutu, al\'adu, adabin gargajiya da na zamani.',
+    defaultTopics: [
+      'Bayanin Haruffan Hausa: Baƙaƙe da wasula, haruffa masu tagwayen sauti',
+      'Ƙa\'idojin Rubutun Hausa: Raba kalmomi, haɗa kalmomi, da amfani da alamomin rubutu',
+      'Kayan Sautin Hausa: Ƙwarewar furuci, gajerun wasula da dogayen wasula',
+      'Rabe-raben Kalmomi: Suna (suna na gama-gari da sunan kanka)',
+      'Al\'adun Gaisuwa a Ƙasar Hausa: Gaisuwar safe, rana, da ta girmama manya',
+      'Ƙagaggen Rubutu (Insha\'i): "Makaranta Ta" ko "Kasuwar Garinmu"',
+      'Gwajin Tsakiyar Zango da Tantance Sakamako',
+      'Adabin Gargajiya: Tatsuniyoyi, karin magana, da waƙoƙin baka',
+      'Tsayayyun Al\'adu: Bukukuwan aure, haihuwa, da sana\'o\'in gargajiya a Arewa',
+      'Karin Magana a Harshen Hausa: Ma\'ana da amfaninsu a zantuka',
+      'Sana\'o\'in Gargajiya: Ƙira, jima, saƙa, da rini a ƙasar Hausa',
+      'Bita Kan Dukkan Darussan Zango don Shirin Jarabawa',
+      'Jarabawar Ƙarshen Zango da Rubuta Sakamako'
+    ]
+  },
+  {
     id: 'fre',
     name: 'French Language',
     code: 'FRE',
@@ -903,40 +951,309 @@ export function getSubjectTermTopics(subject: SubjectMetadata, term: number = 1,
     return defaults;
   }
 
-  const subName = subject.name;
+  const subLower = subject.name.toLowerCase();
+  const subCode = subject.code.toLowerCase();
+
+  // 1. Mathematics & Further Mathematics
+  if (subLower.includes('math') || subCode.includes('mth')) {
+    if (isTerm2) {
+      return [
+        'Algebraic Factors: Common Factors, Grouping & Difference of Two Squares',
+        'Quadratic Equations: Solution by Factorization Method',
+        'Simultaneous Linear Equations: Elimination and Substitution Methods',
+        'Plane Geometry: Angles on a Straight Line, Parallel Lines & Triangles',
+        'Polygons: Interior and Exterior Angles of Convex Polygons',
+        'Mensuration: Perimeter and Area of Triangles, Parallelograms & Trapeziums',
+        'Mid-Term Continuous Assessment (CA Test 2) & Diagnostic Drill',
+        'Surface Area and Volume of Right Prisms and Cylinders',
+        'Statistics: Data Presentation using Frequency Tables, Bar Charts & Histograms',
+        'Measures of Central Tendency: Mean, Median and Mode of Ungrouped Data',
+        'Probability: Experimental Outcomes, Sample Space and Single Events',
+        'Termly Revision, WAEC/BECE Problem Clinic & Past Question Review',
+        'Terminal Examination, Script Moderation, Grading & Broadsheet Entry'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Trigonometric Ratios: Sine, Cosine and Tangent of Acute Angles',
+        'Angles of Elevation and Depression & Compass Bearings',
+        'Indices and Logarithms: Laws of Indices & Four-Figure Log Tables',
+        'Coordinate Geometry: Gradient and Intercept of Straight Line Graphs',
+        'Commercial Arithmetic: Simple Interest, Compound Interest & Depreciation',
+        'Sets and Venn Diagrams: Union, Intersection and Complement of Sets',
+        'Mid-Term Continuous Assessment (CA Test 3) & Remedial Clinic',
+        'Number Bases: Conversion between Base 2, Base 8 and Base 10',
+        'Circle Theorems: Angles Subtended at Center and Inscribed Angles',
+        'Geometric Construction: Constructing 30°, 60°, 90°, 75° & Line Bisectors',
+        'Cumulative Frequency Curves (Ogive) and Median Estimation',
+        'Full Annual Mathematics Revision & Speed Practice Clinic',
+        'Annual Promotion Examination, WAEC/BECE Readiness & Broadsheet Entry'
+      ];
+    }
+  }
+
+  // 2. English Studies & English Language
+  if (subLower.includes('eng') || subCode.includes('eng')) {
+    if (isTerm2) {
+      return [
+        'Grammar: Tenses (Present Perfect, Past Continuous, Future Continuous)',
+        'Formal Letter Writing: Applications, Official Complaints & Inquiries',
+        'Speech Work: Diphthongs (/eɪ/, /aɪ/, /ɔɪ/, /aʊ/, /əʊ/) and Contrast Drills',
+        'Expository Composition: "Effects of Environmental Degradation in Nigeria"',
+        'Vocabulary Development: Words Associated with Health, Medicine & Sanitation',
+        'Punctuation Marks: Colons, Semi-colons, and Inverted Commas in Dialogue',
+        'Mid-Term Assessment & Oral Speech Sound Diagnostic Check',
+        'Direct and Indirect Speech: Rules of Conversion and Reporting Verbs',
+        'Reading Comprehension: Identifying Topic Sentences and Inferring Meanings',
+        'Literature-in-English: African Poetry (Themes, Metaphor, Personification)',
+        'Argumentative Essay: "Day Secondary Schools are Better than Boarding Schools"',
+        'Comprehensive 2nd Term Revision on Grammar, Speech & Composition',
+        'Terminal Examination, Oral Speech Testing & Broadsheet Entry'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Grammar: Active Voice versus Passive Voice Transformation',
+        'Clauses: Independent, Adjectival and Adverbial Clauses of Time and Reason',
+        'Speech Work: Consonant Clusters (pl, str, scr) and Syllabic Consonants',
+        'Narrative Essay: "An Unforgettable Experience in My Secondary School"',
+        'Vocabulary Development: Words Associated with Law, Justice & Public Governance',
+        'Summary Writing Techniques: Separating Main Ideas from Supporting Details',
+        'Mid-Term Continuous Assessment & Essay Writing Speed Clinic',
+        'Idiomatic Expressions and Phrasal Verbs in Contemporary Nigerian English',
+        'Literature-in-English: Dramatic Elements (Protagonist, Conflict, Soliloquy)',
+        'Informal Letter: Writing to a Relative Abroad Describing Nigerian Festivals',
+        'Question Tags, Modal Auxiliaries (must, should, ought) and Subject-Verb Concord',
+        'Annual English Studies Revision & WAEC/BECE Paper 1 & 2 Clinic',
+        'Annual Promotion Examination & Script Moderation'
+      ];
+    }
+  }
+
+  // 3. Basic Science & Biology
+  if (subLower.includes('bio') || subLower.includes('basic science') || subCode.includes('bio') || subCode.includes('bsc')) {
+    if (isTerm2) {
+      return [
+        'Circulatory System: Structure of Heart, Blood Vessels, Blood Groups & Rhesus Factor',
+        'Respiratory System: Mechanism of Breathing, Gaseous Exchange & Cellular Respiration',
+        'Excretory System in Humans: Kidneys, Nephron Structure, Skin & Osmoregulation',
+        'Plant Nutrition: Internal Leaf Anatomy, Photosynthesis Light & Dark Stages',
+        'Transportation in Vascular Plants: Transpiration Pull, Xylem & Phloem Translocation',
+        'Ecology: Ecosystem Components, Food Chains, Food Webs & Trophic Energy Pyramids',
+        'Mid-Term Continuous Assessment & Practical Slide Microscopy Drill',
+        'Nutrient Cycles in Nature: The Carbon Cycle, Water Cycle & Nitrogen Cycle',
+        'Genetics & Heredity: Mendel\'s Laws of Inheritance, Monohybrid Cross & Genotypes',
+        'Variation in Living Organisms: Continuous vs Discontinuous Morphological Traits',
+        'Evolutionary Adaptation: Lamarckism, Darwinian Natural Selection & Camouflage',
+        'Comprehensive Termly Biology Revision & Practical Specimen Identification',
+        'Terminal Examination, Practical Lab Assessment & Broadsheet Entry'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Digestive System: Alimentary Canal Anatomy, Chemical Digestion & Digestive Enzymes',
+        'Skeletal System: Axial and Appendicular Skeleton, Joint Types & Locomotion',
+        'Nervous System: Brain Anatomy, Spinal Cord, Neurons & Reflex Arc Action',
+        'Sense Organs: Anatomy of the Mammalian Eye (Accommodation, Defects & Corrections)',
+        'Sense Organs: Anatomy of the Ear (Hearing Mechanism, Balance & Eustachian Tube)',
+        'Microorganisms & Health: Pathogenic Bacteria, Viruses, Protozoa & Immunization',
+        'Mid-Term Continuous Assessment & Anatomical Drawing Practice',
+        'Human Reproductive Health: Male & Female Reproductive Organs, Fertilization & Gestation',
+        'Ecology of Populations: Succession, Overcrowding, Territoriality & Dispersal',
+        'Soil Biology: Soil Organic Matter, Soil Horizon Monoliths & Microflora',
+        'Pollution & Environmental Conservation: Oil Spills in Niger Delta, Afforestation',
+        'Annual Science Revision, Specimen Mounting & WAEC/NECO Practical Clinic',
+        'Annual Promotion Examination & Final Broadsheet Certification'
+      ];
+    }
+  }
+
+  // 4. Chemistry
+  if (subLower.includes('chem') || subCode.includes('chm')) {
+    if (isTerm2) {
+      return [
+        'Chemical Bonding: Electrovalent, Covalent, Dative and Metallic Bonding',
+        'Stoichiometry & Mole Concept: Avogadro\'s Number, Molar Mass & Empirical Formula',
+        'Gas Laws: Boyle\'s Law, Charles\'s Law, General Gas Equation & Dalton\'s Law',
+        'Kinetic Theory of Matter: Ideal vs Real Gases and Graham\'s Law of Diffusion',
+        'Acids, Bases and Salts: pH Scale, Universal Indicators & Neutralization',
+        'Standard Solutions & Volumetric Analysis (Acid-Base Titration Calculations)',
+        'Mid-Term Continuous Assessment & Volumetric Titration Laboratory Exam',
+        'Water Chemistry: Soft vs Hard Water, Causes of Hardness & Removal Methods',
+        'Periodic Chemistry: Trends in Atomic Radii, Ionization Energy & Electronegativity',
+        'Redox Reactions: Oxidation Numbers, Half-Equations & Balancing Redox Systems',
+        'Carbon & Its Allotropes: Diamond, Graphite, Coal & Industrial Uses',
+        'Termly Revision & WAEC Qualitative/Quantitative Chemistry Masterclass',
+        'Terminal Practical & Theory Examination'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Introduction to Organic Chemistry: Tetravalency of Carbon & Hybridization',
+        'Hydrocarbons: Saturated Alkanes (Methane, Ethane) Preparation & Combustion',
+        'Unsaturated Hydrocarbons: Alkenes and Alkynes (Addition Reactions & Polymerization)',
+        'Alkanols (Ethanol Preparation by Fermentation) and Alkanoic Acids (Esterification)',
+        'Rates of Chemical Reactions: Collision Theory, Temperature & Catalysts',
+        'Chemical Equilibrium: Dynamic Equilibrium & Le Chatelier\'s Principle',
+        'Mid-Term Continuous Assessment & Organic Nomenclature Speed Drill',
+        'Thermochemistry: Exothermic vs Endothermic Reactions & Enthalpy of Neutralization',
+        'Electrochemistry: Faraday\'s Laws of Electrolysis & Industrial Electroplating',
+        'Industrial Extraction of Metals: Iron (Blast Furnace) & Aluminum (Bauxite Smelting)',
+        'Environmental Chemistry: Atmospheric Acid Rain, Greenhouse Gases & Ozone Depletion',
+        'Comprehensive Annual Chemistry Revision & Qualitative Salt Analysis (Cations/Anions)',
+        'Annual Promotion Examination & Script Moderation'
+      ];
+    }
+  }
+
+  // 5. Physics
+  if (subLower.includes('phys') || subCode.includes('phy')) {
+    if (isTerm2) {
+      return [
+        'Work, Energy and Power: Calculations of Work Done, Kinetic & Potential Energy',
+        'Thermal Energy: Heat versus Temperature, Thermometers & Calibration Scales',
+        'Thermal Expansion: Linear, Superficial and Cubical Expansivity of Solids',
+        'Heat Transfer: Conduction, Convection, Radiation & Vacuum Flask Applications',
+        'Quantity of Heat: Specific Heat Capacity and Method of Mixtures Calculations',
+        'Latent Heat: Specific Latent Heat of Fusion and Vaporization in Everyday Physics',
+        'Mid-Term Assessment & Thermal Physics Laboratory Drill',
+        'Reflection of Light: Laws of Reflection, Plane Mirrors & Concave/Convex Mirrors',
+        'Refraction of Light: Snell\'s Law, Critical Angle & Total Internal Reflection',
+        'Thin Lenses: Converging and Diverging Lenses, Ray Tracing & Lens Formula',
+        'Optical Instruments: Astronomical Telescope, Compound Microscope & Human Eye',
+        'Termly Revision & WAEC Practical Mechanics/Optics Clinic',
+        'Terminal Examination, Physics Practical & Broadsheet Entry'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Waves & Sound: Production, Propagation, Speed of Sound, Echoes & Resonance',
+        'Vibrations in Strings and Air Pipes: Harmonics, Overtones & Musical Instruments',
+        'Current Electricity: Electric Charge, Potential Difference & Ohm\'s Law',
+        'Electrical Circuits: Resistors in Series and Parallel, Internal Resistance & EMF',
+        'Electrical Energy and Power: Kilowatt-hour Billing (PHCN/NEPA) & Fuse Rating',
+        'Magnetic Fields: Field Patterns of Bar Magnets, Solenoids & Earth\'s Magnetism',
+        'Mid-Term Assessment & Electricity Circuit Connection Laboratory Exam',
+        'Electromagnetic Induction: Faraday\'s Laws, Lenz\'s Law & Transformers',
+        'Gravitational Fields: Newton\'s Law of Universal Gravitation & Satellite Orbits',
+        'Projectile Motion: Time of Flight, Maximum Height & Horizontal Range',
+        'Simple Harmonic Motion (SHM): Period of Simple Pendulum & Helical Spring',
+        'Nuclear Physics: Radioactivity (Alpha, Beta, Gamma Decay), Half-Life & Nuclear Energy',
+        'Annual Promotion Examination & Broadsheet Certification'
+      ];
+    }
+  }
+
+  // 6. Basic Technology & Technical Drawing
+  if (subLower.includes('tech') || subLower.includes('drawing') || subCode.includes('btech') || subCode.includes('td')) {
+    if (isTerm2) {
+      return [
+        'First-Angle Orthographic Projection: Front Elevation, End View and Plan View',
+        'Third-Angle Orthographic Projection: National Engineering Standards (BS 8888)',
+        'Isometric Projection: 30° Isometric Axes, Box Construction & Isometric Circles',
+        'Oblique Projection: Cavalier and Cabinet Oblique Drawing Conventions',
+        'Woodwork Joints: Widening, Framing, Mortise and Tenon, Dovetail Joints',
+        'Sheet Metal Hand Tools: Snips, Stakes, Hammers & Sheet Metal Development',
+        'Mid-Term Assessment & Workshop Drafting Practical Test',
+        'Fasteners: Screws, Bolts, Nuts, Studs, Keys & Locking Devices',
+        'Mechanisms: Cams, Followers, Cranks, Belt Drives and Gear Train Ratios',
+        'Soldering and Brazing: Fluxes, Soldering Iron & Plumbing Installations',
+        'Building Drawing: Symbols, Floor Plans, Door and Window Schedules',
+        'Termly Revision & Workshop Safety Protocol Audit',
+        'Terminal Practical Examination & Model Exhibition'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Electrical Workshop: Circuit Schematics, Wiring Installations & Fuse Protection',
+        'Electronic Components: Resistors, Capacitors, Diodes, Transistors & PCB Boards',
+        'Fluid Power: Principles of Hydraulic and Pneumatic Systems & Brake Lines',
+        'Building Construction: Foundation Types, Concrete Mix Ratios & Wall Bonding',
+        'Roof Trusses: Timber and Steel Roof Structures, Drainage & Ceiling Battens',
+        'Precision Measuring Tools: Vernier Calipers, Micrometer Screw Gauge & Dial Gauges',
+        'Mid-Term Assessment & CAD Drafting Demonstration',
+        'Introduction to Computer-Aided Drafting (CAD): Tools, Commands & Layers',
+        'Sectional Views: Full Section, Half Section, Revolved & Removed Sections',
+        'Technical Lettering and Dimensioning Standards for WAEC/NECO Examination',
+        'Engineering Model Fabrication & Workshop Capstone Project',
+        'Annual Technical Drawing Revision & Drafting Portfolio Moderation',
+        'Annual Promotion Examination & Broadsheet Entry'
+      ];
+    }
+  }
+
+  // 7. Geography
+  if (subLower.includes('geograph') || subCode.includes('geo')) {
+    if (isTerm2) {
+      return [
+        'Map Reading: Cartographic Scales, Conventional Symbols & Four-Figure Grid References',
+        'Contour Lines & Landforms: Valleys, Spurs, Knolls, Escarpments & Plateaus',
+        'Cross-Section Profiling and Vertical Exaggeration Calculations',
+        'The Solar System & Earth\'s Geometry: Rotation, Revolution, Equinoxes & Solstices',
+        'The Earth\'s Crust: Structure, Classification of Igneous, Sedimentary & Metamorphic Rocks',
+        'Volcanism and Earthquakes: Vulcanicity, Landforms of Intrusion/Extrusion & Ring of Fire',
+        'Mid-Term Assessment & Cartographic Topographical Map Work Clinic',
+        'Weather and Climate: Measurement with Rain Gauge, Thermometers, Barometer & Anemometer',
+        'Climate Belts of Africa: Equatorial Rain, Tropical Wet/Dry Savanna, Mediterranean',
+        'River Systems: River Erosion, Transportation & Deposition (V-Shaped Valleys, Oxbow Lakes)',
+        'Action of Wind in Deserts: Deflation, Yardangs, Zeugens & Barchan Dunes',
+        'Termly Geography Revision & WAEC Practical Mapwork Examination Clinic',
+        'Terminal Examination & Broadsheet Entry'
+      ];
+    }
+    if (isTerm3) {
+      return [
+        'Weathering Processes: Mechanical Exfoliation, Frost Shattering & Chemical Carbonation',
+        'The Hydrological Cycle: Evaporation, Cloud Condensation, Runoff & Infiltration',
+        'Drainage Basins of Nigeria: River Niger, Benue Basin & Lake Chad Inland Drainage',
+        'Physical Relief Regions of Nigeria: North-Central Plateau, Coastal Lowlands, Eastern Highlands',
+        'Vegetation Belts of Nigeria: Mangrove Swamp, Tropical Rainforest, Guinea & Sahel Savanna',
+        'Soil Geography: Soil Formation, Soil Profiles (Horizons A, B, C) & Soil Erosion Control',
+        'Mid-Term Assessment & Geographical Field Sketching Practice',
+        'Minerals and Power Resources of Nigeria: Petroleum, Natural Gas, Coal, Limestone & Solar',
+        'Population Geography: Spatial Distribution, Density, Rural-Urban Migration in Nigeria',
+        'Transportation Networks & Economic Development in West Africa (Road, Rail, Ports)',
+        'Environmental Hazards in Nigeria: Desertification in North, Coastal Erosion & Flooding in Lagos',
+        'Geographic Information Systems (GIS): Remote Sensing & Satellite Imagery in Nigeria',
+        'Annual Promotion Examination & Broadsheet Certification'
+      ];
+    }
+  }
+
+  // Fallback default: enrich with subject-aligned terms
   if (isTerm2) {
     return [
-      `${subName}: Intermediate Concepts, Quantitative Laws & Laboratory Inquiries`,
-      `${subName}: Applied Procedures, Measurements & Analytical Modeling`,
-      `${subName}: Systematic Structural Formations & Nigerian Case Studies`,
-      `${subName}: Experimental Field Investigations & Domestic Realia`,
-      `${subName}: Advanced Problem Solving, Formulas & Comparative Analysis`,
-      `${subName}: Modern Technological & Commercial Adaptations in Nigeria`,
+      `${subject.name}: Intermediate Theoretical Frameworks & Core Principles`,
+      `${subject.name}: Applied Practical Methodologies & Measurement Standards`,
+      `${subject.name}: Nigerian Case Studies, Institutional Context & Domestic Realia`,
+      `${subject.name}: Step-by-Step Analytical Calculations & Conceptual Formulations`,
+      `${subject.name}: Systematic Classification, Categories & Operational Rules`,
+      `${subject.name}: Commercial, Technological & Cultural Adaptations in West Africa`,
       'Mid-Term Continuous Assessment (CA Test 2) & Targeted Remedial Clinic',
-      `${subName}: Sectoral Case Inquiries (Agriculture, Energy, Public Infrastructure)`,
-      `${subName}: Formative Class Demonstrations, Data Analysis & Calculations`,
-      `${subName}: Environmental, Economic & Societal Ramifications in West Africa`,
-      `${subName}: Standard Examination Drill & Chief Examiner Misconception Review`,
-      'Comprehensive 2nd Term Revision, WAEC/BECE Speed Drills & Question Clinic',
+      `${subject.name}: Diagnostic Problem-Solving & Error Analysis Drills`,
+      `${subject.name}: Collaborative Whiteboard Demonstrations & Practical Inquiries`,
+      `${subject.name}: Regulatory Policies, Statutory Standards & Socio-Economic Impact`,
+      `${subject.name}: WAEC/BECE Standard Examination Practice & Marking Scheme Review`,
+      'Comprehensive 2nd Term Curriculum Revision & Examination Masterclass',
       'Terminal Examination, Script Moderation, Grading & Broadsheet Entry'
     ];
   }
 
   if (isTerm3) {
     return [
-      `${subName}: Advanced Synthesis, Contemporary Innovations & Emerging Trends`,
-      `${subName}: Cross-Disciplinary Linkages, ICT Integrations & Digital Modeling`,
-      `${subName}: Practical Workshop & Laboratory Diagnostic Experiments`,
-      `${subName}: National Industrial, Scientific & Economic Policy Frameworks`,
-      `${subName}: Intensive Quantitative & Essay Technique Masterclass`,
-      `${subName}: WAEC, NECO & BECE Chief Examiner Rubric & Mark Distribution`,
+      `${subject.name}: Advanced Topical Synthesis & Contemporary Curriculum Innovations`,
+      `${subject.name}: Inter-Disciplinary Linkages, ICT Tools & Emerging Trends in Nigeria`,
+      `${subject.name}: Practical Laboratory, Fieldwork & Studio Workshop Demonstrations`,
+      `${subject.name}: National Development Goals, Entrepreneurial Applications & Wealth Creation`,
+      `${subject.name}: Advanced Multi-Step Analytical & Essay Examination Techniques`,
+      `${subject.name}: WAEC, NECO & BECE Chief Examiner Rubrics & Common Candidate Pitfalls`,
       'Mid-Term Continuous Assessment (CA Test 3) & Pre-Exam Diagnostic Review',
-      `${subName}: Comprehensive Multi-Year Topical Synthesis & Speed Practice`,
-      `${subName}: Specialized Practical Demonstrations & Portfolio Verification`,
-      `${subName}: Final Formative Review of Key Statutory NERDC Competencies`,
-      `${subName}: Mock Examination Clinic & Time Management Coaching`,
-      'Full Annual Curriculum Revision, Formula Recitation & Examination Strategy',
-      'Annual Promotion Examination, WAEC/BECE Readiness & Broadsheet Certification'
+      `${subject.name}: Speed Drills, Past Question Diagnostics & Model Solutions`,
+      `${subject.name}: Formative Practical Exhibition & Student Portfolio Verification`,
+      `${subject.name}: Terminal Mastery of Statutory Federal Ministry Competencies`,
+      `${subject.name}: Mock Examination Clinic & Timed Question Answering Strategies`,
+      'Full Annual Curriculum Revision, Formula Recitation & Examination Clinic',
+      'Annual Promotion Examination, Academic Readiness & Broadsheet Certification'
     ];
   }
 
@@ -949,6 +1266,24 @@ export function getSubjectTermTopics(subject: SubjectMetadata, term: number = 1,
  * and the Nigerian Educational Research and Development Council (NERDC).
  */
 export function generateNerdcOeqaContent(params: {
+  level: string;
+  subject: string;
+  topic?: string;
+  week?: number;
+  term?: number;
+  language?: 'en' | 'yo' | 'ig' | 'ha';
+}) {
+  const raw = _generateRawNerdcOeqaContent(params);
+  const safeTopic = params.topic?.trim() || `${params.subject || 'Curriculum'} Competency`;
+  return {
+    remedialTask: `Tier 1 (Remedial Task): Scaffolded step-by-step drill on "${safeTopic}" with basic definitions, vocabulary matching, and 2 supported worked examples.`,
+    standardTask: `Tier 2 (Standard Task): Independent NERDC curriculum exercises on "${safeTopic}" solving 5 textbook questions with Nigerian realia application.`,
+    advancedTask: `Tier 3 (Advanced Task): Multi-step inquiry or non-routine synthesis challenge on "${safeTopic}" formulating a peer-teaching demonstration or WAEC theory solution.`,
+    ...raw,
+  };
+}
+
+function _generateRawNerdcOeqaContent(params: {
   level: string;
   subject: string;
   topic?: string;
@@ -1061,49 +1396,458 @@ export function generateNerdcOeqaContent(params: {
     };
   }
 
-  // Default: Full English NERDC & OEQA Standard Lesson Plan & Chalkboard Note
-  const isScienceOrTech = subName.toLowerCase().includes('science') ||
-    subName.toLowerCase().includes('tech') ||
-    subName.toLowerCase().includes('chem') ||
-    subName.toLowerCase().includes('phys') ||
-    subName.toLowerCase().includes('bio') ||
-    subName.toLowerCase().includes('agr');
+  // Field of Study Determination
+  const subLower = subName.toLowerCase();
+  const isMath = subLower.includes('math') || subLower.includes('algebra') || subLower.includes('arithmetic');
+  const isBiology = subLower.includes('bio') || (subLower.includes('basic science') && (safeTopic.toLowerCase().includes('plant') || safeTopic.toLowerCase().includes('animal') || safeTopic.toLowerCase().includes('living') || safeTopic.toLowerCase().includes('cell')));
+  const isChemistry = subLower.includes('chem');
+  const isPhysics = subLower.includes('physics') || (subLower.includes('phys') && !subLower.includes('physical'));
+  const isGeneralScience = subLower.includes('basic science') || subLower.includes('integrated');
+  const isGeography = subLower.includes('geograph') || subLower.includes('earth') || subLower.includes('landform');
+  const isCommercial = subLower.includes('account') || subLower.includes('commerce') || subLower.includes('business') || subLower.includes('marketing') || (subLower.includes('econ') && !subLower.includes('home'));
+  const isHomeEc = subLower.includes('home ec') || subLower.includes('food') || subLower.includes('catering') || subLower.includes('nutrition') || subLower.includes('clothing');
+  const isPHE = subLower.includes('phe') || subLower.includes('physical') || subLower.includes('health education') || subLower.includes('athletic');
+  const isCCA = subLower.includes('cca') || subLower.includes('creative arts') || subLower.includes('cultural and creative') || subLower.includes('music') || subLower.includes('drama') || subLower.includes('fine art');
+  const isAgric = subLower.includes('agric') || subLower.includes('farm') || subLower.includes('crop') || subLower.includes('soil');
+  const isTechOrICT = subLower.includes('computer') || subLower.includes('ict') || subLower.includes('tech') || subLower.includes('drawing') || subLower.includes('data proc');
+  const isCivicOrGov = subLower.includes('civic') || subLower.includes('govern') || subLower.includes('social studies') || subLower.includes('history');
+  const isReligion = subLower.includes('christian') || subLower.includes('crs') || subLower.includes('crk') || subLower.includes('islam') || subLower.includes('irs') || subLower.includes('irk');
+  const isEnglishOrLit = subLower.includes('eng') || subLower.includes('lit') || subLower.includes('french');
 
-  const safetyRule = isScienceOrTech
-    ? 'OEQA Safety Protocol: Ensure personal protective equipment (goggles, lab coats) is inspected. Check fire extinguisher pressure and verify zero food/drink in the laboratory/workshop.'
-    : 'OEQA Classroom Protocol: Maintain clear gangways, inspect ventilation and ensure all learners sit with proper ergonomic posture.';
+  // Domain-specific customization:
+  if (isMath) {
+    return {
+      objectives: [
+        `State and prove the foundational mathematical definitions, properties, and theorems governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Apply statutory mathematical formulas and sequential algorithmic steps to evaluate 5 algebraic/numerical equations accurately (Bloom: Apply).`,
+        `Solve 2 multi-step contextual word problems modeled after Nigerian commercial and technological scenarios with 100% computational rigor (Bloom: Analyze & Solve).`,
+        `Score at least 80% on timed classroom whiteboard drills and verify answers using inverse operations.`
+      ],
+      materials: [
+        `NERDC Approved Mathematics Textbook for ${lvlName} (STAN / New General Mathematics)`,
+        'Whiteboard, Dry-Erase Grid Markers & Mathematical Protractor/Compass Set',
+        'Four-Figure Mathematical Logarithm Tables & Standard Geometric Models',
+        'EduPlan NG Standardized Practice Drills & WAEC/BECE Past Question Bank'
+      ],
+      previousKnowledge: `Learners can comfortably perform basic operations, simplify elementary expressions, and recall properties established in Week ${Math.max(1, week - 1)}.`,
+      introduction: `Teacher presents an intriguing real-life Nigerian arithmetic puzzle (e.g. calculation of market profit margin, construction tile geometry, or speed along the Lagos-Ibadan expressway) leading directly into ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, level, subject, and topic boldly on the board.\nStep 2: State the formal mathematical theorem/rule and derive the governing formula step-by-step.\nStep 3: Work through 2 WAEC/BECE standard examples on the board, demonstrating substitution, simplification, and unit tracking.\nStep 4: Guide pupils through 2 collaborative chalkboard drills, addressing sign errors and parentheses rules.\nStep 5: Summarize common examination pitfalls in WASSCE/NECO papers.`,
+      studentActivity: `Step 1: Copy structured theorem definitions, formulas, and working steps into mathematics notebooks.\nStep 2: Follow teacher's board demonstration and call out intermediate steps during working.\nStep 3: Pair up to solve 2 assigned drill equations within 8 minutes.\nStep 4: Present completed solutions on the board and complete individual exit-card evaluations.`,
+      evaluation: `Administer 3 timed evaluation questions: (a) 1 basic direct computation, (b) 1 algebraic simplification involving variables, (c) 1 contextual Nigerian problem. Require students to show full working.`,
+      assignment: `Complete Exercise questions 1 to 8 on page 32 of the recommended NERDC Mathematics textbook in your take-home exercise books.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Provide visual formula cue cards, step-by-step calculation frames, and peer-assisted arithmetic scaffolding.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent problem solving of standard textbook exercises with self-checking answer keys.',
+        advanced: 'Tier 3 (Enrichment / Further Math): Challenge with composite multi-variable equations and WAEC General Mathematics past theoretical questions.'
+      },
+      safetyPrecautions: 'Ensure careful handling of sharp compasses and divider points during geometric construction.',
+      lessonNote: {
+        subtopics: `1. Mathematical Definitions & Operational Notation of ${safeTopic}\n2. Core Theorems, Rules & Standard Algebraic Formulas\n3. Step-by-Step Worked Classroom Examples (WAEC/BECE Standard)\n4. Blackboard Summary Takeaways & Student Practice Drill`,
+        definitions: `${safeTopic} is a key curricular branch of ${subName} for ${lvlName} under the NERDC framework. It builds analytical discipline and quantitative reasoning vital for science, commercial, and engineering pathways.\n\nCore Principles:\n• Rule 1: Always adhere to the statutory sequence of operations (BODMAS / PEMDAS).\n• Rule 2: Maintain mathematical equality across equations by performing identical operations on both sides.\n• Rule 3: Always check units and dimensions (e.g. cm², Naira ₦, seconds, degrees).`,
+        workedExamples: `Worked Example 1 (Direct Computation):\nEvaluate the mathematical expression under standard conditions:\nStep 1: Identify given quantities and write the governing equation.\nStep 2: Substitute values accurately into the formula.\nStep 3: Simplify and state final answer clearly with proper units.\n\nWorked Example 2 (Contextual Problem):\nA trader in Alaba International Market purchases goods worth ₦450,000 with a freight surcharge. Using the mathematical principles of ${safeTopic}, calculate the net unit cost and optimal retail markup.`,
+        blackboardSummary: `• Point 1: Always double-check negative signs when expanding brackets or transposing terms across an equals sign.\n• Point 2: Show all intermediate calculation steps; marks in WAEC/NECO are awarded for method (M-marks) and accuracy (A-marks).\n• Point 3: Copy all formulas and the chalkboard diagram into your mathematics notebook.`,
+        classDrill: `1. State the main rule or formula governing ${safeTopic}.\n2. Solve the 2 drill problems written on the right wing of the chalkboard and submit your exercise book for initialing.`
+      }
+    };
+  }
 
+  if (isBiology || isChemistry || isPhysics || isGeneralScience) {
+    const scienceBranch = isChemistry ? 'Chemistry' : isPhysics ? 'Physics' : isBiology ? 'Biology' : 'Basic Science';
+    return {
+      objectives: [
+        `Explain the foundational scientific laws, cellular/atomic structures, or principles governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Set up laboratory apparatus or schematic diagrams correctly according to STAN safety specifications (Bloom: Apply & Create).`,
+        `Analyze experimental observations and record scientific measurements with accurate SI units (Bloom: Analyze & Evaluate).`,
+        `Draw and label self-explanatory biological, chemical, or physical diagrams with accurate proportions and guide-lines.`
+      ],
+      materials: [
+        `NERDC Approved ${scienceBranch} Textbook for ${lvlName} (STAN Series / Longman)`,
+        'School Science Laboratory Apparatus (Beakers, Bunsen Burner, Retort Stand, Test Tubes, Microscope/Slides)',
+        'Instructional Scientific Wall Charts & High-Resolution Vector Diagram Transparencies',
+        'Standard Personal Protective Equipment (Lab Coats, Safety Goggles, Heat-Resistant Gloves)'
+      ],
+      previousKnowledge: `Students recall prerequisite scientific laws and terminology learned in previous weeks and understand general laboratory safety protocols.`,
+      introduction: `Teacher demonstrates a brief 3-minute laboratory phenomenon or displays a real-world Nigerian natural specimen (e.g. water purification, plant transpiration, circuit connection) to stimulate scientific inquiry into ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: State operational scientific hypotheses, formulas, and laws governing the concept.\nStep 3: Conduct a live demonstration using laboratory equipment, explaining observations step-by-step.\nStep 4: Draw and label the standard scientific apparatus/structure diagram on the chalkboard.\nStep 5: Emphasize laboratory safety rules: zero tasting, checking emergency eyewash, and proper disposal.`,
+      studentActivity: `Step 1: Carefully observe teacher demonstration and record raw sensory data in laboratory logbooks.\nStep 2: Copy the clear chalkboard scientific diagram using sharp pencils and horizontal label guide-lines.\nStep 3: Work in lab pairs to manipulate apparatus and record experimental readings.\nStep 4: Formulate reasoned scientific deductions from observed experimental outcomes.`,
+      evaluation: `Conduct a 3-part formative check: (a) 1 definition of statutory scientific law/term, (b) 1 identification of apparatus parts/functions, (c) 1 deduction question based on experimental observations.`,
+      assignment: `Draw and label the complete scientific diagram for ${safeTopic} on a fresh page of your Science Practical Notebook. Answer review questions 1-5 on page 48 of the recommended textbook.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Provide labeled diagram templates and guided observation worksheets with sentence starters.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent diagram sketching, data recording, and standard deduction exercises.',
+        advanced: 'Tier 3 (Scientific Inquiry): Formulate hypotheses on variable manipulation and predict outcomes under altered experimental conditions.'
+      },
+      safetyPrecautions: 'OEQA & STAN Laboratory Safety Protocol: Wear protective goggles and lab coats. Ensure no loose clothing near burners. Check fire extinguishers and dispose of chemical/biological waste in designated bins.',
+      lessonNote: {
+        subtopics: `1. Scientific Definitions & Theoretical Background of ${safeTopic}\n2. Governing Scientific Laws, Formulas & SI Metric Units\n3. Experimental Setup, Apparatus Observation & Demonstration\n4. Chalkboard Diagram & Practical Examination Takeaways`,
+        definitions: `${safeTopic} is an essential instructional module in ${scienceBranch} within the NERDC secondary curriculum. It equips students with the empirical scientific method, diagnostic observation skills, and foundational competence for WAEC/NECO Practical and Theory examinations.\n\nKey Concepts:\n• Theory: Systematic investigation of physical, chemical, or biological phenomena in the natural universe.\n• Measurement: Adherence to the International System of Units (SI Units: kg, m, s, A, K, mol, cd).\n• Empirical Rigor: Distinguishing between controlled experimental variables and observed outcomes.`,
+        workedExamples: `Worked Example 1 (Laboratory Observation & Calculation):\nGiven empirical parameters in the experiment, apply the governing scientific formula:\nStep 1: List known variables with their standard SI units.\nStep 2: State the appropriate scientific equation/law.\nStep 3: Substitute values and calculate the final result with correct significant figures.\n\nWorked Example 2 (Nigerian Industrial Application):\nIn local Nigerian pharmaceutical, agricultural, or petrochemical industries (e.g. Dangote Refinery, NAFDAC food processing), applying ${safeTopic} ensures product purity, structural safety, and environmental standard compliance.`,
+        blackboardSummary: `• Point 1: In all WAEC/NECO practical exams, diagrams must have horizontal, non-crossing guide-lines and no arrowheads on labels.\n• Point 2: Always state numeric quantities alongside their exact SI metric units.\n• Point 3: Review all laboratory precautions and copy the full chalkboard illustration into your notebook.`,
+        classDrill: `1. State the scientific definition or law governing ${safeTopic}.\n2. Complete the labeled drawing of the instructional diagram shown on the chalkboard in your practical notebook.`
+      }
+    };
+  }
+
+  if (isCommercial) {
+    return {
+      objectives: [
+        `Define fundamental commercial, accounting, and economic terminology governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Apply the double-entry bookkeeping rule or economic market principles to prepare balanced ledger accounts/graphs (Bloom: Apply).`,
+        `Analyze Nigerian commercial transactions, Central Bank policies, or market equilibrium in Naira and Kobo (Bloom: Analyze).`,
+        `Demonstrate commercial numeracy by balancing financial records or interpreting demand and supply elasticities.`
+      ],
+      materials: [
+        `NERDC Approved Commercial Textbook for ${lvlName} (Essential Financial Accounting / Comprehensive Economics)`,
+        'Standard Multi-Column Ledger Paper, T-Account Worksheets & Graph Sheets',
+        'Nigerian Currency Replicas (Naira ₦ Notes), Bank Deposit Slips & Cheque Leaves',
+        'Market Price Index Data from the National Bureau of Statistics (NBS)'
+      ],
+      previousKnowledge: `Learners understand basic trade transactions, division of labor, and primary book-keeping entries from earlier weeks.`,
+      introduction: `Teacher presents a typical retail trade scenario at Bodija Market, Ibadan or Computer Village, Ikeja to prompt inquiry into how transactions in ${safeTopic} are tracked and balanced.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain commercial rules (e.g. Golden Rules of Accounting: Debit the receiver, Credit the giver; or Law of Demand).\nStep 3: Rule out a standard T-Account or economic curve on the board, demonstrating entry sequence step-by-step.\nStep 4: Guide learners through a practical Nigerian business transaction scenario.\nStep 5: Review financial integrity, fraud prevention, and audit standards.`,
+      studentActivity: `Step 1: Rule standard Ledger/T-Account margins or draw labeled economic axes in notebooks.\nStep 2: Post transactions to the appropriate debit and credit columns as teacher demonstrates.\nStep 3: Calculate totals and extract ledger balances (Balance c/d and b/d).\nStep 4: Solve a 10-minute commercial drill in pairs and cross-check ledger accuracy.`,
+      evaluation: `Test commercial competence: (a) State the statutory rule governing ${safeTopic}, (b) Identify whether 3 given transactions are Debits or Credits, (c) Calculate closing ledger balances.`,
+      assignment: `Prepare the full Ledger or Economic curve for transactions given on page 44 of the textbook for grading next lesson.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Color-coded Debit (Green) and Credit (Red) ledger templates with pre-ruled columns.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent preparation of two-column and three-column cash books or market schedules.',
+        advanced: 'Tier 3 (Enrichment / Financial Analysis): Analyze bank reconciliation statements or compute price elasticity coefficients.'
+      },
+      safetyPrecautions: 'Ensure orderly desk arrangement, careful handling of calculation equipment, and meticulous neatness in financial books.',
+      lessonNote: {
+        subtopics: `1. Commercial Concepts & Terminology of ${safeTopic}\n2. Governing Bookkeeping Rules, Ledger Accounts & Market Principles\n3. Worked Classroom Demonstration (Naira ₦ Financial Transactions)\n4. Blackboard Summary Takeaways & Student Commercial Drill`,
+        definitions: `${safeTopic} is a pillar of the NERDC Commercial Secondary Curriculum for ${lvlName}. It trains students in financial literacy, accountability, commercial negotiation, and preparation for professional certifications and WAEC/NECO commercial papers.\n\nCore Commercial Laws:\n• Golden Rule: Debit what comes in, Credit what goes out. Debit all expenses and losses; Credit all incomes and gains.\n• Accounting Equation: ASSETS = CAPITAL + LIABILITIES.\n• Economic Rule: Price is determined by the intersection of Market Demand and Market Supply curves.`,
+        workedExamples: `Worked Example 1 (Chalkboard Ledger Demonstration):\nRecord and balance commercial transactions for the trading period:\nStep 1: Identify the two accounts affected by the transaction.\nStep 2: Determine which account receives value (Debit) and which gives value (Credit).\nStep 3: Post the Naira ₦ amounts, balance the account, and bring down the opening balance (b/d).\n\nWorked Example 2 (Nigerian Business Application):\nChief Adeleke operates an agribusiness firm in Ogun State. By maintaining accurate records under ${safeTopic}, he prevents inventory shrinkage, tracks profit margins, and secures bank loans easily.`,
+        blackboardSummary: `• Point 1: Every debit entry must possess a corresponding credit entry of equal monetary value.\n• Point 2: Write clear narration for each transaction and keep figures aligned in columns.\n• Point 3: Copy the complete T-Account illustration and notes into your notebook before class ends.`,
+        classDrill: `1. State the fundamental double-entry rule or economic principle governing ${safeTopic}.\n2. Enter the 3 transactions written on the chalkboard into the proper ledger accounts and balance them.`
+      }
+    };
+  }
+
+  if (isCivicOrGov) {
+    return {
+      objectives: [
+        `Explain the statutory constitutional framework, civic responsibilities, and institutions governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Analyze the separation of powers, democratic checks, and rule of law under the 1999 Constitution of Nigeria (Bloom: Analyze).`,
+        `Critique 3 real-world Nigerian civic or governance case studies (e.g. electoral participation, anti-corruption, citizen rights) (Bloom: Evaluate).`,
+        `Demonstrate responsible civic leadership, national consciousness, and respect for statutory authorities.`
+      ],
+      materials: [
+        `NERDC Approved Civic Education / Government Textbook for ${lvlName}`,
+        'Copy of the 1999 Constitution of the Federal Republic of Nigeria (as amended)',
+        'National Symbols (Nigerian Flag, National Coat of Arms, National Anthem & Pledge)',
+        'Organizational Charts of the 3 Arms of Nigerian Government & Electoral Commission (INEC)'
+      ],
+      previousKnowledge: `Learners understand fundamental human rights, community norms, and democratic values learned in preceding civic lessons.`,
+      introduction: `Teacher recites a line from the Nigerian National Anthem ("To serve our fatherland with love and strength and faith") and connects national duty directly to ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Break down the constitutional and civic tenets governing the topic with statutory references.\nStep 3: Draw the governance organogram/structure on the chalkboard (Executive, Legislature, Judiciary).\nStep 4: Lead an interactive debate on civic duties versus fundamental human rights.\nStep 5: Emphasize national integration, anti-corruption values, and unity in diversity.`,
+      studentActivity: `Step 1: Copy constitutional definitions and governance charts into civic notebooks.\nStep 2: Actively participate in the structured classroom role-play demonstrating civic responsibility.\nStep 3: Analyze human rights scenarios in small groups and cite constitutional protections.\nStep 4: Answer formative exit questions evaluating democratic governance principles.`,
+      evaluation: `Evaluate civic understanding: (a) Define ${safeTopic} in the context of Nigerian democracy, (b) State 3 statutory functions of the relevant government institution, (c) Explain 2 civic duties expected of every Nigerian citizen.`,
+      assignment: `Write a 1-page essay in your civic notebook on: "The Role of Youth in Promoting Good Governance and Peaceful Coexistence in Nigeria."`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Visual civic flashcards depicting national symbols, institutions, and simplified right definitions.',
+        onLevel: 'Tier 2 (Core Curriculum): Standard constitutional case studies and structured short-answer analytical responses.',
+        advanced: 'Tier 3 (Enrichment / Legal Studies): Mock parliamentary debate simulating a bill passage through the National Assembly.'
+      },
+      safetyPrecautions: 'Foster a respectful, non-partisan, and inclusive classroom atmosphere during civic and political debates.',
+      lessonNote: {
+        subtopics: `1. Constitutional Background & Operational Definitions of ${safeTopic}\n2. Statutory Powers, Institutional Roles & Checks and Balances\n3. Fundamental Rights, Citizen Duties & Rule of Law in Nigeria\n4. Blackboard Summary Takeaways & Civic Discussion Drill`,
+        definitions: `${safeTopic} is a core component of the NERDC Civic Education and Government curriculum for ${lvlName}. It nurtures responsible citizenship, patriotic dedication, democratic vigilance, and active participation in Nigerian national development.\n\nKey Governance Pillars:\n• Rule of Law: Supremacy of the Constitution, equality before the law, and independence of the judiciary.\n• Separation of Powers: Executive (Enforces laws), Legislature (Enacts laws), Judiciary (Interprets laws).\n• Civic Responsibility: Voting in elections, prompt tax payment, community service, and environmental hygiene.`,
+        workedExamples: `Worked Example 1 (Constitutional Analysis):\nExamine a scenario where a citizen's fundamental right is infringed:\nStep 1: Identify the specific Section in Chapter IV of the 1999 Constitution protecting the right.\nStep 2: State the appropriate legal recourse available through the High Court or Legal Aid Council.\nStep 3: Explain the constitutional check exercised by the Judiciary on executive excesses.\n\nWorked Example 2 (Community Civic Action):\nIn a Lagos or Kano residential community, youth leaders organize a civic environmental sanitation drive. Applying ${safeTopic} creates cooperative hygiene and prevents flood disasters.`,
+        blackboardSummary: `• Point 1: The Constitution is the supreme law of Nigeria; any law inconsistent with its provisions is void to the extent of the inconsistency.\n• Point 2: Every right carries a corresponding civic duty to respect the rights of fellow citizens.\n• Point 3: Copy the three arms of government diagram and the chalkboard notes into your notebook.`,
+        classDrill: `1. Define ${safeTopic} in your own words in two sentences.\n2. List three statutory duties of a responsible Nigerian citizen under Section 24 of the 1999 Constitution.`
+      }
+    };
+  }
+
+  if (isGeography) {
+    return {
+      objectives: [
+        `Explain the physical, climatic, and cartographic principles governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Interpret topographical survey maps, contour lines, and scale conversions with accurate spatial calculations (Bloom: Apply & Calculate).`,
+        `Analyze the spatial distribution of Nigerian drainage basins, mineral deposits, or settlement patterns (Bloom: Analyze & Evaluate).`,
+        `Draw and label self-explanatory geographical sketch maps and hydrological diagrams according to WAEC/NECO conventions.`
+      ],
+      materials: [
+        `NERDC Approved Geography Textbook for ${lvlName} (Senior Secondary Geography / Macmillan Map Reading)`,
+        'Survey of Nigeria 1:50,000 Topographical Map Sheets & Prismatic Magnetic Compasses',
+        'Physical Relief Wall Map of Nigeria & Africa showing vegetation zones and drainage basins',
+        'Standard Weather Instruments (Rain Gauge, Six\'s Maximum and Minimum Thermometer, Wind Vane)'
+      ],
+      previousKnowledge: 'Learners understand cardinal points, continents, basic landforms, and the physical environment from previous terms.',
+      introduction: `Teacher displays a striking satellite image or physical contour map of Nigeria (e.g. Jos Plateau, Niger-Benue Confluence at Lokoja, or Atlantic coastline) to introduce spatial concepts in ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain geographical theories, atmospheric cycles, and geomorphological processes step-by-step.\nStep 3: Sketch the standard geographical relief/drainage diagram on the board showing contours and elevation profiles.\nStep 4: Guide learners through a map-reading scale conversion drill (e.g. representative fraction to linear statement).\nStep 5: Relate the concept to Nigerian environmental conservation and climate resilience.`,
+      studentActivity: `Step 1: Copy spatial definitions, map symbols, and geological tables into geography notebooks.\nStep 2: Practice contour identification and cross-section profiling in pairs using ruler and graph paper.\nStep 3: Measure map distances using thread/dividers and calculate ground distances in kilometers.\nStep 4: Answer diagnostic questions interpreting physical and human geographical interrelationships.`,
+      evaluation: `Evaluate geographical competence: (a) Define ${safeTopic} in the context of physical/regional geography, (b) Calculate the ground distance or gradient for a given map scale, (c) State 2 economic impacts on Nigerian agriculture or trade.`,
+      assignment: `Draw and label the geographical diagram for ${safeTopic} on a fresh page of your Geography Practical Drawing Book. Complete map-work exercises 1 to 4 on page 62 of the recommended textbook.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Color-coded elevation contour maps with step-by-step scale measurement guides.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent cross-section profiling, gradient calculations, and vegetation zone classification.',
+        advanced: 'Tier 3 (Geospatial Analysis): Evaluate climate change impacts on Lake Chad or Lagos coastal erosion using satellite imagery data.'
+      },
+      safetyPrecautions: 'Ensure careful handling of sharp compass divider points during cartographic distance measurements.',
+      lessonNote: {
+        subtopics: `1. Geographical Concepts, Definitions & Spatial Scope of ${safeTopic}\n2. Physical Processes, Relief Features & Atmospheric Mechanics\n3. Cartographic Map Interpretation & Scale Calculation Drill\n4. Chalkboard Relief Diagram & Nigerian Environmental Takeaways`,
+        definitions: `${safeTopic} is a core instructional unit in ${subName} for ${lvlName} under the NERDC syllabus. It equips secondary students with spatial analytical reasoning, environmental stewardship, map-reading precision, and WAEC/NECO practical and regional examination competence.\n\nCore Geographical Principles:\n• Spatial Distribution: Location, spatial arrangement, and aerial differentiation of physical and human phenomena.\n• Environmental Interaction: Dynamic feedback between atmospheric climate, lithosphere landforms, and human economic activities.\n• Cartographic Scale: Relationship between map representation and real-world ground distances (e.g. 1:50,000 means 2 cm on map = 1 km on ground).`,
+        workedExamples: `Worked Example 1 (Map Scale & Distance Calculation):\nGiven a topographical map of Ibadan or Minna on a scale of 1:50,000:\nStep 1: Measure map distance between two settlement centroids = 14 cm.\nStep 2: Convert using scale ratio: Ground distance = 14 cm × 50,000 = 700,000 cm.\nStep 3: Convert to kilometers: 700,000 ÷ 100,000 = 7.0 km.\n\nWorked Example 2 (Nigerian Physical & Regional Application):\nThe seasonal migration of the Inter-Tropical Discontinuity (ITD) between moist maritime air masses from the Atlantic and dry continental air masses from the Sahara directly controls rainfall patterns, planting seasons, and drought occurrences across Nigeria.`,
+        blackboardSummary: `• Point 1: In all WAEC/NECO map drawings, always include the North Arrow, a clear linear scale, and complete title.\n• Point 2: Contours close together indicate steep slopes, while contours widely spaced indicate gentle plains.\n• Point 3: Copy the complete geographical diagram, relief profile, and chalkboard notes into your notebook.`,
+        classDrill: `1. State the geographical definition and two primary characteristics of ${safeTopic}.\n2. Convert a map scale of 1:100,000 to a statement scale in centimeters to kilometers and show full working.`
+      }
+    };
+  }
+
+  if (isHomeEc) {
+    return {
+      objectives: [
+        `Define the culinary, nutritional, textile, or home management concepts of ${safeTopic} (Bloom: Remember & Understand).`,
+        `Demonstrate hygienic meal preparation, nutrient preservation, sewing stitch execution, or household budgeting (Bloom: Apply).`,
+        `Analyze dietary balance, nutrient deficiency disorders (kwashiorkor, rickets, scurvy), or consumer rights in Nigerian markets (Bloom: Analyze & Troubleshoot).`,
+        `Construct balanced family dietary plans or textile prototypes using standard hygienic protocols.`
+      ],
+      materials: [
+        `NERDC Approved Home Economics Textbook for ${lvlName} (Basic Home Economics for Secondary Schools)`,
+        'Nutritional Food Guide Pyramid Chart, Fresh Local Nigerian Food Commodities (Yam, Beans, Palm Oil, Vegetables, Fish)',
+        'Home Economics Laboratory Cookware, Gas Cookers, Cutting Boards, and Sanitizing Cleaning Supplies',
+        'Textile Sewing Kit: Needles, Threads, Calico Fabric Remnants, Measuring Tape, and Tailor\'s Chalk'
+      ],
+      previousKnowledge: 'Learners understand basic personal hygiene, food groups, and household cleaning taught in primary and previous classes.',
+      introduction: `Teacher displays a colorful basket of Nigerian food items (plantain, eggs, ugwu leaves, groundnuts) or fabric samples to trigger inquiry into nutritional balance and domestic management in ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Detail nutritional biochemistry (carbohydrates, proteins, lipids, vitamins, minerals, water) and their physiological functions.\nStep 3: Draw the Food Guide Pyramid or sewing stitch diagram on the board with exact labels.\nStep 4: Conduct a live culinary/textile demonstration enforcing sterilization and kitchen safety.\nStep 5: Review household budgeting and waste-reduction practices for Nigerian families.`,
+      studentActivity: `Step 1: Copy dietary definitions, meal charts, and stitch steps into Home Economics practical notebooks.\nStep 2: Practice fabric measurement or food classification in small collaborative laboratory groups.\nStep 3: Identify nutrient deficiencies and prescribe balanced Nigerian meal remedies.\nStep 4: Clean and sanitize workbenches, store all cutlery, and submit laboratory exit cards.`,
+      evaluation: `Evaluate domestic science mastery: (a) State the statutory definition of ${safeTopic}, (b) Name 3 local Nigerian food sources rich in the required nutrients, (c) Explain 2 kitchen safety or sewing hygiene rules.`,
+      assignment: `Draw and label the complete Home Economics diagram for ${safeTopic} in your Practical Album. Design a 3-course balanced lunch menu for a Nigerian adolescent using locally available ingredients.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Tactile food flashcards and pre-cut fabric swatches with step-by-step stitch guides.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent meal planning calculation, cost estimation, and recipe formulation.',
+        advanced: 'Tier 3 (Nutritional Innovation): Formulate therapeutic meal plans for individuals managing diabetes or hypertension using indigenous Nigerian crops.'
+      },
+      safetyPrecautions: 'Strict Home Economics Laboratory Protocol: Wear chef apron and hair net. Keep floor dry to prevent slipping. Wash hands with soap and water before handling food.',
+      lessonNote: {
+        subtopics: `1. Domestic Science Concepts & Nutritional Foundations of ${safeTopic}\n2. Food Groups, Nutrient Functions & Deficiency Disorders\n3. Practical Demonstration (Culinary Preparation & Textile Craft)\n4. Chalkboard Dietary Diagram & Family Economic Takeaways`,
+        definitions: `${safeTopic} is a foundational vocational discipline in ${subName} under the NERDC curriculum for ${lvlName}. It empowers learners with vital life skills in nutrition, culinary science, garment construction, consumer economics, and self-reliant entrepreneurship.\n\nKey Nutritional & Domestic Principles:\n• Balanced Diet: A diet containing all six food nutrients in their correct proportions for health, growth, and cellular repair.\n• Food Hygiene: Rigorous handwashing, clean food handling, and safe refrigeration/storage to prevent food-borne pathogens.\n• Resource Management: Prudent family budgeting to maximize nutritional value while minimizing household expenditure.`,
+        workedExamples: `Worked Example 1 (Nutritional Meal Formulation):\nFormulate a balanced breakfast for a growing secondary student in Nigeria:\nStep 1: Energy giver (Carbohydrate): Akara (bean cakes) or boiled yam.\nStep 2: Body builder (Protein): Moin-moin or boiled egg with milk/pap.\nStep 3: Protective food (Vitamins/Minerals): Fresh orange slices or pawpaw.\n\nWorked Example 2 (Household Budgeting & Entrepreneurship):\nA homemaker or catering entrepreneur in Lagos calculates portion costs to produce 50 nutritious school lunches, maintaining hygiene standards while generating sustainable enterprise profit.`,
+        blackboardSummary: `• Point 1: Prolonged overcooking of green leafy vegetables destroys heat-sensitive Vitamin C; always steam gently.\n• Point 2: Always maintain pristine personal hygiene and clean kitchen surfaces to eliminate Salmonella and cross-contamination.\n• Point 3: Copy the complete Food Guide Pyramid diagram and chalkboard lesson notes into your notebook.`,
+        classDrill: `1. List the six essential food nutrients and state one local Nigerian food source for each.\n2. State two symptoms of Protein-Energy Malnutrition (Kwashiorkor) and explain how it can be prevented.`
+      }
+    };
+  }
+
+  if (isPHE) {
+    return {
+      objectives: [
+        `Explain the physiological, anatomical, and athletic principles governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Demonstrate correct biomechanical posture, motor skills, and athletic techniques on the sports track/court (Bloom: Apply).`,
+        `Analyze cardiovascular responses, pulse rate changes, and sports injury prevention protocols (Bloom: Analyze & Troubleshoot).`,
+        `Perform first aid emergency procedures for muscle sprains, cramps, or heat exhaustion in school athletics.`
+      ],
+      materials: [
+        `NERDC Approved Physical and Health Education Textbook for ${lvlName}`,
+        'Athletic Track and Field Equipment: Relay Batons, Whistle, Measuring Tape, Stopwatches, Footballs/Volleyballs',
+        'PHE Anatomy Chart of the Circulatory & Musculoskeletal System',
+        'Standard School First Aid Kit: Crepe Bandages, Antiseptic, Cold Ice Packs, Splints, and Disposable Gloves'
+      ],
+      previousKnowledge: 'Learners understand basic warm-up exercises, fair play rules, and body movement from preceding physical education periods.',
+      introduction: `Teacher conducts a 3-minute warm-up jogging drill and has students take their resting radial pulse at the wrist, introducing cardiovascular exertion in ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain anatomical muscles, heart-rate dynamics, and official game/track rules governing the topic.\nStep 3: Sketch the physiological circulatory chart or athletic track court diagram on the board.\nStep 4: Demonstrate the athletic skill or first aid R.I.C.E. procedure (Rest, Ice, Compression, Elevation).\nStep 5: Supervise guided student physical drills enforcing sportsmanship and safety.`,
+      studentActivity: `Step 1: Copy physiological notes, court dimensions, and athletic rules into PHE notebooks.\nStep 2: Measure and record resting pulse rate versus post-exercise pulse rate in beats per minute (BPM).\nStep 3: Practice baton exchange, sprint start postures, or ball passing techniques under teacher coaching.\nStep 4: Execute simulated first aid wrapping for an ankle sprain in athletic pairs.`,
+      evaluation: `Evaluate sports science competence: (a) State the physiological definition of ${safeTopic}, (b) Demonstrate or explain the correct athletic technique, (c) Name the 4 components of the R.I.C.E. emergency first aid treatment.`,
+      assignment: `Draw and label the complete athletic court or anatomical diagram for ${safeTopic} in your PHE drawing album. Write 5 golden rules of personal health and hygiene.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Adaptive PE): Low-impact modified physical routines with guided motor skill coaching.',
+        onLevel: 'Tier 2 (Core Curriculum): Standard athletic sprint drills, ball control exercises, and fitness evaluation.',
+        advanced: 'Tier 3 (Athletic Leadership): Lead class warm-ups, officiate simulated track events, and compute VO2 recovery rates.'
+      },
+      safetyPrecautions: 'Mandatory Sports Ground Safety: Wear rubber-soled canvas sneakers. Perform thorough warm-up and cool-down stretches. Ensure hydration and keep first aid kit trackside.',
+      lessonNote: {
+        subtopics: `1. Physical & Physiological Concepts of ${safeTopic}\n2. Biomechanical Movement, Athletic Rules & Game Dimensions\n3. Cardiovascular Exercise Response & First Aid (R.I.C.E.)\n4. Chalkboard Diagram & Lifelong Health Takeaways`,
+        definitions: `${safeTopic} is a key health and physical wellness module in ${subName} under the NERDC framework for ${lvlName}. It promotes aerobic fitness, muscular endurance, team sportsmanship, cardiovascular longevity, and disease prevention.\n\nCore Physical & Health Principles:\n• Cardiovascular Endurance: Ability of heart and lungs to supply oxygenated blood to working muscles during sustained physical activity.\n• Pulse Rate Monitoring: Normal resting heart rate for adolescents is 60–90 beats per minute; it rises proportionally with exercise intensity.\n• First Aid (R.I.C.E.): Immediate protocol for acute soft tissue injury: Rest, Ice, Compression, and Elevation.`,
+        workedExamples: `Worked Example 1 (Heart Rate & Cardiovascular Calculation):\nMeasure radial pulse over 15 seconds and calculate Beats Per Minute (BPM):\nStep 1: Place index and middle finger gently over radial artery at the base of the thumb.\nStep 2: Count beats over 15 seconds (e.g. 18 beats).\nStep 3: Multiply by 4: Resting pulse = 18 × 4 = 72 BPM.\n\nWorked Example 2 (Nigerian Athletic Excellence):\nIn national and international competitions (e.g. National Sports Festival, All-Africa Games), applying sports science and nutrition under ${safeTopic} prevents athletic burnout and maximizes peak performance.`,
+        blackboardSummary: `• Point 1: Never apply direct heat or massage to an acute sprain during the first 48 hours; apply cold ice compress.\n• Point 2: Always drink clean water before, during, and after intense athletic workouts to prevent heat exhaustion.\n• Point 3: Copy the complete circulatory pulse diagram and chalkboard physical notes into your notebook.`,
+        classDrill: `1. State the normal resting pulse rate for a healthy secondary school student.\n2. Write down the full meaning of the R.I.C.E. acronym used in sports first aid.`
+      }
+    };
+  }
+
+  if (isCCA) {
+    return {
+      objectives: [
+        `Identify indigenous and contemporary African art traditions, motifs, or musical forms in ${safeTopic} (Bloom: Remember & Understand).`,
+        `Demonstrate creative craftsmanship using standard shading techniques, color mixing, sculpturing, or rhythmic performance (Bloom: Apply & Create).`,
+        `Critique visual artifacts, dramatic scripts, or musical compositions with reference to Nigerian cultural heritage (Bloom: Analyze & Evaluate).`,
+        `Produce an original visual drawing, craft artifact, or dramatic performance adhering to aesthetic balance.`
+      ],
+      materials: [
+        `NERDC Approved Cultural and Creative Arts Textbook for ${lvlName}`,
+        'Art Drawing Paper, Shading Pencils (2B, 4B, 6B), Poster Colors, Brushes & Mixing Palettes',
+        'Nigerian Traditional Musical Instruments (Gangan Talking Drum, Shekere, Ogene, Oja Flute)',
+        'Illustrations of Famous Nigerian Heritage Arts (Nok Terracotta, Benin Bronzes, Igbo-Ukwu Bronzes, Ife Terracotta)'
+      ],
+      previousKnowledge: 'Learners recall primary colors, basic geometric drawing shapes, and cultural songs taught in earlier terms.',
+      introduction: `Teacher displays an evocative Nigerian cultural artifact (e.g. a carved calabash, adire textile pattern, or miniature Benin mask) to stimulate aesthetic inquiry into ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain historical art movements, principles of design (balance, proportion, rhythm), and musical/dramatic elements.\nStep 3: Draw a step-by-step artistic illustration or color wheel on the board demonstrating tone and gradation.\nStep 4: Demonstrate pencil shading techniques (cross-hatching, stippling) or instrumental rhythmic beats.\nStep 5: Supervise creative student studio production and provide constructive aesthetic critique.`,
+      studentActivity: `Step 1: Copy art terminology, color harmony charts, and historical summaries into CCA notebooks.\nStep 2: Practice observational drawing and tonal shading in sketchbooks using 2B/4B pencils.\nStep 3: Mix primary pigment colors to produce secondary and tertiary hues on paper palettes.\nStep 4: Present completed sketches or perform choral rhythmic motifs for peer appreciation.`,
+      evaluation: `Evaluate artistic mastery: (a) State the aesthetic definition of ${safeTopic}, (b) Name 2 historical centers of ancient Nigerian art, (c) Identify the complementary color of blue or explain the principle of visual balance.`,
+      assignment: `Create a completed tonal drawing or patterned motif for ${safeTopic} in your Art Drawing Album. Write 3 sentences explaining the cultural significance of the artwork.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Contour outline templates with step-by-step tonal shading guide scales.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent still-life drawing, color rendering, and cultural essay analysis.',
+        advanced: 'Tier 3 (Creative Portfolio): Compose an original multi-color textile design or short dramatic dialogue celebrating national unity.'
+      },
+      safetyPrecautions: 'Studio Safety Protocol: Handle sharp carving knives and craft scissors with extreme caution. Dispose of dirty wash water properly and clean all brushes.',
+      lessonNote: {
+        subtopics: `1. Cultural Concepts & Aesthetic Foundations of ${safeTopic}\n2. Principles of Visual Design, Color Harmony & Music Notation\n3. Nigerian Cultural Heritage Centers (Nok, Benin, Igbo-Ukwu, Ife)\n4. Chalkboard Art Illustration & Studio Craft Takeaways`,
+        definitions: `${safeTopic} is an essential creative module in ${subName} for ${lvlName} under the NERDC curriculum. It fosters aesthetic sensitivity, imaginative craftsmanship, cultural appreciation, and pride in Nigeria's rich artistic traditions.\n\nKey Artistic & Cultural Principles:\n• Elements of Art: Line, shape, form, color, value, texture, and space.\n• Principles of Design: Balance, proportion, harmony, contrast, rhythm, and unity.\n• Nigerian Heritage: Ancient classical art traditions dating back thousands of years (Nok terracotta circa 500 BC, Igbo-Ukwu 9th century AD, Ife and Benin royal bronzes).`,
+        workedExamples: `Worked Example 1 (Color Mixing & Shading Demonstration):\nDemonstrate color theory and tonal shading on paper:\nStep 1: Mix Primary Colors (Red + Yellow = Orange; Yellow + Blue = Green; Blue + Red = Violet).\nStep 2: Draw a simple cylindrical clay pot using light structural lines.\nStep 3: Apply 5 tonal values: Highlight, Mid-tone, Core Shadow, Reflected Light, and Cast Shadow.\n\nWorked Example 2 (Nigerian Creative Enterprise):\nContemporary Nigerian textile designers (Adire in Abeokuta, Aso-Oke in Iseyin, Akwete in Abia) utilize the principles of ${safeTopic} to create internationally renowned fashion products.`,
+        blackboardSummary: `• Point 1: Always clean and dry paintbrushes with bristles facing upward to preserve their shape and longevity.\n• Point 2: Shading creates the illusion of 3-dimensional form and volume on a 2-dimensional flat paper surface.\n• Point 3: Copy the complete color wheel or artistic diagram and chalkboard notes into your notebook.`,
+        classDrill: `1. List three primary colors and the secondary color produced by mixing each pair.\n2. Name two famous ancient Nigerian art cultures and state the primary material they used (e.g. terracotta, bronze).`
+      }
+    };
+  }
+
+  if (isAgric) {
+    return {
+      objectives: [
+        `Define agricultural concepts, soil properties, and farm management practices governing ${safeTopic} (Bloom: Remember & Understand).`,
+        `Demonstrate correct agronomic handling of farm tools, seed germination, livestock feed, or crop protection chemicals (Bloom: Apply).`,
+        `Analyze soil nutrient deficiencies, crop pests, livestock diseases, or farm business accounts in Nigeria (Bloom: Analyze & Troubleshoot).`,
+        `Produce technical farm records, crop calendars, or soil profile drawings compliant with agricultural standards.`
+      ],
+      materials: [
+        `NERDC Approved Agricultural Science Textbook for ${lvlName} (Essential Agricultural Science / Evans)`,
+        'School Farm Plot & Agricultural Hand Tools (Cutlass, Hoe, Spade, Rake, Wheelbarrow, Watering Can)',
+        'Sample Soil Horizon Monoliths (Topsoil, Subsoil, Parent Material) and Soil Testing Kit (pH paper, Beakers)',
+        'Specimens of Local Nigerian Crops (Cassava stems, Maize grains, Cowpea seeds) and Fertilizer Samples (NPK 15:15:15, Urea)'
+      ],
+      previousKnowledge: 'Learners understand basic plant parts, soil types (sand, clay, loam), and farm tools from junior secondary science.',
+      introduction: `Teacher displays a healthy cassava tuber, maize cob, or soil sample from the school farm to introduce food security and agribusiness concepts in ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain agronomic processes (soil chemistry, crop propagation, livestock nutrition, pest control).\nStep 3: Sketch the clear agricultural soil profile or crop life-cycle diagram on the chalkboard.\nStep 4: Demonstrate the correct handling, sharpening, and storage of agricultural implements.\nStep 5: Enforce farm safety rules, chemical handling precautions, and school farm plot maintenance.`,
+      studentActivity: `Step 1: Copy agricultural definitions, nutrient tables, and agronomic cycles into farm notebooks.\nStep 2: Examine soil texture, color, and drainage in small field groups on the school farm plot.\nStep 3: Practice seedbed preparation and nursery sowing techniques under teacher supervision.\nStep 4: Record farm inputs and calculate crop yield estimates in pairs.`,
+      evaluation: `Evaluate agronomic competence: (a) State the statutory definition of ${safeTopic}, (b) Name 2 major pests or diseases affecting the commodity in Nigeria and state their control measures, (c) Explain 1 soil conservation method.`,
+      assignment: `Draw and label the agricultural diagram for ${safeTopic} in your Agricultural Drawing Book. Complete review questions 1-5 on page 52 of the textbook.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Hands-on seed identification trays with pictorial weed/pest identification flashcards.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent soil texture testing, fertilizer application calculations, and farm ledger record keeping.',
+        advanced: 'Tier 3 (Agribusiness Innovation): Formulate integrated pest management (IPM) protocols for smallholder Nigerian cassava or poultry farmers.'
+      },
+      safetyPrecautions: 'Strict Farm Safety Protocol: Wear rubber boots, gloves, and protective clothing. Never touch agrochemicals with bare hands. Wash thoroughly with soap after farm work.',
+      lessonNote: {
+        subtopics: `1. Agricultural Concepts, Soil Properties & Agronomic Background of ${safeTopic}\n2. Crop Production / Animal Husbandry Methodology & Farm Inputs\n3. Pest & Disease Management, Harvesting & Post-Harvest Storage\n4. Chalkboard Soil/Crop Diagram & Nigerian Agribusiness Takeaways`,
+        definitions: `${safeTopic} is a core vocational science module in ${subName} under the NERDC secondary syllabus for ${lvlName}. It equips Nigerian students with modern agronomic skills, livestock management, food security science, and entrepreneurial wealth generation in agriculture.\n\nCore Agricultural Principles:\n• Soil Fertility: Maintenance of optimal chemical, physical, and biological soil conditions for maximum crop yields.\n• Agronomic Practices: Pre-planting (land clearing, ploughing, harrowing), planting (spacing, seed rate), and post-planting (weeding, thinning, fertilizer application).\n• Economic Agribusiness: Farming as a profitable commercial enterprise that generates employment and foreign exchange in Nigeria.`,
+        workedExamples: `Worked Example 1 (Plant Population & Spacing Calculation):\nCalculate the plant population of maize on a 1-hectare farm plot (10,000 m²):\nStep 1: Recommended spacing = 75 cm × 25 cm = 0.75 m × 0.25 m = 0.1875 m² per stand.\nStep 2: Total stands = 10,000 m² ÷ 0.1875 m² = 53,333 stands per hectare.\nStep 3: At 1 plant per stand, plant population = 53,333 maize plants.\n\nWorked Example 2 (Nigerian Agricultural Application):\nFarmers across the Middle Belt and South-West adopt improved high-yield cassava varieties developed by the International Institute of Tropical Agriculture (IITA, Ibadan), increasing garri and industrial starch yields significantly.`,
+        blackboardSummary: `• Point 1: Clean, wash, and oil all farm tools immediately after use to prevent corrosion and rust.\n• Point 2: Always incorporate leguminous crops (cowpea, groundnut) into crop rotations to fix atmospheric nitrogen naturally into the soil.\n• Point 3: Copy the complete agricultural diagram and chalkboard notes into your notebook.`,
+        classDrill: `1. State the agricultural definition and economic importance of ${safeTopic}.\n2. Calculate the number of yam setts required to plant a 2-hectare farm given a planting spacing of 1 m × 1 m.`
+      }
+    };
+  }
+
+  if (isTechOrICT) {
+    const isComp = subLower.includes('computer') || subLower.includes('ict') || subLower.includes('data');
+    return {
+      objectives: [
+        `Define the technical/computing terminology, architecture, and principles of ${safeTopic} (Bloom: Remember & Understand).`,
+        `Demonstrate hands-on technical dexterity using drawing instruments, workshop tools, or computer software/hardware (Bloom: Apply).`,
+        `Analyze mechanical mechanisms, electronic logic gates, algorithm flowcharts, or system errors (Bloom: Analyze & Troubleshoot).`,
+        `Produce accurate first-angle orthographic projections, isometric engineering drawings, or structured algorithms/code.`
+      ],
+      materials: [
+        `NERDC Approved ${isComp ? 'Computer Studies' : 'Basic Technology'} Textbook for ${lvlName}`,
+        isComp
+          ? 'Computer Hardware Components (Motherboard, CPU, RAM Modules, Hard Drive, Keyboard, Mouse) & Diagnostic Software'
+          : 'Technical Drawing Board, T-Square, 30°/60° and 45° Set-Squares, Metric Scales, French Curves & Woodwork Hand Tools',
+        'Visual Architectural Schematics & Vector Component Diagrams'
+      ],
+      previousKnowledge: 'Learners understand basic workshop safety, hand tool classification, and elementary input/output concepts from earlier terms.',
+      introduction: `Teacher displays a computer motherboard microchip or a precision wooden dovetail joint to demonstrate how engineering and computing principles govern ${safeTopic}.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Explain operational mechanisms, computational algorithms, or engineering drafting conventions.\nStep 3: Draw a clear technical projection or computer hardware architecture diagram on the board with exact labels.\nStep 4: Guide learners through a practical demonstration enforcing precision and safety.\nStep 5: Review WAEC/BECE technical drawing and ICT examination rubrics.`,
+      studentActivity: `Step 1: Copy technical definitions, process flowcharts, and diagrams into technical drawing books or computer logbooks.\nStep 2: Practice isometric-to-orthographic projection or step-by-step pseudo-code tracing in pairs.\nStep 3: Execute precision pencil lines (thin continuous lines, thick outlines, dashed hidden details) or hardware assembly.\nStep 4: Answer diagnostic troubleshooting questions evaluating technical efficiency.`,
+      evaluation: `Evaluate technical/ICT competence: (a) State the statutory definition of ${safeTopic}, (b) Identify 2 workshop tools or computer hardware components and state their functions, (c) Explain 1 technical safety convention.`,
+      assignment: `Draw and label the complete technical or computing diagram for ${safeTopic} in your Drawing / Practical Album. Answer questions 1 to 5 on page 40 of the recommended textbook.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Grid-lined drawing guides and labeled hardware block diagram cue sheets.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent orthographic view projection, algorithm flowcharting, and component diagnosis.',
+        advanced: 'Tier 3 (Technical Innovation): Design a computerized automated control flowchart or complex isometric exploded assembly.'
+      },
+      safetyPrecautions: isComp
+        ? 'Computer Lab Safety: Disconnect power before inspecting internal circuits. Keep liquids away from keyboards and wear anti-static wristbands.'
+        : 'Workshop Safety Protocol: Wear eye protection and safety boots. Never carry sharp chisels in pockets. Keep floor free of wood shavings.',
+      lessonNote: {
+        subtopics: `1. Technical / Computing Foundations & Definitions of ${safeTopic}\n2. System Architecture, Components & Operational Mechanics\n3. Practical Demonstration, Troubleshooting & Workshop Safety\n4. Chalkboard Technical Diagram & Industrial Exam Takeaways`,
+        definitions: `${safeTopic} is a core STEM and vocational discipline in ${subName} under the NERDC syllabus for ${lvlName}. It develops computational thinking, technical draughtsmanship, engineering design competence, and workforce readiness for national industrialization.\n\nCore Technical Principles:\n• Precision Engineering: Strict adherence to metric measurements, line weights, and projection standards.\n• Computer Architecture: Von Neumann principle: Input → Central Processing Unit (ALU + Control Unit) → Primary Memory (RAM/ROM) → Output / Secondary Storage.\n• Workshop Safety: Proactive hazard prevention, tool maintenance, and environmental orderliness.`,
+        workedExamples: `Worked Example 1 (Technical Process Demonstration):\nExecute standard first-angle orthographic projection or algorithmic trace:\nStep 1: Draw the Front Elevation looking from the arrow direction using thick continuous outlines.\nStep 2: Project construction lines vertically downward to draw the Plan View directly below the Front Elevation.\nStep 3: Project horizontal lines to draw the End/Side Elevation in direct alignment.\n\nWorked Example 2 (Nigerian Industrial Application):\nEngineering drafters, carpenters, and software developers in Nigeria use ${safeTopic} to construct durable housing structures, furniture, and fintech applications that power the modern Nigerian economy.`,
+        blackboardSummary: `• Point 1: In technical drawing, all lettering must be uniform single-stroke capital letters between 3mm guidelines.\n• Point 2: Always save your computational work frequently to prevent data loss during power fluctuations.\n• Point 3: Copy the complete technical schematic diagram and chalkboard notes into your notebook.`,
+        classDrill: `1. State the difference between first-angle and third-angle projection (or between RAM and ROM).\n2. Complete the labeled drawing of the instructional diagram shown on the chalkboard in your practical drawing book.`
+      }
+    };
+  }
+
+  if (isReligion) {
+    const isIslam = subLower.includes('islam') || subLower.includes('irs');
+    return {
+      objectives: [
+        `Narrate the sacred scriptural texts, historical revelations, or traditions associated with ${safeTopic} (Bloom: Remember & Understand).`,
+        `Interpret moral commandments and theological teachings relevant to personal character and social cohesion (Bloom: Apply & Analyze).`,
+        `Demonstrate respect for sacred scriptures, honest conduct, and compassionate community fellowship (Bloom: Evaluate).`,
+        `Apply ethical principles to resolve moral dilemmas encountered by Nigerian secondary students.`
+      ],
+      materials: [
+        `NERDC Approved Religious Studies Textbook for ${lvlName}`,
+        isIslam ? 'The Holy Qur\'an, Hadith Collections & Arabic Calligraphy Charts' : 'The Holy Bible (Revised Standard Version / King James Version)',
+        'Moral Virtue Mind Maps, Scripture Memory Verse Cards & Illustrated Biblical/Islamic Historical Maps'
+      ],
+      previousKnowledge: `Learners recall previous scripture lessons on moral righteousness, reverence for God, and kindness to neighbors.`,
+      introduction: `Teacher recites a memory verse or sacred text connected to ${safeTopic} and poses a thought-provoking moral question about daily honesty and compassion.`,
+      teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Read sacred scriptural texts aloud with proper reverence and clear pronunciation.\nStep 3: Explain the historical context, theological revelation, and moral lessons step-by-step.\nStep 4: Draw the spiritual/moral diagram (e.g. Fruit of the Spirit Tree, Pillars of Faith) on the board.\nStep 5: Facilitate respectful student reflection on practical daily application.`,
+      studentActivity: `Step 1: Follow along in their personal Bibles or Qur'ans and read designated verses.\nStep 2: Copy scriptural references, moral definitions, and diagrams into religious studies notebooks.\nStep 3: Discuss ethical dilemmas in pairs and propose solutions grounded in scriptural teachings.\nStep 4: Memorize the assigned weekly memory verse / Hadith before class dismissal.`,
+      evaluation: `Evaluate moral and spiritual comprehension: (a) Cite the scriptural reference for ${safeTopic}, (b) Explain 2 moral lessons taught in the passage, (c) Describe how a Nigerian student can demonstrate this virtue in school.`,
+      assignment: `Memorize the weekly scripture verse. Write a short paragraph in your notebook explaining how you will practice the virtues of ${safeTopic} at home this week.`,
+      differentiatedInstruction: {
+        struggling: 'Tier 1 (Remedial Support): Scripture verse tracing cards with simplified phonetic guides and vocabulary aids.',
+        onLevel: 'Tier 2 (Core Curriculum): Independent reading of scripture chapters and structured character analysis questions.',
+        advanced: 'Tier 3 (Ethical Leadership): Expository analysis comparing historical scriptural contexts with contemporary Nigerian societal challenges.'
+      },
+      safetyPrecautions: 'Ensure absolute respect for religious diversity, promoting peaceful inter-faith harmony and mutual brotherhood.',
+      lessonNote: {
+        subtopics: `1. Scriptural Context & Sacred Texts of ${safeTopic}\n2. Theological Principles & Moral Teachings\n3. Practical Moral Application in Nigerian Family and School Life\n4. Chalkboard Scripture Diagram & Personal Reflection Drill`,
+        definitions: `${safeTopic} is a vital spiritual and ethical module in ${subName} under the NERDC curriculum for ${lvlName}. It anchors students in God-fearing discipline, moral integrity, empathy, and active contribution to peaceful coexistence across Nigeria.\n\nCore Spiritual Virtues:\n• Integrity: Truthfulness in speech, academic honesty during exams, and loyalty to righteous values.\n• Love & Mercy: Compassion for the needy, forgiveness, and selfless service to humanity.\n• Faith: Steadfast devotion, obedience to divine commandments, and daily prayerful gratitude.`,
+        workedExamples: `Worked Example 1 (Moral Dilemma Resolution):\nA student finds an unmarked envelope containing ₦20,000 in the school library:\nStep 1: Reflect on the moral teachings of ${safeTopic} regarding honesty and the sanctity of property.\nStep 2: Hand the found money immediately to the school principal or duty master.\nStep 3: Experience the inner peace and moral integrity affirmed in sacred scripture.\n\nWorked Example 2 (Scriptural Commandment in Society):\nIn diverse Nigerian communities, practicing ${safeTopic} fosters peaceful communal harmony, supports charity for orphans and widows, and eliminates ethnic prejudice.`,
+        blackboardSummary: `• Point 1: True religion is demonstrated through righteous character, honesty, and kindness to fellow human beings.\n• Point 2: Always memorize scriptural passages alongside their exact chapter and verse citations.\n• Point 3: Copy the complete chalkboard diagram and summary notes into your notebook.`,
+        classDrill: `1. Recite the memory verse or text citation for ${safeTopic}.\n2. State two practical ways you can demonstrate this moral teaching in your school this week.`
+      }
+    };
+  }
+
+  // Default: English Studies, Literature in English & General Humanities
   return {
     objectives: [
-      `Define and explain the core conceptual principles of ${safeTopic} in accordance with statutory NERDC specifications (Bloom: Remember & Understand).`,
-      `Apply fundamental formulas, rules, and problem-solving methods to solve 5 structured exercises accurately (Bloom: Apply).`,
-      `Analyze 3 localized Nigerian real-world commercial, scientific, or social applications (e.g. Balogun market trade, renewable energy, community governance) (Bloom: Analyze & Evaluate).`,
-      `Demonstrate cognitive mastery by scoring at least 80% on the formative exit questions without teacher intervention.`
+      `Define and explain the grammatical, literary, or conceptual principles of ${safeTopic} according to NERDC standards (Bloom: Remember & Understand).`,
+      `Apply linguistic rules, phonetic transcriptions, or narrative techniques in structured oral and written compositions (Bloom: Apply).`,
+      `Analyze excerpts from recommended Nigerian and African literature / comprehension passages with 85% accuracy (Bloom: Analyze & Evaluate).`,
+      `Demonstrate communicative competence by presenting structured spoken or written arguments without grammatical errors.`
     ],
     materials: [
-      `NERDC Approved Textbook for ${lvlName} ${subName}`,
-      'Instructional Wall Charts, Whiteboard & Dry-Erase Geometric Markers',
-      'Authentic Local Specimens, Physical Models & Nigerian Realia',
-      'EduPlan NG Standardized Practice Worksheets & Broadsheet Records'
+      `NERDC Approved English Studies Textbook for ${lvlName} (Intensive English / Oxford English)`,
+      'Recommended African Prose, Poetry & Drama Texts (e.g. Wole Soyinka, Chinua Achebe)',
+      'Phonetic Transcription Wall Charts, Audio Listening Prompts & Lexical Flashcards',
+      'EduPlan NG Standardized Reading Comprehension & Composition Rubrics'
     ],
-    previousKnowledge: `Learners possess working familiarity with prerequisite concepts taught in Week ${Math.max(1, week - 1)} and can recall foundational definitions in ${subName}.`,
-    introduction: `Teacher engages learners with an interactive 5-minute set induction connecting ${safeTopic} to familiar daily Nigerian community experiences, triggering curiosity and exploratory questions.`,
-    teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Define operational terms and break down foundational formulas step-by-step.\nStep 3: Work through 2 comprehensive demonstration problems on the board with active pupil questioning.\nStep 4: Supervise collaborative group problem-solving and provide immediate corrective feedback.\nStep 5: Review ${safetyRule}`,
-    studentActivity: `Step 1: Copy structured chalkboard notes, formulas, and diagrams into subject notebooks.\nStep 2: Actively answer teacher's checking questions during demonstration.\nStep 3: Work in assigned desk pairs to solve 2 guided classroom drill exercises.\nStep 4: Present working on the chalkboard and complete individual exit-card evaluations.`,
-    evaluation: `Administer 3 rapid formative questions and 1 comprehensive chalkboard drill problem to verify learner mastery before dismissing the class. Verify that at least 85% of pupils achieve correct working.`,
-    assignment: `Complete Review Exercise questions 1 to 5 on page 24 of the recommended NERDC textbook in your homework notebooks for grading next lesson.`,
+    previousKnowledge: `Learners can identify basic parts of speech, write coherent compound sentences, and read age-appropriate prose with fluency.`,
+    introduction: `Teacher displays a striking headline from a leading Nigerian newspaper or reads an evocative poetic stanza aloud to draw students into the linguistic mechanics of ${safeTopic}.`,
+    teacherActivity: `Step 1: Write date, subject, topic, and subtopics clearly on the chalkboard.\nStep 2: Define the grammatical rule or literary device with clear chalkboard examples.\nStep 3: Work through a model sentence analysis or narrative plot diagram on the board.\nStep 4: Conduct guided oral drills focusing on stress, intonation, and syntax precision.\nStep 5: Supervise collaborative student writing and provide corrective feedback on punctuation.`,
+    studentActivity: `Step 1: Copy rules, phonetic transcriptions, and illustrative sentences into English notebooks.\nStep 2: Participate actively in choral and individual pronunciation / reading drills.\nStep 3: Work in pairs to identify parts of speech or analyze literary themes in assigned passages.\nStep 4: Draft a 5-sentence paragraph applying the day's grammatical or literary concept.`,
+    evaluation: `Administer a 3-part evaluation: (a) 2 multiple-choice objective questions on syntax/phonetics, (b) 1 error-identification sentence drill, (c) 1 oral pronunciation or short sentence composition check.`,
+    assignment: `Complete Exercise A and B on page 38 of your English Studies textbook. Write 5 original sentences illustrating the proper use of ${safeTopic}.`,
     differentiatedInstruction: {
-      struggling: 'Tier 1 (Remedial Support): Provide scaffolded step-by-step formula templates, concrete manipulative aids, and assign an on-level peer buddy for guided practice.',
-      onLevel: 'Tier 2 (Core Curriculum): Independent problem-solving using standard textbook exercises with self-monitoring checklist.',
-      advanced: 'Tier 3 (Enrichment / Gifted): Higher-order multi-step word problems involving real-world Nigerian industrial, economic, or scientific case studies.'
+      struggling: 'Tier 1 (Remedial Support): Sentence starters, visual phonetic charts, and guided vocabulary matching worksheets.',
+      onLevel: 'Tier 2 (Core Curriculum): Independent reading comprehension analysis and creative sentence composition.',
+      advanced: 'Tier 3 (Creative Writing): Compose an original dialogue or short narrative applying advanced figures of speech.'
     },
-    safetyPrecautions: safetyRule,
+    safetyPrecautions: 'Maintain clear classroom gangways, ensure proper vocal projection without straining, and encourage courteous debate.',
     lessonNote: {
-      subtopics: `1. Conceptual Definitions & Nomenclature of ${safeTopic}\n2. Core Laws, Rules & Standard NERDC Formulas\n3. Worked Classroom Demonstration Examples (with Nigerian Context)\n4. Blackboard Summary Takeaways & Pupil Class Drill`,
-      definitions: `${safeTopic} is a cornerstone instructional unit within the approved NERDC ${lvlName} ${subName} curriculum. It establishes the theoretical and practical foundation necessary for continuous academic progression, classroom problem-solving, and external examination success in WAEC, NECO, and BECE.\n\nKey Concepts:\n• Definition: Systematic study, measurement, and application of fundamental ${subName} rules.\n• Standard Units & Symbols: Metric SI units, statutory symbols, and algebraic balance.\n• Importance: Equips Nigerian learners with analytical, scientific, and commercial numeracy tools applicable in daily commerce, technology, and governance.`,
-      workedExamples: `Worked Example 1 (Chalkboard Demonstration):\nGiven standard problem parameters, apply the core operational formula:\nStep 1: Identify given variables and state the relevant statutory formula.\nStep 2: Substitute values with appropriate scientific or arithmetic units.\nStep 3: Compute final solution and cross-check dimensional consistency.\n\nWorked Example 2 (Real-World Nigerian Context):\nA commercial entrepreneur at Balogun Market, Lagos records inventory transactions for the week. Applying ${safeTopic} simplifies the reconciliation of stock value and prevents financial loss.`,
-      blackboardSummary: `• Point 1: Always verify starting premises, formulas, and units (Naira, meters, kg, seconds) before computing answers.\n• Point 2: Write clear, sequential explanatory steps rather than lone numeric values.\n• Point 3: Copy all definitions, worked examples, and blackboard diagrams into your subject notebook before class ends.`,
-      classDrill: `1. Define ${safeTopic} in your own words in exactly two sentences.\n2. Work through the 2 practice drill questions written on the chalkboard and have your desk partner verify your working.`
+      subtopics: `1. Grammatical / Literary Definitions of ${safeTopic}\n2. Core Rules of Syntax, Phonology & Style\n3. Worked Classroom Examples & Model Sentences (Nigerian Context)\n4. Blackboard Summary Takeaways & Student Writing Drill`,
+      definitions: `${safeTopic} is a foundational instructional module in ${subName} for ${lvlName} under the NERDC secondary syllabus. It empowers Nigerian learners with communicative eloquence, reading comprehension, critical analysis, and distinction in WAEC, NECO, and BECE English Language examinations.\n\nKey Linguistic Pillars:\n• Syntax: Accurate grammatical agreement between subjects, verbs, and tenses.\n• Phonology: Correct vowel length, consonant articulation, stress, and intonation.\n• Composition: Logical paragraph organization with clear topic sentences and supporting evidence.`,
+      workedExamples: `Worked Example 1 (Grammatical Analysis):\nAnalyze sentence structure and grammatical concord:\nStep 1: Identify the main subject and its grammatical number (singular or plural).\nStep 2: Select the appropriate verb form that agrees with the subject.\nStep 3: Punctuate the sentence correctly with capital letters and appropriate terminal marks.\n\nWorked Example 2 (Contextual Nigerian Expression):\nIn Nigerian formal discourse and commercial correspondence, applying ${safeTopic} ensures clarity, prevents ambiguity, and conveys professional credibility.`,
+      blackboardSummary: `• Point 1: In English grammar, a singular subject requires a singular verb, while a plural subject takes a plural verb.\n• Point 2: Always review your written compositions for punctuation, spelling, and paragraph coherence.\n• Point 3: Copy the complete narrative arc or linguistic diagram and all chalkboard notes into your notebook.`,
+      classDrill: `1. State the grammatical rule or literary definition governing ${safeTopic}.\n2. Construct two original sentences on the chalkboard demonstrating correct application of this rule.`
     }
   };
 }

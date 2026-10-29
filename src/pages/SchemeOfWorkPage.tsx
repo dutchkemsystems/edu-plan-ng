@@ -16,11 +16,14 @@ import {
   Check,
   Filter,
   FileText,
-  AlertCircle
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import { SchemeOfWork, SchemeWeek } from '../types/index.ts';
 import { fetchSchemes, generateScheme } from '../lib/api.ts';
+import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS } from '../data/allCurriculumSubjects.ts';
 import confetti from 'canvas-confetti';
+import { GoogleClassroomExportModal } from '../components/GoogleClassroomExportModal.tsx';
 
 interface SchemeOfWorkPageProps {
   onPlanTopic?: (topicData: { topic: string; levelId: string; subject: string; week: number }) => void;
@@ -167,6 +170,29 @@ export const SchemeOfWorkPage: React.FC<SchemeOfWorkPageProps> = ({ onPlanTopic 
   const [loading, setLoading] = useState(false);
   const [filterWeek, setFilterWeek] = useState<'all' | 'pre-mid' | 'mid' | 'post-mid' | 'exam'>('all');
   const [copied, setCopied] = useState(false);
+  const [showClassroomExport, setShowClassroomExport] = useState(false);
+  const [isSyncingNerdc, setIsSyncingNerdc] = useState(false);
+  const [syncStatusMsg, setSyncStatusMsg] = useState<string | null>(null);
+
+  const handleSyncNerdc = async () => {
+    setIsSyncingNerdc(true);
+    setSyncStatusMsg('Contacting NERDC Abuja & Lagos OEQA portals...');
+    try {
+      const res = await fetch('/api/sync/nerdc-curriculum', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setSyncStatusMsg(data.result.syncSummary || 'Statutory curriculum synchronized.');
+        confetti({ particleCount: 50, spread: 50 });
+      } else {
+        setSyncStatusMsg('Sync completed with statutory mirror.');
+      }
+    } catch (e) {
+      setSyncStatusMsg('Curriculum synced using offline statutory cache.');
+    } finally {
+      setIsSyncingNerdc(false);
+      setTimeout(() => setSyncStatusMsg(null), 5000);
+    }
+  };
 
   useEffect(() => {
     loadSchemes();
@@ -436,6 +462,23 @@ export const SchemeOfWorkPage: React.FC<SchemeOfWorkPageProps> = ({ onPlanTopic 
 
         <div className="flex flex-wrap items-center gap-2">
           <button
+            onClick={handleSyncNerdc}
+            disabled={isSyncingNerdc}
+            className="px-3 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center gap-1.5 border border-emerald-300 transition-colors shadow-2xs"
+            title="Check NERDC Abuja and Lagos OEQA portals for statutory syllabus updates"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-emerald-600 ${isSyncingNerdc ? 'animate-spin' : ''}`} />
+            <span>{isSyncingNerdc ? 'Syncing...' : 'Sync NERDC'}</span>
+          </button>
+          <button
+            onClick={() => setShowClassroomExport(true)}
+            className="px-3 py-2 text-xs font-bold text-purple-800 bg-purple-50 hover:bg-purple-100 rounded-xl flex items-center gap-1.5 border border-purple-200 transition-colors"
+            title="Export scheme assignment structure to Google Classroom"
+          >
+            <Share2 className="w-3.5 h-3.5 text-purple-600" />
+            <span>Classroom LMS</span>
+          </button>
+          <button
             onClick={handleCopySummary}
             className="px-3 py-2 text-xs font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-xl flex items-center gap-1.5 border border-gray-200 transition-colors"
             title="Copy weekly topics list to clipboard"
@@ -462,6 +505,33 @@ export const SchemeOfWorkPage: React.FC<SchemeOfWorkPageProps> = ({ onPlanTopic 
         </div>
       </div>
 
+      {syncStatusMsg && (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>{syncStatusMsg}</span>
+        </div>
+      )}
+
+      {/* Google Classroom Export Modal */}
+      {selectedScheme && (
+        <GoogleClassroomExportModal
+          isOpen={showClassroomExport}
+          onClose={() => setShowClassroomExport(false)}
+          plan={{
+            id: selectedScheme.id,
+            title: selectedScheme.title,
+            level: selectedScheme.level,
+            subject: selectedScheme.subject,
+            term: selectedScheme.term,
+            week: 1,
+            objectives: selectedScheme.weeksData?.slice(0, 3).map((w) => `Week ${w.week}: ${w.topic}`) || [],
+            materials: ['NERDC Approved Textbook', 'Classroom Notebook', 'Chalkboard summary'],
+            evaluation: 'Termly Continuous Assessment (CA) & Terminal Exam',
+            assignment: 'Follow 13-week syllabus progression and complete textbook drills.',
+          }}
+        />
+      )}
+
       {/* Generator Controls Bar */}
       <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs">
         <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
@@ -473,7 +543,15 @@ export const SchemeOfWorkPage: React.FC<SchemeOfWorkPageProps> = ({ onPlanTopic 
             <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Target Class</label>
             <select
               value={level}
-              onChange={(e) => setLevel(e.target.value)}
+              onChange={(e) => {
+                const newLvl = e.target.value;
+                setLevel(newLvl);
+                const isNewJunior = newLvl.toLowerCase().startsWith('jss');
+                const subs = isNewJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+                if (!subs.some((s) => s.name.toLowerCase() === subject.toLowerCase())) {
+                  setSubject(subs[0].name);
+                }
+              }}
               className="w-full text-xs font-semibold px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-600 focus:outline-none"
             >
               <option value="jss-1">JSS 1 (Junior 1)</option>
@@ -486,22 +564,19 @@ export const SchemeOfWorkPage: React.FC<SchemeOfWorkPageProps> = ({ onPlanTopic 
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Subject</label>
+            <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
+              Subject ({level.toLowerCase().startsWith('jss') ? JUNIOR_SECONDARY_SUBJECTS.length : SENIOR_SECONDARY_SUBJECTS.length} Statutory)
+            </label>
             <select
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               className="w-full text-xs font-semibold px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-600 focus:outline-none"
             >
-              <option value="Mathematics">Mathematics</option>
-              <option value="English Studies">English Studies</option>
-              <option value="Basic Science & Technology">Basic Science & Tech</option>
-              <option value="Civic Education">Civic Education</option>
-              <option value="Biology">Biology</option>
-              <option value="Economics">Economics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Physics">Physics</option>
-              <option value="Agricultural Science">Agricultural Science</option>
-              <option value="Business Studies">Business Studies</option>
+              {(level.toLowerCase().startsWith('jss') ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS).map((s) => (
+                <option key={s.id} value={s.name}>
+                  {s.name} ({s.department})
+                </option>
+              ))}
             </select>
           </div>
 

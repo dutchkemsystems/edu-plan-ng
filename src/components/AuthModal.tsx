@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, Mail, User, School, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { X, Lock, Mail, User, School, ArrowRight, ShieldCheck, Sparkles, Home } from 'lucide-react';
 import { signInUser, signUpUser } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
 
@@ -7,9 +7,10 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  onGoToHome?: () => void;
 }
 
-export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => {
+export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess, onGoToHome }) => {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +40,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     setLoading(true);
     setErrorMessage('');
     try {
-      await signInUser('amina.balogun@schools.ng', 'password123');
+      await signInUser('principal@kingscollege.sch.ng', 'password123');
       confetti({ particleCount: 50 });
       onSuccess();
       onClose();
@@ -224,29 +225,48 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           </button>
         </form>
 
-        <div className="text-center pt-2 border-t border-gray-100 text-xs text-gray-500">
-          {mode === 'signin' ? (
-            <p>
-              New educator?{' '}
+        <div className="space-y-2.5 pt-3 border-t border-gray-100 text-xs">
+          <div className="text-center text-gray-500">
+            {mode === 'signin' ? (
+              <p>
+                New educator?{' '}
+                <button
+                  type="button"
+                  onClick={() => setMode('signup')}
+                  className="font-bold text-emerald-700 hover:underline"
+                >
+                  Create account
+                </button>
+              </p>
+            ) : (
+              <p>
+                Already registered?{' '}
+                <button
+                  type="button"
+                  onClick={() => setMode('signin')}
+                  className="font-bold text-emerald-700 hover:underline"
+                >
+                  Sign in
+                </button>
+              </p>
+            )}
+          </div>
+
+          {onGoToHome && (
+            <div className="pt-2 border-t border-dashed border-gray-200 flex justify-center">
               <button
                 type="button"
-                onClick={() => setMode('signup')}
-                className="font-bold text-emerald-700 hover:underline"
+                onClick={() => {
+                  onClose();
+                  onGoToHome();
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 hover:text-emerald-800 hover:bg-emerald-50 transition-colors"
+                title="Go to EduPlan NG public homepage"
               >
-                Create account
+                <Home className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Go to Homepage / Public Portal</span>
               </button>
-            </p>
-          ) : (
-            <p>
-              Already registered?{' '}
-              <button
-                type="button"
-                onClick={() => setMode('signin')}
-                className="font-bold text-emerald-700 hover:underline"
-              >
-                Sign in
-              </button>
-            </p>
+            </div>
           )}
         </div>
       </div>
