@@ -47,6 +47,7 @@ export default function PricingPage() {
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [activeTab, setActiveTab] = useState<'transfer' | 'ussd'>('transfer');
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   const b2cPlans = [
     {
@@ -58,12 +59,12 @@ export default function PricingPage() {
       duration: '5 Days',
       badge: null,
       features: [
-        'Full NERDC Scheme of Work access',
-        'Generate up to 10 AI lesson plans',
-        'Standard Lagos OEQA lesson note format',
-        'Export to PDF & Printable Chalkboard View',
+        '1 Curriculum Source of choice',
+        '10 AI Lesson Plan generations total',
+        'Basic text output & pedagogical guides',
+        'Watermarked "Draft" PDF export',
       ],
-      cta: 'Start 5-Day Trial',
+      cta: 'Start 5-Day Trial (₦500)',
     },
     {
       id: 'monthly',
@@ -74,13 +75,13 @@ export default function PricingPage() {
       duration: '30 Days',
       badge: null,
       features: [
-        'Unlimited NERDC Lesson Plan generations',
-        'Nigerian Cultural Context Engine (Balogun, Naira, etc.)',
-        'Printable Chalkboard Lesson Notes',
-        'WAEC / NECO Exam Past Question Predictor',
-        'Voice-to-Plan Audio Note Composer',
+        '1 Curriculum Source of choice',
+        '30 AI Lesson Plan generations total',
+        'Full text generation & chalkboard notes',
+        'Standard clean PDF export (no watermark)',
+        'Save up to 5 notes in Library',
       ],
-      cta: 'Subscribe Monthly',
+      cta: 'Subscribe Monthly (₦1,000)',
     },
     {
       id: 'termly',
@@ -92,14 +93,14 @@ export default function PricingPage() {
       badge: 'Most Popular for Educators',
       popular: true,
       features: [
-        'Everything in 1-Month Standard',
-        'Full 13-Week Automated Scheme of Work Generator',
-        'Continuous Assessment (CA) & Exam Rubrics',
-        'Low-Data Offline PWA Access (MTN/Airtel/Glo saved)',
+        '2 Curriculum Sources simultaneously (e.g. Lagos Scheme + WAEC)',
+        'Unlimited AI generations (Fair Use: 50/day)',
+        '2D diagrammatic notes & charts',
+        'WAEC & NECO exam & marking scheme generators',
         'WhatsApp Parent Communication Autopilot',
-        'Priority NERDC Syllabus Sync updates',
+        'Unlimited Library saving & bulk PDF/Word exports',
       ],
-      cta: 'Activate Termly Plan',
+      cta: 'Activate Termly Plan (₦1,500)',
     },
     {
       id: 'full_session',
@@ -111,13 +112,14 @@ export default function PricingPage() {
       badge: 'Best Annual Value',
       features: [
         'Full 3-Term Coverage (1st, 2nd, and 3rd Term)',
-        'All 47 Senior & Junior Secondary NERDC subjects',
-        '10-Year WAEC/NECO Examination Prediction Engine',
-        'Unlimited AI Teacher Coaching & Socratic Upskilling',
-        'Early access to new Ministry curriculum updates',
-        'Official EduPlan NG Certified Educator Badge',
+        '2 Curriculum Sources simultaneously',
+        'Unlimited AI generations (Fair Use: 50/day)',
+        'Full access to 2D diagrammatic notes',
+        'WAEC & NECO exam predictor engine',
+        'Parent Autopilot WhatsApp templates',
+        'Save ₦1,500 vs paying termly',
       ],
-      cta: 'Get Full Session Access',
+      cta: 'Get Full Session Access (₦3,000)',
     },
   ];
 
@@ -125,39 +127,39 @@ export default function PricingPage() {
     {
       id: 'b2b_bronze',
       name: 'Bronze School Tier',
-      tagline: 'For private academies & developing community schools',
+      tagline: 'For private academies & community schools',
       price: 45000,
       priceFormatted: '₦45,000',
       duration: 'Per Term (105 Days)',
       capacity: 'Up to 15 Faculty Members',
       features: [
-        '15 Dedicated Teacher Seats with unified dashboard',
-        'Full NERDC / OEQA compliance tracking',
-        'Centralized Lesson Plan vetting by HODs',
-        'School-wide syllabus pacing indicator',
-        'Virtual Account & Bulk Bank Transfer invoicing',
+        '1 Curriculum Source per Class (Lagos Scheme or NERDC)',
+        '15 Dedicated Teacher Seats with unified logins',
+        'Unlimited AI Lesson Plans for all 15 teachers (Fair Use: 50/day)',
+        'School broadsheet report card export',
+        'Virtual NUBAN & centralized school billing',
       ],
-      cta: 'Enroll School on Bronze',
+      cta: 'Activate Bronze (₦45,000 / Term)',
     },
     {
       id: 'b2b_silver',
       name: 'Silver Model School',
-      tagline: 'For established private colleges & state model schools',
+      tagline: 'For established private colleges & high schools',
       price: 120000,
       priceFormatted: '₦120,000',
       duration: 'Per Term (105 Days)',
-      capacity: 'Up to 50 Faculty Members',
+      capacity: 'Up to 40 Faculty Members',
       popular: true,
-      badge: 'Recommended for Mid-Sized Schools',
+      badge: 'Recommended for Colleges',
       features: [
-        '50 Dedicated Teacher Seats across all departments',
-        'Advanced HOD Approval Workflow & revision tracking',
-        'School-wide WAEC/NECO Readiness Heatmap',
-        'Dedicated WhatsApp Parent Broadcast engine',
-        'Official Ministry of Education Inspection Dossier Export',
-        'Priority telephone & WhatsApp VIP support',
+        '2 Curriculum Sources across all departments',
+        '40 Dedicated Teacher Seats across all departments',
+        'WAEC, NECO & BECE Exam & Marking Scheme Generators',
+        'Master Timetable Generator AI',
+        'Special Educational Needs (SEN / Differentiated IEP) Engine',
+        'Parent Portal & Autopilot (WhatsApp / SMS broadcasting)',
       ],
-      cta: 'Enroll School on Silver',
+      cta: 'Activate Silver (₦120,000 / Term)',
     },
     {
       id: 'b2b_gold',
@@ -166,23 +168,24 @@ export default function PricingPage() {
       price: 250000,
       priceFormatted: '₦250,000',
       duration: 'Per Term (105 Days)',
-      capacity: 'Up to 500 Faculty Members',
+      capacity: 'Unlimited Faculty Members',
       badge: 'Full Institutional Power',
       features: [
-        'Up to 500 Faculty Members with unlimited scale',
-        'Principal’s Gold Analytics Dashboard (Real-time OEQA audit)',
-        'Automatic Scheme of Work sync with Lagos & Federal portals',
-        'Teacher Lesson Plan Quality Index & submission heatmaps',
-        'White-label portal support (portal.yourschool.com)',
-        'Dedicated EdTech Account Manager & on-site faculty training',
+        'All 6 Curriculum Sources Unlocked: NERDC, Lagos, OEQA, BECE, WAEC, NECO',
+        'Unlimited Teacher Accounts across all departments',
+        'Principal Multi-Source Compliance Heatmap & Outdated Syllabus Detector',
+        'Automated Tuition Fee Recovery & Parent Arrears Engine',
+        'Full access to 2D/3D Interactive Lab & 4K STEM Visual Aids',
+        'White-Label Portal (Custom Subdomain & Watermark) & LMS Exports',
       ],
-      cta: 'Deploy Gold Enterprise',
+      cta: 'Deploy Gold Elite (₦250,000 / Term)',
     },
   ];
 
   const handleInitializeCheckout = async (planId: string) => {
     setLoadingPlan(planId);
     setPaymentConfirmed(false);
+    setPaymentError(null);
 
     try {
       const response = await fetch('/api/payments/initialize', {
@@ -191,6 +194,7 @@ export default function PricingPage() {
         body: JSON.stringify({
           planId,
           userId: 'usr_teacher_demo_01',
+          accountType,
           schoolId: accountType === 'b2b' ? 'sch_kings_college_01' : undefined,
           paymentMethod: 'virtual_account',
         }),
@@ -201,11 +205,11 @@ export default function PricingPage() {
         setCheckoutModal(data);
         confetti({ particleCount: 50, spread: 50 });
       } else {
-        alert(data.error || 'Unable to generate virtual payment account. Please retry.');
+        setPaymentError(data.error || 'Unable to generate virtual payment account. Please retry.');
       }
     } catch (err) {
       console.error('Payment init error', err);
-      alert('Network error connecting to payment gateway. Please check your connection.');
+      setPaymentError('Network error connecting to payment gateway. Please check your connection.');
     } finally {
       setLoadingPlan(null);
     }
@@ -298,6 +302,15 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
+
+      {paymentError && (
+        <div className="max-w-xl mx-auto p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center justify-between gap-3">
+          <span>{paymentError}</span>
+          <button onClick={() => setPaymentError(null)} className="text-rose-600 hover:text-rose-900 font-black">
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {/* Plan Grid */}
       {accountType === 'b2c' ? (

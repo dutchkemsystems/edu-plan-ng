@@ -1,7 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { createClient, type Client } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from './schema.ts';
 import { seedDatabase } from './seed.ts';
+import { runMultiSourceIsolationMigration } from './migrations/multi-source-isolation.ts';
+import { applyRlsPolicies } from './migrations/rls-policies.ts';
+import { runStatePolicyMigration } from './migrations/state-policy-migration.ts';
+import { generateAllCurriculumJson } from '../../scripts/generate-curriculum-json.ts';
 
 let initialUrl = process.env.DATABASE_URL || 'file:local.db';
 let initialToken = process.env.DATABASE_AUTH_TOKEN;
@@ -198,6 +204,137 @@ async function runTableDDL(targetClient: Client) {
   try {
     await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN advanced_task TEXT;`);
   } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN curriculum_version TEXT DEFAULT 'v1.2';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN recommended_textbook TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN is_outdated INTEGER DEFAULT 0;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN outdated_reason TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN latest_curriculum_version TEXT DEFAULT 'v1.2';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_notes ADD COLUMN is_outdated INTEGER DEFAULT 0;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_notes ADD COLUMN outdated_reason TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_notes ADD COLUMN latest_curriculum_version TEXT DEFAULT 'v1.4';`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_plans ADD COLUMN school_id TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE lesson_notes ADD COLUMN school_id TEXT;`);
+  } catch (_) {}
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS curriculum_sync_hashes (
+      id TEXT PRIMARY KEY,
+      source TEXT NOT NULL,
+      level TEXT NOT NULL,
+      subject TEXT NOT NULL,
+      content_hash TEXT NOT NULL,
+      version TEXT NOT NULL DEFAULT 'v1.2',
+      last_checked_at TEXT NOT NULL,
+      last_changed_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS curriculum_diff_logs (
+      id TEXT PRIMARY KEY,
+      sync_id TEXT NOT NULL,
+      source TEXT NOT NULL,
+      level TEXT NOT NULL,
+      subject TEXT NOT NULL,
+      old_version TEXT NOT NULL,
+      new_version TEXT NOT NULL,
+      diff_summary TEXT NOT NULL,
+      affected_plans_count INTEGER DEFAULT 0,
+      timestamp TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS curriculum_versions (
+      id TEXT PRIMARY KEY,
+      version TEXT NOT NULL,
+      source TEXT NOT NULL,
+      level TEXT NOT NULL,
+      subject TEXT NOT NULL,
+      term INTEGER DEFAULT 1,
+      week INTEGER,
+      content_hash TEXT NOT NULL,
+      raw_url TEXT,
+      status TEXT NOT NULL DEFAULT 'APPROVED',
+      change_summary TEXT NOT NULL,
+      extracted_data TEXT,
+      approved_by TEXT,
+      is_gazetted INTEGER DEFAULT 1,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS active_sessions (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      session_token TEXT NOT NULL UNIQUE,
+      ip_address TEXT NOT NULL,
+      user_agent TEXT NOT NULL,
+      device_fingerprint TEXT,
+      last_activity TEXT NOT NULL,
+      is_active INTEGER DEFAULT 1,
+      created_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS lesson_notes (
+      id TEXT PRIMARY KEY,
+      lesson_plan_id TEXT,
+      user_id TEXT NOT NULL,
+      subject TEXT NOT NULL,
+      level TEXT NOT NULL,
+      term INTEGER NOT NULL,
+      week INTEGER NOT NULL,
+      topic TEXT NOT NULL,
+      curriculum_version TEXT NOT NULL DEFAULT 'v1.2',
+      chalkboard_header TEXT,
+      subtopics TEXT,
+      definitions TEXT,
+      worked_examples TEXT,
+      blackboard_summary TEXT,
+      seatwork_drill TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS textbooks (
+      id TEXT PRIMARY KEY,
+      class_level TEXT NOT NULL,
+      subject TEXT NOT NULL,
+      title TEXT NOT NULL,
+      author TEXT NOT NULL,
+      publisher TEXT NOT NULL,
+      edition TEXT NOT NULL,
+      is_government_approved INTEGER NOT NULL DEFAULT 1,
+      approved_by TEXT DEFAULT 'NERDC & Lagos State Ministry of Basic Education',
+      approval_date TEXT,
+      created_at TEXT NOT NULL
+    );
+  `);
 
   await targetClient.execute(`
     CREATE TABLE IF NOT EXISTS lesson_plan_sections (
@@ -300,13 +437,30 @@ async function runTableDDL(targetClient: Client) {
     CREATE TABLE IF NOT EXISTS notifications (
       id TEXT PRIMARY KEY,
       user_id TEXT NOT NULL,
+      school_id TEXT,
+      source_id TEXT,
       title TEXT NOT NULL,
       message TEXT NOT NULL,
-      type TEXT DEFAULT 'system',
+      type TEXT DEFAULT 'curriculum_update',
+      class_level TEXT,
+      subject TEXT,
       read INTEGER DEFAULT 0,
       created_at TEXT NOT NULL
     );
   `);
+
+  try {
+    await targetClient.execute(`ALTER TABLE notifications ADD COLUMN source_id TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE notifications ADD COLUMN school_id TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE notifications ADD COLUMN class_level TEXT;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`ALTER TABLE notifications ADD COLUMN subject TEXT;`);
+  } catch (_) {}
 
   await targetClient.execute(`
     CREATE TABLE IF NOT EXISTS schemes_of_work (
@@ -385,6 +539,86 @@ async function runTableDDL(targetClient: Client) {
       created_at TEXT NOT NULL
     );
   `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS manual_review_queue (
+      id TEXT PRIMARY KEY,
+      source_id TEXT NOT NULL,
+      source_name TEXT NOT NULL,
+      portal_url TEXT NOT NULL,
+      reason TEXT NOT NULL,
+      robots_txt_status TEXT DEFAULT 'DISALLOWED',
+      class_level TEXT,
+      subject TEXT,
+      status TEXT DEFAULT 'PENDING_UPLOAD',
+      uploaded_file_name TEXT,
+      uploaded_by TEXT,
+      admin_notes TEXT,
+      detected_hash TEXT,
+      created_at TEXT NOT NULL,
+      resolved_at TEXT
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS students (
+      id TEXT PRIMARY KEY,
+      school_id TEXT NOT NULL,
+      admission_number TEXT NOT NULL,
+      first_name TEXT NOT NULL,
+      last_name TEXT NOT NULL,
+      class_level TEXT NOT NULL,
+      guardian_name TEXT NOT NULL,
+      guardian_phone TEXT NOT NULL,
+      guardian_email TEXT,
+      parental_consent INTEGER NOT NULL DEFAULT 0,
+      consent_status TEXT NOT NULL DEFAULT 'PENDING',
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `);
+
+  try {
+    await targetClient.execute(`ALTER TABLE students ADD COLUMN parental_consent INTEGER NOT NULL DEFAULT 0;`);
+  } catch (_) {}
+  try {
+    await targetClient.execute(`UPDATE students SET parental_consent = 1 WHERE consent_status = 'GRANTED';`);
+  } catch (_) {}
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS fee_records (
+      id TEXT PRIMARY KEY,
+      school_id TEXT NOT NULL,
+      student_id TEXT NOT NULL,
+      term INTEGER NOT NULL,
+      session TEXT NOT NULL DEFAULT '2026/2027',
+      amount_due INTEGER NOT NULL,
+      amount_paid INTEGER NOT NULL DEFAULT 0,
+      status TEXT NOT NULL DEFAULT 'unpaid',
+      paid_at TEXT,
+      receipt_number TEXT,
+      created_at TEXT NOT NULL
+    );
+  `);
+
+  await targetClient.execute(`
+    CREATE TABLE IF NOT EXISTS analytics_events (
+      id TEXT PRIMARY KEY,
+      school_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      payload TEXT,
+      timestamp TEXT NOT NULL
+    );
+  `);
+}
+
+async function applySqlitePragmas(targetClient: Client) {
+  try {
+    await targetClient.execute('PRAGMA journal_mode = WAL;');
+    await targetClient.execute('PRAGMA synchronous = NORMAL;');
+    await targetClient.execute('PRAGMA temp_store = MEMORY;');
+  } catch (_) {}
 }
 
 // Verify client connection or seamlessly switch to local SQLite
@@ -398,32 +632,72 @@ async function ensureConnectedClient(): Promise<Client> {
       console.log('[DB] Remote database endpoint unavailable. Initialized local SQLite database (file:local.db).');
       activeClient = createClient({ url: 'file:local.db' });
       activeDb = drizzle(activeClient, { schema });
+      await applySqlitePragmas(activeClient);
       return activeClient;
     }
   }
+  await applySqlitePragmas(activeClient);
   return activeClient;
 }
 
 // Auto-initialize SQLite tables and auto-seed if empty
 export async function initDb() {
-  const currentClient = await ensureConnectedClient();
+  let currentClient = await ensureConnectedClient();
   try {
     await runTableDDL(currentClient);
   } catch (err: any) {
-    console.log('[DB] Initializing local SQLite database (file:local.db).');
-    activeClient = createClient({ url: 'file:local.db' });
+    const fallbackUrl = 'file:/tmp/local.db';
+    console.log(`[DB] Primary SQLite init fallback (${err?.message || 'error'}) — switching to ${fallbackUrl}.`);
+    activeClient = createClient({ url: fallbackUrl });
     activeDb = drizzle(activeClient, { schema });
-    await runTableDDL(activeClient);
+    currentClient = activeClient;
+    await applySqlitePragmas(currentClient);
+    await runTableDDL(currentClient);
   }
 
-  // Check if curriculum is fully seeded with all core subjects. If incomplete, seed now!
+  // Run Phase 1 Multi-Source Isolation & NDPA 2023 tables migration
   try {
-    const existingSubjects = await db.select().from(schema.curriculumSubjects);
-    if (existingSubjects.length < 30) {
-      console.log(`🌱 Curriculum subjects count is ${existingSubjects.length} (< 30). Seeding all statutory core subjects across JSS & SSS...`);
+    await runMultiSourceIsolationMigration(currentClient);
+  } catch (err) {
+    console.warn('[DB] Multi-source migration error:', err);
+  }
+
+  // Run Phase 2C Row-Level Security & Multi-Tenant Isolation
+  try {
+    await applyRlsPolicies(currentClient);
+  } catch (err) {
+    console.warn('[DB] RLS policies initialization error:', err);
+  }
+
+  // Run Phase 5 State Policy Enforcement Migration
+  try {
+    await runStatePolicyMigration(currentClient);
+  } catch (err) {
+    console.warn('[DB] State policy migration error:', err);
+  }
+
+  // Auto-seed users & legacy NERDC topics if empty
+  try {
+    const userCountRes = await currentClient.execute('SELECT COUNT(*) as cnt FROM users');
+    const userCount = Number((userCountRes.rows[0] as any)?.cnt ?? 0);
+    if (userCount === 0) {
+      console.log('[DB] Users table empty — running automatic seedDatabase()...');
       await seedDatabase();
     }
   } catch (err) {
-    console.warn('[DB] Auto-seed check warning:', err);
+    console.warn('[DB] Auto-seed users warning:', err);
+  }
+
+  // Auto-seed strictly isolated 6-source curriculum catalog & source_curriculum table if missing
+  try {
+    const scCountRes = await currentClient.execute('SELECT COUNT(*) as cnt FROM source_curriculum');
+    const scCount = Number((scCountRes.rows[0] as any)?.cnt ?? 0);
+    const waecDirExists = fs.existsSync(path.resolve(process.cwd(), 'curriculum-data', 'waec'));
+    if (scCount < 400 || !waecDirExists) {
+      console.log(`[DB] Isolated curriculum incomplete (${scCount} rows, waecDir=${waecDirExists}) — running generateAllCurriculumJson()...`);
+      await generateAllCurriculumJson(currentClient);
+    }
+  } catch (err) {
+    console.warn('[DB] Auto-seed 6-source curriculum warning:', err);
   }
 }

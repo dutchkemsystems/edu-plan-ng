@@ -1,0 +1,80 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Economics",
+  "subjectCode": "ECO",
+  "version": "v1.6",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/economics-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Economics for Senior Secondary Schools",
+    "author": "J.U. Anyaele",
+    "publisher": "Johnson Publishers Ltd",
+    "edition": "4th Edition (Lagos Unified & NERDC Aligned)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Theory of Demand and Elasticity of Demand",
+      "subtopics": [
+        "Law of demand, demand schedule, and individual vs market demand curve",
+        "Factors determining demand and shifts in demand curve",
+        "Price, income and cross elasticity of demand formulas and calculations"
+      ],
+      "objectives": [
+        "State the first law of demand with ceteris paribus clause",
+        "Distinguish change in quantity demanded from shift in demand",
+        "Calculate price elasticity of demand coefficient (Ed)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Theory of Supply and Elasticity of Supply",
+      "subtopics": [
+        "Law of supply, supply schedule, and upward-sloping supply curve",
+        "Determinants of supply: Cost of production, weather, technology",
+        "Price elasticity of supply: Elastic, inelastic, unitary, perfectly elastic"
+      ],
+      "objectives": [
+        "Plot supply curves from hypothetical market schedules",
+        "Analyze causes of supply contractions and expansions",
+        "Calculate numerical coefficient of price elasticity of supply"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Market Equilibrium and Price Determination",
+      "subtopics": [
+        "Interaction of demand and supply at equilibrium price and quantity",
+        "Effects of shifts in demand and supply on equilibrium",
+        "Government price controls: Maximum price (price ceiling) and minimum price (price floor)"
+      ],
+      "objectives": [
+        "Calculate equilibrium price from demand and supply equations (Qd = Qs)",
+        "Explain economic consequences of fuel or rent price ceilings",
+        "Analyze minimum wage legislation as a price floor in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Theory of Cost and Revenue",
+      "subtopics": [
+        "Short-run and long-run costs: Fixed cost (FC), variable cost (VC), total cost (TC)",
+        "Average cost (AC) and marginal cost (MC)",
+        "Total revenue (TR), average revenue (AR), and marginal revenue (MR)"
+      ],
+      "objectives": [
+        "Plot typical U-shaped short-run average cost curves",
+        "Explain profit maximization condition where MC = MR",
+        "Calculate marginal cost from successive total cost figures"
+      ]
+    }
+  ]
+}

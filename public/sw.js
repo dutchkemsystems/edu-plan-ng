@@ -1,14 +1,10 @@
 // EduPlan NG Service Worker — Resilience for Nigerian Secondary Schools
-const CACHE_NAME = 'eduplan-ng-v2.1.0';
+const CACHE_NAME = 'eduplan-ng-v2.2.0';
 
 // Only pre-cache static assets when safely available
 const PRECACHE_ASSETS = [
   '/',
   '/manifest.json',
-  '/api/curriculum/levels',
-  '/api/dashboard/stats',
-  '/api/quizzes/sample-quiz-01',
-  '/api/sync/nerdc-curriculum/status'
 ];
 
 self.addEventListener('install', (event) => {
@@ -44,12 +40,15 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Bypass service worker entirely for Vite internals, source code, and HMR
+  // Bypass service worker entirely for Vite internals, source code, JSON module imports, APIs, and HMR
   if (
     url.pathname.startsWith('/@') ||
     url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/api/') ||
     url.pathname.includes('/node_modules/') ||
     url.search.includes('v=') ||
+    url.search.includes('import') ||
+    url.search.includes('t=') ||
     url.pathname.endsWith('.tsx') ||
     url.pathname.endsWith('.ts')
   ) {

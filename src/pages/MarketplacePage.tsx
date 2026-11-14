@@ -17,9 +17,40 @@ import {
   FileText,
   ShieldCheck,
   Lock,
-  Globe2
+  Globe2,
+  Search,
+  AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { getAuthHeaders } from '../lib/api.ts';
+import { DashboardStats, TeacherUser } from '../types/index.ts';
+
+export const ALL_MARKETPLACE_SUBJECTS = [
+  'Mathematics',
+  'English Studies',
+  'Biology',
+  'Chemistry',
+  'Physics',
+  'Agricultural Science',
+  'Economics',
+  'Financial Accounting',
+  'Commerce',
+  'Civic Education',
+  'Government',
+  'Geography',
+  'Technical Drawing',
+  'Computer Studies',
+  'Èdè Yorùbá',
+  'Asụsụ Igbo',
+  'Harshen Hausa',
+  'Cultural & Creative Arts',
+  'Physical and Health Education (PHE)',
+  'Christian Religious Studies (CRS)',
+  'Islamic Religious Studies (IRS)',
+  'Basic Technology',
+  'Integrated Science',
+  'Social Studies',
+];
 
 interface MarketplaceItem {
   id: string;
@@ -44,17 +75,26 @@ interface MarketplaceItem {
 
 interface MarketplacePageProps {
   onNavigateToComposer?: (planId: string) => void;
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (message: string, requiredTier?: string, title?: string) => void;
 }
 
-export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToComposer }) => {
+export const MarketplacePage: React.FC<MarketplacePageProps> = ({
+  onNavigateToComposer,
+  user,
+  onOpenUpgrade,
+}) => {
   const [items, setItems] = useState<MarketplaceItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState<string>('all');
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [previewItem, setPreviewItem] = useState<MarketplaceItem | null>(null);
 
   // Purchase state
   const [purchasingId, setPurchasingId] = useState<string | null>(null);
+  const [purchaseError, setPurchaseError] = useState<string | null>(null);
   const [purchaseNotice, setPurchaseNotice] = useState<{
     message: string;
     forkedPlanId: string;
@@ -72,14 +112,15 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
 
   useEffect(() => {
     fetchMarketplaceItems();
-  }, [selectedCountry, selectedSubject]);
+  }, [selectedCountry, selectedSubject, searchQuery]);
 
   const fetchMarketplaceItems = async () => {
     setIsLoading(true);
     try {
       let url = '/api/marketplace/items?';
       if (selectedCountry !== 'all') url += `country=${selectedCountry}&`;
-      if (selectedSubject !== 'all') url += `subject=${selectedSubject}&`;
+      if (selectedSubject !== 'all') url += `subject=${encodeURIComponent(selectedSubject)}&`;
+      if (searchQuery.trim()) url += `search=${encodeURIComponent(searchQuery.trim())}&`;
       const res = await fetch(url);
       const data = await res.json();
       if (data && data.items) {
@@ -94,18 +135,33 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
 
   const handlePurchase = async (item: MarketplaceItem) => {
     setPurchasingId(item.id);
+    setPurchaseError(null);
     try {
       const res = await fetch('/api/marketplace/purchase', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           itemId: item.id,
-          teacherName: 'Mrs. Amina Balogun',
+          teacherName: user?.name || 'Teacher',
           paymentMethod: 'wallet',
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(
+            data.message || data.error || 'Your current plan library save limit does not permit saving purchased packs.',
+            data.requiredTier || 'b2c_monthly',
+            'Library Save Limit Reached'
+          );
+        } else {
+          setPurchaseError(data.message || data.error || 'Purchase could not be completed.');
+        }
+        return;
+      }
+
       if (data.success) {
         confetti({ particleCount: 90, spread: 70 });
         setPurchaseNotice({
@@ -118,8 +174,8 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
           )
         );
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      setPurchaseError(e?.message || 'Network error while processing purchase.');
     } finally {
       setPurchasingId(null);
     }
@@ -132,7 +188,8 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
     try {
       const res = await fetch('/api/marketplace/publish', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           title: publishTitle,
           subject: publishSubject,
@@ -220,6 +277,13 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
         </div>
       </div>
 
+      {purchaseError && (
+        <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl flex items-center gap-3 text-xs font-bold text-rose-900">
+          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+          <span>{purchaseError}</span>
+        </div>
+      )}
+
       {/* Purchase Notification Banner */}
       {purchaseNotice && (
         <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between gap-4 animate-in slide-in-from-top-2">
@@ -246,46 +310,67 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
         </div>
       )}
 
-      {/* Filters: Country & Subject */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
-        {/* Country Selector */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl overflow-x-auto">
-          {[
-            { id: 'all', label: 'All Curricula 🌍' },
-            { id: 'nigeria', label: 'Nigeria (NERDC) 🇳🇬' },
-            { id: 'ghana', label: 'Ghana (GES) 🇬🇭' },
-            { id: 'sierraleone', label: 'Sierra Leone 🇸🇱' },
-          ].map((c) => (
+      {/* Filters: Search, Country & Subject */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+        {/* Search Bar */}
+        <div className="relative flex-1 max-w-md">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search packs by topic, subject, school or author..."
+            className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 font-medium"
+          />
+          {searchQuery && (
             <button
-              key={c.id}
-              onClick={() => setSelectedCountry(c.id)}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors whitespace-nowrap ${
-                selectedCountry === c.id
-                  ? 'bg-white text-slate-900 shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
             >
-              {c.label}
+              ✕
             </button>
-          ))}
+          )}
         </div>
 
-        {/* Subject Filter */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-500">Subject:</span>
-          <select
-            value={selectedSubject}
-            onChange={(e) => setSelectedSubject(e.target.value)}
-            className="text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5"
-          >
-            <option value="all">All Subjects</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Integrated Science">Integrated Science</option>
-            <option value="Civic Education">Civic Education</option>
-            <option value="Social Studies">Social Studies</option>
-            <option value="Physics">Physics</option>
-          </select>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Country Selector */}
+          <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl overflow-x-auto">
+            {[
+              { id: 'all', label: 'All Curricula 🌍' },
+              { id: 'nigeria', label: 'Nigeria (NERDC) 🇳🇬' },
+              { id: 'ghana', label: 'Ghana (GES) 🇬🇭' },
+              { id: 'sierraleone', label: 'Sierra Leone 🇸🇱' },
+            ].map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setSelectedCountry(c.id)}
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors whitespace-nowrap ${
+                  selectedCountry === c.id
+                    ? 'bg-white text-slate-900 shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Subject Filter */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">Subject:</span>
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 max-w-[200px]"
+            >
+              <option value="all">All Subjects (24 Disciplines)</option>
+              {ALL_MARKETPLACE_SUBJECTS.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -525,13 +610,11 @@ export const MarketplacePage: React.FC<MarketplacePageProps> = ({ onNavigateToCo
                       onChange={(e) => setPublishSubject(e.target.value)}
                       className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-800"
                     >
-                      <option value="Mathematics">Mathematics</option>
-                      <option value="Chemistry">Chemistry</option>
-                      <option value="Physics">Physics</option>
-                      <option value="Biology">Biology</option>
-                      <option value="English Studies">English Studies</option>
-                      <option value="Civic Education">Civic Education</option>
-                      <option value="Social Studies">Social Studies</option>
+                      {ALL_MARKETPLACE_SUBJECTS.map((sub) => (
+                        <option key={sub} value={sub}>
+                          {sub}
+                        </option>
+                      ))}
                     </select>
                   </div>
 

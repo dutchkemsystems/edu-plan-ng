@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Literature-in-English",
+  "subjectCode": "LIT",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/literature-in-english-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "A Guide to WASSCE/SSCE Literature-in-English",
+    "author": "Kola Eke",
+    "publisher": "Spectrum Books Limited",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "African Prose: Thematic Analysis of Prescribed WAEC Novel",
+      "subtopics": ["Prescribed African novel: Plot summary and chapter-by-chapter progression", "Major themes: Colonial collision, cultural alienation, gender oppression, patriarchal hegemony, political betrayal", "Stylistic techniques: Oral folklore motifs, proverbs, vernacular transliteration, symbolism"],
+      "objectives": ["Write a coherent 400-word thematic essay on cultural conflict in the prescribed text", "Analyze the narrative significance of 3 major symbolic motifs in the text", "Assess how the author utilizes indigenous Nigerian idioms to enrich English prose"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "African Drama: Staging, Thematic Concerns and Character Dynamics",
+      "subtopics": ["Prescribed African play: Dramatic conflict, act/scene breakdown", "Themes: Corruption in governance, traditional superstition vs modern medicine, youth revolt", "Dramatic irony and tragic resolution in modern African theatre"],
+      "objectives": ["Explain how the playwright uses dramatic irony to build audience suspense", "Analyze the motivations and moral trajectory of the central antagonist", "Examine stage directions and costume requirements for authentic African theatrical performance"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "African Poetry: Oral Heritage, Imagery and Poetic Voice",
+      "subtopics": ["Selected prescribed poems by African poets (e.g. Wole Soyinka, Gabriel Okara, Kofi Awoonor, Niyi Osundare)", "Themes: Pan-Africanism, loss of ancestral culture, nature, poverty, lamentation", "Poetic diction: Metaphorical language, musical rhythm, lyrical persona, stanzaic structure"],
+      "objectives": ["Explicate the central theme and mood of a prescribed African poem", "Identify sound and imagery devices that echo traditional African drum beats and laments", "Compare the poetic voices of two West African poets addressing post-independence governance"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Non-African Prose: Narrative Structure and Socio-Historical Context",
+      "subtopics": ["Prescribed Non-African novel: Industrial revolution, racial segregation, or totalitarian society context", "Thematic exploration: Class stratification, racial prejudice, moral integrity, human dignity", "Character evolution: Dynamic vs static character arcs, psychological realism"],
+      "objectives": ["Contextualize the novel within its specific 19th/20th century historical epoch", "Analyze character transformation through major ethical dilemmas in the narrative", "Write an argumentative essay comparing social inequality in the text with contemporary societies"]
+    }
+  ]
+}

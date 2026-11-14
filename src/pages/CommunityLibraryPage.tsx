@@ -13,14 +13,18 @@ import {
   ThumbsUp,
   PlusCircle,
   X,
-  Filter
+  Filter,
+  AlertCircle
 } from 'lucide-react';
-import { LessonPlan } from '../types/index.ts';
+import { DashboardStats, LessonPlan, TeacherUser } from '../types/index.ts';
 import { createLessonPlan } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
 
 interface CommunityLibraryPageProps {
   onPlanForked: (plan: LessonPlan) => void;
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (message: string, requiredTier?: string, title?: string) => void;
 }
 
 interface CommunityPlanItem {
@@ -40,10 +44,14 @@ interface CommunityPlanItem {
   reviews: { author: string; school: string; rating: number; comment: string }[];
 }
 
-export const CommunityLibraryPage: React.FC<CommunityLibraryPageProps> = ({ onPlanForked }) => {
+export const CommunityLibraryPage: React.FC<CommunityLibraryPageProps> = ({
+  onPlanForked,
+  onOpenUpgrade,
+}) => {
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState('all');
   const [selectedState, setSelectedState] = useState('all');
+  const [forkError, setForkError] = useState<string | null>(null);
 
   // Rating modal state
   const [ratingModalPlan, setRatingModalPlan] = useState<CommunityPlanItem | null>(null);
@@ -161,6 +169,7 @@ export const CommunityLibraryPage: React.FC<CommunityLibraryPageProps> = ({ onPl
   ]);
 
   const handleFork = async (plan: CommunityPlanItem) => {
+    setForkError(null);
     try {
       const res = await createLessonPlan({
         title: `${plan.title} (Forked from ${plan.author})`,
@@ -183,8 +192,16 @@ export const CommunityLibraryPage: React.FC<CommunityLibraryPageProps> = ({ onPl
 
       onPlanForked(res.lessonPlan);
       confetti({ particleCount: 70, spread: 60 });
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e?.status === 403 || e?.status === 429) {
+        onOpenUpgrade?.(
+          e.message || 'Your current plan library save limit has been reached. Upgrade to save forked plans.',
+          e.requiredTier || 'b2c_monthly',
+          'Library Save Limit Reached'
+        );
+      } else {
+        setForkError(e?.message || 'Unable to fork lesson plan right now.');
+      }
     }
   };
 
@@ -286,6 +303,13 @@ export const CommunityLibraryPage: React.FC<CommunityLibraryPageProps> = ({ onPl
           <span>Publish My Plan</span>
         </button>
       </div>
+
+      {forkError && (
+        <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-bold text-rose-800 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+          <span>{forkError}</span>
+        </div>
+      )}
 
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">

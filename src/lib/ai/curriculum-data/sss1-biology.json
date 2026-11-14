@@ -1,0 +1,205 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Biology",
+  "subjectCode": "BIO",
+  "version": "v1.7",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-biology",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "Modern Biology for Senior Secondary Schools",
+    "author": "S.T. Ramalingam",
+    "publisher": "Africana First Publishers",
+    "edition": "6th Revised Edition (Lagos Unified & WAEC/NERDC Standard)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Biology and Living Organisms: Branches and Relevance",
+      "subtopics": [
+        "Meaning of Biology and major branches (Zoology, Botany, Microbiology, Ecology, Genetics)",
+        "Scientific inquiry and biological drawing conventions (no shading, single sharp lines)",
+        "Relevance of biology to agriculture, medicine, pharmacy, and environmental conservation in Nigeria"
+      ],
+      "objectives": [
+        "Define biology and state five statutory rules of biological drawings for WAEC/NECO",
+        "Explain direct contributions of biological research to disease eradication and food security"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Classification of Living Things: Kingdoms of Life",
+      "subtopics": [
+        "Binomial nomenclature system (Linnaean hierarchy: Kingdom, Phylum, Class, Order, Family, Genus, Species)",
+        "The Five Kingdom Classification: Monera, Protista, Fungi, Plantae, Animalia",
+        "Diagnostic characteristics of Monera and Protista (Amoeba, Euglena, Paramecium)"
+      ],
+      "objectives": [
+        "State rules of writing scientific binomial names with correct capitalization and underlining",
+        "Compare diagnostic traits of the five biological kingdoms"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Cell Structure, Organization of Life and Microscopy",
+      "subtopics": [
+        "Plant and animal cell organelles and comparative ultrastructure",
+        "Levels of biological organization: Cells, tissues, organs, systems, and organisms",
+        "Compound optical microscope handling, magnification calculation, and slide preparation"
+      ],
+      "objectives": [
+        "Identify and diagram cell organelles with their physiological functions.",
+        "Differentiate plant and animal cells under high-power optical magnification.",
+        "Calculate linear magnification from biological microphotographs."
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Cell as a Living Entity: Levels of Biological Organization",
+      "subtopics": [
+        "Levels of organization: cell -> tissue -> organ -> organ system -> organism",
+        "Unicellular organisms functioning as independent living entities (Amoeba, Chlamydomonas)",
+        "Specialized tissues in plants (xylem, phloem, epidermal) and animals (epithelial, muscular, nervous, connective)"
+      ],
+      "objectives": [
+        "Identify levels of organization from organelle to multicellular organism",
+        "Explain physiological advantages of cell specialization in higher organisms"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Cellular Physiology: Diffusion and Osmosis in Living Systems",
+      "subtopics": [
+        "Mechanisms of diffusion and concentration gradients",
+        "Osmosis as a special case of diffusion across semi-permeable membranes",
+        "Plasmolysis, turgidity, flaccidity, hemolyis, and crenation"
+      ],
+      "objectives": [
+        "Demonstrate diffusion using potassium permanganate crystals in a beaker",
+        "Set up an osmometer using peeled Irish potato and sucrose solution",
+        "Explain biological significance of turgidity in herbaceous plant support"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Nutrition in Plants: Photosynthesis and Mineral Nutrition",
+      "subtopics": [
+        "Autotrophic nutrition: light and dark reactions of photosynthesis",
+        "Internal structure of a dicotyledonous leaf and adaptation for photosynthesis",
+        "Macro-nutrients and micro-nutrients required by plants and deficiency symptoms"
+      ],
+      "objectives": [
+        "Write chemical and word equations for photosynthesis",
+        "Perform laboratory starch test on a variegated leaf showing need for light and chlorophyll",
+        "Identify nitrogen and phosphorus deficiency symptoms in local maize crops"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Practical Laboratory Test",
+      "subtopics": [
+        "Assessment on microscope usage, cell theory, osmosis, and photosynthesis",
+        "Hands-on WAEC alternative-to-practical test"
+      ],
+      "objectives": [
+        "Demonstrate practical proficiency in specimen drawing, staining, and biochemical testing"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Nutrition in Animals: Holozoic Nutrition and Food Tests",
+      "subtopics": [
+        "Heterotrophic nutrition modes (holozoic, parasitic, saprophytic, symbiotic)",
+        "Biochemical tests for carbohydrates (Benedict test, iodine test), proteins (Biuret, Millon), and fats (Sudan III, emulsion)",
+        "Balanced diet and caloric requirements for different occupations"
+      ],
+      "objectives": [
+        "Perform statutory WAEC biochemical food tests on unknown solutions with clear observation/inference tables",
+        "Distinguish reducing from non-reducing sugars"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Digestive System and Enzymes: Mechanisms in Humans and Herbivores",
+      "subtopics": [
+        "Structure of the human digestive tract and associated glands (liver, pancreas)",
+        "Enzymatic digestion of food along the alimentary canal",
+        "Ruminant digestive modifications (rumen, reticulum, omasum, abomasum in cattle)"
+      ],
+      "objectives": [
+        "Trace chemical digestion of starch, proteins, and lipids from mouth to ileum",
+        "State properties of biological enzymes (temperature, pH sensitivity, specificity)",
+        "Compare human monogastric digestion with polygastric digestion in Nigerian livestock"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Transport System: Human Circulatory Anatomy & Heart Mechanics",
+      "subtopics": [
+        "Need for transport systems in multicellular organisms",
+        "Internal anatomy of the mammalian heart (atria, ventricles, bicuspid/tricuspid valves, septum)",
+        "Double circulation (pulmonary and systemic loops) and blood pressure"
+      ],
+      "objectives": [
+        "Draw longitudinal section of mammalian heart with precise directional flow arrows",
+        "Differentiate arteries, veins, and capillaries structurally and functionally",
+        "Explain heart sounds (lub-dub) and cardiac cycle mechanics"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Blood Physiology: Cells, Plasma and ABO Grouping",
+      "subtopics": [
+        "Cellular components of mammalian blood (erythrocytes, leukocytes, thrombocytes)",
+        "Blood clotting cascade (thromboplastin, prothrombin, thrombin, fibrinogen, fibrin)",
+        "ABO and Rhesus blood grouping systems and transfusion safety"
+      ],
+      "objectives": [
+        "State functions of blood plasma and cellular elements in defense and transport",
+        "Outline biochemical steps in blood clot formation",
+        "Determine compatibility in blood transfusion donor-recipient matrices"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Transport in Plants: Absorption and Translocation",
+      "subtopics": [
+        "Absorption of water and mineral salts by root hairs (osmosis and active transport)",
+        "Upward movement of xylem sap (transpiration pull, root pressure, capillarity)",
+        "Translocation of manufactured food through phloem sieve tubes"
+      ],
+      "objectives": [
+        "Draw transverse section of dicot root and stem showing arrangement of vascular bundles",
+        "Explain cohesion-tension theory of transpiration pull",
+        "Demonstrate translocation using ringing experiments on tree trunks"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Comprehensive Revision & Terminal WASSCE Mock Examination",
+      "subtopics": [
+        "Syllabus revision of cells, physiological transport, and biochemical nutrition",
+        "Full examination administration, moderation, and feedback"
+      ],
+      "objectives": [
+        "Demonstrate complete mastery of SSS 1 Biology Term 1 curriculum"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "English Language",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/english-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Countdown to WASSCE/SSCE English Language",
+    "author": "O. Ogunsanwo and C. E. Oyetunde",
+    "publisher": "Evans Brothers Nigeria Publishers Ltd",
+    "edition": "New Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Clauses: Adjectival and Adverbial Clauses",
+      "subtopics": ["Relative clauses with who, whom, whose, which, that", "Adverbial clauses of time, reason, condition, and concession", "Grammatical functions of clauses in complex sentences"],
+      "objectives": ["Identify dependent clauses in WAEC examination extracts", "State grammatical name and function of underlined clauses", "Punctuate restrictive and non-restrictive relative clauses"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Concord: Rules of Proximity and Plural Quantifiers",
+      "subtopics": ["Subject-verb agreement with compound subjects and correlative conjunctions (either...or)", "Proximity concord rule and collective nouns", "Indefinite pronouns (each, everyone, neither) concord rules"],
+      "objectives": ["Apply proximity concord correctly in tricky sentence structures", "Select appropriate singular or plural verbs with collective nouns", "Correct common concord errors found in student essays"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Formal Letter Writing: Applications and Petitions",
+      "subtopics": ["Format: Two addresses, formal salutation, title, sign-off", "Formal tone, impersonal passive voice, and concise paragraphs", "Writing job applications and letters to the editor"],
+      "objectives": ["Draft a standard formal letter adhering strictly to WASSCE format", "Demonstrate appropriate register without colloquialisms or slang", "Avoid common formatting errors in the date and valediction"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Summary Writing: Extraction of Specific Points",
+      "subtopics": ["Rules of summary: Brevity, originality, precision", "Avoiding mindless lifting and verbatim quotation", "Converting paragraphs into single concise sentences"],
+      "objectives": ["Identify required points answering specific summary questions", "Paraphrase ideas using own words without changing original meaning", "Score maximum marks by eliminating irrelevant examples and anecdotes"]
+    }
+  ]
+}

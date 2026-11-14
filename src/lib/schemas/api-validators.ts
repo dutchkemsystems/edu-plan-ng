@@ -59,6 +59,8 @@ export const LessonPlanPayloadSchema = z.object({
     visual3D: z.string().optional(), // e.g., "heart_model", "solar_system", "geometry_cube"
     video4K: z.string().optional(),  // e.g., "url_to_4k_video_placeholder"
   }).optional(),
+  curriculumVersion: z.string().optional().default('v1.2'),
+  recommendedTextbook: z.any().optional(),
   bloomTags: z.array(z.string()).optional(),
   language: z.enum(['en', 'yo', 'ig', 'ha']).default('en'),
   status: z.enum(['draft', 'published', 'archived']).default('draft'),
@@ -129,6 +131,7 @@ export const KoraWebhookSchema = z.object({
       planId: z.string().optional(),
       userId: z.string().optional(),
       schoolId: z.string().nullable().optional(),
+      accountType: z.string().optional(),
     }).optional(),
   }).optional(),
 });

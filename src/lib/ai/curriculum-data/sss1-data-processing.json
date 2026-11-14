@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Data Processing",
+  "subjectCode": "DPR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/data-processing-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Data Processing for Senior Secondary Schools",
+    "author": "O. A. Adedapo & E. O. Babatunde",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Data Processing Cycle and Stages of Computing",
+      "subtopics": ["Distinction between raw data, information, and wisdom", "The data processing cycle: Data collection, data input, data processing, output, and storage", "Stages in the historical evolution of data processing: Manual, mechanical, electro-mechanical, electronic"],
+      "objectives": ["Define data processing and state 4 qualitative attributes of valuable information", "Diagram the continuous 5-stage data processing cycle", "Compare manual paper-based filing with electronic automated data processing"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Data Collation, Preparation and Input Verification",
+      "subtopics": ["Methods of data collection: Questionnaires, interviews, biometric sensors, OCR, OMR forms", "Data validation checks: Range check, format check, presence check, check digits", "Data verification: Double-entry comparison and visual proofreading"],
+      "objectives": ["Distinguish data verification from data validation in database systems", "Explain how optical mark readers (OMR) score standardized WAEC examination answer sheets", "Identify validation rules that prevent illegal date-of-birth entries"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "File Organization and Access Methods",
+      "subtopics": ["File hierarchy: Characters -> Fields -> Records -> Files -> Database", "File organization types: Serial, sequential, indexed-sequential, direct/random file organization", "File access methods: Sequential search vs hashing direct access"],
+      "objectives": ["Illustrate the file structure hierarchy of a Nigerian school pupil record", "Compare sequential tape access with indexed-sequential database retrieval", "Calculate storage space requirements for a relational table holding 100,000 voter records"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Relational Database Concepts and Structured Query Language (SQL)",
+      "subtopics": ["Database Management Systems (DBMS) vs flat file systems", "Relational concepts: Entities, attributes, tables, tuples, primary keys, foreign keys", "Basic SQL Data Manipulation: SELECT, FROM, WHERE, ORDER BY clauses"],
+      "objectives": ["Explain why relational databases prevent data redundancy and anomalies", "Define primary and foreign keys in linking student tables to exam results", "Write a basic SQL query to retrieve students scoring above 75% in Mathematics"]
+    }
+  ]
+}

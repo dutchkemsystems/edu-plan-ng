@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Technical Drawing",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-technical-drawing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Interpenetration and Intersection of Solids: Cylinders intersecting cylinders",
+      "learningObjectives": [
+        "Construct lines of intersection between two intersecting right circular cylinders",
+        "Use cutting plane and generator methods to plot curves of interpenetration",
+        "Determine visibility of intersection lines in orthographic front and plan views"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Interpenetration of Prisms and Pyramids: Penetration of dissimilar solid shapes",
+      "learningObjectives": [
+        "Plot curves of interpenetration between square prisms and triangular prisms",
+        "Construct lines of intersection between a cone and a horizontal cylinder",
+        "Apply intersection geometry to sheet metal ducts and hopper fabrications"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Surface Development: Parallel-line development of right and oblique prisms and cylinders",
+      "learningObjectives": [
+        "Explain principles of pattern drafting for sheet metal engineering",
+        "Develop the lateral surface of a truncated hexagonal prism using parallel lines",
+        "Develop the lateral surface of a truncated cylinder with seam allowances"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Surface Development: Radial-line and Triangulation development of cones and hoppers",
+      "learningObjectives": [
+        "Develop the lateral surface of truncated right cones using radial generators",
+        "Apply triangulation development to transition pieces (square-to-round hoppers)",
+        "Construct true patterns for fabrication of metal funnels and duct adaptors"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Mechanical Assembly Drawing: Plummer block, coupling, and machine vice components",
+      "learningObjectives": [
+        "Read exploded and detail drawings of mechanical engineering assemblies",
+        "Assemble brasses, cap, bolts, and base casting into a functional plummer block",
+        "Draw full-sectional front elevation and plan of assembled machine assemblies"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Fasteners in Assembly: ISO metric screw threads, nuts, bolts, keys, and cotters",
+      "learningObjectives": [
+        "Draw conventional representations of internal and external metric screw threads",
+        "Construct hexagonal bolt heads and nuts in orthographic projection with chamfers",
+        "Draw sunk keys, gib-head keys, and cottered joints with clearance details"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Mock Assembly Drafting Clinic",
+      "learningObjectives": [
+        "Evaluate pupil mastery of surface development and assembly sectional views",
+        "Grade assembly linework, hatching conventions, and parts list compilation",
+        "Remediate common mistakes in thread representation and clearance tolerances"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Building Drawing: Detailed sectional elevation from foundation to roof truss",
+      "learningObjectives": [
+        "Draft vertical sectional elevation through an external wall from strip foundation to roof",
+        "Represent concrete foundation footing, hardcore, damp-proof course (DPC), and walling",
+        "Detail timber king-post or fink roof truss connections and eaves gutters"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Building Drawing: Electrical and plumbing layout services plan",
+      "learningObjectives": [
+        "Identify statutory architectural symbols for lighting points, switches, and sockets",
+        "Draw domestic electrical installation schematics superimposed on a floor plan",
+        "Incorporate water supply piping, waste disposal lines, and septic soakaway layouts"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Computer-Aided Design (CAD) Fundamentals: 2D drafting in AutoCAD/LibreCAD",
+      "learningObjectives": [
+        "Navigate CAD user interface: command line, layers, snap modes, and coordinate systems",
+        "Execute 2D geometric commands: line, circle, trim, extend, offset, and mirror",
+        "Dimension 2D CAD engineering parts and plot drawing sheets to standard PDF scales"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Limits, Fits, and Surface Texture Symbols in Engineering Working Drawings",
+      "learningObjectives": [
+        "Explain hole-basis and shaft-basis tolerance systems (clearance, transition, interference)",
+        "Interpret ISO tolerance symbols (e.g. H7/g6) on mechanical assembly components",
+        "Apply standard surface roughness texture symbols to finished machine faces"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO Technical Drawing Revision & Past Question Marathon",
+      "learningObjectives": [
+        "Review mechanical and building drawing options for WASSCE Paper 2",
+        "Simulate full 3-hour practical board drafting under strict exam conditions",
+        "Audit speed, layout positioning, title block lettering, and hatching contrast"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Final Board Practical Assessment",
+      "learningObjectives": [
+        "Administer mock WASSCE Technical Drawing theory and practical examination",
+        "Grade completed drafting sheets according to West African Examination Council rubrics",
+        "Record cumulative scores into the school graduation and assessment portal"
+      ]
+    }
+  ]
+}

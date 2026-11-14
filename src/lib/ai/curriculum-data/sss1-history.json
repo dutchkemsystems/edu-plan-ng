@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "History & Heritage Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-history.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Meaning, Nature and Sources of Nigerian History: Oral tradition, archaeology, and written chronicles",
+      "learningObjectives": [
+        "Define history as the scientific and systematic study of past human activities and societal evolution",
+        "Distinguish between primary sources (artifacts, eyewitness accounts, oral traditions) and secondary sources",
+        "Explain the importance of archaeology, radiocarbon dating, and linguistics in reconstructing pre-colonial Nigerian history"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Centers of Ancient Civilization in Nigeria: Nok culture and terra-cotta sculptures",
+      "learningObjectives": [
+        "Locate Nok culture sites in present-day Kaduna State dating from 900 BCE to 200 CE",
+        "Analyze Nok artistic techniques: stylized human heads, perforated eyes, and elaborate coiffures",
+        "Examine the antiquity of Nok iron smelting furnaces and its transformative impact on agriculture and weaponry"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Centers of Ancient Civilization in Nigeria: Igbo-Ukwu bronze casting and burial chambers",
+      "learningObjectives": [
+        "Detail the archaeological excavations by Thurstan Shaw at Igbo-Isaiah, Igbo-Richard, and Igbo-Jonah (9th century CE)",
+        "Examine the sophisticated lost-wax (cire perdue) bronze castings: roped bronze pots, altar stands, and ceremonial vessels",
+        "Analyze the socio-religious significance of the Eze Nri divine kingship institution evidenced in burial finds"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Centers of Ancient Civilization in Nigeria: Ife and Benin bronze and terra-cotta art traditions",
+      "learningObjectives": [
+        "Examine naturalistic terra-cotta and brass heads of ancient Ife and Oduduwa dynastic traditions",
+        "Trace the historical transmission of brass casting traditions from Ife to Benin through master craftsman Igueghae",
+        "Analyze royal Benin court art: commemorative Oba heads, Queen Mother Idia ivory masks, and palace brass plaques"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Pre-Colonial State Systems: Kanem-Borno Empire (Sayfawa Dynasty and Mais)",
+      "learningObjectives": [
+        "Trace the founding and 1000-year continuity of the Sayfawa dynasty in the Lake Chad basin",
+        "Analyze administrative and military reforms under Mai Dunama Dibbalemi and Mai Idris Alooma",
+        "Examine the economic foundations of Kanem-Borno: trans-Saharan trade routes, cavalry warfare, and Islamic diplomacy"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Pre-Colonial State Systems: The Hausa States (Hausa Bakwai and Banza Bakwai)",
+      "learningObjectives": [
+        "Analyze the Bayajidda legend and the historical classification into Hausa Bakwai (seven authentic states) and Banza Bakwai",
+        "Examine the political administration of Hausa kingdoms: Sarki, Galadima, Madawaki, and territorial district heads",
+        "Explore the commercial and craft supremacy of Kano (textile dyeing, leatherwork) and Katsina as learning hubs"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Museum Artifacts Interpretation Drill",
+      "learningObjectives": [
+        "Assess pupil mastery of historical methodology, Nok, Igbo-Ukwu, and northern pre-colonial state systems",
+        "Analyze photographs of Nigerian archaeological artifacts under examination conditions",
+        "Remediate common student errors in distinguishing bronze from terra-cotta and lost-wax casting steps"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Forest Kingdoms and Coastal City-States: The Old Oyo Empire (Alaafin, Oyomesi, and Ogboni)",
+      "learningObjectives": [
+        "Trace the founding of Old Oyo (Oyo-Ile) by Oranmiyan and its military cavalry expansion",
+        "Analyze the sophisticated constitutional system of checks and balances between the Alaafin, Oyo Mesi (Bashorun), and Ogboni cult",
+        "Examine reasons for the collapse of Old Oyo: Afonja’s rebellion, Fulani incursions, and internal constitutional conflicts"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Forest Kingdoms and Coastal City-States: The Benin Empire and the Eweka Dynasty",
+      "learningObjectives": [
+        "Trace the transition from the Ogiso dynasty to the Eweka dynasty founded by Prince Eweka I",
+        "Analyze the warrior warrior-kings (Oba Ewuare the Great, Ozolua, and Esigie) and imperial expansion to Lagos and the coast",
+        "Examine Benin’s administrative structure: Uzama council of kingmakers, palace chiefs, and town chiefs"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Pre-Colonial Decentralized State Systems: The Igbo, Tiv, and Ibibio societies",
+      "learningObjectives": [
+        "Explain the political dynamics of decentralized ('stateless' or republican) governance in pre-colonial Nigeria",
+        "Analyze decision-making in Igbo society: village assemblies (Oha), title societies (Ozo), age grades, and council of elders",
+        "Examine the egalitarian socio-political organization of the Tiv people based on segmentary lineage systems"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Trans-Saharan Trade: Trade routes, commodities (salt, gold, slaves), and impacts on Nigerian societies",
+      "learningObjectives": [
+        "Map primary trans-Saharan caravan trade routes connecting Kano, Borno, and Ghat to North African Mediterranean ports",
+        "Examine main trade commodities exchanged: horses, salt, glassware, leather goods, kola nuts, and gold",
+        "Evaluate the profound cultural, religious, and economic impacts: introduction of Islam, Arabic literacy, and currency"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly History Revision & Essay Construction Seminar",
+      "learningObjectives": [
+        "Review cumulative themes across ancient civilizations, centralized empires, and republican societies",
+        "Practice constructing structured analytical essays conforming to WASSCE History Paper 2 standards",
+        "Refine student capability in contextualizing pre-colonial institutions within modern Nigerian national identity"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer official SSS 1 History theory and objective examination",
+        "Grade scripts according to WAEC standardized historical analysis marking rubrics",
+        "Record and publish official continuous assessment and examination grades"
+      ]
+    }
+  ]
+}

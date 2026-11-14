@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Cultural and Creative Arts",
+  "subjectCode": "CCA",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/cca-jss3",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Cultural and Creative Arts for Junior Secondary Schools Book 3",
+    "author": "I. N. C. Aniekwe, S. O. Babalola",
+    "publisher": "Evans Brothers Nigeria Publishers Ltd",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Contemporary Nigerian Artists and Modern Art Pioneers",
+      "subtopics": ["Pioneers of modern Nigerian art: Aina Onabolu (academic realism) and Akinola Lasekan (political cartoons)", "The Zaria Art Society ('Natural Synthesis', 1958): Uche Okeke, Bruce Onobrakpeya, Demas Nwoko", "Ben Enwonwu (African modernist sculptor and painter) and famous public monuments (Sango in Lagos)"],
+      "objectives": ["Analyze Aina Onabolu's contribution to formal art education in colonial Nigeria", "Explain the concept of 'Natural Synthesis' formulated by the Zaria Rebels", "Evaluate Ben Enwonwu's bronze statue of Queen Elizabeth II and bronze Sango at NEPA headquarters"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Choreography, Dance Notation and Nigerian Ceremonial Dances",
+      "subtopics": ["Concept of choreography and movement design in space, time, and dynamic energy", "Traditional ceremonial dances: Atilogwu dance (Igbo acrobatic), Bata dance (Yoruba religious), Koroso dance (Hausa/Fulani celebratory)", "Staging a contemporary cultural dance drama celebrating national unity"],
+      "objectives": ["Define choreography and state 3 fundamental tools of a dance choreographer", "Describe the cultural symbolism and musical instruments accompanying the Atilogwu dance", "Choreograph a 4-minute synchronized group dance sequence to traditional percussion rhythms"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Applied Arts: Graphic Design, Packaging and Advertising",
+      "subtopics": ["Fundamentals of graphic design: Lettering (block, gothic, roman, script), poster design, logo design", "Product packaging: Branding, label layout, barcodes, NAFDAC registration numbering conventions", "Advertising media: Billboards, newspaper spreads, social media banners, TV commercials"],
+      "objectives": ["Design a completed hand-lettered promotional poster for an intra-school science exhibition", "Construct a 3-dimensional cardboard package prototype for a local fruit beverage", "Explain how color psychology and visual hierarchy influence consumer buying behavior"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Art Exhibition, Gallery Presentation and Portfolio Curation",
+      "subtopics": ["Planning a school art exhibition: Mounting, framing, labeling (artist, title, medium, date, price)", "Gallery etiquette, lighting, curation flow, and opening ceremonies", "Assembling a student art and craft portfolio for the Basic Education Certificate Examination (BECE)"],
+      "objectives": ["Mount a 2D still-life drawing with standard matting and caption card", "Curate a classroom art display following visual aesthetic spacing guidelines", "Present a curated portfolio containing drawing, painting, craft, and musical transcriptions for grading"]
+    }
+  ]
+}

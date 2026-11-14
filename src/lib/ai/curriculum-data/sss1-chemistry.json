@@ -1,0 +1,95 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Chemistry",
+  "subjectCode": "CHE",
+  "version": "v1.6",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/chemistry-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Chemistry for Senior Secondary Schools",
+    "author": "O.Y. Ababio",
+    "publisher": "Africana First Publishers",
+    "edition": "Revised Edition (Lagos Unified & NERDC Standard)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Chemistry and the Scientific Method",
+      "subtopics": [
+        "Definition of chemistry and its branches",
+        "Scientific method of investigation",
+        "Laboratory safety and hazard symbols"
+      ],
+      "objectives": [
+        "Define chemistry and explain inorganic, organic, and physical branches",
+        "List sequential steps of the scientific method",
+        "Identify hazardous chemical warning signs"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Particulate Nature of Matter and Atomic Theory",
+      "subtopics": [
+        "Dalton's atomic theory and modern modifications",
+        "Subatomic particles: Protons, neutrons, electrons",
+        "Atomic number, mass number, and isotopes"
+      ],
+      "objectives": [
+        "Summarize Dalton's atomic theory postulates",
+        "Differentiate subatomic particles by mass and charge",
+        "Calculate relative atomic mass from isotopic abundances"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Chemical Symbols, Formulae and Equations",
+      "subtopics": [
+        "IUPAC chemical symbols of common elements",
+        "Valency and writing chemical formulae of binary compounds",
+        "Balancing chemical equations by inspection"
+      ],
+      "objectives": [
+        "Write correct chemical symbols for first 30 elements",
+        "Derive chemical formulae using cross-valency method",
+        "Balance chemical equations with state symbols"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Chemical Bonding: Ionic and Covalent Bonds",
+      "subtopics": [
+        "Octet rule and stability of noble gases",
+        "Electrovalent (ionic) bonding: Electron transfer",
+        "Covalent bonding: Single, double, and coordinate bonds"
+      ],
+      "objectives": [
+        "State octet and duplet stability rules",
+        "Illustrate ionic bond formation in NaCl and MgO",
+        "Compare physical properties of ionic and covalent compounds"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Atomic Structure, Electronic Configuration and Periodic Classification",
+      "subtopics": [
+        "Constituents of atoms: Protons, neutrons, electrons, and isotopic composition",
+        "Atomic numbers, mass numbers, and relative atomic mass determination",
+        "Electronic configuration using Bohr and modern s, p, d, f orbital models for the first 20 elements"
+      ],
+      "objectives": [
+        "Write s, p, d, f electronic configurations for elements with atomic numbers 1 to 20.",
+        "Explain periodic trends (ionization energy, electronegativity, atomic radius) across periods and groups.",
+        "Perform stoichiometric calculations of relative atomic mass from mass spectrometer isotope percentages."
+      ]
+    }
+  ]
+}

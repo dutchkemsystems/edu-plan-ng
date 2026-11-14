@@ -1,0 +1,204 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.7",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-mathematics",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Junior Secondary Schools 1 (UBE Edition)",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima",
+    "publisher": "Learn Africa Plc",
+    "edition": "4th Edition (Lagos Unified & NERDC Aligned)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Whole Numbers: Place Value and Large Numbers in Base 10",
+      "subtopics": [
+        "Counting and writing numbers up to billions",
+        "Place value of digits in whole numbers",
+        "Writing figures in words and words in figures (Nigerian budget figures)"
+      ],
+      "objectives": [
+        "State place value and face value of digits in numbers up to 1,000,000,000",
+        "Express large numbers in words and figures accurately",
+        "Read economic budget statistics from Nigerian newspapers"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Factors, Multiples, Prime Numbers, LCM and HCF",
+      "subtopics": [
+        "Prime numbers between 1 and 100",
+        "Prime factorization (factor trees and index form)",
+        "Finding Lowest Common Multiple (LCM) and Highest Common Factor (HCF)"
+      ],
+      "objectives": [
+        "Express positive integers as products of their prime factors in index notation",
+        "Calculate HCF and LCM of 2 and 3 numbers using prime factor method",
+        "Apply LCM and HCF to solve practical market distribution problems"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Fractions: Proper, Improper, Mixed and Equivalent Fractions",
+      "subtopics": [
+        "Types of fractions and representations on number lines",
+        "Rules for generating equivalent fractions",
+        "Conversion between mixed numbers and improper fractions"
+      ],
+      "objectives": [
+        "Classify fractions into proper, improper, and mixed forms",
+        "Simplify fractions to their lowest irreducible terms",
+        "Compare fractional portions of agricultural harvests"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Arithmetic Operations on Fractions: Addition and Subtraction",
+      "subtopics": [
+        "Addition and subtraction of fractions with like and unlike denominators",
+        "Operations on mixed numbers with borrowing and regrouping",
+        "Real-life fractional budgeting word problems in Naira"
+      ],
+      "objectives": [
+        "Evaluate addition and subtraction of fractions using LCM of denominators",
+        "Solve two-step word problems involving fractional expenditures"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Decimals, Percentages & Everyday Market Arithmetic (Financial Literacy Integration)",
+      "subtopics": [
+        "Conversion between fractions, decimals and percentages",
+        "Calculating discounts, profits and sales margins in Nigerian local markets (Balogun, Kurmi, Onitsha)",
+        "E-Naira and modern electronic payment calculations"
+      ],
+      "objectives": [
+        "Convert decimals to percentages with 90% accuracy.",
+        "Calculate percentage profit on transactions in Naira and Kobo.",
+        "Apply financial literacy rules to personal budget planning."
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Decimals and Percentages: Conversions and Everyday Arithmetic",
+      "subtopics": [
+        "Converting fractions to decimals and decimals to fractions",
+        "Percentage conversions (out of 100)",
+        "Calculating percentage increase and decrease in commodity prices"
+      ],
+      "objectives": [
+        "Convert recurring and terminating fractions to decimal form",
+        "Calculate percentage discounts on school uniform purchases",
+        "Solve practical trading profit drills in Nigerian currency"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on numbers, fractions, decimals, and BODMAS",
+        "Tiered remediation for struggling learners"
+      ],
+      "objectives": [
+        "Verify student mastery of foundational junior mathematics"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Approximation and Estimation: Significant Figures and Decimal Places",
+      "subtopics": [
+        "Rounding off whole numbers to nearest ten, hundred, thousand",
+        "Rounding decimals to given number of decimal places",
+        "Approximating numbers to 1, 2, and 3 significant figures"
+      ],
+      "objectives": [
+        "Round off numbers correctly applying the 5-up/4-down rule",
+        "Distinguish between decimal places and significant figures",
+        "Estimate market shopping cart totals quickly without calculators"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Introduction to Algebra: Symbols, Variables and Open Sentences",
+      "subtopics": [
+        "Use of letters/symbols to represent unknown numbers",
+        "Translating English statements into algebraic expressions",
+        "Evaluating expressions by numerical substitution"
+      ],
+      "objectives": [
+        "Translate verbal phrases (e.g., 'twice a number plus 5') into algebraic terms",
+        "Substitute positive integers into algebraic expressions to find numerical values"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Simplification of Algebraic Expressions and Collecting Like Terms",
+      "subtopics": [
+        "Identification of like and unlike algebraic terms",
+        "Addition and subtraction of algebraic terms",
+        "Removing single brackets with positive and negative multipliers"
+      ],
+      "objectives": [
+        "Group and simplify like terms with correct signs",
+        "Expand brackets applying the distributive law correctly"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Simple Linear Equations in One Unknown Variable",
+      "subtopics": [
+        "Meaning of an equation and balance scale analogy",
+        "Solving linear equations using inverse operations (additive and multiplicative inverses)",
+        "Checking solutions by back-substitution"
+      ],
+      "objectives": [
+        "Solve one-step and two-step linear equations (e.g., 3x + 7 = 22)",
+        "Verify correctness of solutions through back-substitution"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Word Problems Leading to Simple Linear Equations",
+      "subtopics": [
+        "Setting up equations from everyday Nigerian commercial situations",
+        "Solving age, money, and measurement word problems",
+        "Interpreting solutions in practical context"
+      ],
+      "objectives": [
+        "Formulate linear equations representing real-world situations",
+        "Solve word problems and state answers with appropriate units"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Comprehensive Revision & Terminal Examination",
+      "subtopics": [
+        "Review of whole numbers, fractions, decimals, and basic algebra",
+        "Terminal examination and record of marks"
+      ],
+      "objectives": [
+        "Complete JSS 1 Mathematics Term 1 evaluation"
+      ]
+    }
+  ]
+}

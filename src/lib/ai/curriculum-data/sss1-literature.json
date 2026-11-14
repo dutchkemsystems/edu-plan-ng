@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Literature-in-English",
+  "subjectCode": "LIT",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/literature-in-english-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "A Guide to WASSCE/SSCE Literature-in-English",
+    "author": "Kola Eke",
+    "publisher": "Spectrum Books Limited",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Literature and the Three Genres",
+      "subtopics": ["Definition and societal functions of literature (didactic, aesthetic, social mirror, historical chronicle)", "The three genres: Prose (fiction, non-fiction), Drama (tragedy, comedy, tragicomedy), Poetry (lyric, epic, ballad, elegy)", "Distinction between prose narrative, dramatic dialogue, and poetic verse"],
+      "objectives": ["Define literature in relation to human culture and oral folklore", "Differentiate the characteristics and structural layouts of prose, drama, and poetry", "Identify 4 ways in which literature fosters moral discipline and empathy in secondary school learners"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Literary Devices: Figures of Speech and Sound Devices",
+      "subtopics": ["Figures of comparison: Simile, metaphor, personification, apostrophe", "Figures of contrast and association: Antithesis, oxymoron, irony, metonymy, synecdoche, hyperbole, litotes", "Sound devices in verse: Alliteration, assonance, consonance, onomatopoeia, rhyme, rhythm"],
+      "objectives": ["Identify 10 distinct literary devices in given poetic stanzas", "Explain the difference between verbal irony, situational irony, and dramatic irony", "Construct original sentences illustrating synecdoche and metonymy"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Elements of Prose Fiction: Plot, Setting and Point of View",
+      "subtopics": ["Elements of prose: Plot structure (exposition, rising action, climax, falling action, denouement)", "Setting: Spatial (geographical), temporal (historical era), and socio-cultural milieu", "Narrative points of view: First-person, third-person limited, third-person omniscient, stream of consciousness"],
+      "objectives": ["Chart the narrative plot arc of a prescribed introductory African novella", "Analyze the influence of physical and cultural setting on character behavior", "Contrast an omniscient narrator with an unreliable first-person protagonist"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Elements of Drama: Conflict, Characterization and Stage Conventions",
+      "subtopics": ["Dramatic elements: Dialogue, soliloquy, aside, dramatic irony, chorus", "Characterization: Protagonist, antagonist, foil, round vs flat characters, tragic flaw (hamartia)", "Stage conventions: Stage directions, props, costume, lighting, and theatrical staging"],
+      "objectives": ["Explain the dramatic purpose of a soliloquy in revealing interior psychology", "Identify the central dramatic conflict (interpersonal, internal, environmental) in an African play extract", "Analyze how a foil character highlights the tragic protagonist's fatal flaw"]
+    }
+  ]
+}

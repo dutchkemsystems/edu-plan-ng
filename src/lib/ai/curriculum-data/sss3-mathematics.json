@@ -1,0 +1,200 @@
+{
+  "classLevel": "sss-3",
+  "subject": "General Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-mathematics",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Senior Secondary Schools 3",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima, G.U. Garba",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "WASSCE/NECO Senior Secondary 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Federal Ministry of Education",
+    "approvalDate": "2024-04-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Surds: Simplification, Conjugate Surds and Rationalization of Denominators",
+      "subtopics": [
+        "Definition of surds as irrational roots",
+        "Rules of surds: √(ab) = √a × √b and √(a/b) = √a / √b",
+        "Rationalizing binomial surd denominators using conjugate pairs: (a + √b)(a - √b)"
+      ],
+      "objectives": [
+        "Simplify surds to their lowest radical form",
+        "Rationalize denominators containing binomial surds with 100% precision"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Matrices and Determinants: 2×2 Matrix Inverses and Systems of Equations",
+      "subtopics": [
+        "Definition, order, and algebra of matrices (addition, subtraction, scalar multiplication)",
+        "Matrix multiplication rules (row by column)",
+        "Determinant and inverse of 2×2 matrices: solving simultaneous equations via matrix inversion"
+      ],
+      "objectives": [
+        "Compute determinants of 2×2 matrices: det(A) = ad - bc",
+        "Find the inverse of non-singular matrices",
+        "Solve pairs of linear equations using the matrix inverse method"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Arithmetic Progression (AP): Nth Term and Sum of First N Terms",
+      "subtopics": [
+        "Definition of sequences and series, common difference (d), first term (a)",
+        "Nth term formula of an AP: T_n = a + (n - 1)d",
+        "Sum of first n terms of an AP: S_n = n/2 [2a + (n - 1)d] or n/2 (a + l)"
+      ],
+      "objectives": [
+        "Calculate the nth term, common difference, and number of terms of an AP",
+        "Solve multi-step financial word problems involving increasing annual salaries or savings in Naira"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Geometric Progression (GP): Nth Term, Sum and Sum to Infinity",
+      "subtopics": [
+        "Definition of GP, common ratio (r), and nth term formula: T_n = a × r^(n-1)",
+        "Sum of first n terms of a GP: S_n = a(r^n - 1) / (r - 1) for r > 1",
+        "Sum to infinity for convergent series: S_∞ = a / (1 - r) where |r| < 1"
+      ],
+      "objectives": [
+        "Determine the common ratio and calculate terms of geometric sequences",
+        "Compute the sum to infinity of geometric progressions",
+        "Model Nigerian population growth and compound interest trajectories using GP"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Coordinate Geometry: Lines, Midpoints, Perpendicularity and Equations",
+      "subtopics": [
+        "Distance between two points: d = √[(x_2 - x_1)^2 + (y_2 - y_1)^2]",
+        "Midpoint formula: [(x_1 + x_2)/2, (y_1 + y_2)/2] and gradient m = (y_2 - y_1) / (x_2 - x_1)",
+        "Conditions for parallel lines (m_1 = m_2) and perpendicular lines (m_1 × m_2 = -1)"
+      ],
+      "objectives": [
+        "Find the equation of straight lines in gradient-intercept form (y = mx + c)",
+        "Formulate equations of lines perpendicular to a given line passing through a point"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Differential Calculus: Differentiation from First Principles and Power Rule",
+      "subtopics": [
+        "Concept of limits and instantaneous rate of change",
+        "Differentiation from first principles: dy/dx = lim(h->0) [f(x+h) - f(x)] / h",
+        "The power rule: d/dx (x^n) = n × x^(n-1) and differentiation of polynomials"
+      ],
+      "objectives": [
+        "Differentiate linear and quadratic functions from first principles",
+        "Apply standard differentiation rules to evaluate gradients of curves at given points"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & WASSCE Mock Clinic",
+      "subtopics": [
+        "Evaluation on surds, matrices, progressions, coordinate geometry, and basic calculus",
+        "WASSCE mock testing and grading"
+      ],
+      "objectives": [
+        "Assess pupil performance against WAEC Chief Examiner standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Applications of Differential Calculus: Maxima, Minima and Kinematics",
+      "subtopics": [
+        "Stationary points: setting dy/dx = 0 to find turning points",
+        "Distinguishing maximum and minimum points using the second derivative d^2y/dx^2",
+        "Kinematics: Velocity as rate of change of displacement (v = ds/dt), Acceleration a = dv/dt"
+      ],
+      "objectives": [
+        "Calculate maximum profit or minimum cost in economic business optimization models",
+        "Solve motion problems determining velocity and acceleration of moving bodies"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Integral Calculus: Indefinite and Definite Integrals and Area Under Curves",
+      "subtopics": [
+        "Integration as anti-differentiation: ∫ x^n dx = (x^(n+1) / (n+1)) + c",
+        "Evaluating definite integrals between limits a and b",
+        "Calculating the area enclosed under a curve: Area = ∫ [f(x)] dx from a to b"
+      ],
+      "objectives": [
+        "Evaluate indefinite and definite polynomial integrals",
+        "Calculate the area bounded by curves, the x-axis, and boundary coordinates"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Earth as a Sphere: Longitudes, Latitudes, Great Circles and Nautical Miles",
+      "subtopics": [
+        "Lines of latitude (parallels) and lines of longitude (meridians)",
+        "Great circles (equator, meridians) vs small circles (parallels of latitude: radius r = R Cos α)",
+        "Distance along lines of longitude and latitude in kilometers (R = 6400 km) and nautical miles"
+      ],
+      "objectives": [
+        "Calculate shortest distances between international airports and Nigerian cities on the globe",
+        "Compute time differences between different longitudes (15° = 1 hour)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Statistics: Variance and Standard Deviation of Grouped Data",
+      "subtopics": [
+        "Review of mean, median, and mode for grouped frequency distributions",
+        "Mean deviation formula: MD = ∑f|x - x̄| / ∑f",
+        "Variance and Standard Deviation: s = √[ (∑f(x - x̄)^2) / ∑f ]"
+      ],
+      "objectives": [
+        "Construct complete grouped frequency tables with class boundaries and midpoints",
+        "Calculate variance and standard deviation accurately for examination mark scores"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Cumulative Frequency (Ogive): Median, Quartiles and Percentiles",
+      "subtopics": [
+        "Constructing cumulative frequency tables and plotting S-shaped ogive curves",
+        "Estimating median (Q2), lower quartile (Q1), upper quartile (Q3), and interquartile range",
+        "Determining pass marks and top percentile thresholds from the ogive curve"
+      ],
+      "objectives": [
+        "Plot accurate cumulative frequency graphs against upper class boundaries",
+        "Read median and quartile statistics from the ogive with examination precision"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Final WASSCE & NECO Mock Examination Clinic",
+      "subtopics": [
+        "Comprehensive 3-year senior secondary mathematics mock examination",
+        "Review of Chief Examiner marking rubrics and terminal certification"
+      ],
+      "objectives": [
+        "Complete senior secondary mathematics graduation certification"
+      ]
+    }
+  ]
+}

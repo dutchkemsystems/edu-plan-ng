@@ -1,0 +1,197 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Civic Education",
+  "subjectCode": "CIV",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-civic",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Civic Education for Junior Secondary Schools 1",
+    "author": "M.O. Adebayo, S.A. Falade, E.O. Ajibola",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-20"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning, Scope and Importance of Civic Education in Nigeria",
+      "subtopics": [
+        "Definition of Civic Education as the study of citizenship rights and duties",
+        "Historical origins and need for civic training in Nigerian schools",
+        "Objectives: fostering patriotism, national unity, democratic culture, and civic responsibility"
+      ],
+      "objectives": [
+        "Define Civic Education and state four primary objectives of teaching it in Nigerian schools",
+        "Explain how civic awareness reduces ethnic prejudice and promotes national cohesion"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "National Values I: Honesty and Integrity in Daily Conduct",
+      "subtopics": [
+        "Meaning of personal and civic values",
+        "Attributes of honesty (truthfulness, transparency, refusing examination malpractice)",
+        "Benefits of honesty to the individual, school, and Nigerian society",
+        "Consequences of dishonesty (distrust, criminal sanctions, national reputational damage)"
+      ],
+      "objectives": [
+        "Explain why honesty is the foundation of character and national development",
+        "Analyze real-life school scenarios where moral integrity must be upheld"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "National Values II: Cooperation and Teamwork for Nation Building",
+      "subtopics": [
+        "Meaning and attributes of cooperation",
+        "Factors that promote cooperation: mutual trust, shared goals, justice, open communication",
+        "Benefits of community self-help projects in Nigerian towns and villages"
+      ],
+      "objectives": [
+        "List four benefits of cooperation in school sports teams and community sanitation",
+        "Participate collaboratively in a classroom clean-up exercise"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "National Values III: Self-Reliance and Entrepreneurship",
+      "subtopics": [
+        "Meaning of self-reliance (ability to support oneself through skills and enterprise)",
+        "Attributes of self-reliant individuals: hard work, creativity, financial discipline",
+        "Youth vocational skills acquisition in Nigeria (tailoring, computer coding, carpentry, catering)"
+      ],
+      "objectives": [
+        "Identify benefits of self-reliance in reducing graduate unemployment in Nigeria",
+        "Formulate a plan to acquire a practical vocational skill during holiday periods"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Nigerian National Symbols: Significance, Design and Respect",
+      "subtopics": [
+        "The National Flag: designed by Pa Taiwo Akinkunmi in 1959 (Green: agriculture, White: peace)",
+        "The Coat of Arms: Black shield (fertile soil), White 'Y' (River Niger and Benue confluence), Eagles (strength), Horses (dignity)",
+        "The National Anthem, National Pledge, and the National Currency (Naira ₦)"
+      ],
+      "objectives": [
+        "Draw and color the Nigerian National Flag with correct proportions and explain its colors",
+        "Recite the Nigerian National Anthem and Pledge with proper posture and patriotic reverence",
+        "Identify elements of the Coat of Arms and explain their symbolic meanings"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Citizenship: Meaning, Types and Qualifications under Nigerian Law",
+      "subtopics": [
+        "Definition of a citizen as a legal member of a sovereign state",
+        "Types of citizenship in Nigeria: by birth, by registration, by naturalization",
+        "Grounds for deprivation or loss of citizenship"
+      ],
+      "objectives": [
+        "Differentiate citizenship by birth from citizenship by naturalization under the 1999 Constitution",
+        "Enumerate conditions required for a foreigner to acquire Nigerian citizenship"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation on civic concepts, national values, national symbols, and citizenship types",
+        "Remedial civic values workshop"
+      ],
+      "objectives": [
+        "Assess pupil comprehension against national civic standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Rights and Duties of Nigerian Citizens under the 1999 Constitution",
+      "subtopics": [
+        "Fundamental Human Rights (Right to Life, Dignity of Human Person, Personal Liberty, Fair Hearing)",
+        "Duties and obligations: obeying statutory laws, paying taxes, defending the nation, voting during elections",
+        "Differences between rights (legal entitlements) and duties (civic responsibilities)"
+      ],
+      "objectives": [
+        "List 6 fundamental human rights enshrined in Chapter IV of the 1999 Nigerian Constitution",
+        "State four civic duties required of citizens to sustain public infrastructure"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "The Nigerian Constitution: Meaning, History & Supremacy",
+      "subtopics": [
+        "Definition of a constitution as the supreme body of governing laws of a country",
+        "Historical overview of Nigerian constitutions: Clifford (1922), Richards (1946), Macpherson (1951), Lyttelton (1954), 1999 Constitution",
+        "Meaning of constitutional supremacy: any law inconsistent with the constitution is null and void"
+      ],
+      "objectives": [
+        "Explain the supremacy of the constitution over all military decrees and state edicts",
+        "Distinguish between written and unwritten constitutions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Road Safety & Traffic Regulations: The Federal Road Safety Corps (FRSC)",
+      "subtopics": [
+        "Establishment, statutory mandate, and activities of the FRSC in Nigeria",
+        "Road signs: regulatory signs (stop, speed limit), warning signs (pedestrian crossing, sharp bend)",
+        "Pedestrian safety rules: using zebra crossings, pedestrian pedestrian bridges, walking facing oncoming traffic"
+      ],
+      "objectives": [
+        "Identify 10 common Nigerian road traffic signs and explain their meanings",
+        "State causes of highway accidents (over-speeding, drunk driving, tire blowouts) and safety precautions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Environmental Sanitation and Community Health Obligations",
+      "subtopics": [
+        "Civic obligations to maintain clean, hygienic residential and public environments",
+        "Waste disposal protocols and hazards of indiscriminate refuse dumping in drainage canals",
+        "Participation in monthly statutory environmental sanitation exercises"
+      ],
+      "objectives": [
+        "Explain how clogged gutters cause flooding in urban centers like Lagos and Port Harcourt",
+        "Formulate a class waste-sorting initiative to encourage plastic recycling"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Civic Leadership Seminar",
+      "subtopics": [
+        "Review of civic values, constitution, national symbols, and human rights",
+        "Interactive classroom youth leadership mock parliament"
+      ],
+      "objectives": [
+        "Complete JSS 1 Civic Education syllabus review"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal examination and grading"
+      ],
+      "objectives": [
+        "Complete JSS 1 Civic Education certification"
+      ]
+    }
+  ]
+}

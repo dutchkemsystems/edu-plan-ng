@@ -1,0 +1,14 @@
+node_modules
+dist
+local.db
+local.db-wal
+local.db-shm
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+test
+*.log
+.DS_Store
+coverage

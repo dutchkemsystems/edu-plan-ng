@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Agricultural Science",
+  "subjectCode": "AGR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/agricultural-science-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Agricultural Science for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Agricultural Genetics and Crop/Livestock Improvement",
+      "subtopics": ["Principles of Mendelian genetics applied to agronomy", "Aims of crop and animal improvement (yield, disease resistance, early maturity)", "Methods of improvement: Introduction, selection (mass, pedigree), hybridization, genetic engineering"],
+      "objectives": ["Apply monohybrid Punnett square crosses to predict grain yield inheritance in maize", "Contrast phenotypic mass selection with genotypic progeny testing", "Debate ethical and environmental biosafety considerations of GMO crops in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Farm Mechanization, Tractor Systems and Agricultural Implements",
+      "subtopics": ["Internal combustion tractor engines: Fuel, cooling, electrical, and transmission systems", "Primary and secondary tillage implements: Disc plough, mouldboard plough, disc harrow, ridger", "Maintenance schedules, routine servicing, and safety protocols for tractor operators"],
+      "objectives": ["Differentiate disc plough from mouldboard plough operations in hard tropical soils", "Explain functions of the power take-off (PTO) shaft and 3-point hydraulic linkage", "Calculate field capacity and operating efficiency of a mechanized tractor team"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Agricultural Marketing Channels and Commodity Pricing",
+      "subtopics": ["Marketing functions: Assembling, grading, processing, transportation, storage, financing", "Marketing channels: Producer -> Wholesaler -> Retailer -> Consumer", "Role of Commodity Boards, cooperative societies, and export promotion in farm price stabilization"],
+      "objectives": ["Map the commercial distribution channel of Nigerian yam and palm oil", "Calculate marketing margin and producer's share of retail price in Naira", "Analyze problems of agricultural marketing in Nigeria (spoilage, middlemen, bad rural roads)"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Agricultural Extension Services and Farmer Education",
+      "subtopics": ["Meaning and objectives of agricultural extension", "Extension teaching methods: Individual (farm visits), group (demonstrations), mass media (radio, SMS)", "Agricultural Development Programmes (ADP) and village extension agent (VEA) operational challenges"],
+      "objectives": ["Explain the role of method and result demonstrations in introducing new crop varieties", "Design a farmer education campaign on avian influenza using vernacular radio and SMS", "Evaluate institutional bottlenecks hindering effective agricultural extension delivery in Nigeria"]
+    }
+  ]
+}

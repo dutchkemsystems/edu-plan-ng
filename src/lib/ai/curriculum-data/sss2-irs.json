@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Islamic Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-irs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Quranic Exegesis: Study, recitation, and lessons from Suratul Mulk (Quran 67:1-15)",
+      "learningObjectives": [
+        "Recite verses 1-15 of Suratul Mulk adhering to Tajweed rules of elongation and ghunnah",
+        "Translate verses highlighting the perfection of divine cosmic creation and the test of deeds",
+        "Explain the purpose of human life and death as a divine trial for righteous conduct"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Quranic Exegesis: Suratul Mulk (Quran 67:16-30) on accountability and the Hereafter",
+      "learningObjectives": [
+        "Recite verses 16-30 with proper Arabic phonetic pronunciation and intonation",
+        "Analyze warnings regarding divine punishment, the questioning of disbelievers in Hell, and God’s knowledge of secrets",
+        "Derive lessons on gratitude for divine gifts of hearing, sight, and understanding"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Hadith Collections and Canonical Compilers: The Sihahus-Sittah (Six Authentic Books)",
+      "learningObjectives": [
+        "List the authors of the six sound Hadith collections (Bukhari, Muslim, Abu Dawood, Tirmidhi, An-Nasa'i, Ibn Majah)",
+        "Examine the rigorous biographical and textual verification methodology adopted by Imam al-Bukhari",
+        "Differentiate between Sahih (sound), Hasan (good), Da'if (weak), and Mawdu' (fabricated) Hadiths"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Hadith on Good Character: Hadith 13 (Brotherhood) and Hadith 15 (Guarding the Tongue)",
+      "learningObjectives": [
+        "Recite, translate, and explain Hadith 13: 'None of you truly believes until he loves for his brother what he loves for himself'",
+        "Recite and explain Hadith 15: 'Whoever believes in Allah and the Last Day should speak good or remain silent'",
+        "Apply these teachings to conflict reduction, peer empathy, and social media etiquette"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Shari'ah (Islamic Jurisprudence): Sources of Islamic Law (Quran, Sunnah, Ijma, Qiyas)",
+      "learningObjectives": [
+        "Define Shari'ah as the divine pathway and constitutional code governing all facets of Muslim life",
+        "Explain the two primary immutable sources: the Holy Quran and the authentic Sunnah",
+        "Examine secondary derived sources: Ijma (consensus of scholars) and Qiyas (analogical deduction)"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Islamic Family Law: Marriage (Nikah) conditions, rights of spouses, and Mahr",
+      "learningObjectives": [
+        "State essential pillars of valid Nikah (mutual consent, Wali/guardian approval, two just witnesses, Mahr)",
+        "Explain the theological purpose of marriage: companionship, chastity, and righteous lineage",
+        "Outline reciprocal rights and obligations of husband and wife in an Islamic household"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Islamic Law Colloquium",
+      "learningObjectives": [
+        "Assess pupil comprehension of Suratul Mulk, Hadith criticism, and Shari'ah jurisprudence",
+        "Conduct a debate on 'Analogical Deduction (Qiyas) in Resolving Modern Technological Dilemmas'",
+        "Offer remedial intervention on the categorization of Hadith authenticity"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Islamic Family Law: Dissolution of Marriage (Talaq, Khul', and Iddah periods)",
+      "learningObjectives": [
+        "Examine the stages of marital reconciliation prior to divorce in the Quran (4:35)",
+        "Distinguish between Talaq (repudiation by husband) and Khul' (redemption initiated by wife)",
+        "Explain the theological and biological wisdom behind the Iddah (waiting period) of divorce and widowhood"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "History of the Rightly Guided Caliphs: Caliphate of Abu Bakr and Umar ibn al-Khattab (RA)",
+      "learningObjectives": [
+        "Trace the appointment of Abu Bakr at Saqifah and his resolute stand against the apostasy wars (Riddah)",
+        "Analyze the military administrative genius of Umar: establishment of Diwan, judicial system, and expansion",
+        "Highlight personal virtues of Umar: simplicity, accountability, and justice for all citizens"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "History of the Rightly Guided Caliphs: Caliphate of Uthman and Ali ibn Abi Talib (RA)",
+      "learningObjectives": [
+        "Analyze the achievements of Uthman: naval fleet establishment and compiling the standardized Mushaf",
+        "Examine the civil strife (Fitnah) resulting in the tragic assassination of Uthman",
+        "Trace the Caliphate of Ali, his wisdom, scholarly depth, and challenges at the Battles of the Camel and Siffin"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Economic System of Islam: Prohibition of Riba (Usury), Gharar (Excessive Risk), and Bribery",
+      "learningObjectives": [
+        "Define Riba (interest/usury) and explain stern Quranic condemnations against exploitative financial lending",
+        "Explain Gharar and its application to fraudulent contractual agreements and gambling",
+        "Examine the prophetic condemnation of the giver and receiver of bribes (Rishwah) in public service"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive SSS 2 IRS Termly Revision & WASSCE Past Paper Analysis",
+      "learningObjectives": [
+        "Consolidate learning across Quranic exegesis, Hadith, Shari'ah family law, and Caliphate history",
+        "Execute timed essay responses simulating WASSCE IRS Paper 2 questions",
+        "Audit student understanding of Arabic terminology and jurisprudential reasoning"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer official SSS 2 end-of-term IRS examination",
+        "Score scripts in strict accordance with WAEC marking guidelines",
+        "Record and publish moderated terminal continuous assessment marks"
+      ]
+    }
+  ]
+}

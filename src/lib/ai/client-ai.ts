@@ -9,7 +9,7 @@
  * - Preserves identical user interface, parameters, and behaviors for seamless execution.
  */
 
-import { ComprehensiveCurriculumOutput } from './curriculum-types.ts';
+import type { ComprehensiveCurriculumOutput } from './curriculum-types.ts';
 import { generateNerdcOeqaContent } from '../../data/allCurriculumSubjects.ts';
 
 const API_BASE = '/api/ai';

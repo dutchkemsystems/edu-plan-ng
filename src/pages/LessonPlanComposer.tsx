@@ -25,12 +25,15 @@ import {
   Mic,
   Tv,
   Video,
-  Box
+  Box,
+  ShieldCheck,
+  X,
+  Lock
 } from 'lucide-react';
 import { VoiceToPlan } from '../components/VoiceToPlan.tsx';
 import { VisualAidViewer } from '../components/VisualAidViewer.tsx';
 import { VideoAidPlayer } from '../components/VideoAidPlayer.tsx';
-import { LessonPlan, DifferentiatedInstruction, InstructionalMaterials } from '../types/index.ts';
+import { LessonPlan, DifferentiatedInstruction, InstructionalMaterials, TeacherUser, DashboardStats } from '../types/index.ts';
 import {
   createLessonPlan,
   updateLessonPlan,
@@ -38,35 +41,50 @@ import {
   requestAIAssist,
   autoGeneratePlanAndNote,
   generateDedicatedLessonPlan,
-  generateDedicatedLessonNote
+  generateDedicatedLessonNote,
+  getAuthHeaders
 } from '../lib/api.ts';
+import { resolveClientTierSummary, canTierAccess } from '../config/pricing.ts';
 import { curriculumDiagrams, EducationalDiagram, getBestDiagramForSubject } from '../data/diagrams.ts';
 import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, getSubjectTermTopics, generateNerdcOeqaContent } from '../data/allCurriculumSubjects.ts';
+import { getApprovedTextbookForSubject } from '../data/approvedTextbooks.ts';
+import { getBestModelForSubject } from '../data/asset-registry.ts';
 import confetti from 'canvas-confetti';
 import { offlineStorage } from '../lib/offline/offline-storage.ts';
 import { GoogleClassroomExportModal } from '../components/GoogleClassroomExportModal.tsx';
+import { UpgradeModal } from '../components/UpgradeModal.tsx';
 
 interface LessonPlanComposerProps {
   initialPlan?: LessonPlan | null;
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (message: string, requiredTier?: string, title?: string) => void;
+  onPlanQuotaChanged?: () => void;
   onBack: () => void;
   onSaved: (plan: LessonPlan) => void;
 }
 
 export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
   initialPlan,
+  user,
+  stats,
+  onOpenUpgrade,
+  onPlanQuotaChanged,
   onBack,
   onSaved,
 }) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const lmsAccess = canTierAccess(tierSummary.tierId, 'lms_export');
+  const senAccess = canTierAccess(tierSummary.tierId, 'sen_module');
+  const visual3DAccess = canTierAccess(tierSummary.tierId, '3d_visual_aid');
+  const video4KAccess = canTierAccess(tierSummary.tierId, '4k_stem_video');
+  const librarySaveAccess = canTierAccess(tierSummary.tierId, 'library_save');
+
   const [composerMode, setComposerMode] = useState<'plan' | 'note' | 'preview' | 'visual-aids'>('plan');
   const [visual3DModel, setVisual3DModel] = useState<string>(
     initialPlan?.instructionalMaterials?.visual3D ||
-    (initialPlan?.title?.toLowerCase().includes('heart') ? 'heart_model'
-      : (initialPlan?.title?.toLowerCase().includes('solar') || initialPlan?.title?.toLowerCase().includes('planet')) ? 'solar_system'
-      : (initialPlan?.title?.toLowerCase().includes('cube') || initialPlan?.title?.toLowerCase().includes('geometry') || initialPlan?.subject?.toLowerCase().includes('math')) ? 'geometry_cube'
-      : (initialPlan?.title?.toLowerCase().includes('dna') || initialPlan?.title?.toLowerCase().includes('genet')) ? 'dna_helix'
-      : (initialPlan?.title?.toLowerCase().includes('atom') || initialPlan?.title?.toLowerCase().includes('matter') || initialPlan?.subject?.toLowerCase().includes('chem')) ? 'atom_model'
-      : (initialPlan?.title?.toLowerCase().includes('cell') || initialPlan?.title?.toLowerCase().includes('plant')) ? 'plant_cell'
-      : 'geometry_cube')
+    getBestModelForSubject(initialPlan?.subject || 'Mathematics', initialPlan?.title)
   );
   const [video4KUrl, setVideo4KUrl] = useState<string>(
     initialPlan?.instructionalMaterials?.video4K ||
@@ -77,7 +95,9 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
     initialPlan?.materials ||
     ['Chalkboard & Dry-Erase Markers', 'Standard NERDC Textbook', 'Mathematical Set & Ruler']
   );
-  const [activeVisualAidSubtab, setActiveVisualAidSubtab] = useState<'3d' | 'video' | 'physical'>('3d');
+  const [activeVisualAidSubtab, setActiveVisualAidSubtab] = useState<'3d' | 'video' | 'physical'>(() =>
+    ent.has3DAccess ? '3d' : ent.has4KAccess ? 'video' : 'physical'
+  );
   const [newPhysicalItem, setNewPhysicalItem] = useState('');
   const [id, setId] = useState<string>(initialPlan?.id || '');
   const [title, setTitle] = useState(initialPlan?.title || 'Untitled NERDC Lesson Plan');
@@ -89,18 +109,60 @@ export const LessonPlanComposer: React.FC<LessonPlanComposerProps> = ({
   const [language, setLanguage] = useState<'en' | 'yo' | 'ig' | 'ha'>(initialPlan?.language || 'en');
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(initialPlan?.status || 'draft');
   const [isAutoGenerating, setIsAutoGenerating] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [upgradeMessage, setUpgradeMessage] = useState('You have reached your 10-generation limit. Upgrade to Pro for unlimited access.');
+  const [upgradeRequiredTier, setUpgradeRequiredTier] = useState<string>('b2c_termly');
   const [isCustomSubject, setIsCustomSubject] = useState(false);
   const [manualTopicInput, setManualTopicInput] = useState('');
   const [showVoiceToPlan, setShowVoiceToPlan] = useState(false);
   const [showClassroomExport, setShowClassroomExport] = useState(false);
+  const [policyBlockNotice, setPolicyBlockNotice] = useState<string | null>(null);
+
+  const triggerUpgrade = (msg: string, reqTier: string = 'b2c_termly', modalTitle?: string) => {
+    if (onOpenUpgrade) {
+      onOpenUpgrade(msg, reqTier, modalTitle);
+    } else {
+      setUpgradeMessage(msg);
+      setUpgradeRequiredTier(reqTier);
+      setShowUpgradeModal(true);
+    }
+  };
+
+  const [activeCurriculumSource] = useState<string>(() => {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem('eduplan_curriculum_source') || 'lagos_scheme';
+    }
+    return 'lagos_scheme';
+  });
+
+  const sourceNameMap: Record<string, string> = {
+    lagos_scheme: 'Lagos State Unified Scheme of Work',
+    nerdc: 'NERDC National e-Curriculum',
+    oeqa: 'Lagos State OEQA Quality Assurance Standard',
+    bece: 'BECE Junior School Certificate Examination',
+    waec: 'WAEC Senior School Certificate Examination',
+    neco: 'NECO National Senior Certificate',
+  };
+  const activeSourceName = sourceNameMap[activeCurriculumSource] || 'Lagos State Unified Scheme of Work';
+  const statutoryCopyrightFooter = `Curriculum topics referenced from ${activeSourceName}. Lesson plan generated by EduPlan NG. No verbatim reproduction of copyrighted material.`;
 
   const isJunior = level.toLowerCase().startsWith('jss');
   const statutorySubjects = isJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
   const currentSubjectMeta = statutorySubjects.find(
     (s) => s.name.toLowerCase() === subject.toLowerCase()
   );
-  const syllabusTopics = currentSubjectMeta ? getSubjectTermTopics(currentSubjectMeta, term, level) : [];
-  const currentSyllabusTopic = syllabusTopics[week - 1] || '';
+  const syllabusTopics = getSubjectTermTopics(level, subject, term);
+  const currentSyllabusTopic = syllabusTopics[week - 1] || `${subject} Core Competency — Week ${week}`;
+
+  useEffect(() => {
+    if (!initialPlan && (!title || title === 'Untitled NERDC Lesson Plan')) {
+      const top = syllabusTopics[week - 1] || syllabusTopics[0];
+      if (top) {
+        setTitle(top);
+        setManualTopicInput(top);
+      }
+    }
+  }, []);
 
   const [objectives, setObjectives] = useState<string[]>(
     initialPlan?.objectives?.length
@@ -197,12 +259,50 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
   const [showDiagramModal, setShowDiagramModal] = useState(false);
   const [diagramCategoryFilter, setDiagramCategoryFilter] = useState<string>('All');
 
-  // Automatically update the self-explanatory diagram when subject changes
+  // Automatically update the self-explanatory diagram and 3D realia model when subject changes
   useEffect(() => {
     const best = getBestDiagramForSubject(subject, title);
     setSelectedDiagram(best);
     setDiagramCaption(best.caption);
+    const best3D = getBestModelForSubject(subject, title);
+    setVisual3DModel(best3D);
   }, [subject]);
+
+  const applyTopicContent = (lvl: string, sub: string, top: string, wk: number, trm: number) => {
+    setTitle(top);
+    setManualTopicInput(top);
+    const best3D = getBestModelForSubject(sub, top);
+    setVisual3DModel(best3D);
+    const bestDiag = getBestDiagramForSubject(sub, top);
+    setSelectedDiagram(bestDiag);
+    setDiagramCaption(bestDiag.caption);
+    const content = generateNerdcOeqaContent({ level: lvl, subject: sub, topic: top, week: wk, term: trm, language });
+    if (content.objectives && Array.isArray(content.objectives)) setObjectives(content.objectives);
+    if (content.materials && Array.isArray(content.materials)) setMaterials(content.materials);
+    if (content.previousKnowledge) setPreviousKnowledge(content.previousKnowledge);
+    if (content.introduction) setIntroduction(content.introduction);
+    if (content.teacherActivity) setTeacherActivity(content.teacherActivity);
+    if (content.studentActivity) setStudentActivity(content.studentActivity);
+    if (content.evaluation) setEvaluation(content.evaluation);
+    if (content.assignment) setAssignment(content.assignment);
+    if (content.differentiatedInstruction) setDiffInstruction(content.differentiatedInstruction);
+    if (content.remedialTask) setRemedialTask(content.remedialTask);
+    if (content.standardTask) setStandardTask(content.standardTask);
+    if (content.advancedTask) setAdvancedTask(content.advancedTask);
+    if (content.lessonNote) {
+      setLessonNote({
+        subtopics: content.lessonNote.subtopics || '',
+        definitions: content.lessonNote.definitions || '',
+        workedExamples: content.lessonNote.workedExamples || '',
+        blackboardSummary: content.lessonNote.blackboardSummary || '',
+        classDrill: content.lessonNote.classDrill || '',
+      });
+    }
+    setSaveStatus('dirty');
+  };
+
+  // Phase 2: Government-Approved Textbook Citation
+  const currentApprovedTextbook = (initialPlan as any)?.recommendedTextbook || getApprovedTextbookForSubject(level, subject);
 
   // Autosave and AI Assistant state
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'dirty'>('saved');
@@ -231,6 +331,23 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
   const markDirty = () => setSaveStatus('dirty');
 
   const handleSave = async (isManual = true) => {
+    if (!id && (!librarySaveAccess.allowed || !tierSummary.canSaveMoreToLibrary)) {
+      const msg = !librarySaveAccess.allowed
+        ? librarySaveAccess.upgradeMessage
+        : `You have reached the ${tierSummary.maxSavedLibraryNotes}-note Library cap on ${ent.name}. Upgrade to Pro Teacher (₦1,500/term) for unlimited saved plans.`;
+      const reqTier = !librarySaveAccess.allowed ? librarySaveAccess.requiredTier : 'b2c_termly';
+      if (isManual) {
+        triggerUpgrade(msg, reqTier, 'Library Save Limit Reached');
+        setSaveStatus('dirty');
+        return;
+      }
+      // Keep draft safe in browser cache on background autosave without modal interruption
+      offlineStorage.saveDraftPlan({ title, level, subject, term, week, objectives, materials, evaluation, assignment } as any);
+      setSaveStatus('saved');
+      setLastSavedTime(`${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (Draft Cache)`);
+      return;
+    }
+
     setSaveStatus('saving');
     try {
       const payload: Partial<LessonPlan> = {
@@ -261,6 +378,7 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
         bloomTags: hasHigherOrderBloom ? ['Remember', 'Understand', 'Apply', 'Analyze', 'Evaluate'] : ['Remember', 'Understand'],
         language,
         status,
+        recommendedTextbook: currentApprovedTextbook,
       };
 
       if (!offlineStorage.isOnline()) {
@@ -275,6 +393,7 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
         const res = await createLessonPlan(payload);
         setId(res.lessonPlan.id);
         onSaved(res.lessonPlan);
+        onPlanQuotaChanged?.();
       } else {
         await updateLessonPlan(id, payload);
       }
@@ -284,7 +403,23 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
       if (isManual && status === 'published') {
         confetti({ particleCount: 80, spread: 60 });
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (
+        e?.status === 403 ||
+        e?.status === 429 ||
+        e?.code === 'LIBRARY_SAVE_RESTRICTED' ||
+        e?.code === 'LIBRARY_LIMIT_EXCEEDED'
+      ) {
+        if (isManual) {
+          triggerUpgrade(
+            e.message || librarySaveAccess.upgradeMessage,
+            e.requiredTier || 'b2c_termly',
+            'Library Save Restricted'
+          );
+          setSaveStatus('dirty');
+          return;
+        }
+      }
       console.warn('Network save failed, safeguarding draft in offline storage', e);
       offlineStorage.saveDraftPlan({ title, level, subject, term, week, objectives, materials, evaluation, assignment } as any);
       setSaveStatus('saved');
@@ -417,17 +552,24 @@ A commercial trader at Balogun Market, Lagos records daily sales. Applying today
 </style>
 </head>
 <body>
+${
+  ent.hasDraftWatermark
+    ? `<div style="text-align: center; padding: 8pt; margin-bottom: 12pt; border: 2pt dashed #d97706; background-color: #fef3c7; color: #92400e; font-weight: bold; font-size: 11pt; letter-spacing: 1.5pt;">
+  DRAFT — 5-DAY TRIAL PASS (₦500) • UPGRADE TO 1-MONTH OR PRO TO REMOVE WATERMARK
+</div>`
+    : ''
+}
 
 <table class="header-table">
   <tr>
-    <td class="school-title">KING'S COLLEGE, LAGOS — ACADEMIC LESSON PLAN & NOTE</td>
+    <td class="school-title">${user?.schoolName ? `${user.schoolName.toUpperCase()} — ` : "KING'S COLLEGE, LAGOS — "}ACADEMIC LESSON PLAN & NOTE</td>
   </tr>
   <tr>
     <td class="doc-title">${title.toUpperCase()}</td>
   </tr>
   <tr>
     <td style="text-align: center; font-size: 9.5pt; color: #64748b; padding-top: 4pt;">
-      Approved Nigerian Educational Research and Development Council (NERDC) Standard • Session 2026/2027
+      Lagos State Unified Scheme of Work & NERDC Standard (OEQA Alausa & NERDC Abuja Approved) • Session 2026/2027
     </td>
   </tr>
 </table>
@@ -584,9 +726,18 @@ ${diagramHtml}
       });
       if (res && res.content) {
         setAiSuggestions([res.content]);
+        onPlanQuotaChanged?.();
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e?.status === 403 || e?.status === 429) {
+        triggerUpgrade(
+          e.message || 'AI generation quota limit reached for your current plan.',
+          e.requiredTier || 'b2c_termly',
+          'AI Quota Limit Reached'
+        );
+      } else {
+        console.error(e);
+      }
     } finally {
       setAiLoading(false);
     }
@@ -759,6 +910,7 @@ ${diagramHtml}
         week,
         term,
         language: targetLang,
+        curriculumSourceId: activeCurriculumSource,
       });
 
       const data = res.data;
@@ -787,10 +939,44 @@ ${diagramHtml}
         const bestDiag = getBestDiagramForSubject(subject, targetTopic);
         setSelectedDiagram(bestDiag);
         setDiagramCaption(bestDiag.caption);
+        const best3D = getBestModelForSubject(subject, targetTopic);
+        setVisual3DModel(best3D);
+        setPolicyBlockNotice(null);
         markDirty();
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 75, spread: 60 });
       }
-    } catch (err) {
+    } catch (err: any) {
+      if (err?.code === 'STATE_POLICY_MANDATE_BLOCKED') {
+        setPolicyBlockNotice(err.message || 'Lagos State Ministry statutory directive mandates the Lagos State Unified Scheme for public schools.');
+        setIsAutoGenerating(false);
+        return;
+      }
+      if (err?.code === 'SOURCE_TIER_LIMIT_REACHED') {
+        triggerUpgrade(
+          err.message || 'Your current plan source cap was reached. Upgrade to Silver (2 sources) or Gold (All 6 sources).',
+          err.requiredTier || 'b2b_silver',
+          'Curriculum Source Limit Reached'
+        );
+        setIsAutoGenerating(false);
+        return;
+      }
+      if (
+        err?.code === 'TRIAL_LIMIT_EXCEEDED' ||
+        err?.code === 'FAIR_USE_LIMIT_EXCEEDED' ||
+        err?.message?.includes('10-generation limit') ||
+        err?.message?.includes('Upgrade to Pro') ||
+        err?.message?.includes('fair-use limit') ||
+        err?.status === 403 ||
+        err?.status === 429
+      ) {
+        triggerUpgrade(
+          err?.message || 'You have reached your generation limit. Upgrade to unlock higher daily AI quotas.',
+          err?.requiredTier || (tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly'),
+          'AI Generation Limit Reached'
+        );
+        return;
+      }
       console.warn('Backend auto-generate error, falling back to statutory NERDC client engine', err);
       const fallback = generateNerdcOeqaContent({
         level,
@@ -816,6 +1002,8 @@ ${diagramHtml}
       const bestDiag = getBestDiagramForSubject(subject, targetTopic);
       setSelectedDiagram(bestDiag);
       setDiagramCaption(bestDiag.caption);
+      const best3D = getBestModelForSubject(subject, targetTopic);
+      setVisual3DModel(best3D);
       markDirty();
       confetti({ particleCount: 50, spread: 50 });
     } finally {
@@ -845,6 +1033,19 @@ ${diagramHtml}
         language,
       });
 
+      if (
+        res?.error &&
+        (res.code === 'TRIAL_LIMIT_EXCEEDED' ||
+          res.code === 'FAIR_USE_LIMIT_EXCEEDED' ||
+          res.error.includes('10-generation limit') ||
+          res.error.includes('Upgrade to Pro') ||
+          res.error.includes('fair-use limit'))
+      ) {
+        setUpgradeMessage(res.error);
+        setShowUpgradeModal(true);
+        return;
+      }
+
       const data = res?.data;
       if (data) {
         if (data.nerdcObjectives && Array.isArray(data.nerdcObjectives)) {
@@ -873,12 +1074,31 @@ ${diagramHtml}
         const bestDiag = getBestDiagramForSubject(subject, targetTopic);
         setSelectedDiagram(bestDiag);
         setDiagramCaption(bestDiag.caption);
+        const best3D = getBestModelForSubject(subject, targetTopic);
+        setVisual3DModel(best3D);
 
         setComposerMode('plan');
         markDirty();
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 65, spread: 55 });
       }
-    } catch (err) {
+    } catch (err: any) {
+      if (
+        err?.code === 'TRIAL_LIMIT_EXCEEDED' ||
+        err?.code === 'FAIR_USE_LIMIT_EXCEEDED' ||
+        err?.message?.includes('10-generation limit') ||
+        err?.message?.includes('Upgrade to Pro') ||
+        err?.message?.includes('fair-use limit') ||
+        err?.status === 403 ||
+        err?.status === 429
+      ) {
+        triggerUpgrade(
+          err?.message || 'You have reached your generation limit. Upgrade to unlock unlimited access.',
+          err?.requiredTier || (tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly'),
+          'AI Generation Limit Reached'
+        );
+        return;
+      }
       console.warn('Dedicated lesson plan generation error, falling back to statutory engine', err);
       const fallback = generateNerdcOeqaContent({
         level,
@@ -900,6 +1120,8 @@ ${diagramHtml}
       const bestDiag = getBestDiagramForSubject(subject, targetTopic);
       setSelectedDiagram(bestDiag);
       setDiagramCaption(bestDiag.caption);
+      const best3D = getBestModelForSubject(subject, targetTopic);
+      setVisual3DModel(best3D);
       setComposerMode('plan');
       markDirty();
       confetti({ particleCount: 40 });
@@ -928,6 +1150,19 @@ ${diagramHtml}
         term,
       });
 
+      if (
+        res?.error &&
+        (res.code === 'TRIAL_LIMIT_EXCEEDED' ||
+          res.code === 'FAIR_USE_LIMIT_EXCEEDED' ||
+          res.error.includes('10-generation limit') ||
+          res.error.includes('Upgrade to Pro') ||
+          res.error.includes('fair-use limit'))
+      ) {
+        setUpgradeMessage(res.error);
+        setShowUpgradeModal(true);
+        return;
+      }
+
       const data = res?.data;
       if (data && data.chalkboardNote) {
         const cn = data.chalkboardNote;
@@ -952,9 +1187,26 @@ ${diagramHtml}
 
         setComposerMode('note');
         markDirty();
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 65, spread: 55 });
       }
-    } catch (err) {
+    } catch (err: any) {
+      if (
+        err?.code === 'TRIAL_LIMIT_EXCEEDED' ||
+        err?.code === 'FAIR_USE_LIMIT_EXCEEDED' ||
+        err?.message?.includes('10-generation limit') ||
+        err?.message?.includes('Upgrade to Pro') ||
+        err?.message?.includes('fair-use limit') ||
+        err?.status === 403 ||
+        err?.status === 429
+      ) {
+        triggerUpgrade(
+          err?.message || 'You have reached your generation limit. Upgrade to unlock unlimited access.',
+          err?.requiredTier || (tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly'),
+          'AI Generation Limit Reached'
+        );
+        return;
+      }
       console.warn('Dedicated lesson note generation error, falling back to statutory engine', err);
       const fallback = generateNerdcOeqaContent({
         level,
@@ -978,6 +1230,36 @@ ${diagramHtml}
 
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
+      {/* Statutory State Policy Mandate Banner */}
+      {policyBlockNotice && (
+        <div className="bg-amber-50 border border-amber-300 p-4 rounded-2xl flex items-start justify-between gap-3 text-amber-900 animate-in fade-in shadow-xs">
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-amber-100 rounded-xl text-amber-800 shrink-0 mt-0.5">
+              <ShieldCheck className="w-5 h-5 text-amber-700" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-900">
+                  Statutory State Policy Mandate
+                </span>
+                <span className="text-xs text-amber-700 font-medium">Lagos State OEQA Directive (Gazette LASG/MOE/OEQA/CIR/2026/04)</span>
+              </div>
+              <p className="text-sm font-semibold mt-1 text-amber-950">{policyBlockNotice}</p>
+              <p className="text-xs text-amber-800 mt-0.5">
+                Switch to the mandated <strong>Lagos State Unified Scheme of Work</strong> in the curriculum source selector on your dashboard to resume generation.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setPolicyBlockNotice(null)}
+            className="p-1.5 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-lg transition-colors"
+            title="Dismiss notice"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Top Action Header */}
       <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 print:hidden">
         <div className="flex items-center gap-3">
@@ -1100,11 +1382,21 @@ ${diagramHtml}
           </button>
 
           <button
-            onClick={() => setShowClassroomExport(true)}
-            className="px-3.5 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center gap-1.5 border border-emerald-300"
-            title="Export to Google Classroom LMS"
+            onClick={() => {
+              if (!lmsAccess.allowed) {
+                triggerUpgrade(lmsAccess.upgradeMessage, lmsAccess.requiredTier, 'Classroom LMS Export Locked');
+                return;
+              }
+              setShowClassroomExport(true);
+            }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 border transition-colors ${
+              lmsAccess.allowed
+                ? 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border-emerald-300'
+                : 'text-slate-600 bg-slate-100 hover:bg-slate-200 border-slate-200'
+            }`}
+            title={lmsAccess.allowed ? 'Export to Google Classroom LMS' : lmsAccess.upgradeMessage}
           >
-            <Share2 className="w-4 h-4 text-emerald-700" />
+            {lmsAccess.allowed ? <Share2 className="w-4 h-4 text-emerald-700" /> : <Lock className="w-4 h-4 text-amber-600" />}
             <span>Classroom LMS</span>
           </button>
 
@@ -1180,14 +1472,14 @@ ${diagramHtml}
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-sm sm:text-base font-bold text-white tracking-tight">
-                      Statutory NERDC & OEQA Automated Lesson Plan & Note Generator
+                      Lagos State Unified Scheme & NERDC Automated Lesson Plan & Note Generator
                     </h3>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 uppercase font-extrabold tracking-wider">
-                      OEQA Compliant
+                      Lagos OEQA & NERDC Aligned
                     </span>
                   </div>
                   <p className="text-xs text-emerald-100/90 mt-1 max-w-2xl leading-relaxed">
-                    Auto-synthesizes full lesson plans with Bloom's behavioral objectives, instructional realia, presentation steps, formative evaluation, differentiated learning tiers, and comprehensive chalkboard lesson notes.
+                    Auto-synthesizes full lesson plans adhering to the Lagos State Unified Scheme of Work & NERDC standards with Bloom's behavioral objectives, instructional realia, presentation steps, formative evaluation, differentiated learning tiers, and comprehensive chalkboard lesson notes.
                   </p>
                 </div>
               </div>
@@ -1391,14 +1683,39 @@ ${diagramHtml}
           {/* Metadata Card */}
           <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-4 print:hidden">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
-              <div className="lg:col-span-2">
-                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">Lesson Topic Title</label>
+              <div className="lg:col-span-2 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase">Lesson Topic Title</label>
+                  <span className="text-[10px] text-emerald-700 font-semibold">Statutory Syllabus (Wk 1–13)</span>
+                </div>
+                {/* 13-Week Official Statutory Syllabus Selector */}
+                <select
+                  value={syllabusTopics.includes(title) ? title : ''}
+                  onChange={(e) => {
+                    const chosen = e.target.value;
+                    if (!chosen) return;
+                    const chosenIdx = syllabusTopics.findIndex((t) => t === chosen);
+                    const newWk = chosenIdx !== -1 ? chosenIdx + 1 : week;
+                    if (chosenIdx !== -1) setWeek(newWk);
+                    applyTopicContent(level, subject, chosen, newWk, term);
+                  }}
+                  className="w-full text-xs font-semibold px-2.5 py-1.5 bg-emerald-50 border border-emerald-300 rounded-lg text-emerald-950 focus:outline-none focus:border-emerald-600 truncate"
+                  title="Select official statutory NERDC topic for this class and term"
+                >
+                  <option value="" disabled>-- Pick from 13-Week Syllabus --</option>
+                  {syllabusTopics.map((top, idx) => (
+                    <option key={idx} value={top}>
+                      Wk {idx + 1}: {top}
+                    </option>
+                  ))}
+                </select>
                 <input
                   type="text"
                   value={title}
-                  placeholder="e.g. Simultaneous Linear Equations / Cell Structure"
+                  placeholder="Or enter custom lesson topic..."
                   onChange={(e) => {
                     setTitle(e.target.value);
+                    setManualTopicInput(e.target.value);
                     markDirty();
                   }}
                   className="w-full text-xs font-bold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-600 focus:outline-none"
@@ -1414,10 +1731,14 @@ ${diagramHtml}
                     setLevel(newLvl);
                     const isNewJunior = newLvl.toLowerCase().startsWith('jss');
                     const newSubs = isNewJunior ? JUNIOR_SECONDARY_SUBJECTS : SENIOR_SECONDARY_SUBJECTS;
+                    let nextSub = subject;
                     if (!newSubs.some((s) => s.name.toLowerCase() === subject.toLowerCase())) {
-                      setSubject(newSubs[0].name);
+                      nextSub = newSubs[0].name;
+                      setSubject(nextSub);
                     }
-                    markDirty();
+                    const freshTopics = getSubjectTermTopics(newLvl, nextSub, term);
+                    const freshTopic = freshTopics[week - 1] || freshTopics[0] || `${nextSub} Curriculum Topic`;
+                    applyTopicContent(newLvl, nextSub, freshTopic, week, term);
                   }}
                   className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
                 >
@@ -1441,8 +1762,11 @@ ${diagramHtml}
                       if (e.target.value === '__custom__') {
                         setIsCustomSubject(true);
                       } else {
-                        setSubject(e.target.value);
-                        markDirty();
+                        const nextSub = e.target.value;
+                        setSubject(nextSub);
+                        const freshTopics = getSubjectTermTopics(level, nextSub, term);
+                        const freshTopic = freshTopics[week - 1] || freshTopics[0] || `${nextSub} Curriculum Topic`;
+                        applyTopicContent(level, nextSub, freshTopic, week, term);
                       }
                     }}
                     className="w-full text-xs font-semibold px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
@@ -1460,7 +1784,8 @@ ${diagramHtml}
                       type="text"
                       value={subject}
                       onChange={(e) => {
-                        setSubject(e.target.value);
+                        const nextSub = e.target.value;
+                        setSubject(nextSub);
                         markDirty();
                       }}
                       placeholder="Type custom subject..."
@@ -1484,8 +1809,11 @@ ${diagramHtml}
                   <select
                     value={term}
                     onChange={(e) => {
-                      setTerm(parseInt(e.target.value, 10));
-                      markDirty();
+                      const nextTerm = parseInt(e.target.value, 10);
+                      setTerm(nextTerm);
+                      const freshTopics = getSubjectTermTopics(level, subject, nextTerm);
+                      const freshTopic = freshTopics[week - 1] || freshTopics[0] || `${subject} Curriculum Topic`;
+                      applyTopicContent(level, subject, freshTopic, week, nextTerm);
                     }}
                     className="w-full text-xs px-2 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
                   >
@@ -1496,8 +1824,11 @@ ${diagramHtml}
                   <select
                     value={week}
                     onChange={(e) => {
-                      setWeek(parseInt(e.target.value, 10));
-                      markDirty();
+                      const nextWk = parseInt(e.target.value, 10);
+                      setWeek(nextWk);
+                      const freshTopics = getSubjectTermTopics(level, subject, term);
+                      const freshTopic = freshTopics[nextWk - 1] || `${subject} Week ${nextWk}`;
+                      applyTopicContent(level, subject, freshTopic, nextWk, term);
                     }}
                     className="w-full text-xs px-2 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none"
                   >
@@ -1527,6 +1858,36 @@ ${diagramHtml}
               </div>
             </div>
 
+            {/* Statutory Topic Selector Dropdown */}
+            {syllabusTopics.length > 0 && (
+              <div className="pt-2 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center gap-2">
+                <label className="text-[10px] font-bold text-emerald-800 uppercase shrink-0 flex items-center gap-1">
+                  <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Statutory Topics ({level.toUpperCase()} {subject} • Term {term}):</span>
+                </label>
+                <select
+                  value={week}
+                  onChange={(e) => {
+                    const selWk = parseInt(e.target.value, 10);
+                    setWeek(selWk);
+                    const chosen = syllabusTopics[selWk - 1] || `${subject} Week ${selWk}`;
+                    setTitle(chosen);
+                    setManualTopicInput(chosen);
+                    const best3D = getBestModelForSubject(subject, chosen);
+                    setVisual3DModel(best3D);
+                    markDirty();
+                  }}
+                  className="flex-1 text-xs font-bold px-3 py-1.5 bg-emerald-50/80 border border-emerald-300 text-emerald-950 rounded-xl focus:outline-none"
+                >
+                  {syllabusTopics.map((top, idx) => (
+                    <option key={idx + 1} value={idx + 1}>
+                      Week {idx + 1}: {top}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             {/* NERDC Official Syllabus Topic Helper */}
             {currentSyllabusTopic && (
               <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
@@ -1548,6 +1909,40 @@ ${diagramHtml}
                   <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                   <span>Use Topic & Auto-Generate</span>
                 </button>
+              </div>
+            )}
+
+            {/* Phase 2: Government-Approved Textbook Banner */}
+            {currentApprovedTextbook && (
+              <div className="p-3.5 rounded-xl bg-gradient-to-r from-emerald-50/90 to-teal-50/70 border border-emerald-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 shrink-0">
+                    <BookOpen className="w-4 h-4" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-900 bg-emerald-200/60 px-1.5 py-0.5 rounded">
+                        Approved Textbook
+                      </span>
+                      <span className="text-[10px] font-semibold text-emerald-700">
+                        {currentApprovedTextbook.approvedBy || 'NERDC & Lagos State OEQA'}
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-gray-900 truncate mt-0.5">
+                      {currentApprovedTextbook.title} <span className="font-semibold text-gray-600">— by {currentApprovedTextbook.author}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="shrink-0 flex items-center gap-2">
+                  <span className="text-[11px] font-semibold text-gray-500">
+                    {currentApprovedTextbook.edition}
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-600 text-white">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>NERDC Vetted</span>
+                  </span>
+                </div>
               </div>
             )}
           </div>
@@ -1653,6 +2048,37 @@ ${diagramHtml}
                     )}
                   </div>
                 ))}
+              </div>
+
+              {/* Procedural 3D Models & 4K Visual Aids Quick Launcher */}
+              <div className="mt-3 p-3.5 rounded-xl bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/40 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                    <Box className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-black uppercase text-amber-300">
+                        Procedural 3D Realia & 4K Aids Active
+                      </span>
+                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">
+                        {subject}
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-slate-200 truncate mt-0.5">
+                      Model: <span className="text-amber-300 capitalize">{visual3DModel.replace(/_/g, ' ')}</span> • Ultra-HD 4K Video Clip Ready
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setComposerMode('visual-aids')}
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center gap-1.5 transition-all shadow-xs shrink-0"
+                  title="Open rotatable 3D model and 4K video clips"
+                >
+                  <Tv className="w-3.5 h-3.5" />
+                  <span>Open 3D Realia Studio</span>
+                </button>
               </div>
             </div>
           </div>
@@ -1810,23 +2236,40 @@ ${diagramHtml}
                 type="button"
                 disabled={isDiffTasksLoading}
                 onClick={async () => {
+                  if (!senAccess.allowed) {
+                    triggerUpgrade(senAccess.upgradeMessage, senAccess.requiredTier, 'SEN & 3-Tier Tasks Locked');
+                    return;
+                  }
                   setIsDiffTasksLoading(true);
                   try {
                     const res = await fetch('/api/ai/differentiated-tasks', {
                       method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                      credentials: 'include',
                       body: JSON.stringify({
                         topic: title,
                         subject,
                         level,
                       }),
                     });
+                    if (res.status === 403 || res.status === 429) {
+                      const errData = await res.json().catch(() => ({}));
+                      triggerUpgrade(
+                        errData.message || errData.error || senAccess.upgradeMessage,
+                        errData.requiredTier || senAccess.requiredTier,
+                        'SEN / Tier Upgrade Required'
+                      );
+                      return;
+                    }
                     const d = await res.json();
-                    if (d.tasks) {
-                      setRemedialTask(d.tasks.remedialTask);
-                      setStandardTask(d.tasks.standardTask);
-                      setAdvancedTask(d.tasks.advancedTask);
+                    const parsed = d.tasks || d;
+                    if (parsed.remedialTask || parsed.standardTask || parsed.advancedTask) {
+                      if (parsed.remedialTask) setRemedialTask(parsed.remedialTask);
+                      if (parsed.standardTask) setStandardTask(parsed.standardTask);
+                      if (parsed.advancedTask) setAdvancedTask(parsed.advancedTask);
                       markDirty();
+                      onPlanQuotaChanged?.();
+                      confetti({ particleCount: 40, spread: 45 });
                     }
                   } catch (e) {
                     console.error(e);
@@ -1834,10 +2277,18 @@ ${diagramHtml}
                     setIsDiffTasksLoading(false);
                   }
                 }}
-                className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition-colors flex items-center gap-1.5 self-start sm:self-auto disabled:opacity-50"
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-colors flex items-center gap-1.5 self-start sm:self-auto disabled:opacity-50 ${
+                  senAccess.allowed
+                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
+                    : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'
+                }`}
               >
-                <Sparkles className={`w-3.5 h-3.5 text-emerald-600 ${isDiffTasksLoading ? 'animate-spin' : ''}`} />
-                <span>{isDiffTasksLoading ? 'Generating Tasks...' : '⚡ AI Re-Generate 3-Tier Tasks'}</span>
+                {senAccess.allowed ? (
+                  <Sparkles className={`w-3.5 h-3.5 text-emerald-600 ${isDiffTasksLoading ? 'animate-spin' : ''}`} />
+                ) : (
+                  <Lock className="w-3.5 h-3.5 text-amber-600" />
+                )}
+                <span>{isDiffTasksLoading ? 'Generating Tasks...' : senAccess.allowed ? '⚡ AI Re-Generate 3-Tier Tasks' : '3-Tier SEN Tasks (Silver+)'}</span>
               </button>
             </div>
 
@@ -2118,6 +2569,34 @@ ${diagramHtml}
                 </div>
               </div>
             )}
+
+            {/* Quick 3D Realia Launcher for Classroom Delivery */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-emerald-950 border border-emerald-600/30 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-400/20 text-amber-300 border border-amber-400/30 flex items-center justify-center shrink-0">
+                  <Tv className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-white flex items-center gap-2">
+                    <span>Live 3D Realia Demonstration & 4K Teaching Clip</span>
+                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">
+                      {subject}
+                    </span>
+                  </h5>
+                  <p className="text-[11px] text-slate-300">
+                    Engage visual & kinesthetic learners with real-time rotatable 3D apparatus: <strong className="text-amber-300 capitalize">{visual3DModel.replace(/_/g, ' ')}</strong>.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setComposerMode('visual-aids')}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 flex items-center gap-1.5 shrink-0 transition-all shadow-xs hover:scale-102"
+              >
+                <Box className="w-4 h-4" />
+                <span>Launch 3D Visual Aid</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -2290,6 +2769,11 @@ ${diagramHtml}
 
           {/* Formatted Paper Dossier Container */}
           <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-slate-200 shadow-xl space-y-6 text-slate-900 max-w-4xl mx-auto">
+            {ent.hasDraftWatermark && (
+              <div className="p-3 rounded-xl bg-amber-50 border-2 border-dashed border-amber-400 text-center text-xs font-black uppercase tracking-widest text-amber-800">
+                DRAFT WATERMARK — 5-DAY TRIAL PASS (₦500) • UPGRADE TO 1-MONTH OR PRO TO REMOVE WATERMARK
+              </div>
+            )}
             {/* Header Letterhead */}
             <div className="text-center pb-5 border-b-2 border-emerald-800 space-y-1.5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-900 text-[11px] font-bold border border-emerald-200">
@@ -2327,6 +2811,26 @@ ${diagramHtml}
                 <span className="font-bold text-slate-900">{duration}</span>
               </div>
             </div>
+
+            {/* Phase 2: Official Government-Approved Textbook & Author Citation */}
+            {currentApprovedTextbook && (
+              <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <span className="block text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
+                    Statutory Recommended Textbook & Author Citation:
+                  </span>
+                  <p className="font-bold text-slate-950 text-xs">
+                    "{currentApprovedTextbook.title}" by {currentApprovedTextbook.author} ({currentApprovedTextbook.publisher}, {currentApprovedTextbook.edition}).
+                  </p>
+                  <p className="text-[10px] text-slate-500">
+                    Officially vetted and approved by {currentApprovedTextbook.approvedBy} ({currentApprovedTextbook.approvalDate}).
+                  </p>
+                </div>
+                <span className="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-emerald-700 text-white shrink-0 self-start sm:self-auto">
+                  NERDC Approved
+                </span>
+              </div>
+            )}
 
             {/* PART I: BEHAVIORAL OBJECTIVES */}
             <div className="space-y-2">
@@ -2583,20 +3087,25 @@ ${diagramHtml}
                       : 'bg-white/10 text-white hover:bg-white/20'
                   }`}
                 >
-                  <Box className="w-4 h-4" />
-                  <span>3D Procedural Realia (WebGL)</span>
+                  {ent.has3DAccess ? <Box className="w-4 h-4" /> : <Lock className="w-4 h-4 text-amber-300" />}
+                  <span>3D Procedural Realia & 2D Schematics</span>
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActiveVisualAidSubtab('video')}
+                  onClick={() => {
+                    if (!ent.has4KAccess) {
+                      triggerUpgrade(video4KAccess.upgradeMessage, video4KAccess.requiredTier, '4K Ultra-HD Visual Lab Locked');
+                    }
+                    setActiveVisualAidSubtab('video');
+                  }}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
                     activeVisualAidSubtab === 'video'
                       ? 'bg-emerald-500 text-slate-950 shadow-md font-black'
                       : 'bg-white/10 text-white hover:bg-white/20'
                   }`}
                 >
-                  <Video className="w-4 h-4" />
-                  <span>4K Demonstration Video</span>
+                  {ent.has4KAccess ? <Video className="w-4 h-4" /> : <Lock className="w-4 h-4 text-amber-300" />}
+                  <span>4K Ultra-HD Visual Lab (Gold+)</span>
                 </button>
                 <button
                   type="button"
@@ -2614,12 +3123,34 @@ ${diagramHtml}
             </div>
           </div>
 
-          {/* Subtab 1: 3D Interactive Model */}
+          {/* Subtab 1: 3D Interactive Model / 2D Schematics */}
           {activeVisualAidSubtab === '3d' && (
             <div className="space-y-4">
+              {!ent.has3DAccess && (
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-950">
+                  <div className="flex items-start gap-2.5">
+                    <Lock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block">3D WebGL Laboratory Reserved for Gold School Tier (₦250,000/term)</strong>
+                      <span>Showing interactive 2D Schematics for your {ent.name}. Upgrade to Gold or Platinum for rotatable 3D models.</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => triggerUpgrade(visual3DAccess.upgradeMessage, visual3DAccess.requiredTier, 'Unlock 3D Realia Lab')}
+                    className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black shrink-0"
+                  >
+                    Upgrade to Gold
+                  </button>
+                </div>
+              )}
               <VisualAidViewer
                 modelType={visual3DModel}
                 topicTitle={title}
+                subject={subject}
+                level={level}
+                userTier={tierSummary.tierId}
+                onOpenUpgrade={triggerUpgrade}
                 onModelChange={(newModel) => {
                   setVisual3DModel(newModel);
                   markDirty();
@@ -2631,14 +3162,39 @@ ${diagramHtml}
           {/* Subtab 2: 4K Video Player */}
           {activeVisualAidSubtab === 'video' && (
             <div className="space-y-4">
-              <VideoAidPlayer
-                videoUrl={video4KUrl}
-                topicTitle={title}
-                onUrlChange={(newUrl) => {
-                  setVideo4KUrl(newUrl);
-                  markDirty();
-                }}
-              />
+              {ent.has4KAccess ? (
+                <VideoAidPlayer
+                  videoUrl={video4KUrl}
+                  topicTitle={title}
+                  subject={subject}
+                  onUrlChange={(newUrl) => {
+                    setVideo4KUrl(newUrl);
+                    markDirty();
+                  }}
+                />
+              ) : (
+                <div className="p-8 rounded-3xl bg-slate-900 border border-amber-500/40 text-center text-white space-y-4 shadow-xl">
+                  <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                    <Lock className="w-6 h-6" />
+                  </div>
+                  <div className="space-y-1.5 max-w-md mx-auto">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase">
+                      Gold School Tier (₦250,000/term)
+                    </span>
+                    <h3 className="text-base font-black">4K Ultra-HD STEM Video Lab Locked</h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {video4KAccess.upgradeMessage}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => triggerUpgrade(video4KAccess.upgradeMessage, video4KAccess.requiredTier, 'Unlock 4K STEM Visual Lab')}
+                    className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition-colors"
+                  >
+                    Upgrade to Gold School Tier
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -2714,11 +3270,27 @@ ${diagramHtml}
         </div>
       )}
 
+      {/* Statutory Copyright Attribution Banner (Transformative Use — Nigerian Copyright Act 2022 Sec 20) */}
+      <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 text-center print:hidden">
+        <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-800">
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span>Transformative Curriculum Compliance (Nigerian Copyright Act 2022 Sec 20)</span>
+        </div>
+        <p className="text-xs text-slate-600 mt-1 font-medium">
+          {statutoryCopyrightFooter}
+        </p>
+      </div>
+
       {/* PRINT-ONLY OFFICIAL DOCUMENT VIEW (Formatted for Black & White or Color A4) */}
       <div className="hidden print:block space-y-6 text-xs text-gray-900 leading-relaxed">
+        {ent.hasDraftWatermark && (
+          <div className="p-2.5 border-2 border-dashed border-gray-800 text-center font-black uppercase tracking-widest text-xs">
+            DRAFT WATERMARK — 5-DAY TRIAL PASS (₦500)
+          </div>
+        )}
         <div className="text-center pb-4 border-b-2 border-gray-900">
           <h1 className="text-lg font-black uppercase tracking-wider">
-            KING'S COLLEGE, LAGOS — ACADEMIC LESSON PLAN & NOTE
+            {user?.schoolName ? `${user.schoolName.toUpperCase()} — ` : "KING'S COLLEGE, LAGOS — "}ACADEMIC LESSON PLAN & NOTE
           </h1>
           <h2 className="text-sm font-bold uppercase mt-1">{title}</h2>
           <p className="text-[10px] text-gray-600 font-medium mt-1">
@@ -2886,6 +3458,14 @@ ${diagramHtml}
             <p className="border-t border-gray-800 pt-1">Vice-Principal (Academics)</p>
           </div>
         </div>
+
+        {/* Statutory Copyright Attribution Footer */}
+        <div className="pt-6 border-t border-gray-400 mt-6 text-center text-[10px] text-gray-600 font-medium">
+          <p>{statutoryCopyrightFooter}</p>
+          <p className="text-[9px] text-gray-500 mt-0.5">
+            EduPlan NG Transformative Pedagogical Infrastructure • Fully compliant with Nigerian Copyright Act 2022 (Section 20) & NDPA 2023
+          </p>
+        </div>
       </div>
 
       {/* DIAGRAM SELECTION MODAL */}
@@ -2967,6 +3547,15 @@ ${diagramHtml}
             </div>
           </div>
         </div>
+      )}
+
+      {showUpgradeModal && (
+        <UpgradeModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          message={upgradeMessage}
+          requiredTier={upgradeRequiredTier}
+        />
       )}
     </div>
   );

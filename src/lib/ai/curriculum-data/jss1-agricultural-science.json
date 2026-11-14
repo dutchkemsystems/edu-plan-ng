@@ -1,0 +1,55 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Agricultural Science",
+  "subjectCode": "AGR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/agricultural-science-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Junior Secondary Agricultural Science for Nigerian Schools Book 1",
+    "author": "Anthony Youdeowei, S. O. Ayanlaja, C. C. Agwubike",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning and Importance of Agriculture to Nigeria",
+      "subtopics": ["Definition of agriculture", "Branches: Crop production, animal husbandry, soil science, agricultural economics", "Importance: Food, shelter, raw materials, employment, foreign exchange"],
+      "objectives": ["Define agriculture comprehensively", "List 4 major branches of agriculture", "Explain 5 contributions of agriculture to the Nigerian GDP"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Forms of Agriculture in Nigeria",
+      "subtopics": ["Subsistence vs commercial agriculture", "Pastoral farming and shifting cultivation", "Plantation agriculture and mixed farming"],
+      "objectives": ["Differentiate subsistence from commercial agriculture", "State advantages and disadvantages of shifting cultivation", "Identify major commercial plantations in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Classification of Crops by Life Cycle and Uses",
+      "subtopics": ["Annuals, biennials, and perennials", "Food crops: Cereals, legumes, root and tuber crops", "Cash and industrial crops: Oil, fiber, beverage, spice crops"],
+      "objectives": ["Classify common crops into annual, biennial, and perennial groups", "Give 3 examples of Nigerian cereal and tuber crops", "Explain industrial uses of cocoa, rubber, and oil palm"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Parts of a Flowering Crop Plant and Their Functions",
+      "subtopics": ["Root system: Taproot vs fibrous root", "Shoot system: Stem, leaf, flower, seed, fruit", "Physiological functions: Anchorage, photosynthesis, reproduction"],
+      "objectives": ["Distinguish taproot from fibrous root systems", "Draw and label parts of a typical crop plant (maize / bean)", "State functions of roots, stems, and leaves in crop growth"]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Simple Farm Tools: Uses and Maintenance",
+      "subtopics": ["Cutting and digging tools: Cutlass, hoe, spade, shovel", "Gathering tools: Rake, wheelbarrow, watering can", "Maintenance: Cleaning, sharpening, greasing, proper storage"],
+      "objectives": ["Identify 8 common manual farm tools", "State exact agricultural uses of each tool", "Demonstrate cleaning, drying, and sharpening of farm cutlasses and hoes"]
+    }
+  ]
+}

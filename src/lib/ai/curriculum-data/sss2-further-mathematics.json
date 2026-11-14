@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Further Mathematics",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-further-mathematics.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Calculus (Differentiation): Limits of functions and differentiation from first principles",
+      "learningObjectives": [
+        "Evaluate limits of algebraic and trigonometric functions as x approaches finite values or infinity",
+        "Differentiate standard functions (x^n, sin x, cos x) from first principles using δ-method",
+        "Establish power rule, scalar multiple rule, and sum/difference rule"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Rules of Differentiation: Product rule, Quotient rule, and Chain rule (composite functions)",
+      "learningObjectives": [
+        "Differentiate products of functions using d/dx [u(x)v(x)] = u'v + uv'",
+        "Apply the quotient rule to rational algebraic and trigonometric expressions",
+        "Use the chain rule for composite functions and fractional powers"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Applications of Differentiation: Tangents, normals, stationary points, and curve sketching",
+      "learningObjectives": [
+        "Find equations of tangents and normals to curves at specified coordinate points",
+        "Locate stationary points and classify as local maxima, minima, or points of inflexion using dy/dx and d²y/dx²",
+        "Sketch polynomial curves indicating intercepts, turning points, and asymptotes"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Kinematics in Calculus: Rectilinear motion (displacement, velocity, and acceleration)",
+      "learningObjectives": [
+        "Express velocity as time derivative of displacement: v = ds/dt",
+        "Express acceleration as time derivative of velocity: a = dv/dt = d²s/dt²",
+        "Solve mechanics word problems regarding maximum height, rest positions, and total distance travelled"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Calculus (Integration): Indefinite integrals of polynomials and trigonometric functions",
+      "learningObjectives": [
+        "Understand integration as the anti-derivative with arbitrary constant of integration C",
+        "Integrate algebraic polynomials using power rule ∫ x^n dx = (x^(n+1))/(n+1) + C",
+        "Integrate trigonometric functions: ∫ sin(ax) dx and ∫ cos(ax) dx"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Definite Integrals and Area Under Curves",
+      "learningObjectives": [
+        "Evaluate definite integrals between specified lower and upper boundary limits",
+        "Calculate area bounded by a continuous curve, the x-axis, and vertical lines x = a and x = b",
+        "Compute the area enclosed between two intersecting curves"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Calculus Proficiency Clinic",
+      "learningObjectives": [
+        "Assess pupil mastery of differentiation rules and definite integral calculations",
+        "Evaluate step-by-step mathematical rigor in kinematics problem solutions",
+        "Provide remedial drills on quotient rule and stationary point classifications"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Coordinate Geometry of the Circle: Standard form and general equation of circles",
+      "learningObjectives": [
+        "Derive standard form equation of a circle: (x - a)² + (y - b)² = r²",
+        "Convert general equation x² + y² + 2gx + 2fy + c = 0 to standard form by completing the square",
+        "Determine center (-g, -f) and radius r = √(g² + f² - c) and find tangent equations"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Matrices and Determinants: 3x3 matrices, minors, cofactors, and Cramer's Rule",
+      "learningObjectives": [
+        "Evaluate determinants of 3x3 matrices using cofactor expansion along rows or columns",
+        "Find matrix of minors, matrix of cofactors, and the adjoint matrix",
+        "Solve systems of three simultaneous linear equations using Cramer's Rule"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Vectors in Three Dimensions: Components (i, j, k), dot product, and vector cross product",
+      "learningObjectives": [
+        "Represent spatial vectors in component form: r = xi + yj + zk",
+        "Calculate the scalar (dot) product and determine angles between 3D vectors",
+        "Compute the vector (cross) product using 3x3 determinant expansion and find areas of parallelograms"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Probability Distributions: Binomial distribution and Poisson distribution",
+      "learningObjectives": [
+        "Derive the binomial probability formula: P(X = r) = nCr p^r q^(n-r)",
+        "Calculate mean (μ = np) and variance (σ² = npq) for binomial trials",
+        "Introduce the Poisson distribution P(X = x) = (λ^x * e^-λ) / x! for rare random events"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Further Mathematics Termly Revision & WAEC Problem Seminar",
+      "learningObjectives": [
+        "Integrate calculus, 3x3 matrices, 3D vectors, and probability distributions",
+        "Solve past WASSCE and NECO Further Mathematics Paper 2 questions under timed conditions",
+        "Refine analytical accuracy and presentation of mathematical proofs"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Score Recording",
+      "learningObjectives": [
+        "Examine cumulative SSS 2 Further Mathematics syllabus coverage",
+        "Score scripts in accordance with national examination Council marking keys",
+        "Compile broadsheet assessment records for school administrative archives"
+      ]
+    }
+  ]
+}

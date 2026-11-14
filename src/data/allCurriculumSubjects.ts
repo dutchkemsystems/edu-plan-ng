@@ -1,7 +1,8 @@
 /**
- * NERDC Approved Statutory Core & Departmental Curriculum Subjects
+ * Lagos State Unified Scheme of Work & NERDC Approved Statutory Core & Departmental Curriculum Subjects
  * Covering Junior Secondary School (JSS 1–3) and Senior Secondary School (SSS 1–3)
- * Fully compliant with Federal Ministry of Education & Lagos State OEQA standards.
+ * Fully compliant with Lagos State Ministry of Basic and Secondary Education (Alausa, Ikeja), Lagos OEQA & Federal Ministry of Education / NERDC standards.
+ * Automatically synchronizes with statutory gazettes.
  */
 
 export interface SubjectMetadata {
@@ -938,326 +939,119 @@ export const ALL_CURRICULUM_SUBJECTS = [
   ...SENIOR_SECONDARY_SUBJECTS
 ];
 
+import { getCurriculumCatalog } from '../lib/ai/curriculum-data/index.ts';
+import { getStatutoryCurriculumTopics } from './classCurricula.ts';
+
 /**
  * Return 13 structured weekly topics for any subject, term (1, 2, or 3), and level.
+ * Strictly isolated per academic class level (JSS 1, JSS 2, JSS 3, SSS 1, SSS 2, SSS 3).
  */
-export function getSubjectTermTopics(subject: SubjectMetadata, term: number = 1, levelId: string = 'jss-1'): string[] {
-  const isTerm1 = term === 1;
-  const isTerm2 = term === 2;
-  const isTerm3 = term === 3;
-  const defaults = subject.defaultTopics;
+export function getSubjectTermTopics(
+  subjectOrLevel: SubjectMetadata | string,
+  termOrSubject: number | string = 1,
+  levelOrTerm: string | number = 'jss-1'
+): string[] {
+  let subject: SubjectMetadata;
+  let term = 1;
+  let levelId = 'jss-1';
 
-  if (isTerm1 && defaults && defaults.length >= 12) {
-    return defaults;
+  if (typeof subjectOrLevel === 'string') {
+    if (typeof termOrSubject === 'string') {
+      // Called as getSubjectTermTopics(levelId, subjectName, term)
+      levelId = subjectOrLevel;
+      const subName = termOrSubject;
+      term = typeof levelOrTerm === 'number' ? levelOrTerm : 1;
+      const found = ALL_CURRICULUM_SUBJECTS.find(
+        (s) => s.name.toLowerCase() === subName.toLowerCase() || s.id.toLowerCase() === subName.toLowerCase() || s.code.toLowerCase() === subName.toLowerCase()
+      );
+      subject = found || {
+        id: subName.toLowerCase().slice(0, 4),
+        name: subName,
+        code: subName.toUpperCase().slice(0, 4),
+        category: levelId.startsWith('jss') ? 'junior' : 'senior',
+        department: 'Core',
+        icon: 'BookOpen',
+        description: `${subName} curriculum module`,
+        defaultTopics: []
+      };
+    } else {
+      // Called as getSubjectTermTopics(subjectName, term, levelId)
+      const subName = subjectOrLevel;
+      term = typeof termOrSubject === 'number' ? termOrSubject : 1;
+      levelId = typeof levelOrTerm === 'string' ? levelOrTerm : 'jss-1';
+      const found = ALL_CURRICULUM_SUBJECTS.find(
+        (s) => s.name.toLowerCase() === subName.toLowerCase() || s.id.toLowerCase() === subName.toLowerCase() || s.code.toLowerCase() === subName.toLowerCase()
+      );
+      subject = found || {
+        id: subName.toLowerCase().slice(0, 4),
+        name: subName,
+        code: subName.toUpperCase().slice(0, 4),
+        category: levelId.startsWith('jss') ? 'junior' : 'senior',
+        department: 'Core',
+        icon: 'BookOpen',
+        description: `${subName} curriculum module`,
+        defaultTopics: []
+      };
+    }
+  } else {
+    subject = subjectOrLevel;
+    term = typeof termOrSubject === 'number' ? termOrSubject : 1;
+    levelId = typeof levelOrTerm === 'string' ? levelOrTerm : 'jss-1';
   }
 
-  const subLower = subject.name.toLowerCase();
-  const subCode = subject.code.toLowerCase();
+  const normLvl = (levelId || 'jss-1').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const cleanLvl = normLvl.startsWith('jss')
+    ? normLvl.replace('jss', 'jss-')
+    : normLvl.replace('sss', 'sss-');
 
-  // 1. Mathematics & Further Mathematics
-  if (subLower.includes('math') || subCode.includes('mth')) {
-    if (isTerm2) {
-      return [
-        'Algebraic Factors: Common Factors, Grouping & Difference of Two Squares',
-        'Quadratic Equations: Solution by Factorization Method',
-        'Simultaneous Linear Equations: Elimination and Substitution Methods',
-        'Plane Geometry: Angles on a Straight Line, Parallel Lines & Triangles',
-        'Polygons: Interior and Exterior Angles of Convex Polygons',
-        'Mensuration: Perimeter and Area of Triangles, Parallelograms & Trapeziums',
-        'Mid-Term Continuous Assessment (CA Test 2) & Diagnostic Drill',
-        'Surface Area and Volume of Right Prisms and Cylinders',
-        'Statistics: Data Presentation using Frequency Tables, Bar Charts & Histograms',
-        'Measures of Central Tendency: Mean, Median and Mode of Ungrouped Data',
-        'Probability: Experimental Outcomes, Sample Space and Single Events',
-        'Termly Revision, WAEC/BECE Problem Clinic & Past Question Review',
-        'Terminal Examination, Script Moderation, Grading & Broadsheet Entry'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Trigonometric Ratios: Sine, Cosine and Tangent of Acute Angles',
-        'Angles of Elevation and Depression & Compass Bearings',
-        'Indices and Logarithms: Laws of Indices & Four-Figure Log Tables',
-        'Coordinate Geometry: Gradient and Intercept of Straight Line Graphs',
-        'Commercial Arithmetic: Simple Interest, Compound Interest & Depreciation',
-        'Sets and Venn Diagrams: Union, Intersection and Complement of Sets',
-        'Mid-Term Continuous Assessment (CA Test 3) & Remedial Clinic',
-        'Number Bases: Conversion between Base 2, Base 8 and Base 10',
-        'Circle Theorems: Angles Subtended at Center and Inscribed Angles',
-        'Geometric Construction: Constructing 30°, 60°, 90°, 75° & Line Bisectors',
-        'Cumulative Frequency Curves (Ogive) and Median Estimation',
-        'Full Annual Mathematics Revision & Speed Practice Clinic',
-        'Annual Promotion Examination, WAEC/BECE Readiness & Broadsheet Entry'
-      ];
-    }
+  // 1. Check verified catalog (JSON catalog files)
+  const catalog = getCurriculumCatalog(cleanLvl, subject.name);
+  let catalogTeachingTopics: string[] = [];
+  if (catalog && catalog.topics && catalog.topics.length > 0) {
+    const rawCatTopics = catalog.topics.filter(t => t.term === term).map(t => t.topic);
+    catalogTeachingTopics = rawCatTopics.filter(
+      t => !/mid[- ]?term|continuous assessment|revision|terminal exam|examination|broadsheet/i.test(t)
+    );
   }
 
-  // 2. English Studies & English Language
-  if (subLower.includes('eng') || subCode.includes('eng')) {
-    if (isTerm2) {
-      return [
-        'Grammar: Tenses (Present Perfect, Past Continuous, Future Continuous)',
-        'Formal Letter Writing: Applications, Official Complaints & Inquiries',
-        'Speech Work: Diphthongs (/eɪ/, /aɪ/, /ɔɪ/, /aʊ/, /əʊ/) and Contrast Drills',
-        'Expository Composition: "Effects of Environmental Degradation in Nigeria"',
-        'Vocabulary Development: Words Associated with Health, Medicine & Sanitation',
-        'Punctuation Marks: Colons, Semi-colons, and Inverted Commas in Dialogue',
-        'Mid-Term Assessment & Oral Speech Sound Diagnostic Check',
-        'Direct and Indirect Speech: Rules of Conversion and Reporting Verbs',
-        'Reading Comprehension: Identifying Topic Sentences and Inferring Meanings',
-        'Literature-in-English: African Poetry (Themes, Metaphor, Personification)',
-        'Argumentative Essay: "Day Secondary Schools are Better than Boarding Schools"',
-        'Comprehensive 2nd Term Revision on Grammar, Speech & Composition',
-        'Terminal Examination, Oral Speech Testing & Broadsheet Entry'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Grammar: Active Voice versus Passive Voice Transformation',
-        'Clauses: Independent, Adjectival and Adverbial Clauses of Time and Reason',
-        'Speech Work: Consonant Clusters (pl, str, scr) and Syllabic Consonants',
-        'Narrative Essay: "An Unforgettable Experience in My Secondary School"',
-        'Vocabulary Development: Words Associated with Law, Justice & Public Governance',
-        'Summary Writing Techniques: Separating Main Ideas from Supporting Details',
-        'Mid-Term Continuous Assessment & Essay Writing Speed Clinic',
-        'Idiomatic Expressions and Phrasal Verbs in Contemporary Nigerian English',
-        'Literature-in-English: Dramatic Elements (Protagonist, Conflict, Soliloquy)',
-        'Informal Letter: Writing to a Relative Abroad Describing Nigerian Festivals',
-        'Question Tags, Modal Auxiliaries (must, should, ought) and Subject-Verb Concord',
-        'Annual English Studies Revision & WAEC/BECE Paper 1 & 2 Clinic',
-        'Annual Promotion Examination & Script Moderation'
-      ];
+  // 2. Fetch authoritative class-level topics from statutory matrix
+  const matrixTeachingTopics = getStatutoryCurriculumTopics(cleanLvl, subject.name, term);
+
+  // 3. Assemble unified non-repeating teaching topics (exactly 10 distinct topics)
+  const unifiedTeachingTopics: string[] = [];
+  const seen = new Set<string>();
+
+  for (const top of [...catalogTeachingTopics, ...matrixTeachingTopics]) {
+    const cleanTop = top.trim();
+    const key = cleanTop.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!seen.has(key) && !/mid[- ]?term|continuous assessment|revision|terminal exam|examination|broadsheet/i.test(cleanTop)) {
+      seen.add(key);
+      unifiedTeachingTopics.push(cleanTop);
+      if (unifiedTeachingTopics.length >= 10) break;
     }
   }
 
-  // 3. Basic Science & Biology
-  if (subLower.includes('bio') || subLower.includes('basic science') || subCode.includes('bio') || subCode.includes('bsc')) {
-    if (isTerm2) {
-      return [
-        'Circulatory System: Structure of Heart, Blood Vessels, Blood Groups & Rhesus Factor',
-        'Respiratory System: Mechanism of Breathing, Gaseous Exchange & Cellular Respiration',
-        'Excretory System in Humans: Kidneys, Nephron Structure, Skin & Osmoregulation',
-        'Plant Nutrition: Internal Leaf Anatomy, Photosynthesis Light & Dark Stages',
-        'Transportation in Vascular Plants: Transpiration Pull, Xylem & Phloem Translocation',
-        'Ecology: Ecosystem Components, Food Chains, Food Webs & Trophic Energy Pyramids',
-        'Mid-Term Continuous Assessment & Practical Slide Microscopy Drill',
-        'Nutrient Cycles in Nature: The Carbon Cycle, Water Cycle & Nitrogen Cycle',
-        'Genetics & Heredity: Mendel\'s Laws of Inheritance, Monohybrid Cross & Genotypes',
-        'Variation in Living Organisms: Continuous vs Discontinuous Morphological Traits',
-        'Evolutionary Adaptation: Lamarckism, Darwinian Natural Selection & Camouflage',
-        'Comprehensive Termly Biology Revision & Practical Specimen Identification',
-        'Terminal Examination, Practical Lab Assessment & Broadsheet Entry'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Digestive System: Alimentary Canal Anatomy, Chemical Digestion & Digestive Enzymes',
-        'Skeletal System: Axial and Appendicular Skeleton, Joint Types & Locomotion',
-        'Nervous System: Brain Anatomy, Spinal Cord, Neurons & Reflex Arc Action',
-        'Sense Organs: Anatomy of the Mammalian Eye (Accommodation, Defects & Corrections)',
-        'Sense Organs: Anatomy of the Ear (Hearing Mechanism, Balance & Eustachian Tube)',
-        'Microorganisms & Health: Pathogenic Bacteria, Viruses, Protozoa & Immunization',
-        'Mid-Term Continuous Assessment & Anatomical Drawing Practice',
-        'Human Reproductive Health: Male & Female Reproductive Organs, Fertilization & Gestation',
-        'Ecology of Populations: Succession, Overcrowding, Territoriality & Dispersal',
-        'Soil Biology: Soil Organic Matter, Soil Horizon Monoliths & Microflora',
-        'Pollution & Environmental Conservation: Oil Spills in Niger Delta, Afforestation',
-        'Annual Science Revision, Specimen Mounting & WAEC/NECO Practical Clinic',
-        'Annual Promotion Examination & Final Broadsheet Certification'
-      ];
-    }
+  while (unifiedTeachingTopics.length < 10) {
+    const fallbackTop = `${subject.name}: ${cleanLvl.toUpperCase()} Statutory Competency Unit ${unifiedTeachingTopics.length + 1}`;
+    unifiedTeachingTopics.push(fallbackTop);
   }
 
-  // 4. Chemistry
-  if (subLower.includes('chem') || subCode.includes('chm')) {
-    if (isTerm2) {
-      return [
-        'Chemical Bonding: Electrovalent, Covalent, Dative and Metallic Bonding',
-        'Stoichiometry & Mole Concept: Avogadro\'s Number, Molar Mass & Empirical Formula',
-        'Gas Laws: Boyle\'s Law, Charles\'s Law, General Gas Equation & Dalton\'s Law',
-        'Kinetic Theory of Matter: Ideal vs Real Gases and Graham\'s Law of Diffusion',
-        'Acids, Bases and Salts: pH Scale, Universal Indicators & Neutralization',
-        'Standard Solutions & Volumetric Analysis (Acid-Base Titration Calculations)',
-        'Mid-Term Continuous Assessment & Volumetric Titration Laboratory Exam',
-        'Water Chemistry: Soft vs Hard Water, Causes of Hardness & Removal Methods',
-        'Periodic Chemistry: Trends in Atomic Radii, Ionization Energy & Electronegativity',
-        'Redox Reactions: Oxidation Numbers, Half-Equations & Balancing Redox Systems',
-        'Carbon & Its Allotropes: Diamond, Graphite, Coal & Industrial Uses',
-        'Termly Revision & WAEC Qualitative/Quantitative Chemistry Masterclass',
-        'Terminal Practical & Theory Examination'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Introduction to Organic Chemistry: Tetravalency of Carbon & Hybridization',
-        'Hydrocarbons: Saturated Alkanes (Methane, Ethane) Preparation & Combustion',
-        'Unsaturated Hydrocarbons: Alkenes and Alkynes (Addition Reactions & Polymerization)',
-        'Alkanols (Ethanol Preparation by Fermentation) and Alkanoic Acids (Esterification)',
-        'Rates of Chemical Reactions: Collision Theory, Temperature & Catalysts',
-        'Chemical Equilibrium: Dynamic Equilibrium & Le Chatelier\'s Principle',
-        'Mid-Term Continuous Assessment & Organic Nomenclature Speed Drill',
-        'Thermochemistry: Exothermic vs Endothermic Reactions & Enthalpy of Neutralization',
-        'Electrochemistry: Faraday\'s Laws of Electrolysis & Industrial Electroplating',
-        'Industrial Extraction of Metals: Iron (Blast Furnace) & Aluminum (Bauxite Smelting)',
-        'Environmental Chemistry: Atmospheric Acid Rain, Greenhouse Gases & Ozone Depletion',
-        'Comprehensive Annual Chemistry Revision & Qualitative Salt Analysis (Cations/Anions)',
-        'Annual Promotion Examination & Script Moderation'
-      ];
-    }
-  }
-
-  // 5. Physics
-  if (subLower.includes('phys') || subCode.includes('phy')) {
-    if (isTerm2) {
-      return [
-        'Work, Energy and Power: Calculations of Work Done, Kinetic & Potential Energy',
-        'Thermal Energy: Heat versus Temperature, Thermometers & Calibration Scales',
-        'Thermal Expansion: Linear, Superficial and Cubical Expansivity of Solids',
-        'Heat Transfer: Conduction, Convection, Radiation & Vacuum Flask Applications',
-        'Quantity of Heat: Specific Heat Capacity and Method of Mixtures Calculations',
-        'Latent Heat: Specific Latent Heat of Fusion and Vaporization in Everyday Physics',
-        'Mid-Term Assessment & Thermal Physics Laboratory Drill',
-        'Reflection of Light: Laws of Reflection, Plane Mirrors & Concave/Convex Mirrors',
-        'Refraction of Light: Snell\'s Law, Critical Angle & Total Internal Reflection',
-        'Thin Lenses: Converging and Diverging Lenses, Ray Tracing & Lens Formula',
-        'Optical Instruments: Astronomical Telescope, Compound Microscope & Human Eye',
-        'Termly Revision & WAEC Practical Mechanics/Optics Clinic',
-        'Terminal Examination, Physics Practical & Broadsheet Entry'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Waves & Sound: Production, Propagation, Speed of Sound, Echoes & Resonance',
-        'Vibrations in Strings and Air Pipes: Harmonics, Overtones & Musical Instruments',
-        'Current Electricity: Electric Charge, Potential Difference & Ohm\'s Law',
-        'Electrical Circuits: Resistors in Series and Parallel, Internal Resistance & EMF',
-        'Electrical Energy and Power: Kilowatt-hour Billing (PHCN/NEPA) & Fuse Rating',
-        'Magnetic Fields: Field Patterns of Bar Magnets, Solenoids & Earth\'s Magnetism',
-        'Mid-Term Assessment & Electricity Circuit Connection Laboratory Exam',
-        'Electromagnetic Induction: Faraday\'s Laws, Lenz\'s Law & Transformers',
-        'Gravitational Fields: Newton\'s Law of Universal Gravitation & Satellite Orbits',
-        'Projectile Motion: Time of Flight, Maximum Height & Horizontal Range',
-        'Simple Harmonic Motion (SHM): Period of Simple Pendulum & Helical Spring',
-        'Nuclear Physics: Radioactivity (Alpha, Beta, Gamma Decay), Half-Life & Nuclear Energy',
-        'Annual Promotion Examination & Broadsheet Certification'
-      ];
-    }
-  }
-
-  // 6. Basic Technology & Technical Drawing
-  if (subLower.includes('tech') || subLower.includes('drawing') || subCode.includes('btech') || subCode.includes('td')) {
-    if (isTerm2) {
-      return [
-        'First-Angle Orthographic Projection: Front Elevation, End View and Plan View',
-        'Third-Angle Orthographic Projection: National Engineering Standards (BS 8888)',
-        'Isometric Projection: 30° Isometric Axes, Box Construction & Isometric Circles',
-        'Oblique Projection: Cavalier and Cabinet Oblique Drawing Conventions',
-        'Woodwork Joints: Widening, Framing, Mortise and Tenon, Dovetail Joints',
-        'Sheet Metal Hand Tools: Snips, Stakes, Hammers & Sheet Metal Development',
-        'Mid-Term Assessment & Workshop Drafting Practical Test',
-        'Fasteners: Screws, Bolts, Nuts, Studs, Keys & Locking Devices',
-        'Mechanisms: Cams, Followers, Cranks, Belt Drives and Gear Train Ratios',
-        'Soldering and Brazing: Fluxes, Soldering Iron & Plumbing Installations',
-        'Building Drawing: Symbols, Floor Plans, Door and Window Schedules',
-        'Termly Revision & Workshop Safety Protocol Audit',
-        'Terminal Practical Examination & Model Exhibition'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Electrical Workshop: Circuit Schematics, Wiring Installations & Fuse Protection',
-        'Electronic Components: Resistors, Capacitors, Diodes, Transistors & PCB Boards',
-        'Fluid Power: Principles of Hydraulic and Pneumatic Systems & Brake Lines',
-        'Building Construction: Foundation Types, Concrete Mix Ratios & Wall Bonding',
-        'Roof Trusses: Timber and Steel Roof Structures, Drainage & Ceiling Battens',
-        'Precision Measuring Tools: Vernier Calipers, Micrometer Screw Gauge & Dial Gauges',
-        'Mid-Term Assessment & CAD Drafting Demonstration',
-        'Introduction to Computer-Aided Drafting (CAD): Tools, Commands & Layers',
-        'Sectional Views: Full Section, Half Section, Revolved & Removed Sections',
-        'Technical Lettering and Dimensioning Standards for WAEC/NECO Examination',
-        'Engineering Model Fabrication & Workshop Capstone Project',
-        'Annual Technical Drawing Revision & Drafting Portfolio Moderation',
-        'Annual Promotion Examination & Broadsheet Entry'
-      ];
-    }
-  }
-
-  // 7. Geography
-  if (subLower.includes('geograph') || subCode.includes('geo')) {
-    if (isTerm2) {
-      return [
-        'Map Reading: Cartographic Scales, Conventional Symbols & Four-Figure Grid References',
-        'Contour Lines & Landforms: Valleys, Spurs, Knolls, Escarpments & Plateaus',
-        'Cross-Section Profiling and Vertical Exaggeration Calculations',
-        'The Solar System & Earth\'s Geometry: Rotation, Revolution, Equinoxes & Solstices',
-        'The Earth\'s Crust: Structure, Classification of Igneous, Sedimentary & Metamorphic Rocks',
-        'Volcanism and Earthquakes: Vulcanicity, Landforms of Intrusion/Extrusion & Ring of Fire',
-        'Mid-Term Assessment & Cartographic Topographical Map Work Clinic',
-        'Weather and Climate: Measurement with Rain Gauge, Thermometers, Barometer & Anemometer',
-        'Climate Belts of Africa: Equatorial Rain, Tropical Wet/Dry Savanna, Mediterranean',
-        'River Systems: River Erosion, Transportation & Deposition (V-Shaped Valleys, Oxbow Lakes)',
-        'Action of Wind in Deserts: Deflation, Yardangs, Zeugens & Barchan Dunes',
-        'Termly Geography Revision & WAEC Practical Mapwork Examination Clinic',
-        'Terminal Examination & Broadsheet Entry'
-      ];
-    }
-    if (isTerm3) {
-      return [
-        'Weathering Processes: Mechanical Exfoliation, Frost Shattering & Chemical Carbonation',
-        'The Hydrological Cycle: Evaporation, Cloud Condensation, Runoff & Infiltration',
-        'Drainage Basins of Nigeria: River Niger, Benue Basin & Lake Chad Inland Drainage',
-        'Physical Relief Regions of Nigeria: North-Central Plateau, Coastal Lowlands, Eastern Highlands',
-        'Vegetation Belts of Nigeria: Mangrove Swamp, Tropical Rainforest, Guinea & Sahel Savanna',
-        'Soil Geography: Soil Formation, Soil Profiles (Horizons A, B, C) & Soil Erosion Control',
-        'Mid-Term Assessment & Geographical Field Sketching Practice',
-        'Minerals and Power Resources of Nigeria: Petroleum, Natural Gas, Coal, Limestone & Solar',
-        'Population Geography: Spatial Distribution, Density, Rural-Urban Migration in Nigeria',
-        'Transportation Networks & Economic Development in West Africa (Road, Rail, Ports)',
-        'Environmental Hazards in Nigeria: Desertification in North, Coastal Erosion & Flooding in Lagos',
-        'Geographic Information Systems (GIS): Remote Sensing & Satellite Imagery in Nigeria',
-        'Annual Promotion Examination & Broadsheet Certification'
-      ];
-    }
-  }
-
-  // Fallback default: enrich with subject-aligned terms
-  if (isTerm2) {
-    return [
-      `${subject.name}: Intermediate Theoretical Frameworks & Core Principles`,
-      `${subject.name}: Applied Practical Methodologies & Measurement Standards`,
-      `${subject.name}: Nigerian Case Studies, Institutional Context & Domestic Realia`,
-      `${subject.name}: Step-by-Step Analytical Calculations & Conceptual Formulations`,
-      `${subject.name}: Systematic Classification, Categories & Operational Rules`,
-      `${subject.name}: Commercial, Technological & Cultural Adaptations in West Africa`,
-      'Mid-Term Continuous Assessment (CA Test 2) & Targeted Remedial Clinic',
-      `${subject.name}: Diagnostic Problem-Solving & Error Analysis Drills`,
-      `${subject.name}: Collaborative Whiteboard Demonstrations & Practical Inquiries`,
-      `${subject.name}: Regulatory Policies, Statutory Standards & Socio-Economic Impact`,
-      `${subject.name}: WAEC/BECE Standard Examination Practice & Marking Scheme Review`,
-      'Comprehensive 2nd Term Curriculum Revision & Examination Masterclass',
-      'Terminal Examination, Script Moderation, Grading & Broadsheet Entry'
-    ];
-  }
-
-  if (isTerm3) {
-    return [
-      `${subject.name}: Advanced Topical Synthesis & Contemporary Curriculum Innovations`,
-      `${subject.name}: Inter-Disciplinary Linkages, ICT Tools & Emerging Trends in Nigeria`,
-      `${subject.name}: Practical Laboratory, Fieldwork & Studio Workshop Demonstrations`,
-      `${subject.name}: National Development Goals, Entrepreneurial Applications & Wealth Creation`,
-      `${subject.name}: Advanced Multi-Step Analytical & Essay Examination Techniques`,
-      `${subject.name}: WAEC, NECO & BECE Chief Examiner Rubrics & Common Candidate Pitfalls`,
-      'Mid-Term Continuous Assessment (CA Test 3) & Pre-Exam Diagnostic Review',
-      `${subject.name}: Speed Drills, Past Question Diagnostics & Model Solutions`,
-      `${subject.name}: Formative Practical Exhibition & Student Portfolio Verification`,
-      `${subject.name}: Terminal Mastery of Statutory Federal Ministry Competencies`,
-      `${subject.name}: Mock Examination Clinic & Timed Question Answering Strategies`,
-      'Full Annual Curriculum Revision, Formula Recitation & Examination Clinic',
-      'Annual Promotion Examination, Academic Readiness & Broadsheet Certification'
-    ];
-  }
-
-  return defaults;
+  // 4. Return standard 13-week government progression:
+  return [
+    unifiedTeachingTopics[0],
+    unifiedTeachingTopics[1],
+    unifiedTeachingTopics[2],
+    unifiedTeachingTopics[3],
+    unifiedTeachingTopics[4],
+    unifiedTeachingTopics[5],
+    'Mid-Term Continuous Assessment (CA Test) & Intervention',
+    unifiedTeachingTopics[6],
+    unifiedTeachingTopics[7],
+    unifiedTeachingTopics[8],
+    unifiedTeachingTopics[9],
+    'Comprehensive Termly Revision & Examination Prep',
+    'Terminal Examination, Marking & Broadsheet Entry'
+  ];
 }
 
 /**

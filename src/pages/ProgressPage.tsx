@@ -21,9 +21,18 @@ export const ProgressPage: React.FC<ProgressPageProps> = ({ stats }) => {
       {/* Header */}
       <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
+              Lagos State Unified Scheme · Harmonized with NERDC
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 text-[10px] font-bold border border-teal-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Per-Source Auto-Sync Active</span>
+            </span>
+          </div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Curriculum Coverage Tracker</h1>
           <p className="text-xs text-gray-500 mt-1">
-            Real-time syllabus progression against the Nigerian Federal Ministry of Education 13-week term calendar.
+            Real-time syllabus progression against isolated Lagos State Unified Scheme (LASUBEB) and Federal NERDC 13-week registries without contradiction.
           </p>
         </div>
 

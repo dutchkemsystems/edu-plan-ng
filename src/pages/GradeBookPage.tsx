@@ -16,9 +16,11 @@ import {
   Users,
   Percent,
   Calendar,
-  Sparkles
+  Sparkles,
+  Lock
 } from 'lucide-react';
-import { GradeRecord } from '../types/index.ts';
+import { GradeRecord, TeacherUser, DashboardStats } from '../types/index.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
 import { fetchGrades, createGrade } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
 
@@ -48,7 +50,20 @@ interface StudentReportCardData {
   }[];
 }
 
-export const GradeBookPage: React.FC = () => {
+interface GradeBookPageProps {
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+}
+
+export const GradeBookPage: React.FC<GradeBookPageProps> = ({
+  user,
+  stats,
+  onOpenUpgrade,
+}) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const recommendedReportUpgradeTier = tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly';
   const [grades, setGrades] = useState<GradeRecord[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedStudentForReport, setSelectedStudentForReport] = useState<StudentReportCardData | null>(null);
@@ -97,6 +112,14 @@ export const GradeBookPage: React.FC = () => {
 
   // Generate Report Card for a specific student
   const handleOpenReportCard = (record: GradeRecord, index: number) => {
+    if (!ent.hasReportCardAi) {
+      onOpenUpgrade?.(
+        'AI Terminal Report Cards & Behavioral Remarks require B2C Pro Termly (₦1,500), B2B Silver (₦120,000), or B2B Gold (₦250,000).',
+        recommendedReportUpgradeTier,
+        'Terminal Report Card Generator'
+      );
+      return;
+    }
     // Generate realistic multi-subject report card for this student
     const isHigh = record.totalScore >= 75;
     const isMedium = record.totalScore >= 55;
@@ -223,19 +246,21 @@ export const GradeBookPage: React.FC = () => {
     confetti({ particleCount: 40, spread: 50 });
   };
 
-  const handleShareReportWhatsApp = () => {
-    if (!selectedStudentForReport) return;
-    const s = selectedStudentForReport;
-    const text = `🇳🇬 *${s.schoolName}* — Terminal Report Sheet\n` +
-      `*Student:* ${s.student.studentName} (${s.student.studentRegNo})\n` +
-      `*Class:* ${s.className} | *Session:* ${s.session}\n` +
-      `*Position:* ${s.position} | *Attendance:* ${s.timesPresent}/${s.timesOpened} days\n` +
-      `*Total Average:* ${s.student.totalScore}% (${s.student.gradeLetter} - ${s.student.remark})\n\n` +
-      `*Teacher Remark:* ${s.teacherRemark}\n` +
-      `*Next Term Resumption:* ${s.nextTermResumption}\n\n` +
-      `Generated with EduPlan NG (Approved NERDC Standard)`;
+  const buildReportWhatsAppText = (s: StudentReportCardData) =>
+    `🇳🇬 *${s.schoolName}* — Terminal Report Sheet\n` +
+    `*Student:* ${s.student.studentName} (${s.student.studentRegNo})\n` +
+    `*Class:* ${s.className} | *Session:* ${s.session}\n` +
+    `*Position:* ${s.position} | *Attendance:* ${s.timesPresent}/${s.timesOpened} days\n` +
+    `*Total Average:* ${s.student.totalScore}% (${s.student.gradeLetter} - ${s.student.remark})\n\n` +
+    `*Teacher Remark:* ${s.teacherRemark}\n` +
+    `*Next Term Resumption:* ${s.nextTermResumption}\n\n` +
+    `Generated with EduPlan NG (Approved NERDC Standard)`;
 
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  const handleCopyReportText = () => {
+    if (!selectedStudentForReport) return;
+    navigator.clipboard.writeText(buildReportWhatsAppText(selectedStudentForReport));
+    setCopiedShare(true);
+    setTimeout(() => setCopiedShare(false), 2000);
   };
 
   // Class analytics
@@ -404,10 +429,19 @@ export const GradeBookPage: React.FC = () => {
                   <td className="p-3.5 text-right">
                     <button
                       onClick={() => handleOpenReportCard(g, idx)}
-                      className="px-3 py-1.5 text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition-colors inline-flex items-center gap-1 shadow-2xs"
+                      className={`px-3 py-1.5 text-[11px] font-bold rounded-xl border transition-colors inline-flex items-center gap-1 shadow-2xs ${
+                        ent.hasReportCardAi
+                          ? 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border-emerald-200'
+                          : 'text-amber-800 bg-amber-50 hover:bg-amber-100 border-amber-200'
+                      }`}
+                      title={ent.hasReportCardAi ? 'Open official terminal report card' : 'Requires Pro Termly or B2B Silver/Gold'}
                     >
-                      <FileText className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Report Card</span>
+                      {ent.hasReportCardAi ? (
+                        <FileText className="w-3.5 h-3.5 text-emerald-600" />
+                      ) : (
+                        <Lock className="w-3.5 h-3.5 text-amber-600" />
+                      )}
+                      <span>Report Card{!ent.hasReportCardAi ? ' (Locked)' : ''}</span>
                     </button>
                   </td>
                 </tr>
@@ -431,12 +465,21 @@ export const GradeBookPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={handleShareReportWhatsApp}
+                  onClick={handleCopyReportText}
+                  className="px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-xl flex items-center gap-1.5 transition-colors"
+                >
+                  {copiedShare ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
+                  <span>{copiedShare ? 'Copied Summary!' : 'Copy Summary'}</span>
+                </button>
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(buildReportWhatsAppText(selectedStudentForReport))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-3 py-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center gap-1.5 transition-colors"
                 >
                   <Share2 className="w-3.5 h-3.5" />
                   <span>WhatsApp Parent</span>
-                </button>
+                </a>
                 <button
                   onClick={() => window.print()}
                   className="px-3 py-1.5 text-xs font-bold bg-white text-slate-900 hover:bg-gray-100 rounded-xl flex items-center gap-1.5 transition-colors"

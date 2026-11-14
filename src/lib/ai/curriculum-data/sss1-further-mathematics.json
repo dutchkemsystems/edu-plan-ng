@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Further Mathematics",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-further-mathematics.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Indices, Logarithms and Surds: Rationalization and conjugate surds",
+      "learningObjectives": [
+        "Apply laws of fractional and negative indices to solve algebraic equations",
+        "Solve logarithmic equations in various bases using change of base formula",
+        "Simplify surds and rationalize binomial surd denominators using conjugates"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Sets and Operations: Venn diagrams with three sets and algebra of sets",
+      "learningObjectives": [
+        "Define universal set, subsets, intersection, union, and set complements",
+        "Solve three-set real-world optimization problems using Venn diagrams",
+        "Prove De Morgan’s laws and algebraic identities for sets"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Binary Operations: Properties (closure, commutativity, associativity, distributivity)",
+      "learningObjectives": [
+        "Determine closure, commutativity, and associativity of arbitrary binary operations",
+        "Find identity elements and inverse elements under defined operations",
+        "Construct and interpret Cayley operational tables for finite sets"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Polynomials: Remainder Theorem, Factor Theorem, and Synthetic Division",
+      "learningObjectives": [
+        "Perform polynomial long division and synthetic division for cubic expressions",
+        "Apply Remainder Theorem to find remainders without actual division",
+        "Use Factor Theorem to factorize cubic and quartic polynomials completely"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Quadratic Equations: Symmetric functions of roots (alpha and beta)",
+      "learningObjectives": [
+        "Relate coefficients to sum (α + β) and product (αβ) of quadratic roots",
+        "Form new quadratic equations whose roots are functions of original roots",
+        "Determine the nature of roots using the discriminant (Δ = b² - 4ac)"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Inequalities: Linear and quadratic inequalities in one and two variables",
+      "learningObjectives": [
+        "Solve linear inequalities and graph solution sets on number lines",
+        "Solve quadratic inequalities using sign charts and graphical parabolic sketches",
+        "Graph systems of linear inequalities in two variables with shaded feasible regions"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Advanced Proofs Clinic",
+      "learningObjectives": [
+        "Assess pupil mastery of binary operations, polynomials, and surds",
+        "Administer timed speed test on symmetric quadratic root problems",
+        "Provide targeted step-by-step remediation on synthetic division"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Matrices and Determinants: 2x2 matrices, operations, and inverses",
+      "learningObjectives": [
+        "Perform matrix addition, scalar multiplication, and matrix multiplication",
+        "Calculate determinants of 2x2 matrices and identify singular matrices",
+        "Find inverse matrices and solve systems of simultaneous linear equations"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Trigonometric Functions: Ratios of general angles and compound angle formulas",
+      "learningObjectives": [
+        "Define trigonometric ratios in the four Cartesian quadrants (CAST rule)",
+        "Apply compound angle formulas: sin(A ± B), cos(A ± B), and tan(A ± B)",
+        "Derive double angle identities and solve simple trigonometric equations"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Coordinate Geometry: Straight lines, distance, midpoint, and parallel/perpendicular lines",
+      "learningObjectives": [
+        "Calculate distance and midpoint between two Cartesian coordinates",
+        "Find gradient and equation of a straight line (point-slope and slope-intercept forms)",
+        "Establish conditions for parallelism (m1 = m2) and perpendicularity (m1 * m2 = -1)"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Vectors in Two Dimensions: Magnitude, direction, dot product, and resolution",
+      "learningObjectives": [
+        "Represent vectors in component form (ai + bj) and column vectors",
+        "Calculate magnitude, direction angles, and unit vectors",
+        "Compute the scalar (dot) product and find angles between two 2D vectors"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Further Mathematics Termly Revision & Mock Clinic",
+      "learningObjectives": [
+        "Synthesize algebraic, trigonometric, coordinate, and vector concepts",
+        "Solve past WASSCE Further Mathematics Paper 1 and Paper 2 questions",
+        "Reinforce rigorous proof techniques and structured mathematical notation"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Score Moderation",
+      "learningObjectives": [
+        "Examine cumulative knowledge through standardized theory and objective tests",
+        "Grade solutions strictly according to West African Examinations Council criteria",
+        "Transmit compiled continuous assessment and exam marks for school records"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Physical and Health Education",
+  "subjectCode": "PHE",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/phe-jss3",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Physical and Health Education for Junior Secondary Schools Book 3",
+    "author": "A. O. Folawiyo, B. A. Miller, S. M. Oloyede",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "First Aid and Emergency Management for Sports Injuries",
+      "subtopics": ["Aims of First Aid (preserve life, prevent worsening, promote recovery)", "Management of sprains, strains, fractures, dislocations, heat stroke, bleeding", "The R.I.C.E. protocol (Rest, Ice, Compression, Elevation) and Cardiopulmonary Resuscitation (CPR) basics"],
+      "objectives": ["Explain the 4 steps of the R.I.C.E. treatment for acute sports sprains", "Demonstrate triangular bandage immobilization of a fractured forearm", "Perform simulated chest compressions and rescue breathing (CPR) on an anatomical mannequin"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Drug Abuse in Sports: Doping and Performance Enhancing Substances",
+      "subtopics": ["Definition of drug abuse and sports doping", "Classes of banned substances: Anabolic steroids, stimulants, beta-blockers, narcotics, diuretics, erythropoietin (EPO)", "Health consequences and anti-doping regulations of WADA (World Anti-Doping Agency)"],
+      "objectives": ["Identify 4 categories of performance-enhancing drugs banned in competitive sports", "Analyze physiological damages caused by chronic anabolic steroid abuse (cardiac failure, liver damage)", "State moral and disciplinary penalties imposed by WADA on cheating athletes"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Nutrition and Athletic Performance: Balanced Diet",
+      "subtopics": ["The 6 classes of food nutrients and their physiological roles in exercise", "Pre-event meals, carbohydrate loading, hydration strategies, post-workout recovery nutrition", "Nutritional deficiency diseases: Kwashiorkor, marasmus, scurvy, rickets, anemia"],
+      "objectives": ["Design a balanced nutritional day plan for a 15-year-old school athletics competitor", "Explain why carbohydrate loading maximizes glycogen stores before endurance cross-country races", "Calculate daily caloric energy requirements based on basal metabolic rate and activity levels"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Consumer Health: Quackery, Health Insurance and Consumer Agencies",
+      "subtopics": ["Meaning and dangers of medical quackery and fake medicines in Nigeria", "Methods of detecting counterfeit medications (NAFDAC scratch-and-verify pin)", "National Health Insurance Scheme (NHIS/NHIA) and consumer rights in healthcare"],
+      "objectives": ["Identify 4 red flags that signal fraudulent medical quacks and herbal peddlers", "Demonstrate using the NAFDAC Mobile Authentication Service (MAS) on medication packaging", "Explain how health insurance pools risk to provide affordable medical care for Nigerian families"]
+    }
+  ]
+}

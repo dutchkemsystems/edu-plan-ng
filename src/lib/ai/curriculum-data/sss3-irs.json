@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Islamic Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-irs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Quranic Exegesis: Study, recitation, and legal rulings from Suratu-Nur (Quran 24:1-10)",
+      "learningObjectives": [
+        "Recite verses 1-10 of Suratu-Nur adhering to standard rules of Tajweed and Waqf",
+        "Explain prescribed penal ordinances (Hadd) for fornication and adultery",
+        "Analyze the severe legal and spiritual consequences of Qadhf (false accusations of adultery against chaste women)"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Quranic Exegesis: Suratu-Nur (Quran 24:27-35) on modesty, privacy, and the Verse of Light (Ayatun-Nur)",
+      "learningObjectives": [
+        "Translate verses outlining protocols for seeking permission before entering homes (Isti'dhan)",
+        "Examine divine commands to lower the gaze (Ghaddu-Basar) and observe Islamic modest dress (Hijab)",
+        "Contemplate the profound metaphysical allegory of the Verse of Light (Allahu Nurus-Samawati wal-Ard)"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Islamic Criminal Jurisprudence (Hudud and Qisas): Preserving society's five essentials",
+      "learningObjectives": [
+        "Define Maqasid ash-Shari'ah: preservation of religion, life, intellect, lineage, and property",
+        "Explain categories of Islamic criminal penalties: Hudud (fixed statutory penalties), Qisas (retaliation), and Ta'zir (discretionary)",
+        "Evaluate the evidentiary safeguards and rigorous burden of proof required before imposing corporal penalties"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Islamic Law of Inheritance (Mirath): Quranic shares and estate distribution principles",
+      "learningObjectives": [
+        "Identify prerequisites prior to estate distribution (funeral costs, debts, and bequeathals/Wasiyyah capped at 1/3)",
+        "Classify legal heirs into Ashab al-Fara'id (stipulated share recipients) and Asabah (residuaries)",
+        "Calculate fractional shares for parents, surviving spouse, sons, and daughters under Quranic guidelines (4:11-12)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "History of Islam in West Africa: Introduction and spread in Kanem-Borno Empire",
+      "learningObjectives": [
+        "Trace trade routes across the Sahara facilitating Islamic penetration into the Lake Chad basin",
+        "Analyze the role of Mai Hume Jilmi (1085 CE) in declaring Islam the official state religion of Kanem-Borno",
+        "Examine the development of Quranic schools, Madrasahs, and diplomatic relations with North Africa"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "History of Islam in West Africa: Spread of Islam in Hausaland and Yorubaland",
+      "learningObjectives": [
+        "Examine the Wangarawa traders from Mali and their role in introducing Islam to Kano and Katsina in the 14th century",
+        "Trace the entry of Islam into Yorubaland through old Oyo, known historically as 'Esin Imale'",
+        "Evaluate the scholarly and societal contributions of Islamic scholars in southwestern Nigeria"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Islamic Heritage Colloquium",
+      "learningObjectives": [
+        "Assess pupil mastery of Suratu-Nur exegesis, criminal jurisprudence, and West African Islamic history",
+        "Conduct practical problem-solving sessions on Islamic inheritance division calculations",
+        "Remediate historical dates and genealogical chronologies of West African empires"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "The 19th Century Jihad of Sheikh Usman Dan Fodio: Causes, execution, and Sokoto Caliphate",
+      "learningObjectives": [
+        "Analyze the socio-religious and political corruption in Gobir that spurred Dan Fodio's reform movement",
+        "Trace the Hijrah from Degel to Gudu, declaration of Jihad, and military engagements against Hausa rulers",
+        "Evaluate the administrative, judicial, and literary achievements of the Sokoto Caliphate under Sultan Muhammad Bello"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Contributions of Muslim Scholars to Global Civilization: Medicine, Mathematics, and Astronomy",
+      "learningObjectives": [
+        "Examine the medical treatises of Ibn Sina (Avicenna) and surgical innovations of Al-Zahrawi",
+        "Analyze the mathematical breakthroughs of Al-Khwarizmi in founding algebra and algorithmic calculation",
+        "Highlight astronomical observations and optics research of Ibn al-Haytham during the Islamic Golden Age"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Islam and Contemporary Challenges: Extremism, corruption, interfaith dialogue, and peace",
+      "learningObjectives": [
+        "State Islamic condemnations against violent extremism, terrorism, and vigilantism",
+        "Explain the theological imperative for peaceful coexistence with non-Muslims based on Quran 60:8",
+        "Demonstrate the role of Muslim youth in combating corruption, promoting social justice, and national progress"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Environmental Stewardship in Islam (Khilafah): Conservation of natural resources",
+      "learningObjectives": [
+        "Explain humanity’s role as vicegerents (Khulafa) entrusted with the ecological preservation of the earth",
+        "Highlight prophetic injunctions against wasting water even when abluting by a flowing river",
+        "Promote animal welfare, afforestation, and responsible waste management as acts of Islamic worship"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO IRS Revision & Past Question Marathon",
+      "learningObjectives": [
+        "Review cumulative 3-year senior secondary IRS curriculum across Quran, Hadith, Shari'ah, and History",
+        "Execute timed speed drills answering 50 objective questions and 4 structured essay questions",
+        "Perfect Arabic textual quotation, translation accuracy, and jurisprudential reasoning in examination essays"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Mock Examination and Broadsheet Certification",
+      "learningObjectives": [
+        "Administer comprehensive mock WASSCE IRS examination papers under formal invigilation",
+        "Score answer scripts strictly according to WAEC marking guidelines and criteria",
+        "Certify final continuous assessment grades for graduation records and academic transcripts"
+      ]
+    }
+  ]
+}

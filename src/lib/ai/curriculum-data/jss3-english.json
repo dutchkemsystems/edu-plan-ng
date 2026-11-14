@@ -1,0 +1,197 @@
+{
+  "classLevel": "jss-3",
+  "subject": "English Studies",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-english",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Junior English Project for Secondary Schools 3",
+    "author": "N. Grant, D. Olagoke, J. Southern",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Complex Sentences: Main and Subordinate Clauses (Noun & Adjectival)",
+      "subtopics": [
+        "Definition of a clause (group of words containing a finite verb)",
+        "Main / independent clauses vs subordinate / dependent clauses",
+        "Noun clauses (functions as subject, object of verb, object of preposition)",
+        "Adjectival clauses introduced by relative pronouns (who, whom, whose, which, that)"
+      ],
+      "objectives": [
+        "Distinguish main clauses from subordinate clauses in complex sentences",
+        "Identify grammatical functions of noun and adjectival clauses"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Adverbial Clauses: Time, Condition, Reason, Manner & Concession",
+      "subtopics": [
+        "Identification of subordinating conjunctions introducing adverbial clauses",
+        "Adverbial clause of time (when, while, since, before, after)",
+        "Adverbial clause of condition (if, unless, provided that) and concession (although, even though)"
+      ],
+      "objectives": [
+        "Classify adverbial clauses by type and state their grammatical functions",
+        "Write complex sentences incorporating adverbial clauses of condition and concession"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Question Tags and Modal Auxiliaries in Spoken and Written Discourse",
+      "subtopics": [
+        "Golden rule: positive statement takes negative tag, negative statement takes positive tag",
+        "Intonation in question tags (rising intonation for real questions, falling for confirmation)",
+        "Modal auxiliaries: can/could (ability), may/might (permission/possibility), must/ought to (obligation)"
+      ],
+      "objectives": [
+        "Append correct question tags to positive and negative statements",
+        "Use modal auxiliaries appropriately in formal requests and school rules"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Formal Letter Writing: Applications and Official Petitions",
+      "subtopics": [
+        "Layout of formal letters: two addresses (writer address top-right, recipient address left)",
+        "Date, formal salutation ('Dear Sir/Madam'), underlined title/subject heading",
+        "Formal body paragraphs (no slang, no contractions) and sign-off ('Yours faithfully' + signature + full name)"
+      ],
+      "objectives": [
+        "Format an official formal letter according to BECE/WAEC specifications",
+        "Draft a formal letter of application for secondary school scholarship or leave of absence"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Speech Work: Consonant Clusters (Initial and Final Clusters)",
+      "subtopics": [
+        "Definition of consonant clusters (two or more consonants pronounced without an intervening vowel)",
+        "Initial clusters: two-consonant (/pl/, /br/, /st/) and three-consonant (/spl/, /str/, /skr/)",
+        "Final clusters: /-kts/ (acts), /-lpt/ (helped), /-ndz/ (hands), avoiding vowel epenthesis"
+      ],
+      "objectives": [
+        "Articulate consonant clusters cleanly without inserting intrusive vowel sounds",
+        "Transcribe and pronounce words containing three-consonant clusters correctly"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Argumentative Writing: Debate Format & Persuasive Techniques",
+      "subtopics": [
+        "Structure of debate speeches: addressing the chairman, panel of judges, timekeeper, audience",
+        "Taking a clear stand (proposing or opposing the motion)",
+        "Marshaling logical arguments with empirical evidence and rhetorical questions",
+        "Topic: 'Boarding Schools Foster Independence Better than Day Schools in Nigeria'"
+      ],
+      "objectives": [
+        "Structure an argumentative debate presentation adhering to formal protocol",
+        "Refute opposing points with civil, evidence-based counter-arguments"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation on complex clauses, question tags, formal letters, and debates",
+        "BECE standardized past question drill"
+      ],
+      "objectives": [
+        "Assess pupil performance against BECE English Language criteria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Summary Writing: Differentiating Essential Facts from Illustrative Examples",
+      "subtopics": [
+        "Meaning and significance of summary writing in secondary education",
+        "Steps in writing a summary: skimming, identifying thesis statement, deleting illustrations and repetitions",
+        "Drafting concise summary sentences in candidate's own words"
+      ],
+      "objectives": [
+        "Extract 3 core arguments from a 500-word reading passage",
+        "Express extracted points in complete, grammatically sound sentences without mindless copying"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Vocabulary Development: Words Associated with Law and Governance in Nigeria",
+      "subtopics": [
+        "Judicial vocabulary: judiciary, litigation, plaintiff, defendant, verdict, acquittal, bail, appeal",
+        "Legislative and executive terms: constitution, democracy, bill, enactment, gazette, ballot",
+        "Reading and contextual exercises on civic governance"
+      ],
+      "objectives": [
+        "Use legal and governance register terms correctly in sentences",
+        "Complete specialized cloze tests centered on Nigerian constitutional democracy"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Literature in English: Dramatic Elements and Poetic Devices",
+      "subtopics": [
+        "Features of drama: script, dialogue, stage directions, acts, scenes, dramatis personae",
+        "Dramatic terminology: protagonist, antagonist, conflict, climax, catastrophe, soliloquy",
+        "Poetic devices: hyperbole (deliberate exaggeration), euphemism (mild expression for harsh truth), oxymoron"
+      ],
+      "objectives": [
+        "Analyze dramatic conflict in an assigned African play text",
+        "Identify hyperbole and euphemism in poetry and everyday Nigerian speech"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Direct and Indirect Speech II: Conversion of Questions and Commands",
+      "subtopics": [
+        "Reporting yes/no questions using 'if' or 'whether'",
+        "Reporting wh- questions (who, what, where, when, why, how) maintaining subject-verb order",
+        "Reporting commands and requests using infinitive structures (e.g. 'He told him to leave')"
+      ],
+      "objectives": [
+        "Convert interrogative and imperative direct sentences into reported speech without question marks",
+        "Observe backshifting of auxiliary verbs and pronoun agreement"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "BECE Mock Examination Masterclass & Lexis Speed Drills",
+      "subtopics": [
+        "Timed 80-question BECE English Studies paper 1 (Objective)",
+        "Paper 2: Continuous writing and summary writing moderation"
+      ],
+      "objectives": [
+        "Complete standardized BECE mock examination under timed conditions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal BECE Examination & Certification",
+      "subtopics": [
+        "Terminal BECE examination administration and script moderation"
+      ],
+      "objectives": [
+        "Complete junior secondary English Studies graduation evaluation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Christian Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-crs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "The Monarchy in Israel: Demand for a king and Saul's disobedience",
+      "learningObjectives": [
+        "Analyze Israel's motives for demanding a human king like neighboring nations",
+        "Explain Samuel's solemn warning on royal taxation, conscription, and oppression",
+        "Examine Saul's anointing, early victories, and subsequent disobedience at Gilgal and against the Amalekites"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "The Reign of David: A man after God's own heart, triumphs, sin, and repentance",
+      "learningObjectives": [
+        "Trace David's anointing by Samuel, victory over Goliath, and ascension to the throne in Hebron",
+        "Analyze David's submission to divine authority and refusal to harm Saul",
+        "Examine David's adultery with Bathsheba, Nathan's parable of the ewe lamb, and genuine repentance (Psalm 51)"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "The Wisdom of Solomon: Building the Temple and royal apostasy",
+      "learningObjectives": [
+        "Describe Solomon’s prayer for an understanding heart at Gibeon (1 Kings 3)",
+        "Analyze the wise judgment between the two mothers claiming the living child",
+        "Trace the building and dedication of the Jerusalem Temple, foreign marriages, and descent into idolatry"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "The Division of the Kingdom: Rehoboam's folly and Jeroboam's rebellion",
+      "learningObjectives": [
+        "Examine the petition of the northern tribes for tax relief following Solomon’s death",
+        "Contrast Rehoboam's rejection of elderly counsel with his acceptance of youth advice",
+        "Analyze the secession of the ten northern tribes under Jeroboam and the golden calves at Bethel and Dan"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Religious Tension in Israel: Elijah on Mount Carmel and the contest with Baal prophets",
+      "learningObjectives": [
+        "Trace King Ahab and Jezebel's introduction of Phoenician Baal worship in Israel",
+        "Analyze Elijah’s proclamation of drought and the drought's devastating impact",
+        "Describe the contest on Mount Carmel (1 Kings 18) and the triumphant revelation of Yahweh as true God"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Greed and Abuse of Power: The story of Naboth’s vineyard and divine judgment",
+      "learningObjectives": [
+        "Examine Ahab's covetousness of Naboth’s ancestral vineyard and Naboth's refusal to sell",
+        "Analyze Jezebel’s fraudulent judicial conspiracy leading to Naboth’s stoning",
+        "Examine Elijah’s confrontation with Ahab and the solemn prophecy of divine retribution against the house of Omri"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Old Testament Kings Clinic",
+      "learningObjectives": [
+        "Assess pupil mastery of the united and divided monarchy of Israel",
+        "Conduct textual analysis of 1 Samuel, 2 Samuel, and 1 Kings",
+        "Provide remedial guidance on comparing leadership virtues of David versus Solomon"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Religious Reforms in Judah: King Josiah's discovery of the Book of the Law",
+      "learningObjectives": [
+        "Describe the moral decadence of Judah under Manasseh and Amon",
+        "Detail the discovery of the Book of the Law during temple repairs in Josiah’s eighteenth year (2 Kings 22)",
+        "Examine Josiah’s sweeping national reforms: demolishing high places, reviving the Passover feast"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Concern for One's Nation: Nehemiah and the rebuilding of the broken walls of Jerusalem",
+      "learningObjectives": [
+        "Examine Nehemiah's reaction to the distressing report of Jerusalem's ruin while cupbearer in Susa",
+        "Analyze Nehemiah's prayer, strategic planning, and secret night inspection of the broken walls",
+        "Demonstrate how Nehemiah overcame external opposition (Sanballat, Tobiah) and finished the walls in 52 days"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Faith in Times of Trial: Shadrach, Meshach, Abednego, and Daniel in Babylon",
+      "learningObjectives": [
+        "Analyze the refusal of the three Hebrew youths to worship Nebuchadnezzar's golden image",
+        "Examine divine deliverance from the burning fiery furnace (Daniel 3)",
+        "Trace Daniel's unwavering prayer life and deliverance from the lions' den under King Darius (Daniel 6)"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "The Parables of Jesus on the Kingdom of God and Forgiveness",
+      "learningObjectives": [
+        "Define a parable as an earthly story with a heavenly meaning",
+        "Examine the Parable of the Sower, Wheat and Tares, and Mustard Seed regarding the Kingdom of God",
+        "Analyze the Parable of the Unmerciful Servant and Prodigal Son highlighting grace and mutual forgiveness"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly CRS Revision & WASSCE Mock Essay Seminar",
+      "learningObjectives": [
+        "Consolidate learning across Old Testament history and Christ’s parables",
+        "Practice timed essay writing answering past WASSCE Paper 2 section A and section B questions",
+        "Reinforce analytical writing linking biblical leadership to contemporary Nigerian governance"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Recording",
+      "learningObjectives": [
+        "Administer official SSS 2 CRS end-of-term theory and objective examination",
+        "Grade student answer scripts in accordance with WAEC standardized scoring keys",
+        "Record and publish official broadsheet marks for termly student assessments"
+      ]
+    }
+  ]
+}

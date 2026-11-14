@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Christian Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-crs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "The Passion, Death, and Resurrection of Jesus Christ: Theological significance for humanity",
+      "learningObjectives": [
+        "Analyze the Triumphal Entry into Jerusalem, Cleansing of the Temple, and the Last Supper",
+        "Examine the Agony in Gethsemane, betrayal by Judas, arrest, and trial before the Sanhedrin and Pilate",
+        "Evaluate the theological significance of Christ's sacrificial crucifixion, empty tomb, and bodily resurrection"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "The Great Commission and Ascension: Divine empowerment of the Church",
+      "learningObjectives": [
+        "Analyze the post-resurrection appearances of Christ to Mary Magdalene and the eleven disciples",
+        "Examine the Great Commission (Matthew 28:18-20): global evangelism and making disciples",
+        "Describe the Ascension of Christ from Mount Olivet and the angel’s promise of the Second Coming (Parousia)"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "The Early Church: Day of Pentecost, Holy Spirit baptism, and communal fellowship (Acts 2)",
+      "learningObjectives": [
+        "Detail the outpouring of the Holy Spirit on the Day of Pentecost (wind, tongues of fire, glossolalia)",
+        "Analyze Peter’s maiden apologetic sermon citing Joel’s prophecy and the conversion of 3,000 souls",
+        "Examine the communal life of the early believers: apostolic teaching, fellowship, breaking of bread, and prayers"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Opposition and Persecution of the Early Church: Arrest of Peter and John, and Stephen’s martyrdom",
+      "learningObjectives": [
+        "Examine the healing of the lame man at the Beautiful Gate and subsequent arrest by Sadducees",
+        "Analyze Peter's bold declaration before the Council: 'We must obey God rather than men'",
+        "Trace the appointment of the seven deacons and the arrest, defense, and martyrdom of Stephen (Acts 6-7)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Spread of the Gospel Outside Jerusalem: Philip in Samaria, Ethiopian Eunuch, and Paul's conversion",
+      "learningObjectives": [
+        "Analyze Philip's successful missionary campaign in Samaria and encounter with Simon Magus",
+        "Trace Philip's divine guidance to the Gaza road and baptism of the Ethiopian royal treasurer",
+        "Examine Saul of Tarsus's background, dramatic Damascus road conversion experience, and commissioning (Acts 9)"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "The Gentile Mission: Peter's vision at Joppa and baptism of Cornelius at Caesarea (Acts 10)",
+      "learningObjectives": [
+        "Analyze Cornelius’s piety, angel encounter, and Peter’s trance on the rooftop in Joppa (sheet of animals)",
+        "Examine Peter's landmark revelation: 'Truly I understand that God shows no partiality'",
+        "Detail the Holy Spirit falling upon Gentiles and the defense of Gentile inclusion before the Jerusalem Church"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Acts of the Apostles Clinic",
+      "learningObjectives": [
+        "Assess student mastery of the Resurrection, Pentecost, and the Gentile expansion of the Gospel",
+        "Conduct textual analysis of key passages in the Acts of the Apostles under examination timing",
+        "Remediate common historical and geographical misconceptions regarding apostolic journeys"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "The Jerusalem Council (Acts 15): Resolving the circumcision controversy for Gentile converts",
+      "learningObjectives": [
+        "Identify the theological conflict instigated by Judaizers from Judea demanding circumcision for salvation",
+        "Analyze arguments presented by Peter, Paul, Barnabas, and James the brother of Jesus",
+        "Detail the historic Apostolic Decree and its liberating impact on the global expansion of Christianity"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Paul's Missionary Journeys: Planting churches across Asia Minor, Macedonia, and Greece",
+      "learningObjectives": [
+        "Trace Paul's first missionary journey with Barnabas (Cyprus, Perga, Antioch in Pisidia, Lystra)",
+        "Map Paul's second journey: the Macedonian call, Philippian jailer's conversion, and Mars Hill sermon in Athens",
+        "Trace the third journey, Ephesus riot, farewell to Ephesian elders at Miletus, and final arrest in Jerusalem"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Justification by Faith: Teachings of Paul in Romans and Galatians",
+      "learningObjectives": [
+        "Define justification as the divine act of declaring a sinner righteous through faith in Christ",
+        "Contrast justification through the works of the Mosaic Law versus justification by grace through faith",
+        "Use Abraham’s faith as the supreme Old Testament archetype of righteous imputation (Romans 4)"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Christian Social Living: Love (1 Corinthians 13), humility (Philippians 2), and civic duties",
+      "learningObjectives": [
+        "Examine Paul's sublime hymn on agape love: patient, kind, not envious, enduring all things",
+        "Explore the Christological hymn of humility and self-emptying (Kenosis) in Philippians 2:1-11",
+        "Apply apostolic ethical principles to marriage, master-servant relationships, and social responsibility"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO CRS Revision & Past Question Marathon",
+      "learningObjectives": [
+        "Review cumulative 3-year CRS syllabus covering Old Testament, Synoptic Gospels, Acts, and Pauline Epistles",
+        "Execute timed speed drills on 50 objective questions and complete 4 structured essay questions",
+        "Polish essay organization, biblical citations, and practical contemporary Nigerian applications"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Mock Examination and Broadsheet Certification",
+      "learningObjectives": [
+        "Administer comprehensive mock WASSCE CRS examination papers under strict invigilation",
+        "Score answer scripts in strict compliance with West African Examination Council criteria",
+        "Certify broadsheet records and finalize academic grading for graduation profiles"
+      ]
+    }
+  ]
+}

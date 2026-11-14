@@ -15,6 +15,8 @@ export const schools = sqliteTable('schools', {
   virtualAccountNumber: text('virtual_account_number'), // Dedicated Kora Pay Dynamic Virtual Account
   virtualBankName: text('virtual_bank_name'), // e.g. Wema Bank / Providus Bank
   customDomain: text('custom_domain'), // White-label: e.g. portal.chrislandschools.com
+  stateId: text('state_id').default('lagos'), // Isolation Base (State jurisdiction)
+  schoolType: text('school_type').default('public'), // public | private
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),
 });
@@ -43,6 +45,7 @@ export const users = sqliteTable('users', {
   trialEndsAt: text('trial_ends_at'),
   subscriptionPlan: text('subscription_plan'),
   subscriptionExpiresAt: text('subscription_expires_at'),
+  ministryStateId: text('ministry_state_id').default('lagos'), // Ministry Data Isolation
   createdAt: text('created_at').notNull(),
 });
 
@@ -83,6 +86,7 @@ export const curriculumTopics = sqliteTable('curriculum_topics', {
 
 export const lessonPlans = sqliteTable('lesson_plans', {
   id: text('id').primaryKey(),
+  schoolId: text('school_id'), // Phase 2C: Multi-Tenant RLS School Isolation
   userId: text('user_id').notNull(),
   title: text('title').notNull(),
   level: text('level').notNull(),
@@ -106,8 +110,106 @@ export const lessonPlans = sqliteTable('lesson_plans', {
   bloomTags: text('bloom_tags'), // JSON array
   language: text('language').default('en'), // en, yo, ig, ha
   status: text('status').default('draft'), // draft | published | archived
+  curriculumVersion: text('curriculum_version').notNull().default('v1.2'), // Stamped NERDC curriculum version
+  recommendedTextbook: text('recommended_textbook'), // JSON metadata of approved textbook
+  isOutdated: integer('is_outdated').default(0), // Flagged when government curriculum version advances
+  outdatedReason: text('outdated_reason'), // Explanatory reason (e.g. syllabus update, textbook edition change)
+  latestCurriculumVersion: text('latest_curriculum_version').default('v1.2'), // Current statutory version available
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),
+});
+
+export const lessonNotes = sqliteTable('lesson_notes', {
+  id: text('id').primaryKey(),
+  lessonPlanId: text('lesson_plan_id'),
+  schoolId: text('school_id'), // Phase 2C: Multi-Tenant RLS School Isolation
+  userId: text('user_id').notNull(),
+  subject: text('subject').notNull(),
+  level: text('level').notNull(),
+  term: integer('term').notNull(),
+  week: integer('week').notNull(),
+  topic: text('topic').notNull(),
+  curriculumVersion: text('curriculum_version').notNull().default('v1.2'), // Stamped NERDC curriculum version
+  latestCurriculumVersion: text('latest_curriculum_version').default('v1.4'),
+  isOutdated: integer('is_outdated').default(0),
+  outdatedReason: text('outdated_reason'),
+  chalkboardHeader: text('chalkboard_header'),
+  subtopics: text('subtopics'), // JSON array
+  definitions: text('definitions'), // JSON array
+  workedExamples: text('worked_examples'), // JSON array
+  blackboardSummary: text('blackboard_summary'), // JSON array
+  seatworkDrill: text('seatwork_drill'), // JSON array
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const textbooks = sqliteTable('textbooks', {
+  id: text('id').primaryKey(),
+  classLevel: text('class_level').notNull(), // jss-1, jss-2, sss-1, etc.
+  subject: text('subject').notNull(),
+  title: text('title').notNull(),
+  author: text('author').notNull(),
+  publisher: text('publisher').notNull(),
+  edition: text('edition').notNull(),
+  isGovernmentApproved: integer('is_government_approved').notNull().default(1),
+  approvedBy: text('approved_by').default('NERDC & Lagos State Ministry of Basic Education'),
+  approvalDate: text('approval_date'),
+  createdAt: text('created_at').notNull(),
+});
+
+export const curriculumSyncHashes = sqliteTable('curriculum_sync_hashes', {
+  id: text('id').primaryKey(),
+  source: text('source').notNull(), // NERDC_NATIONAL | LAGOS_OEQA_ALAUSA | LAGOS_MOE
+  level: text('level').notNull(), // jss-1, jss-2, sss-1, etc.
+  subject: text('subject').notNull(),
+  contentHash: text('content_hash').notNull(),
+  version: text('version').notNull().default('v1.2'),
+  lastCheckedAt: text('last_checked_at').notNull(),
+  lastChangedAt: text('last_changed_at').notNull(),
+});
+
+export const curriculumDiffLogs = sqliteTable('curriculum_diff_logs', {
+  id: text('id').primaryKey(),
+  syncId: text('sync_id').notNull(),
+  source: text('source').notNull(),
+  level: text('level').notNull(),
+  subject: text('subject').notNull(),
+  oldVersion: text('old_version').notNull(),
+  newVersion: text('new_version').notNull(),
+  diffSummary: text('diff_summary').notNull(),
+  affectedPlansCount: integer('affected_plans_count').default(0),
+  timestamp: text('timestamp').notNull(),
+});
+
+export const curriculumVersions = sqliteTable('curriculum_versions', {
+  id: text('id').primaryKey(),
+  version: text('version').notNull(), // e.g. 'v1.4'
+  source: text('source').notNull(), // 'NERDC' | 'LAGOS_LASUBEB' | 'LAGOS_MOE' | 'WAEC' | 'NECO'
+  level: text('level').notNull(), // 'jss-1' .. 'sss-3'
+  subject: text('subject').notNull(),
+  term: integer('term').default(1),
+  week: integer('week'),
+  contentHash: text('content_hash').notNull(),
+  rawUrl: text('raw_url'),
+  status: text('status').notNull().default('APPROVED'), // 'APPROVED' | 'PENDING_APPROVAL' | 'REJECTED'
+  changeSummary: text('change_summary').notNull(),
+  extractedData: text('extracted_data'), // JSON serialized topics, subtopics, objectives
+  approvedBy: text('approved_by'),
+  isGazetted: integer('is_gazetted').default(1),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const activeSessions = sqliteTable('active_sessions', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  sessionToken: text('session_token').notNull().unique(),
+  ipAddress: text('ip_address').notNull(),
+  userAgent: text('user_agent').notNull(),
+  deviceFingerprint: text('device_fingerprint'),
+  lastActivity: text('last_activity').notNull(),
+  isActive: integer('is_active').default(1),
+  createdAt: text('created_at').notNull(),
 });
 
 export const lessonPlanSections = sqliteTable('lesson_plan_sections', {
@@ -182,9 +284,13 @@ export const auditLogs = sqliteTable('audit_logs', {
 export const notifications = sqliteTable('notifications', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull(),
+  schoolId: text('school_id'),
+  sourceId: text('source_id'), // nerdc, lagos_scheme, oeqa, bece, waec, neco
   title: text('title').notNull(),
   message: text('message').notNull(),
-  type: text('type').default('system'), // system | curriculum | billing | lesson
+  type: text('type').default('curriculum_update'), // curriculum_update | system | billing | inspection
+  classLevel: text('class_level'),
+  subject: text('subject'),
   read: integer('read').default(0),
   createdAt: text('created_at').notNull(),
 });
@@ -256,3 +362,170 @@ export const attendanceRecords = sqliteTable('attendance_records', {
   notes: text('notes'),
   createdAt: text('created_at').notNull(),
 });
+
+// Phase 1: Multi-Source Curriculum Registry (Transformative Use / Copyright Act 2022)
+export const curriculumSources = sqliteTable('curriculum_sources', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  code: text('code').notNull().unique(),
+  authority: text('authority').notNull(),
+  defaultJurisdiction: text('default_jurisdiction').notNull(),
+  supportedClasses: text('supported_classes').notNull(),
+  description: text('description'),
+  websiteUrl: text('website_url'),
+  legalNotice: text('legal_notice').notNull(),
+  isActive: integer('is_active').default(1),
+  createdAt: text('created_at').notNull(),
+});
+
+export const sourceCurriculum = sqliteTable('source_curriculum', {
+  id: text('id').primaryKey(),
+  sourceId: text('source_id').notNull(),
+  classLevel: text('class_level').notNull(),
+  subject: text('subject').notNull(),
+  version: text('version').notNull().default('v1.0'),
+  topics: text('topics').notNull(), // JSON metadata array (NO verbatim texts)
+  objectives: text('objectives').notNull(), // JSON metadata array
+  textbookRefs: text('textbook_refs').notNull(), // JSON metadata array
+  statutoryCitations: text('statutory_citations'),
+  hash: text('hash').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const schoolSourcePreferences = sqliteTable('school_source_preferences', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  classLevel: text('class_level').notNull(),
+  subject: text('subject').notNull(),
+  preferredSourceId: text('preferred_source_id').notNull(),
+  mandatedByMinistry: integer('mandated_by_ministry').default(0),
+  updatedAt: text('updated_at').notNull(),
+});
+
+// Phase 1: NDPA 2023 Compliance Tables
+export const parentalConsents = sqliteTable('parental_consents', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  studentId: text('student_id').notNull(),
+  parentName: text('parent_name').notNull(),
+  parentPhone: text('parent_phone').notNull(),
+  parentEmail: text('parent_email'),
+  consentGranted: integer('consent_granted').notNull().default(0),
+  consentDate: text('consent_date'),
+  purpose: text('purpose').notNull(),
+  ipAddress: text('ip_address'),
+  userAgent: text('user_agent'),
+  createdAt: text('created_at').notNull(),
+});
+
+export const dataProcessingLogs = sqliteTable('data_processing_logs', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  userId: text('user_id').notNull(),
+  action: text('action').notNull(),
+  dataSubjectCategory: text('data_subject_category').notNull(),
+  containsPii: integer('contains_pii').default(0),
+  processingPurpose: text('processing_purpose').notNull(),
+  legalBasis: text('legal_basis').notNull(),
+  dpoReviewed: integer('dpo_reviewed').default(0),
+  timestamp: text('timestamp').notNull(),
+});
+
+export const dpiaViolations = sqliteTable('dpia_violations', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  userId: text('user_id').notNull(),
+  violationType: text('violation_type').notNull(),
+  attemptedAction: text('attempted_action').notNull(),
+  blocked: integer('blocked').default(1),
+  details: text('details').notNull(),
+  severity: text('severity').default('HIGH'),
+  timestamp: text('timestamp').notNull(),
+});
+
+export const manualReviewQueue = sqliteTable('manual_review_queue', {
+  id: text('id').primaryKey(),
+  sourceId: text('source_id').notNull(), // nerdc, lagos_scheme, oeqa, bece, waec, neco
+  sourceName: text('source_name').notNull(),
+  portalUrl: text('portal_url').notNull(),
+  reason: text('reason').notNull(), // ROBOTS_TXT_BLOCKED, SCRAPE_RESTRICTED, CAPTCHA_DETECTED, NO_PUBLIC_API
+  robotsTxtStatus: text('robots_txt_status').default('DISALLOWED'),
+  classLevel: text('class_level'),
+  subject: text('subject'),
+  status: text('status').default('PENDING_UPLOAD'), // PENDING_UPLOAD, REVIEWED, APPROVED, REJECTED
+  uploadedFileName: text('uploaded_file_name'),
+  uploadedBy: text('uploaded_by'),
+  adminNotes: text('admin_notes'),
+  detectedHash: text('detected_hash'),
+  createdAt: text('created_at').notNull(),
+  resolvedAt: text('resolved_at'),
+});
+
+// ============================================================================
+// PHASE 2C: DATA ISOLATION, MULTI-TENANT RLS & STUDENT DATA PRIVACY (NDPA 2023)
+// ============================================================================
+
+export const students = sqliteTable('students', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  admissionNumber: text('admission_number').notNull(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  classLevel: text('class_level').notNull(), // jss-1 .. sss-3
+  guardianName: text('guardian_name').notNull(),
+  guardianPhone: text('guardian_phone').notNull(),
+  guardianEmail: text('guardian_email'),
+  parentalConsent: integer('parental_consent').notNull().default(0), // 0 = false, 1 = true (NDPA 2023 Sec 24)
+  consentStatus: text('consent_status').notNull().default('PENDING'), // PENDING | GRANTED | WITHDRAWN
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const feeRecords = sqliteTable('fee_records', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  studentId: text('student_id').notNull(),
+  term: integer('term').notNull(),
+  session: text('session').notNull().default('2026/2027'),
+  amountDue: integer('amount_due').notNull(),
+  amountPaid: integer('amount_paid').notNull().default(0),
+  status: text('status').notNull().default('unpaid'), // paid | partial | unpaid
+  paidAt: text('paid_at'),
+  receiptNumber: text('receipt_number'),
+  createdAt: text('created_at').notNull(),
+});
+
+export const analyticsEvents = sqliteTable('analytics_events', {
+  id: text('id').primaryKey(),
+  schoolId: text('school_id').notNull(),
+  userId: text('user_id').notNull(),
+  eventType: text('event_type').notNull(),
+  payload: text('payload'),
+  timestamp: text('timestamp').notNull(),
+});
+
+export const rlsSecurityAudit = sqliteTable('rls_security_audit', {
+  id: text('id').primaryKey(),
+  tenantId: text('tenant_id').notNull(),
+  userId: text('user_id').notNull(),
+  tableName: text('table_name').notNull(),
+  action: text('action').notNull(),
+  status: text('status').notNull().default('ALLOWED'), // ALLOWED | BLOCKED_ISOLATION_VIOLATION
+  details: text('details'),
+  timestamp: text('timestamp').notNull(),
+});
+
+// Phase 5: State Policy Enforcement (Ministry Statutory Directives)
+export const stateCurriculumPolicies = sqliteTable('state_curriculum_policies', {
+  id: text('id').primaryKey(), // policy_lagos_public_mandate
+  stateId: text('state_id').notNull(), // 'lagos'
+  mandatedSourceId: text('mandated_source_id').notNull(), // 'lagos_scheme'
+  restrictedSourceIds: text('restricted_source_ids').notNull(), // JSON array: '["nerdc"]'
+  applyToSchoolTypes: text('apply_to_school_types').notNull().default('["public"]'), // JSON array: public schools
+  isActive: integer('is_active').notNull().default(1),
+  statutoryDirective: text('statutory_directive').notNull(),
+  issuingAuthority: text('issuing_authority').notNull().default('Lagos State Ministry of Basic & Secondary Education / LASUBEB'),
+  gazetteReference: text('gazette_reference').default('LASG/MOE/OEQA/CIR/2026/04'),
+  updatedAt: text('updated_at').notNull(),
+});
+

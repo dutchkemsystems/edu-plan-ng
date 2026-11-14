@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Marketing & Salesmanship",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-marketing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Market Segmentation: Meaning, bases of segmentation (geographic, demographic, psychographic, behavioral)",
+      "learningObjectives": [
+        "Define market segmentation and state criteria for effective segmentation (measurable, accessible, substantial)",
+        "Segment Nigerian consumer markets by age, gender, income, religion, and urban/rural location",
+        "Explain target marketing strategies: undifferentiated, differentiated, and concentrated marketing"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Market Research: Meaning, importance, and stages in the marketing research process",
+      "learningObjectives": [
+        "Explain the role of market research in reducing commercial decision risk",
+        "Detail research stages: defining problem, developing research plan, data collection, analysis, reporting",
+        "Differentiate between primary research (surveys, focus groups) and secondary data sources"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Marketing Information System (MIS): Internal records, marketing intelligence, and decision support",
+      "learningObjectives": [
+        "Define Marketing Information System (MIS) and identify its four core subsystems",
+        "Explain how internal sales records and customer feedback shape marketing strategy",
+        "Examine legal and ethical methods of gathering competitor marketing intelligence"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Channels of Distribution (Place Mix): Channels for consumer and industrial products",
+      "learningObjectives": [
+        "Map distribution pathways: direct marketing (zero-level), one-level (retailer), and two-level (wholesaler)",
+        "Analyze intermediary functions: sorting, accumulation, allocation, financing, and risk-taking",
+        "Examine causes of channel conflict (vertical and horizontal) and conflict resolution techniques"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Wholesaling and Retailing in Nigeria: Traditional markets and modern supermarkets",
+      "learningObjectives": [
+        "Differentiate between merchant wholesalers, brokers, and manufacturers' sales branches",
+        "Examine retail formats in Nigeria: open markets (Balogun, Onitsha, Bodija), mom-and-pop kiosks, supermarkets",
+        "Analyze trends in modern shopping malls, franchise retailing, and cashless retail payments"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Promotion Mix: Advertising, sales promotion, public relations, and direct marketing",
+      "learningObjectives": [
+        "Identify components of the integrated promotion mix and their specific marketing roles",
+        "Explain the AIDA model (Attention, Interest, Desire, Action) in advertising campaigns",
+        "Compare above-the-line mass media advertising with below-the-line direct promotional activations"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Marketing Campaign Simulation",
+      "learningObjectives": [
+        "Assess pupil mastery of market segmentation, distribution channels, and the promotion mix",
+        "Evaluate student design of an advertising copy and poster for a youth-targeted consumer product",
+        "Provide remedial coaching on the distinction between advertising and publicity"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Advertising Media: Broadcast, print, outdoor billboard, and digital internet channels",
+      "learningObjectives": [
+        "Evaluate merits and limitations of television, radio, newspapers, magazines, and billboards",
+        "Analyze criteria for media selection: target audience reach, frequency, lead time, and cost per thousand (CPM)",
+        "Examine statutory regulations enforced by the Advertising Regulatory Council of Nigeria (ARCON)"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Sales Promotion and Merchandising: Contests, coupons, discounts, premiums, and POS displays",
+      "learningObjectives": [
+        "Define sales promotion as short-term incentives to stimulate immediate purchase",
+        "Examine consumer-oriented promotions: buy-one-get-one-free, scratch cards, loyalty rewards",
+        "Explore trade-oriented promotions: dealer allowances, push money, and eye-level shelf placement"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Public Relations and Corporate Sponsorship: Building positive institutional image",
+      "learningObjectives": [
+        "Define Public Relations (PR) and explain how it differs from paid commercial advertising",
+        "Analyze tools of corporate PR: press releases, press conferences, community social responsibility (CSR)",
+        "Examine corporate sponsorship of sports leagues and educational quiz competitions in Nigeria"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Warehousing and Physical Distribution: Logistics, inventory management, and transport choices",
+      "learningObjectives": [
+        "Explain the strategic role of warehousing in stabilizing supply and prices of seasonal commodities",
+        "Compare public, private, and customs-bonded warehouses in commercial ports",
+        "Evaluate transport modes (road, rail, water, air, pipelines) regarding speed, capacity, and cost"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive SSS 2 Marketing Termly Revision & Case Study Drill",
+      "learningObjectives": [
+        "Synthesize concepts across market research, channel management, promotion mix, and logistics",
+        "Practice answering past WASSCE Paper 2 essay questions involving marketing dilemmas",
+        "Refine student capability in interpreting marketing data charts and consumer surveys"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer standardized SSS 2 Marketing theory and objective examination",
+        "Grade scripts in accordance with WAEC rubric guidelines and marking schemes",
+        "Record and publish official continuous assessment and examination results"
+      ]
+    }
+  ]
+}

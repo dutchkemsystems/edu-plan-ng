@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 
 export function normalizeNigerianPhoneNumber(phone: string): string {
   // Strip non-digits
@@ -67,8 +67,11 @@ Rules:
 5. Return ONLY the message body text. No quotation marks or explanations.`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-3.8-flash',
+          model: 'gemini-4-hydrogen',
           contents: prompt,
+          config: {
+            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+          },
         });
 
         messageText = response.text?.trim() || '';

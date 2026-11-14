@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Business Studies",
+  "subjectCode": "BUS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/business-studies-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "WABP Junior Secondary Business Studies Book 1",
+    "author": "Ehiametalor, E. T., Makore, C., & Awoyemi, M. O.",
+    "publisher": "West African Book Publishers Ltd",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Business Studies and Career Opportunities",
+      "subtopics": ["Definition and objectives of Business Studies", "Components: Commerce, Bookkeeping, Keyboarding, Office Practice", "Career opportunities: Accountants, bankers, marketers, secretaries, entrepreneurs"],
+      "objectives": ["Define Business Studies accurately", "Identify the four key component subjects", "List 5 career pathways open to business students in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Modern Office: Layout, Sections and Personnel",
+      "subtopics": ["Meaning and functions of an office (receiving, recording, processing, storing information)", "Types of office layout: Open-plan office vs closed/partitioned office", "Departments in an enterprise: Administrative, accounts, sales, personnel"],
+      "objectives": ["State 4 primary functions of a business office", "Compare advantages and disadvantages of an open-plan office", "Describe roles of clerical staff and receptionists"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Office Equipment and Modern Business Machines",
+      "subtopics": ["Classification of office machines: Duplicating, calculating, communicating, recording", "Modern digital tools: Computers, photocopiers, scanners, franking machines", "Care and safe operation of electrical office equipment"],
+      "objectives": ["Identify 6 common machines found in a Nigerian commercial office", "Explain business advantages of electronic filing over manual filing cabinets", "Demonstrate safe handling and routine cleaning of office equipment"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Introduction to Commerce and Aids to Trade",
+      "subtopics": ["Definition of Commerce and its branches (Trade and Aids to Trade)", "Types of trade: Home trade (wholesale, retail) and foreign trade (import, export)", "Aids to trade: Banking, insurance, transportation, warehousing, advertising, communication"],
+      "objectives": ["Diagram the branches of commerce clearly", "Explain how banking facilitates domestic commerce in Nigeria", "State the role of warehousing in stabilizing market prices during bumper harvests"]
+    }
+  ]
+}

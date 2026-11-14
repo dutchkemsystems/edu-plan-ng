@@ -1,0 +1,209 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Basic Science",
+  "subjectCode": "BSC",
+  "version": "v1.12",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-basic-science",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Science for Junior Secondary Schools 1 (UBE Revised 5th Edition)",
+    "author": "F.O.C. Ndu, P. Asun, J.O. Aina",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "UBE Revised 5th Edition (2026)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Artificial Intelligence & Sensor Robotics in Agriculture",
+      "subtopics": [
+        "Automated soil moisture sensors in Nigerian farms",
+        "Drone-assisted crop inspection and yield prediction"
+      ],
+      "objectives": [
+        "Identify 2 agricultural robotic sensors used in Nigeria",
+        "Differentiate between manual irrigation and automated sensor systems"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Living Things: Differences Between Plants and Animals",
+      "subtopics": [
+        "Morphological differences between plants and animals",
+        "Modes of nutrition (autotrophic vs heterotrophic)",
+        "Locomotion vs movement in plants and animals"
+      ],
+      "objectives": [
+        "List 5 structural differences between plants and animals",
+        "Explain how green plants manufacture food via photosynthesis",
+        "Illustrate leaf structure using hibiscus leaves collected locally"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Living Things: Habitat, Ecology & Climate Resilience in Nigeria",
+      "subtopics": [
+        "Terrestrial and aquatic ecological habitats in Nigeria (Mangrove, Rainforest, Sahel)",
+        "Adaptive features of indigenous plants and animals to extreme weather",
+        "Climate change mitigation and environmental hygiene in school communities"
+      ],
+      "objectives": [
+        "Identify 3 major Nigerian ecological zones and their characteristic flora/fauna.",
+        "Describe 4 structural adaptations of desert and mangrove organisms.",
+        "Propose 2 practical tree planting actions to combat desertification and erosion."
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Family Health II: Human Puberty and Adolescent Development",
+      "subtopics": [
+        "Meaning of puberty and adolescence",
+        "Physical and emotional changes in adolescent boys and girls",
+        "Menstruation and menstrual hygiene management"
+      ],
+      "objectives": [
+        "Explain puberty changes in boys (voice breaking, facial hair) and girls (breast development, menstruation)",
+        "State menstrual hygiene protocols for adolescent girls",
+        "Discuss emotional self-regulation during adolescent transitions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Nutrition and Food Substances",
+      "subtopics": [
+        "Classes of food: carbohydrates, proteins, fats/oils, vitamins, mineral salts, water",
+        "Local Nigerian sources of each food class (yam, beans, palm oil, bitter leaf)",
+        "Balanced diet and deficiency diseases (kwashiorkor, scurvy, rickets)"
+      ],
+      "objectives": [
+        "Identify the six statutory classes of food",
+        "Map everyday Nigerian meals (e.g. jollof rice, beans and dodo) to nutrients",
+        "Explain symptoms and prevention of nutritional deficiencies in children"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Environmental Pollution I: Air and Water Pollution",
+      "subtopics": [
+        "Meaning of pollution and pollutants",
+        "Causes of air pollution (exhaust fumes from Danfo buses, generator smoke, refuse burning)",
+        "Water pollution causes (dumping plastics, sewage, industrial effluents into Lagos Lagoon)"
+      ],
+      "objectives": [
+        "Define pollution and distinguish between air and water pollutants",
+        "List health hazards of generator exhaust fumes (carbon monoxide poisoning)",
+        "Propose community-based waste disposal solutions to preserve water sources"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic review of Weeks 1-6 concepts",
+        "Mid-term written assessment",
+        "Targeted remediation for struggling learners"
+      ],
+      "objectives": [
+        "Assess pupil mastery of living things, hygiene, puberty, nutrition, and pollution",
+        "Identify conceptual gaps and provide tiered remediation exercises"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Environmental Pollution II: Soil and Noise Pollution",
+      "subtopics": [
+        "Soil pollution causes (non-biodegradable plastics, chemical pesticides)",
+        "Noise pollution sources (loudspeakers, market clamor, sirens)",
+        "Prevention and control of environmental degradation"
+      ],
+      "objectives": [
+        "Explain harmful effects of polythene nylon bags on soil fertility",
+        "State hearing damage thresholds caused by prolonged generator noise",
+        "Formulate classroom environmental action pledges"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Energy: Meaning, Forms and Sources of Energy",
+      "subtopics": [
+        "Definition of energy and measurement unit (Joules)",
+        "Forms of energy (kinetic, potential, thermal, light, chemical, electrical, sound)",
+        "Renewable energy vs non-renewable energy (solar vs crude oil)"
+      ],
+      "objectives": [
+        "Define energy and state its S.I. unit",
+        "Differentiate between kinetic and potential energy with everyday Nigerian examples",
+        "Compare solar power with fossil fuel generation in Nigerian households"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Force: Meaning, Types and Effects of Force",
+      "subtopics": [
+        "Meaning of force as a push or a pull (unit: Newton)",
+        "Contact forces (friction, tension, push/pull)",
+        "Non-contact forces (gravitational force, magnetic force, electrostatic force)"
+      ],
+      "objectives": [
+        "Define force and demonstrate push and pull actions",
+        "Differentiate contact from non-contact forces",
+        "Measure force using a spring balance in the school laboratory"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Gravitational Pull and Friction in Daily Life",
+      "subtopics": [
+        "Earth gravitational attraction",
+        "Meaning and causes of friction",
+        "Advantages and disadvantages of friction on Nigerian highways"
+      ],
+      "objectives": [
+        "Explain why unsupported objects fall toward the Earth",
+        "List 3 advantages and 3 disadvantages of friction",
+        "Describe methods of reducing friction (lubrication, ball bearings)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "The Solar System: Sun, Planets and Earth in Space",
+      "subtopics": [
+        "Components of the solar system (the Sun and 8 planets)",
+        "Position of Earth in relation to the Sun",
+        "Rotation of the Earth (day and night) and Revolution (seasons)"
+      ],
+      "objectives": [
+        "Name all eight planets in order of distance from the Sun",
+        "Demonstrate how Earth rotation causes day and night using a globe and torchlight",
+        "Explain why Nigeria experiences rainy and dry seasons rather than snowfall"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Comprehensive Revision & Terminal Examination",
+      "subtopics": [
+        "Termly syllabus review across all 12 weeks",
+        "Terminal examination moderation and broadsheet compilation"
+      ],
+      "objectives": [
+        "Demonstrate holistic mastery of JSS 1 Basic Science Term 1 curriculum"
+      ]
+    }
+  ]
+}

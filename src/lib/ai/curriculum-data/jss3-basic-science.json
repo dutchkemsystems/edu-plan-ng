@@ -1,0 +1,204 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Basic Science",
+  "subjectCode": "BSC",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-basic-science",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Science for Junior Secondary Schools 3",
+    "author": "F.O.C. Ndu, P. Asun, J.O. Aina",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "UBE Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-06-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Atomic Structure and Chemical Bonding",
+      "subtopics": [
+        "Fundamental particles of an atom (protons, neutrons, electrons)",
+        "Atomic number, mass number, and electronic configuration (first 20 elements)",
+        "Types of chemical bonds: electrovalent and covalent bonding"
+      ],
+      "objectives": [
+        "State charges, relative masses, and locations of subatomic particles",
+        "Write electronic configuration of elements from Hydrogen to Calcium (Z=1 to 20)",
+        "Illustrate formation of sodium chloride (NaCl) using electron transfer diagrams"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Metals and Non-Metals: Properties and Rusting Mechanics",
+      "subtopics": [
+        "Physical and chemical properties of metals vs non-metals",
+        "Conditions necessary for rusting of iron (water and oxygen)",
+        "Rust prevention techniques (painting, galvanizing, electroplating, greasing)"
+      ],
+      "objectives": [
+        "Compare electrical conductivity, malleability, and ductility of metals and non-metals",
+        "Design controlled laboratory experiment investigating rusting of iron nails",
+        "Explain corrosion prevention on Nigerian coastal steel bridges and corrugated roofs"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Human Genetics and Heredity: Traits and Variation",
+      "subtopics": [
+        "Meaning of genetics, heredity, and biological variation",
+        "Continuous vs discontinuous variation (height vs tongue rolling / blood group)",
+        "Transmission of parental traits via chromosomes and genes"
+      ],
+      "objectives": [
+        "Distinguish between continuous and discontinuous variations in human populations",
+        "Survey class population for observable genetic traits (albinism, earlobes, finger prints)",
+        "Draw Mendelian single-trait inheritance crosses"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Human Nervous System and Reflex Actions",
+      "subtopics": [
+        "Parts of the human nervous system (Central Nervous System and Peripheral Nervous System)",
+        "Structure of a neuron (cell body, dendrites, axon)",
+        "Reflex arc and involuntary actions (knee-jerk, withdrawing hand from hot pot)"
+      ],
+      "objectives": [
+        "Identify components of the human brain (cerebrum, cerebellum, medulla oblongata)",
+        "Diagram a motor neuron with labeled myelinated sheath",
+        "Trace reflex pathway through sensory receptor, spinal cord, and effector muscle"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Human Sense Organs: Anatomy of Eye and Ear",
+      "subtopics": [
+        "Structure and function of the human eye",
+        "Eye defects and optical corrections (myopia, hypermetropia, astigmatism)",
+        "Structure of the ear and mechanism of hearing / balance"
+      ],
+      "objectives": [
+        "Draw longitudinal section of the human eye showing cornea, lens, retina, and optic nerve",
+        "Explain optical correction of short-sightedness using concave diverging lenses",
+        "Describe role of semicircular canals in posture and spatial equilibrium"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Magnetism and Magnetic Fields",
+      "subtopics": [
+        "Properties of magnets and magnetic poles (North and South)",
+        "Magnetic fields and field lines mapping using iron filings and compasses",
+        "Electromagnets: construction and practical applications (electric bells, scrap lifters)"
+      ],
+      "objectives": [
+        "Demonstrate fundamental law of magnetism: like poles repel, unlike poles attract",
+        "Map magnetic field lines surrounding bar magnets",
+        "Construct functional electromagnet using an iron nail, copper wire, and dry cell battery"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation of atomic theory, nervous system, genetics, and electromagnetism",
+        "BECE standardized past question clinic"
+      ],
+      "objectives": [
+        "Assess pupil mastery against Lagos State BECE examination standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Electrical Energy, Circuits and Ohm's Law",
+      "subtopics": [
+        "Electric current, potential difference (voltage), and electrical resistance",
+        "Series and parallel circuit connections",
+        "Ohm's Law: V = I × R and circuit calculations"
+      ],
+      "objectives": [
+        "Connect functional series and parallel circuits using ammeters and voltmeters",
+        "State Ohm's Law and calculate resistance in domestic appliances",
+        "Analyze why domestic wiring in Nigerian homes uses parallel circuits"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Radioactivity and Nuclear Energy",
+      "subtopics": [
+        "Meaning of radioactivity and discovery",
+        "Types of nuclear radiation (Alpha, Beta, Gamma rays) and their penetration powers",
+        "Peaceful applications (cancer radiotherapy, nuclear power) and safety hazards"
+      ],
+      "objectives": [
+        "Compare ionizing and penetration capacities of alpha, beta, and gamma emissions",
+        "Describe radioactive isotope applications in Nigerian agricultural research and medicine",
+        "State radiation shielding safety protocols"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Environmental Health: Deforestation and Bush Burning",
+      "subtopics": [
+        "Ecological hazards of uncontrolled bush burning in Nigerian agricultural zones",
+        "Deforestation consequences (desert encroachment, loss of biodiversity, global warming)",
+        "Conservation measures: afforestation and reforestation programs"
+      ],
+      "objectives": [
+        "Analyze destruction of soil nitrogen-fixing bacteria caused by seasonal bush burning",
+        "Explain link between tropical deforestation and climate change",
+        "Participate in school tree planting campaigns to combat soil erosion"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Skill Acquisition and Science Technology in Nigeria",
+      "subtopics": [
+        "Meaning and significance of technological skill acquisition",
+        "Indigenous Nigerian scientific technologies (cloth weaving, blacksmithing, leather tanning)",
+        "Modern STEM careers and entrepreneurship opportunities for secondary school leavers"
+      ],
+      "objectives": [
+        "Relate indigenous manufacturing skills in Kano, Aba, and Oyo to modern science",
+        "Formulate a mini science enterprise project proposal"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "BECE Mock Examination Clinic & Practical Revision",
+      "subtopics": [
+        "Review of core 3-year junior secondary science syllabus",
+        "Standardized BECE test strategies and Chief Examiner report insights"
+      ],
+      "objectives": [
+        "Solve 50 standardized BECE objective and essay questions under timed conditions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal BECE Examination & Moderation",
+      "subtopics": [
+        "BECE Final Examination administration and script moderation"
+      ],
+      "objectives": [
+        "Complete junior secondary basic science certification"
+      ]
+    }
+  ]
+}

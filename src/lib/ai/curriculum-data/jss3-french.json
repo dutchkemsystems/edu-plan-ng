@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 3",
+  "subject": "French Language",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-french.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Le Passé Composé avec le Verbe \"Avoir\": Regular past participles (-é, -i, -u)",
+      "learningObjectives": [
+        "Explain the formation of the passé composé with auxiliary verb avoir",
+        "Form regular past participles of first, second, and third group verbs",
+        "Recount weekend and vacation activities in the past tense"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Le Passé Composé avec le Verbe \"Être\": Verbs of motion and reflexive verbs",
+      "learningObjectives": [
+        "Memorize the 14 verbs of motion conjugated with auxiliary être (DR MRS VANDERTRAMP)",
+        "Apply participle agreement rules with subject gender and number",
+        "Conjugate reflexive verbs in the past compound tense"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "La Lettre Informelle en Français: Writing letters to French-speaking penpals",
+      "learningObjectives": [
+        "Structure an informal letter (lieu, date, formule d'appel, corps, salutations)",
+        "Incorporate descriptive narrative details about school and Nigerian festivities",
+        "Close letters with courteous French sign-offs (Amicalement, Bien à toi)"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Les Moyens de Transport et les Voyages: Taking the bus, train, and airplane",
+      "learningObjectives": [
+        "Identify transport modes (l'avion, le train, le bateau, le car, la moto)",
+        "Use appropriate transport prepositions (en voiture, à vélo, à pied)",
+        "Purchase tickets and inquire about travel departures at a French station"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "La Météo et le Climat: Weather forecasts and seasonal descriptions",
+      "learningObjectives": [
+        "Use idiomatic weather expressions (Il fait beau, il pleut, il fait chaud)",
+        "Describe the four European seasons and the two Nigerian seasons (saison sèche / pluvieuse)",
+        "Present an oral weather forecast as a television broadcaster"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "L'Expression des Sentiments et des Émotions: Joy, sadness, surprise, fear",
+      "learningObjectives": [
+        "Express joy, anxiety, anger, and enthusiasm using idiomatic French adjectives",
+        "Use expressions like Être content(e) de, avoir peur de, être surpris(e)",
+        "React empathetically to good and bad news in casual conversation"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Contrôle Continu et Évaluation Orale de Mi-Semestre",
+      "learningObjectives": [
+        "Evaluate pupil mastery of past tenses and letter writing conventions",
+        "Examine oral narration of past events in timed spoken tests",
+        "Provide corrective instruction on agreement of past participles"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "L'Imparfait de l'Indicatif: Habitual past descriptions and states of being",
+      "learningObjectives": [
+        "Formulate the stem and endings of the imperfect tense (-ais, -ais, -ait...)",
+        "Distinguish between completed actions (passé composé) and background descriptions (imparfait)",
+        "Describe childhood memories and past habitual routines in Nigeria"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Les Pronoms Compléments d'Objet Direct (COD: le, la, l', les)",
+      "learningObjectives": [
+        "Identify direct object nouns in spoken and written French sentences",
+        "Replace nouns with direct object pronouns to avoid unnecessary repetition",
+        "Place pronouns correctly before the conjugated verb and in compound tenses"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "La Francophonie et les Pays Francophones d'Afrique de l'Ouest",
+      "learningObjectives": [
+        "Identify neighboring French-speaking countries in West Africa (Bénin, Niger, Cameroun, Togo)",
+        "Discuss cultural and economic ties between Nigeria and Francophone Africa",
+        "Highlight the importance of bilingualism in ECOWAS and international diplomacy"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "L'Impératif: Giving commands, safety warnings, and instructions",
+      "learningObjectives": [
+        "Formulate imperative verbs for tu, nous, and vous without subject pronouns",
+        "Issue classroom instructions, traffic commands, and cooking recipes",
+        "Form negative imperatives with ne ... pas"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Révision Générale et Préparation Intensive à l'Examen du BECE",
+      "learningObjectives": [
+        "Review past BECE examination papers and marking rubrics",
+        "Polish essay writing techniques, reading comprehension, and translation",
+        "Reinforce speed and accuracy in multiple-choice grammar questions"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Examen Terminal et Évaluation Globale pour le BECE",
+      "learningObjectives": [
+        "Complete official Junior Secondary certification examination in French",
+        "Assess conversational fluency in standardized oral interview panels",
+        "Transmit final moderated results to the State Examination Board"
+      ]
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import { signInUser, signUpUser } from '../lib/api.ts';
+import { ActiveSessionConflictModal } from '../components/ActiveSessionConflictModal.tsx';
 import confetti from 'canvas-confetti';
 
 interface LoginPageProps {
@@ -33,15 +34,44 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSuccess, onGoToHome }) =
   const [lga, setLga] = useState('Lagos Island');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const [conflictIp, setConflictIp] = useState('102.89.44.12');
+  const [conflictUa, setConflictUa] = useState<string | undefined>();
+  const [conflictLastActive, setConflictLastActive] = useState<string | undefined>();
+  const [pendingEmail, setPendingEmail] = useState('');
+  const [pendingPassword, setPendingPassword] = useState('');
+
+  const handleForceLogoutAndLogin = async () => {
+    try {
+      await signInUser(pendingEmail, pendingPassword, { forceLogout: true });
+      setShowConflictModal(false);
+      confetti({ particleCount: 60 });
+      onSuccess();
+    } catch (e: any) {
+      setErrorMessage(e?.message || 'Failed to force logout other session');
+      setShowConflictModal(false);
+    }
+  };
 
   const handleDemoTeacherLogin = async () => {
     setLoading(true);
     setErrorMessage('');
+    const demoEmail = 'amina.balogun@schools.ng';
+    const demoPass = 'password123';
+    setPendingEmail(demoEmail);
+    setPendingPassword(demoPass);
     try {
-      await signInUser('amina.balogun@schools.ng', 'password123');
+      await signInUser(demoEmail, demoPass);
       confetti({ particleCount: 50 });
       onSuccess();
     } catch (e: any) {
+      if (e?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(e.activeIp || '102.89.44.12');
+        setConflictUa(e.activeUserAgent);
+        setConflictLastActive(e.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(e?.message || 'Login failed. Please check network connection.');
     } finally {
       setLoading(false);
@@ -51,11 +81,22 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSuccess, onGoToHome }) =
   const handleDemoPrincipalLogin = async () => {
     setLoading(true);
     setErrorMessage('');
+    const demoEmail = 'principal@kingscollege.sch.ng';
+    const demoPass = 'password123';
+    setPendingEmail(demoEmail);
+    setPendingPassword(demoPass);
     try {
-      await signInUser('principal@kingscollege.sch.ng', 'password123');
+      await signInUser(demoEmail, demoPass);
       confetti({ particleCount: 50 });
       onSuccess();
     } catch (e: any) {
+      if (e?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(e.activeIp || '102.89.44.12');
+        setConflictUa(e.activeUserAgent);
+        setConflictLastActive(e.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(e?.message || 'Login failed. Please check network connection.');
     } finally {
       setLoading(false);
@@ -66,6 +107,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSuccess, onGoToHome }) =
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
+    setPendingEmail(email);
+    setPendingPassword(password);
     try {
       if (mode === 'signin') {
         await signInUser(email, password);
@@ -82,6 +125,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSuccess, onGoToHome }) =
       confetti({ particleCount: 60 });
       onSuccess();
     } catch (err: any) {
+      if (err?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(err.activeIp || '102.89.44.12');
+        setConflictUa(err.activeUserAgent);
+        setConflictLastActive(err.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(err?.message || 'Authentication error. Please check your credentials.');
     } finally {
       setLoading(false);
@@ -375,6 +425,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSuccess, onGoToHome }) =
       <footer className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-4 text-center text-xs text-slate-500 border-t border-slate-800">
         <p>© 2026 EduPlan NG. Approved for Nigerian Basic & Senior Secondary Education.</p>
       </footer>
+
+      {showConflictModal && (
+        <ActiveSessionConflictModal
+          isOpen={showConflictModal}
+          onClose={() => setShowConflictModal(false)}
+          activeIp={conflictIp}
+          activeUserAgent={conflictUa}
+          lastActivity={conflictLastActive}
+          onForceLogoutAndProceed={handleForceLogoutAndLogin}
+        />
+      )}
     </div>
   );
 };

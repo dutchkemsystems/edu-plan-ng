@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "English Language",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/english-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Countdown to WASSCE/SSCE English Language",
+    "author": "O. Ogunsanwo and C. E. Oyetunde",
+    "publisher": "Evans Brothers Nigeria Publishers Ltd",
+    "edition": "New Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Complex Syntactic Inversion and Fronting",
+      "subtopics": ["Inversion after negative adverbials (Never have I..., Seldom does...)", "Cleft sentences for emphasis (It was... that...)", "Conditional clause inversion (Had I known..., Were they to...)"],
+      "objectives": ["Rewrite standard sentences using inverted negative structures", "Construct cleft sentences to emphasize contrastive arguments", "Demonstrate mastery of advanced sentence variety in WASSCE writing"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Registers of Specific Professions: Law, Medicine and Aviation",
+      "subtopics": ["Legal vocabulary: Plaintiff, defendant, affidavit, jurisprudence", "Medical terminology: Prognosis, triage, diagnosis, intensive care", "Aviation and maritime terminology: Altitude, pitch, starboard, navigation"],
+      "objectives": ["Identify professional registers in context passages", "Replace colloquial phrases with appropriate technical registers", "Score full marks on the WAEC vocabulary registers section"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Articles for Publication in National Dailies",
+      "subtopics": ["Title capitalization, author designation, and engaging introductory hook", "Analyzing public policies, social crises, or national infrastructure", "Constructive recommendations and rhetorical closure"],
+      "objectives": ["Draft a 500-word feature article suitable for The Guardian or Punch", "Incorporate persuasive rhetorical devices and balanced commentary", "Format heading and byline according to examination guidelines"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Oral English: Stress Patterns and Emphatic Stress",
+      "subtopics": ["Word stress rules for disyllabic and polysyllabic words", "Noun-verb pairs with shifting stress (ex'port vs 'export)", "Emphatic and contrastive sentence stress in dialogue"],
+      "objectives": ["Mark primary stress marks accurately on multi-syllabic words", "Differentiate noun and verb pronunciation via syllable prominence", "Identify the presupposition of emphatically stressed words in dialogue"]
+    }
+  ]
+}

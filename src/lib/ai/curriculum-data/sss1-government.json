@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Government",
+  "subjectCode": "GOV",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/government-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Government for Senior Secondary Schools",
+    "author": "C. C. Dibie",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning, Nature and Scope of Government",
+      "subtopics": ["Government as an institution of the state, as a process, and as an academic field of study", "Characteristics of the state: Population, territory, government, sovereignty", "Functions of government: Law making, defense, maintenance of law and order, provision of social amenities"],
+      "objectives": ["Define government in its three distinct dimensions", "Distinguish a state from a government or nation", "Explain 5 reasons why government is indispensable in society"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Basic Political Concepts: Power, Authority and Legitimacy",
+      "subtopics": ["Meaning and forms of power (military, economic, political)", "Sources of authority: Traditional, charismatic, rational-legal (Max Weber)", "Legitimacy: Factors that confer and factors that undermine government legitimacy"],
+      "objectives": ["Differentiate naked power from legitimate authority", "Classify historical African leaders into Weber's authority typologies", "Explain how corruption and rigged elections destroy governmental legitimacy"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Sovereignty, Rule of Law and Constitutionalism",
+      "subtopics": ["Concept of sovereignty (Jean Bodin): Legal, political, de facto, and de jure sovereignty", "Principles of the Rule of Law (A.V. Dicey): Supremacy of law, equality before the law, fundamental human rights", "Constitutionalism and checks against executive tyranny"],
+      "objectives": ["Define sovereignty and state 4 limitations on national sovereignty", "Explain the 3 cardinal tenets of A.V. Dicey's Rule of Law", "Analyze real-life obstacles to the rule of law in developing democracies"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Organs of Government: Legislature, Executive and Judiciary",
+      "subtopics": ["Legislature: Unicameral vs bicameral systems, functions, bill passage procedure", "Executive: Presidential vs parliamentary executives, functions and powers", "Judiciary: Hierarchy of courts, judicial independence, judicial review"],
+      "objectives": ["Compare unicameral and bicameral legislative structures", "Explain 5 mechanisms that safeguard the independence of the judiciary", "Trace the life cycle of a legislative bill from first reading to presidential assent"]
+    }
+  ]
+}

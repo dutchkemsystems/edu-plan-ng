@@ -1,0 +1,197 @@
+{
+  "classLevel": "jss-2",
+  "subject": "English Studies",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-english",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Junior English Project for Secondary Schools 2",
+    "author": "N. Grant, D. Olagoke, J. Southern",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Grammar: Subject-Verb Agreement (Concord Rules I)",
+      "subtopics": [
+        "Fundamental rule: singular subject takes singular verb, plural subject takes plural verb",
+        "Compound subjects joined by 'and'",
+        "Indefinite pronouns as subjects (everyone, somebody, each, neither, either take singular verbs)"
+      ],
+      "objectives": [
+        "Apply rules of basic and proximity concord in structured sentences",
+        "Detect and correct concord violations in pupil essay drafts",
+        "Score 100% on concord multiple-choice diagnostics"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Tenses II: Present Continuous, Past Continuous and Present Perfect Tenses",
+      "subtopics": [
+        "Formation of present continuous (is/are + verb-ing) and past continuous (was/were + verb-ing)",
+        "Present perfect tense: have/has + past participle for actions with present relevance",
+        "Distinction between simple past (completed in past) and present perfect (ongoing relevance)"
+      ],
+      "objectives": [
+        "Conjugate verbs accurately into continuous and perfect tenses",
+        "Differentiate 'I have eaten' from 'I ate' with timeline demonstrations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Speech Work: Diphthongs (/eɪ/, /aɪ/, /ɔɪ/, /aʊ/, /əʊ/)",
+      "subtopics": [
+        "Meaning of diphthongs as vowel glides within the same syllable",
+        "Closing diphthongs: /eɪ/ (play, wait), /aɪ/ (buy, night), /ɔɪ/ (boy, coin)",
+        "Centring diphthongs and word pronunciation drills"
+      ],
+      "objectives": [
+        "Pronounce diphthong minimal pairs distinctly without monophthong substitution",
+        "Identify correct phonetic symbols matching underlined letter combinations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Continuous Writing: Narrative Essay ('An Unforgettable Journey')",
+      "subtopics": [
+        "Characteristics of narrative writing (chronological plot, setting, dialogue, climax)",
+        "Use of past tenses and time transitional markers (firstly, subsequently, suddenly, eventually)",
+        "Writing a 4-paragraph narrative on a journey across Nigerian highways or rail corridors"
+      ],
+      "objectives": [
+        "Develop an engaging narrative hook that captivates reader interest",
+        "Maintain consistent past tense throughout narrative storytelling",
+        "Punctuate direct speech dialogue with inverted commas correctly"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Informal Letter Writing: Structure, Tone, Salutation and Sign-Off",
+      "subtopics": [
+        "Features of informal letters: sender address, date, informal greeting ('Dear Tolu')",
+        "Conversational and affectionate tone, contractions allowed (I'm, don't)",
+        "Complimentary close ('Yours affectionately', 'Your friend') followed by first name"
+      ],
+      "objectives": [
+        "Format an informal letter layout according to WAEC/BECE conventions",
+        "Draft a letter to a friend describing experiences in Junior Secondary School 2"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Active Voice vs Passive Voice: Sentence Transformations",
+      "subtopics": [
+        "Structure of active voice: Subject + Verb + Object",
+        "Structure of passive voice: Object + form of 'be' + Past Participle + 'by' + Subject",
+        "When to use passive voice: when the doer is unknown or when the action is emphasized"
+      ],
+      "objectives": [
+        "Transform active sentences into passive voice without altering intended meaning",
+        "Identify passive constructions in newspaper headlines and scientific reports"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on concord, tenses, diphthongs, narrative writing, and voice",
+        "Targeted remedial grammar clinic"
+      ],
+      "objectives": [
+        "Assess pupil performance against JSS 2 curricular standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Vocabulary Development: Words Associated with the Hospital and Healthcare",
+      "subtopics": [
+        "Medical personnel: physician, surgeon, pediatrician, nurse, pharmacist, radiologist",
+        "Healthcare terms: diagnosis, prescription, outpatient, ward, intensive care, immunization",
+        "Register passage reading and vocabulary cloze tests"
+      ],
+      "objectives": [
+        "Use specialized medical vocabulary accurately in contextual sentences",
+        "Complete 10-item vocabulary register cloze passages"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Reading Comprehension: Identifying Topic Sentences and Main Ideas",
+      "subtopics": [
+        "Structure of expository paragraphs: topic sentence, supporting facts, concluding remark",
+        "Identifying stated and implied topic sentences in Nigerian socio-economic articles",
+        "Distinguishing major supporting ideas from minor illustrative details"
+      ],
+      "objectives": [
+        "Extract the central theme and topic sentence of each paragraph in a reading text",
+        "Write a 2-sentence summary condensing a 300-word article"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Literature in English: Personification and Irony in African Prose and Drama",
+      "subtopics": [
+        "Definition and examples of personification (giving human attributes to inanimate objects)",
+        "Definition of irony: verbal, situational, and dramatic irony",
+        "Analyzing irony and personification in assigned Nigerian junior secondary drama texts"
+      ],
+      "objectives": [
+        "Identify instances of personification and explain the imaginative effect produced",
+        "Explain verbal irony vs situational irony with classroom examples"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Direct and Indirect (Reported) Speech I: Conversion of Statements",
+      "subtopics": [
+        "Features of direct speech (exact words inside quotation marks)",
+        "Rules of backshifting tenses in reported speech (present simple -> past simple)",
+        "Changes in pronouns and adverbs of time and place (now -> then, today -> that day, here -> there)"
+      ],
+      "objectives": [
+        "Convert direct speech statements into reported speech without punctuation errors",
+        "Apply adverb and pronoun conversion rules accurately"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Oral Speech Testing",
+      "subtopics": [
+        "Review of concord, tenses, letter writing, medical register, and reported speech",
+        "Oral reading and pronunciation evaluation"
+      ],
+      "objectives": [
+        "Complete JSS 2 English Studies Term 1 syllabus review"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal examination and grading"
+      ],
+      "objectives": [
+        "Complete JSS 2 English Studies evaluation"
+      ]
+    }
+  ]
+}

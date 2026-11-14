@@ -21,11 +21,12 @@ RUN npm ci --omit=dev
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/src ./src
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/data ./data
+COPY --from=builder /app/curriculum-data ./curriculum-data
 COPY --from=builder /app/server.ts ./server.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
-
-# Install tsx for running TypeScript directly in production
-RUN npm install -g tsx
+COPY --from=builder /app/metadata.json ./metadata.json
 
 EXPOSE 3000
 

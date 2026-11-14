@@ -90,6 +90,21 @@ export interface LessonPlan {
   language?: 'en' | 'yo' | 'ig' | 'ha';
   status: 'draft' | 'published' | 'archived';
 
+  // Curriculum Versioning & Class Isolation (Phase 1)
+  curriculumVersion?: string;
+  isOutdated?: boolean;
+  outdatedReason?: string;
+  latestCurriculumVersion?: string;
+  recommendedTextbook?: {
+    title: string;
+    author: string;
+    publisher: string;
+    edition: string;
+    isGovernmentApproved?: boolean;
+    approvedBy?: string;
+    approvalDate?: string;
+  };
+
   // Phase 10: Differentiated Tasks
   remedialTask?: string;
   standardTask?: string;
@@ -153,9 +168,9 @@ export interface ResourceItem {
   createdAt: string;
 }
 
-export type AccountType = 'b2c_individual' | 'b2b_school';
-export type B2BTier = 'bronze' | 'silver' | 'gold';
-export type UserRole = 'teacher' | 'hod' | 'principal' | 'superadmin' | 'admin';
+export type AccountType = 'b2c_individual' | 'b2b_school' | 'b2g_government';
+export type B2BTier = 'bronze' | 'silver' | 'gold' | 'state_platinum';
+export type UserRole = 'teacher' | 'hod' | 'principal' | 'superadmin' | 'super_admin' | 'admin' | 'ministry_official';
 
 export interface School {
   id: string;
@@ -176,6 +191,34 @@ export interface School {
   updatedAt: string;
 }
 
+export interface TierEntitlementFlags {
+  hasBasicText: boolean;
+  hasNerdcAlignment: boolean;
+  hasLagosUnifiedScheme: boolean;
+  hasDraftWatermark: boolean;
+  has3DAccess: boolean;
+  has4KAccess: boolean;
+  hasExamGen: boolean;
+  hasReportCardAi: boolean;
+  hasParentAutopilot: boolean;
+  hasTimetableAi: boolean;
+  hasSenSupport: boolean;
+  hasFeeRecovery: boolean;
+  hasWhiteLabel: boolean;
+  hasLibrarySaving: boolean;
+  maxSavedLibraryNotes: number;
+  hasBulkExports: boolean;
+  hasPrincipalHeatmap: boolean;
+  hasOfflinePwa: boolean;
+  hasLmsExport: boolean;
+  hasMinistryDashboard: boolean;
+  hasDirectApiAccess: boolean;
+  hasStatePolicyEnforcement: boolean;
+  hasStateLevyTracker: boolean;
+  hasCpdModule: boolean;
+  hasEmergencyBroadcast: boolean;
+}
+
 export interface TeacherUser {
   id: string;
   name: string;
@@ -189,6 +232,19 @@ export interface TeacherUser {
   assignedSubjects: string[];
   role: UserRole;
   b2bTier?: B2BTier | null;
+  tierId?: string;
+  tierName?: string;
+  tierCategory?: 'b2c' | 'b2b' | 'b2g';
+  entitlements?: TierEntitlementFlags;
+  quotaUsage?: {
+    usedToday: number;
+    dailyFairUseCap: number;
+    totalGenerated: number;
+    maxGenerationsTotal?: number | null;
+    savedNotesCount: number;
+    maxSavedLibraryNotes: number;
+  };
+  ministryStateId?: string | null;
   onboardingCompletedAt?: string | null;
   streakCount: number;
   referralCode?: string;
@@ -228,19 +284,25 @@ export interface AuditLog {
 
 export interface RLSContext {
   userId: string;
+  userName?: string;
   accountType: AccountType;
   schoolId?: string | null;
   role: UserRole;
   b2bTier?: B2BTier | null;
+  ministryStateId?: string;
 }
 
 
 export interface NotificationItem {
   id: string;
   userId: string;
+  schoolId?: string | null;
+  sourceId?: string | null;
   title: string;
   message: string;
-  type: 'system' | 'curriculum' | 'billing' | 'lesson';
+  type: 'system' | 'curriculum' | 'curriculum_update' | 'billing' | 'lesson' | 'inspection';
+  classLevel?: string | null;
+  subject?: string | null;
   read: number;
   createdAt: string;
 }
@@ -264,6 +326,10 @@ export interface SchemeOfWork {
   academicYear: string;
   weeksData: SchemeWeek[];
   status: string;
+  curriculumSourceId?: string;
+  sourceName?: string;
+  curriculumVersion?: string;
+  nonContradictionNote?: string;
   createdAt: string;
 }
 
@@ -326,10 +392,25 @@ export interface DashboardStats {
   };
   subscription: {
     plan: string;
+    tierId?: string;
+    tierName?: string;
+    tagline?: string;
+    accountCategory?: 'b2c' | 'b2b' | 'b2g';
+    priceDisplay?: string;
+    billingCycle?: string;
     status: string;
     expiryDate: string;
     amount: number;
     daysRemaining: number;
+    allowedSourcesCount?: number;
+    maxTeachers?: number;
+    dailyFairUseCap?: number;
+    maxGenerationsTotal?: number | null;
+    usedToday?: number;
+    totalGenerated?: number;
+    savedNotesCount?: number;
+    maxSavedLibraryNotes?: number;
+    features?: TierEntitlementFlags;
   };
   heatmap: { date: string; count: number }[];
 }

@@ -1,0 +1,208 @@
+{
+  "classLevel": "jss-1",
+  "subject": "English Studies",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-english",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Junior English Project for Secondary Schools 1",
+    "author": "N. Grant, D. Olagoke, J. Southern",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Parts of Speech: Nouns (Types, Functions and Pluralization Rules)",
+      "subtopics": [
+        "Definition of nouns and identification in passages",
+        "Proper, common, collective, and abstract nouns",
+        "Countable vs uncountable nouns (much vs many, few vs little)",
+        "Rules of regular and irregular pluralization"
+      ],
+      "objectives": [
+        "Define nouns and categorize nouns into proper, common, abstract, and collective types",
+        "Apply correct plural forms for irregular nouns (child/children, tooth/teeth, ox/oxen)",
+        "Identify nouns in authentic Nigerian narrative texts"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Pronouns: Personal, Possessive, Demonstrative & Relative Pronouns",
+      "subtopics": [
+        "Definition of pronouns as noun substitutes to avoid monotony",
+        "Subjective vs objective personal pronouns (I/me, he/him, they/them)",
+        "Possessive pronouns vs possessive adjectives (mine vs my, theirs vs their)",
+        "Demonstrative pronouns (this, that, these, those)"
+      ],
+      "objectives": [
+        "Replace repetitive nouns with appropriate personal pronouns",
+        "Differentiate possessive pronouns from possessive determiners",
+        "Ensure antecedent-pronoun agreement in structured sentences"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Verbs: Action Verbs, Auxiliary Verbs, Simple Present & Past Tenses",
+      "subtopics": [
+        "Definition of verbs as action or state of being words",
+        "Primary auxiliary verbs (be, do, have) and modal auxiliaries",
+        "Simple present tense for habitual actions and general truths",
+        "Simple past tense and regular/irregular verb inflection"
+      ],
+      "objectives": [
+        "Distinguish main verbs from auxiliary verbs in sentences",
+        "Conjugate regular and irregular verbs into simple past tense forms",
+        "Formulate complete sentences describing daily routines in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Speech Work: Monophthongs (Short and Long Vowel Contrasts)",
+      "subtopics": [
+        "Vowel articulation: open, half-open, close positions",
+        "Contrasting short and long vowels: /i:/ vs /ɪ/ (seat vs sit), /u:/ vs /ʊ/ (fool vs full)",
+        "Contrasting /ɔ:/ vs /ɒ/ (cord vs cod, port vs pot) and transcription drills"
+      ],
+      "objectives": [
+        "Articulate English monophthongs with accurate tongue height and lip rounding",
+        "Pronounce minimal pairs accurately without Mother Tongue interference",
+        "Identify vowel sounds in examination word lists"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Adjectives and Adverbs: Identification, Comparison and Modifying Roles",
+      "subtopics": [
+        "Definition of adjectives as noun modifiers",
+        "Degrees of comparison of adjectives (positive, comparative, superlative)",
+        "Definition of adverbs and types (manner, time, place, degree)",
+        "Formation of adverbs from adjectives by adding -ly"
+      ],
+      "objectives": [
+        "Identify adjectives and adverbs in reading passages",
+        "Formulate regular and irregular comparisons (good/better/best, bad/worse/worst)",
+        "Use descriptive adverbs to enhance sentence vividness"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Continuous Writing: Descriptive Composition ('My School / My Community')",
+      "subtopics": [
+        "Features of descriptive writing (sensory details, spatial arrangement)",
+        "Paragraph development: topic sentence, supporting details, concluding sentence",
+        "Writing a 3-paragraph descriptive composition on 'My School'"
+      ],
+      "objectives": [
+        "Structure a coherent descriptive composition with introduction, body, and conclusion",
+        "Use vivid sensory adjectives to depict school buildings and compound life",
+        "Observe proper punctuation and paragraph indentation rules"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Speech Diagnostic Check",
+      "subtopics": [
+        "Diagnostic evaluation on nouns, pronouns, verbs, speech sounds, and composition",
+        "Remedial grammar and phonetics clinic"
+      ],
+      "objectives": [
+        "Assess pupil grammatical fluency and phonetic accuracy"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Prepositions and Conjunctions in Complex Sentence Construction",
+      "subtopics": [
+        "Prepositions of place, time, and direction (in, on, at, into, under, across)",
+        "Prepositional phrases functioning as adjectival or adverbial modifiers",
+        "Coordinating conjunctions (FANBOYS: for, and, nor, but, or, yet, so)",
+        "Subordinating conjunctions (because, although, since, unless, while)"
+      ],
+      "objectives": [
+        "Use prepositions accurately without common local Nigerian errors (e.g., 'discuss about')",
+        "Join simple sentences into compound and complex sentences using conjunctions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Reading Comprehension: Skimming, Scanning and Context Clues",
+      "subtopics": [
+        "Difference between skimming for main idea and scanning for specific facts",
+        "Deducing meanings of unfamiliar words using contextual clues",
+        "Answering direct and inferential comprehension questions on Nigerian folk stories"
+      ],
+      "objectives": [
+        "Scan a 300-word passage to retrieve specific dates, names, and facts within 2 minutes",
+        "Infer word meanings directly from surrounding sentence context"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Literature in English: Introduction to Folktales, Myths and African Legends",
+      "subtopics": [
+        "Definition of literature and three genres (prose, poetry, drama)",
+        "Features and moral themes of indigenous Nigerian folktales (Tortoise trickster tales)",
+        "Distinction between myths (explanations of creation) and legends (historical heroes like Moremi, Bayajidda)"
+      ],
+      "objectives": [
+        "Name the three primary genres of literature",
+        "Identify the moral lesson in a selected Nigerian tortoise fable",
+        "Differentiate folktales from historical legends"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Figures of Speech: Simile and Metaphor in African Poetry",
+      "subtopics": [
+        "Definition of figures of speech and figurative vs literal language",
+        "Simile: direct comparison using 'as' or 'like'",
+        "Metaphor: direct identification comparison without 'as' or 'like'",
+        "Identifying similes and metaphors in recommended African poems"
+      ],
+      "objectives": [
+        "Differentiate similes from metaphors with clear examples",
+        "Create 5 original similes rooted in Nigerian cultural realities"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Speech Sound Clinic",
+      "subtopics": [
+        "Review of parts of speech, tenses, sentence joining, and composition",
+        "Speech sound pronunciation testing"
+      ],
+      "objectives": [
+        "Complete comprehensive JSS 1 English Studies revision"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal examination on grammar, comprehension, composition, and literature"
+      ],
+      "objectives": [
+        "Complete JSS 1 English Studies Term 1 certification"
+      ]
+    }
+  ]
+}

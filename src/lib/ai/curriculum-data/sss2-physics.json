@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Physics",
+  "subjectCode": "PHY",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/physics-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Physics for Senior Secondary Schools",
+    "author": "M. W. Anyakoha",
+    "publisher": "Africana First Publishers Plc",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Projectiles and Trajectory Mechanics",
+      "subtopics": ["Trajectory of a projectile launched at an angle θ", "Time of flight, maximum height, and horizontal range", "Real-life applications: Sports, ballistics, and satellite launching"],
+      "objectives": ["Derive formula for time of flight (2u sinθ / g)", "Calculate maximum horizontal range when θ = 45°", "Solve projectile motion problems neglecting air resistance"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Simple Harmonic Motion (SHM)",
+      "subtopics": ["Definition and conditions for SHM: a = -ω²x", "Simple pendulum and loaded spiral spring", "Energy transformations in oscillating systems"],
+      "objectives": ["State defining equation of SHM", "Determine acceleration due to gravity using simple pendulum period formula", "Plot kinetic energy vs potential energy variation in SHM"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Linear Momentum and Newton's Laws of Motion",
+      "subtopics": ["Newton's three laws of motion", "Principle of conservation of linear momentum", "Elastic vs inelastic collisions and impulse of a force"],
+      "objectives": ["State Newton's second law in terms of rate of change of momentum", "Apply conservation of momentum to gun recoil and car collisions", "Calculate impulse from force-time graphs"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Mechanical and Electromagnetic Waves",
+      "subtopics": ["Transverse and longitudinal waves", "Wave properties: Reflection, refraction, diffraction, interference", "General wave equation: v = fλ"],
+      "objectives": ["Differentiate mechanical waves from electromagnetic radiation", "Explain wavefront propagation and Doppler effect", "Solve numerical problems using v = fλ"]
+    }
+  ]
+}

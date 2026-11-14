@@ -1,4 +1,4 @@
-import {
+import type {
   CurriculumLevel,
   CurriculumSubject,
   CurriculumTopic,
@@ -49,21 +49,41 @@ export function setLoggedOutFlag(loggedOut: boolean) {
   } catch {}
 }
 
-export async function fetchCurrentUser(): Promise<TeacherUser> {
+export function getAuthHeaders(customHeaders: Record<string, string> = {}): Record<string, string> {
   const token = getAuthToken();
+  const headers: Record<string, string> = { ...customHeaders };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  } else if (!isUserLoggedOut()) {
+    headers['Authorization'] = 'Bearer auth_tok_usr_teacher_demo_01';
+  }
+  return headers;
+}
+
+async function parseJsonOrThrow<T = any>(res: Response, fallbackMessage: string): Promise<T> {
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err: any = new Error(data.message || data.error || fallbackMessage);
+    err.status = res.status;
+    err.code = data.code;
+    err.requiredTier = data.requiredTier;
+    err.details = data.details;
+    err.allowedSourcesCount = data.allowedSourcesCount;
+    err.currentActiveSources = data.currentActiveSources;
+    err.mandatedSource = data.mandatedSource;
+    throw err;
+  }
+  return data as T;
+}
+
+export async function fetchCurrentUser(): Promise<TeacherUser> {
   const loggedOut = isUserLoggedOut();
   if (loggedOut) {
     throw new Error('User is logged out');
   }
 
-  const headers: Record<string, string> = {};
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  } else {
-    // If no token stored at all and user hasn't explicitly logged out, provide default demo teacher on initial preview
-    headers['Authorization'] = `Bearer auth_tok_usr_teacher_demo_01`;
-  }
-  const res = await fetch(`${API_BASE}/auth/me`, { headers });
+  const headers = getAuthHeaders();
+  const res = await fetch(`${API_BASE}/auth/me`, { headers, credentials: 'include' });
   if (!res.ok) {
     setAuthToken(null);
     throw new Error('Could not fetch user');
@@ -71,7 +91,11 @@ export async function fetchCurrentUser(): Promise<TeacherUser> {
   return res.json();
 }
 
-export async function signInUser(email: string, password?: string): Promise<{ success: boolean; user: TeacherUser; token?: string }> {
+export async function signInUser(
+  email: string,
+  password?: string,
+  options?: { deviceFingerprint?: string; forceLogout?: boolean }
+): Promise<any> {
   setLoggedOutFlag(false);
   if (typeof document !== 'undefined') {
     document.cookie = 'eduplan_logged_out=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; SameSite=Lax';
@@ -81,12 +105,24 @@ export async function signInUser(email: string, password?: string): Promise<{ su
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ email, password: password || 'default_pass' }),
+    body: JSON.stringify({
+      email,
+      password: password || 'default_pass',
+      deviceFingerprint: options?.deviceFingerprint,
+      forceLogout: options?.forceLogout,
+    }),
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || err.error || 'Authentication failed');
+    const errData = await res.json().catch(() => ({}));
+    const err = new Error(errData.message || errData.error || 'Authentication failed');
+    (err as any).code = errData.code;
+    (err as any).activeIp = errData.activeIp;
+    (err as any).activeUserAgent = errData.activeUserAgent;
+    (err as any).lastActivity = errData.lastActivity;
+    (err as any).userId = errData.userId;
+    (err as any).status = res.status;
+    throw err;
   }
 
   const data = await res.json();
@@ -103,6 +139,36 @@ export async function signInUser(email: string, password?: string): Promise<{ su
   }
 
   return data;
+}
+
+export async function forceLogoutOtherDevice(userId?: string, email?: string): Promise<{ success: boolean; message: string }> {
+  const res = await fetch(`${API_BASE}/auth/force-logout-other-device`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, email }),
+  });
+  return res.json();
+}
+
+export async function sendAuthHeartbeat(): Promise<{ success: boolean; expired?: boolean; message?: string }> {
+  const token = getAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE}/auth/heartbeat`, {
+    method: 'POST',
+    headers,
+    credentials: 'include',
+  });
+  if (res.status === 401) {
+    const err = await res.json().catch(() => ({}));
+    return {
+      success: false,
+      expired: true,
+      message: err.error || 'You have been logged out due to 10 minutes of inactivity.',
+    };
+  }
+  return res.json();
 }
 
 export async function signOutUser(hardRedirect: boolean = false, redirectUrl: string = '/'): Promise<{ success: boolean }> {
@@ -173,18 +239,28 @@ export async function signUpUser(data: {
   lga?: string;
 }): Promise<{ success: boolean; user: TeacherUser }> {
   setLoggedOutFlag(false);
+  if (typeof document !== 'undefined') {
+    document.cookie = 'eduplan_logged_out=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; SameSite=Lax';
+  }
   const res = await fetch(`${API_BASE}/auth/sign-up`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || 'Registration failed');
+    throw new Error(err.message || err.error || 'Registration failed');
   }
   const result = await res.json();
   if (result.token) {
     setAuthToken(result.token);
+  }
+  if (result.user && typeof localStorage !== 'undefined') {
+    localStorage.setItem('eduplan_auth_user', JSON.stringify(result.user));
+  }
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('eduplan_auth_state_changed', { detail: result.user }));
   }
   return result;
 }
@@ -192,7 +268,8 @@ export async function signUpUser(data: {
 export async function updateProfile(data: Partial<TeacherUser>): Promise<{ success: boolean; message: string }> {
   const res = await fetch(`${API_BASE}/auth/profile`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   return res.json();
@@ -206,41 +283,64 @@ export async function completeOnboarding(data: {
 }) {
   const res = await fetch(`${API_BASE}/auth/onboarding`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   return res.json();
 }
 
 export async function fetchCurriculumLevels(): Promise<CurriculumLevel[]> {
-  const res = await fetch(`${API_BASE}/curriculum/levels`);
+  const res = await fetch(`${API_BASE}/curriculum/levels`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Failed to load levels');
   return res.json();
 }
 
 export async function fetchLevelDetail(levelId: string): Promise<{ level: CurriculumLevel; subjects: CurriculumSubject[] }> {
-  const res = await fetch(`${API_BASE}/curriculum/levels/${levelId}`);
+  const res = await fetch(`${API_BASE}/curriculum/levels/${levelId}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Failed to load level detail');
   return res.json();
 }
 
-export async function fetchSubjectDetail(levelId: string, subjectId: string): Promise<{
+export async function fetchSubjectDetail(
+  levelId: string,
+  subjectId: string,
+  sourceId?: string
+): Promise<{
   subject: CurriculumSubject;
   terms: { term: number; name: string; weeks: CurriculumTopic[] }[];
+  sourceId?: string;
+  sourceName?: string;
+  curriculumVersion?: string;
 }> {
-  const res = await fetch(`${API_BASE}/curriculum/levels/${levelId}/subjects/${subjectId}`);
-  if (!res.ok) throw new Error('Failed to load subject detail');
-  return res.json();
+  const qs = sourceId ? `?sourceId=${encodeURIComponent(sourceId)}` : '';
+  const res = await fetch(`${API_BASE}/curriculum/levels/${levelId}/subjects/${subjectId}${qs}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
+  return parseJsonOrThrow(res, 'Failed to load subject detail');
 }
 
 export async function fetchLessonPlans(): Promise<LessonPlan[]> {
-  const res = await fetch(`${API_BASE}/lesson-plans`);
+  const res = await fetch(`${API_BASE}/lesson-plans`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Failed to load lesson plans');
   return res.json();
 }
 
 export async function fetchLessonPlan(id: string): Promise<LessonPlan> {
-  const res = await fetch(`${API_BASE}/lesson-plans/${id}`);
+  const res = await fetch(`${API_BASE}/lesson-plans/${id}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Failed to load lesson plan');
   return res.json();
 }
@@ -248,31 +348,39 @@ export async function fetchLessonPlan(id: string): Promise<LessonPlan> {
 export async function createLessonPlan(data: Partial<LessonPlan>): Promise<{ success: boolean; lessonPlan: LessonPlan }> {
   const res = await fetch(`${API_BASE}/lesson-plans`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to create lesson plan');
-  return res.json();
+  return parseJsonOrThrow(res, 'Failed to create lesson plan');
 }
 
 export async function updateLessonPlan(id: string, data: Partial<LessonPlan>): Promise<{ success: boolean; message: string; updatedAt: string }> {
   const res = await fetch(`${API_BASE}/lesson-plans/${id}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to update lesson plan');
-  return res.json();
+  return parseJsonOrThrow(res, 'Failed to update lesson plan');
 }
 
 export async function deleteLessonPlan(id: string): Promise<{ success: boolean; message: string }> {
-  const res = await fetch(`${API_BASE}/lesson-plans/${id}`, { method: 'DELETE' });
-  return res.json();
+  const res = await fetch(`${API_BASE}/lesson-plans/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
+  return parseJsonOrThrow(res, 'Failed to delete lesson plan');
 }
 
 export async function duplicateLessonPlan(id: string): Promise<{ success: boolean; lessonPlan: LessonPlan }> {
-  const res = await fetch(`${API_BASE}/lesson-plans/${id}/duplicate`, { method: 'POST' });
-  return res.json();
+  const res = await fetch(`${API_BASE}/lesson-plans/${id}/duplicate`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
+  return parseJsonOrThrow(res, 'Failed to duplicate lesson plan');
 }
 
 export async function requestAIAssist(payload: {
@@ -285,10 +393,11 @@ export async function requestAIAssist(payload: {
 }): Promise<{ success: boolean; content: string; provider: string }> {
   const res = await fetch(`${API_BASE}/lesson-plans/ai-assist`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
-  return res.json();
+  return parseJsonOrThrow(res, 'AI Assist request blocked or failed');
 }
 
 export async function autoGeneratePlanAndNote(payload: {
@@ -298,61 +407,112 @@ export async function autoGeneratePlanAndNote(payload: {
   week?: number;
   term?: number;
   language?: string;
+  curriculumSourceId?: string;
+  studentId?: string;
+  isIepPlan?: boolean;
 }): Promise<{ success: boolean; data: any; provider: string }> {
   const res = await fetch(`${API_BASE}/lesson-plans/auto-generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error('Failed to auto-generate statutory content');
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => ({}));
+    const err: any = new Error(errorBody.message || errorBody.error || 'Failed to auto-generate statutory content');
+    err.status = res.status;
+    err.code = errorBody.code;
+    err.requiredTier = errorBody.requiredTier;
+    err.allowedSourcesCount = errorBody.allowedSourcesCount;
+    err.currentActiveSources = errorBody.currentActiveSources;
+    err.mandatedSource = errorBody.mandatedSource;
+    err.policyDetails = errorBody.policyDetails;
+    throw err;
+  }
   return res.json();
 }
 
 export async function fetchDashboardStats(): Promise<DashboardStats> {
-  const res = await fetch(`${API_BASE}/dashboard/stats`);
+  const res = await fetch(`${API_BASE}/dashboard/stats`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Failed to fetch dashboard stats');
   return res.json();
 }
 
-export async function fetchNotifications(): Promise<{ notifications: NotificationItem[]; unreadCount: number }> {
-  const res = await fetch(`${API_BASE}/notifications`);
+export async function fetchNotifications(sourceId?: string): Promise<{
+  notifications: NotificationItem[];
+  unreadCount: number;
+  activeFilterSource?: string;
+  sourceName?: string;
+}> {
+  const activeSource = sourceId || (typeof localStorage !== 'undefined' ? localStorage.getItem('eduplan_curriculum_source') || 'lagos_scheme' : 'lagos_scheme');
+  const res = await fetch(`${API_BASE}/notifications?source=${encodeURIComponent(activeSource)}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   return res.json();
 }
 
 export async function markNotificationRead(id: string) {
-  return fetch(`${API_BASE}/notifications/${id}/read`, { method: 'PATCH' });
+  return fetch(`${API_BASE}/notifications/${id}/read`, {
+    method: 'PATCH',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
 }
 
 export async function markAllNotificationsRead() {
-  return fetch(`${API_BASE}/notifications/mark-all-read`, { method: 'POST' });
+  return fetch(`${API_BASE}/notifications/mark-all-read`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
 }
 
 export async function deleteNotification(id: string) {
-  return fetch(`${API_BASE}/notifications/${id}`, { method: 'DELETE' });
+  return fetch(`${API_BASE}/notifications/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
 }
 
 export async function fetchResources(params?: { level?: string; subject?: string; type?: string; search?: string }): Promise<ResourceItem[]> {
   const query = new URLSearchParams(params as Record<string, string>).toString();
-  const res = await fetch(`${API_BASE}/resources?${query}`);
+  const res = await fetch(`${API_BASE}/resources?${query}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   return res.json();
 }
 
 export async function createResource(data: Partial<ResourceItem>): Promise<{ success: boolean; resource: ResourceItem }> {
   const res = await fetch(`${API_BASE}/resources`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   return res.json();
 }
 
 export async function deleteResource(id: string) {
-  return fetch(`${API_BASE}/resources/${id}`, { method: 'DELETE' });
+  return fetch(`${API_BASE}/resources/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
 }
 
 export async function initializeKoraPayment(data: {
   plan?: string;
   planId?: string;
+  accountType?: string;
+  schoolId?: string;
+  schoolName?: string;
+  paymentMethod?: string;
   email: string;
   name: string;
   amount?: number;
@@ -367,28 +527,42 @@ export async function initializeKoraPayment(data: {
   };
   const res = await fetch(`${API_BASE}/payments/initialize`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
   return res.json();
 }
 
 export async function fetchSchemes(): Promise<SchemeOfWork[]> {
-  const res = await fetch(`${API_BASE}/schemes`);
-  return res.json();
-}
-
-export async function generateScheme(data: { level: string; subject: string; term: number; academicYear?: string }) {
-  const res = await fetch(`${API_BASE}/schemes/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+  const res = await fetch(`${API_BASE}/schemes`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
   });
   return res.json();
 }
 
+export async function generateScheme(data: {
+  level: string;
+  subject: string;
+  term: number;
+  academicYear?: string;
+  curriculumSourceId?: string;
+}) {
+  const res = await fetch(`${API_BASE}/schemes/generate`, {
+    method: 'POST',
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
+    body: JSON.stringify(data),
+  });
+  return parseJsonOrThrow(res, 'Failed to generate scheme of work');
+}
+
 export async function fetchAssessments(): Promise<AssessmentItem[]> {
-  const res = await fetch(`${API_BASE}/assessments`);
+  const res = await fetch(`${API_BASE}/assessments`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   return res.json();
 }
 
@@ -403,28 +577,36 @@ export async function generateAssessment(data: {
 }) {
   const res = await fetch(`${API_BASE}/assessments/generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  return res.json();
+  return parseJsonOrThrow(res, 'Exam generation requires an upgraded subscription tier');
 }
 
 export async function fetchGrades(): Promise<GradeRecord[]> {
-  const res = await fetch(`${API_BASE}/grades`);
+  const res = await fetch(`${API_BASE}/grades`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   return res.json();
 }
 
 export async function createGrade(data: Partial<GradeRecord>) {
   const res = await fetch(`${API_BASE}/grades`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   return res.json();
 }
 
 export async function searchGlobal(q: string) {
-  const res = await fetch(`${API_BASE}/search?q=${encodeURIComponent(q)}`);
+  const res = await fetch(`${API_BASE}/search?q=${encodeURIComponent(q)}`, {
+    headers: getAuthHeaders(),
+    credentials: 'include',
+  });
   return res.json();
 }
 
@@ -438,10 +620,11 @@ export async function requestTeacherCoach(data: {
 }): Promise<{ success: boolean; content: string; provider: string }> {
   const res = await fetch(`${API_BASE}/ai/teacher-coach`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  return res.json();
+  return parseJsonOrThrow(res, 'Teacher Coach quota exceeded or unavailable');
 }
 
 export async function generateDedicatedLessonPlan(data: {
@@ -456,10 +639,11 @@ export async function generateDedicatedLessonPlan(data: {
 }) {
   const res = await fetch(`${API_BASE}/ai/lesson-plan`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  return res.json();
+  return parseJsonOrThrow(res, 'Failed to generate dedicated lesson plan');
 }
 
 export async function generateDedicatedLessonNote(data: {
@@ -471,15 +655,18 @@ export async function generateDedicatedLessonNote(data: {
 }) {
   const res = await fetch(`${API_BASE}/ai/lesson-note`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
-  return res.json();
+  return parseJsonOrThrow(res, 'Failed to generate dedicated lesson note');
 }
 
 export async function triggerCurriculumSync() {
   const res = await fetch(`${API_BASE}/cron/curriculum-sync`, {
     method: 'POST',
+    headers: getAuthHeaders(),
+    credentials: 'include',
   });
   return res.json();
 }

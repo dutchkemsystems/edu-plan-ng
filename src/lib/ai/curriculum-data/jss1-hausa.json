@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 1",
+  "subject": "Harshen Hausa",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-hausa.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Bayanin Haruffan Hausa: Baƙaƙe da wasula, haruffa masu tagwayen sauti",
+      "learningObjectives": [
+        "Fahimtar jimillar haruffan Hausa (baƙaƙe da wasula)",
+        "Gane wasula guda biyar (a, e, i, o, u) da gajeru da dogaye",
+        "Bayyana haruffa masu tagwayen sauti (ƙ, ɗ, ɓ, ts, 'y) a fili"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Ƙa'idojin Rubutun Hausa: Raba kalmomi, haɗa kalmomi, da amfani da alamomin rubutu",
+      "learningObjectives": [
+        "Fahimtar ƙa'idojin haɗa kalma da raba kalma a rubuce",
+        "Amfani da alamomin rubutu (aya, waƙafi, alamar tambaya) yadda ya dace",
+        "Kauce wa kuskuren rubutu a kalmomin yau da kullum"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Kayan Sautin Hausa: Ƙwarewar furuci, gajerun wasula da dogayen wasula",
+      "learningObjectives": [
+        "Bambanta tsakanin gajerun wasula da dogayen wasula",
+        "Koya yadda ake furta sautuka daban-daban a bakin mutum",
+        "Gane tasirin tsawon sauti wajen canza ma'anar kalma"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Rabe-raben Kalmomi: Suna (suna na gama-gari da sunan kanka)",
+      "learningObjectives": [
+        "Bada ma'anar suna a tsarin nahawun Hausa",
+        "Bambanta tsakanin sunan kanka (proper noun) da sunan gama-gari (common noun)",
+        "Yin amfani da suna wajen gina cikakkiyar jumla"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Al'adun Gaisuwa a Ƙasar Hausa: Gaisuwar safe, rana, da ta girmama manya",
+      "learningObjectives": [
+        "Bayyana mahimmancin gaisuwa a al'adar Hausawa",
+        "Koya yadda ake gaishe da iyaye da manya cikin ladabi da biyayya",
+        "Gane gaisuwar yanayi daban-daban (ina kwana, barka da yamma, barka da rana)"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Ƙagaggen Rubutu (Insha'i): \"Makaranta Ta\" ko \"Kasuwar Garinmu\"",
+      "learningObjectives": [
+        "Koya sassan insha'i (gabatarwa, jigon bayani, da kammalawa)",
+        "Rubuta gajeren insha'i mai ma'ana game da makarantarsu",
+        "Amfani da ingantaccen rubutun Hausa ba tare da kuskuren haruffa ba"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Gwajin Tsakiyar Zango da Tantance Sakamako",
+      "learningObjectives": [
+        "Auna fahimtar ɗalibai a kan haruffa, sautuka, da rabe-raben suna",
+        "Gyara kurakuran da aka samu a rubutun insha'i",
+        "Ƙarfafa gwiwar ɗalibai wajen haɓaka ilimin harshen Hausa"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Adabin Gargajiya: Tatsuniyoyi, karin magana, da waƙoƙin baka",
+      "learningObjectives": [
+        "Bada ma'anar adabin baka da rabe-rabensa",
+        "Bayar da labarin tatsuniya mai ɗauke da Gizo da Koki",
+        "Fito da darussan tarbiyya da gargaɗi da ke cikin tatsuniya"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Tsayayyun Al'adu: Bukukuwan aure, haihuwa, da sana'o'in gargajiya a Arewa",
+      "learningObjectives": [
+        "Bayyana yadda ake gudanar da bikin aure da na sanya suna a ƙasar Hausa",
+        "Gane abubuwan da al'adar Hausa ta amince da su wajen neman aure",
+        "Kare kyawawan al'adun Hausa daga gurbacewa"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Karin Magana a Harshen Hausa: Ma'ana da amfaninsu a zantuka",
+      "learningObjectives": [
+        "Bayyana ma'anar karin magana a matsayin mai gyara zance",
+        "Koya shahararrun karin magana (misali: zama lafiya ya fi zama ɗan sarki)",
+        "Amfani da karin magana wajen zance a cikin aji"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Sana'o'in Gargajiya: Ƙira, jima, saƙa, da rini a ƙasar Hausa",
+      "learningObjectives": [
+        "Gano tsofaffin sana'o'in da Hausawa suka shahara da su",
+        "Bayyana kayan aikin da maƙera, marina, da masāƙa ke amfani da su",
+        "Bayyana amfanin sana'o'in hannu ga tattalin arziƙin al'umma"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Bita Kan Dukkan Darussan Zango don Shirin Jarabawa",
+      "learningObjectives": [
+        "Sake duba dukkan darussan da aka koyar a fannin nahawu, al'ada, da adabi",
+        "Amsa tambayoyin da suka gabata don ƙarin sani",
+        "Shirya ɗalibai don fuskantar jarabawar ƙarshen zango cikin kwarin gwiwa"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Jarabawar Ƙarshen Zango da Rubuta Sakamako",
+      "learningObjectives": [
+        "Gudanar da cikakkiyar jarabawar rubutu da ta baka a harshen Hausa",
+        "Tantance makin ɗalibai bisa tsarin da ma'aikatar ilimi ta amince da shi",
+        "Shigar da sakamakon jarabawa a littafin bayanan makaranta"
+      ]
+    }
+  ]
+}

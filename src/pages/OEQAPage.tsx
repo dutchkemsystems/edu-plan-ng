@@ -50,8 +50,8 @@ export const OEQAPage: React.FC = () => {
     {
       id: 'crit_01',
       domain: 'Domain 1: Teaching, Learning & Assessment',
-      label: 'NERDC Lesson Plan & Note Preparedness',
-      description: 'Teacher has approved written lesson plans and chalkboard notes ready before entering the classroom.',
+      label: 'Lagos State Unified Scheme & Federal NERDC Lesson Plan Preparedness',
+      description: 'Teacher has approved written lesson plans and chalkboard notes adhering to Lagos State Unified Scheme (OEQA 5-step format) aligned without contradiction to Federal NERDC standards.',
       score: 4,
       evidence: 'All weekly lesson plans generated and HOD signed on EduPlan NG'
     },
@@ -66,10 +66,10 @@ export const OEQAPage: React.FC = () => {
     {
       id: 'crit_03',
       domain: 'Domain 2: Curriculum Management & Delivery',
-      label: '13-Week Scheme of Work Coverage',
-      description: 'Curriculum topics match the statutory NERDC term schedule with weekly pacing adherence.',
-      score: 3,
-      evidence: 'Week 3 of 13 currently in progress with 92% student attendance'
+      label: '13-Week Lagos State Unified Scheme Coverage (Auto-Synced Independently)',
+      description: 'Curriculum topics follow the isolated Lagos State Unified Scheme of Work registry, harmonized cleanly with Federal NERDC baseline without contradiction.',
+      score: 4,
+      evidence: '13-week syllabus auto-synced with independent Alausa LASUBEB/OEQA and NERDC Abuja registries'
     },
     {
       id: 'crit_04',

@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Financial Accounting",
+  "subjectCode": "ACC",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/financial-accounting-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Financial Accounting for Senior Secondary Schools",
+    "author": "R. A. I. Kazeem",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Financial Accounting and Ethical Principles",
+      "subtopics": ["History of bookkeeping and double-entry origins (Luca Pacioli, 1494)", "Internal and external users of accounting statements (investors, creditors, tax authorities, banks)", "Fundamental accounting concepts and conventions (Going concern, accruals, consistency, prudence)"],
+      "objectives": ["Define financial accounting and state its primary objectives", "Identify 6 users of accounting records and their information requirements", "Apply the prudence and consistency concepts to real financial valuation problems"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Accounting Equation and Balance Sheet Mechanics",
+      "subtopics": ["The fundamental equation: ASSETS = CAPITAL + LIABILITIES", "Classification of assets (Non-current assets vs current assets) and liabilities (Current vs non-current)", "Transaction effects on the accounting equation"],
+      "objectives": ["State the accounting equation in its various algebraic forms", "Classify 12 commercial balances into assets, capital, and liabilities", "Compute changes in owner's equity resulting from revenue earnings and drawings in Naira"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Principles of Double Entry and the General Ledger",
+      "subtopics": ["Golden Rules of Debit and Credit for assets, liabilities, income, and expenses", "Subdivisions of the Ledger: Sales ledger, purchases ledger, general ledger", "Posting commercial transactions and balancing ledger accounts (Balance c/d and b/d)"],
+      "objectives": ["Apply debit and credit rules to 15 diverse business transactions", "Post journalized entries into personal, real, and nominal ledger accounts", "Balance individual ledger accounts at the end of an accounting period"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Books of Original Entry and Subsidiary Day Books",
+      "subtopics": ["Subsidiary books: Sales day book, purchases day book, returns inwards/outwards books", "The General Journal (Journal Proper): Uses, opening entries, purchase/sale of non-current assets", "Format and narrative writing in journal entries"],
+      "objectives": ["Record credit transactions in the appropriate subsidiary day books", "Draft opening entries in the General Journal with standard narrations", "Post subsidiary book totals to the General Ledger control accounts"]
+    }
+  ]
+}

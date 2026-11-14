@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 1",
+  "subject": "French Language",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-french.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Les Salutations: Bonjour, Bonsoir, Comment ça va ? and courteous replies",
+      "learningObjectives": [
+        "Pronounce standard French greetings for morning, afternoon, and evening",
+        "Respond courteously to formal and informal inquiries of well-being",
+        "Distinguish between formal address (vous) and familiar address (tu)"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "L'Alphabet Français et les Accents (aigu, grave, circonflexe, cédille)",
+      "learningObjectives": [
+        "Recite the 26 letters of the French alphabet with correct phonetics",
+        "Identify and write diacritical marks (é, è, ê, ç, à, ù, î, ô)",
+        "Spell names and common words using oral French alphabetical sounds"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Se Présenter: Je m'appelle, J'ai ... ans, Je suis Nigérian(e)",
+      "learningObjectives": [
+        "State personal identity, age, nationality, and place of residence in French",
+        "Conjugate the reflexive verb s'appeler in present singular forms",
+        "Differentiate masculine and feminine forms of nationalities"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Les Nombres (1 à 50): Counting, age, and telephone numbers",
+      "learningObjectives": [
+        "Count fluently in French from 1 to 50 with accurate pronunciation",
+        "Ask for and recite phone numbers and ages in dialogues",
+        "Perform simple addition and subtraction sums in spoken French"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Les Objets de la Classe: Un livre, un stylo, une table, le tableau",
+      "learningObjectives": [
+        "Identify and name everyday classroom stationery and furniture",
+        "Use definite (le, la, l', les) and indefinite articles (un, une, des) accurately",
+        "Formulate short sentences identifying objects using C'est and Ce sont"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Le Verbe \"Être\" (To Be): Present tense conjugation and identity",
+      "learningObjectives": [
+        "Conjugate the irregular auxiliary verb être across all personal pronouns",
+        "Construct affirmative and negative sentences using ne ... pas",
+        "Describe physical attributes and professions using appropriate adjective agreements"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Contrôle Continu et Évaluation Orale de Mi-Semestre",
+      "learningObjectives": [
+        "Assess pupil mastery of basic greetings, numbers, and conjugation of être",
+        "Evaluate individual spoken pronunciation in brief role-play dialogues",
+        "Provide remedial phonetics drills on difficult nasal vowel sounds"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Le Verbe \"Avoir\" (To Have): Present tense conjugation and possession",
+      "learningObjectives": [
+        "Conjugate avoir across singular and plural subject pronouns",
+        "Express possession of classroom objects and personal belongings",
+        "Express age correctly using J'ai ... ans rather than the English verb to be"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Les Jours de la Semaine et les Mois de l'Année: Calendar and dates",
+      "learningObjectives": [
+        "Recite days of the week from lundi to dimanche in chronological order",
+        "Name the twelve months of the year with correct oral intonation",
+        "State today's date and birthday dates using the structure C'est le..."
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "La Famille: Le père, la mère, le frère, la sœur, and possessives",
+      "learningObjectives": [
+        "Identify members of the nuclear family in French",
+        "Apply possessive adjectives (mon, ma, mes; ton, ta, tes) accurately",
+        "Present a brief oral sketch describing family relatives and occupations"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Les Couleurs et la Description Physique Simple",
+      "learningObjectives": [
+        "Name primary and secondary colors in French",
+        "Apply gender and number agreement rules for color adjectives",
+        "Describe the color and shape of garments and classroom objects"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Révision Générale de Grammaire, Vocabulaire et Dialogue Français",
+      "learningObjectives": [
+        "Consolidate vocabulary on family, calendar, classroom, and numbers",
+        "Rehearse conversational dialogues covering introductions and descriptions",
+        "Review common pitfalls in article usage and auxiliary verb conjugations"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Examen Terminal Écrit et Oral de Langue Française",
+      "learningObjectives": [
+        "Administer standardized written French grammar and comprehension paper",
+        "Conduct one-on-one viva oral examinations assessing fluency and accent",
+        "Record cumulative continuous assessment and exam grades into broadsheets"
+      ]
+    }
+  ]
+}

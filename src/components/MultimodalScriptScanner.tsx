@@ -15,6 +15,12 @@ import {
   X
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { getAuthHeaders } from '../lib/api.ts';
+
+interface MultimodalScriptScannerProps {
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+  onQuotaChanged?: () => void;
+}
 
 interface ScriptScanResult {
   transcribedText: string;
@@ -34,7 +40,10 @@ interface ScriptScanResult {
   correctionGuide: string;
 }
 
-export const MultimodalScriptScanner: React.FC = () => {
+export const MultimodalScriptScanner: React.FC<MultimodalScriptScannerProps> = ({
+  onOpenUpgrade,
+  onQuotaChanged,
+}) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedPresetId, setSelectedPresetId] = useState<string>('preset_math');
   const [question, setQuestion] = useState(
@@ -123,14 +132,27 @@ export const MultimodalScriptScanner: React.FC = () => {
 
       const res = await fetch('/api/ai/scan-script', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          const msg = data?.error || data?.message || 'Upgrade required for AI Script Scanning.';
+          setErrorMsg(msg);
+          onOpenUpgrade?.(msg, data?.requiredTier || 'b2c_termly', 'AI Script Scanner');
+          return;
+        }
+        setErrorMsg(data?.error || 'Could not process script scanning. Please check image legibility.');
+        return;
+      }
+
       if (data.success && data.data) {
         setScanResult(data.data);
         confetti({ particleCount: 75, spread: 65 });
+        onQuotaChanged?.();
       } else {
         setErrorMsg('Could not process script scanning. Please check image legibility.');
       }

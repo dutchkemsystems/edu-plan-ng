@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 3",
+  "subject": "Home Economics",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-home-economics.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Meal Planning for Vulnerable Family Groups: Toddlers, pregnant women, and convalescents",
+      "learningObjectives": [
+        "Outline nutritional imperatives for physiological stages of human lifecycle",
+        "Formulate balanced daily meal regimens for toddlers and expectant mothers",
+        "Adapt convalescent diets for digestibility, fluid replenishment, and healing"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Table Setting, Dining Etiquette, and Buffet Service",
+      "learningObjectives": [
+        "Demonstrate formal and informal covers for three-course Nigerian meals",
+        "Practice table etiquette regarding cutlery usage, posture, and conversation",
+        "Organize buffet layouts ensuring hygienic food temperature regulation"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Consumer Rights and Redress in Domestic Markets",
+      "learningObjectives": [
+        "Explain universal rights of consumers (safety, information, choice, redress)",
+        "Identify roles of FCCPC, SON, and NAFDAC in checking adulteration",
+        "Draft formal complaints seeking restitution for defective commercial goods"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Pattern Drafting and Garment Construction Tools",
+      "learningObjectives": [
+        "Take accurate anatomical measurements for bodice and skirt drafting",
+        "Use tracing wheels, tailors chalk, tape rules, and French curves",
+        "Draft basic paper pattern blocks with seam allowances and grain line markings"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Garment Construction: Sleeves, collars, and edge finishes",
+      "learningObjectives": [
+        "Draft set-in sleeves and flat Peter Pan collars from basic blocks",
+        "Attach sleeves ensuring correct easing around armhole contours",
+        "Apply bias bindings and facings as clean decorative edge finishes"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Fasteners and Openings: Zips, buttons, hooks-and-eyes, and plackets",
+      "learningObjectives": [
+        "Construct continuous wrap and bound placket openings",
+        "Sew buttons, hooks, and press studs securely with thread shanks",
+        "Insert concealed and semi-concealed zippers into skirt waistbands"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Mock Garment Drafting",
+      "learningObjectives": [
+        "Examine student mastery of consumer rights and meal planning principles",
+        "Assess accuracy of paper patterns drafted to standard school child dimensions",
+        "Offer remedial intervention on pattern adjustments and seam allowances"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Textile Science: Natural and synthetic fibers (cotton, silk, polyester)",
+      "learningObjectives": [
+        "Classify textile fibers according to origin (vegetable, animal, synthetic)",
+        "Perform burning tests and microscopic observation on fiber samples",
+        "Relate fiber properties to laundering temperatures and iron settings"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Care Labeling, Fabric Finishes, and Wardrobe Planning",
+      "learningObjectives": [
+        "Interpret international laundry and textile care symbols on clothing",
+        "Explain permanent and renewable fabric finishes (mercerization, flame proofing)",
+        "Plan personal wardrobes on moderate budgets utilizing capsule wardrobe concepts"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Household Budgeting, Family Resource Management, and Savings",
+      "learningObjectives": [
+        "Identify human and non-human family resources available for goal attainment",
+        "Draft a monthly family expenditure budget prioritizing statutory overheads",
+        "Evaluate banking savings schemes and cooperative thrift societies in Nigeria"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Child Care and Immunization: Milestones and infant health",
+      "learningObjectives": [
+        "Track developmental milestones from infancy through early childhood",
+        "Detail National Programme on Immunization (NPI) schedule in Nigeria",
+        "Manage common childhood ailments (colic, teething fever, diaper dermatitis)"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Revision on Home Economics & BECE Practical Clinic",
+      "learningObjectives": [
+        "Synthesize concepts in food nutrition, textile science, and child welfare",
+        "Simulate full BECE practical garment construction and cookery tasks",
+        "Grade completed projects against WAEC/NECO junior benchmark rubrics"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and BECE Garment Portfolio Assessment",
+      "learningObjectives": [
+        "Evaluate cumulative Junior Secondary Home Economics competencies",
+        "Score final sewn garments and baked food submissions",
+        "Certify broadsheet marks for Junior Secondary Certificate Examination"
+      ]
+    }
+  ]
+}

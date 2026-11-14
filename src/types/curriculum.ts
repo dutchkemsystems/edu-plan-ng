@@ -177,6 +177,8 @@ export interface LessonPlan {
    * Administrative Moderation
    */
   curriculumReference: string; // e.g. "NERDC Basic Education Curriculum Page 42; Lagos State Unified Scheme"
+  curriculumVersion?: string; // Stamped version e.g. "v1.2"
+  isOutdated?: boolean;
   teacherSignatureDate?: string;
   hodApproval?: {
     approved: boolean;
@@ -206,6 +208,9 @@ export interface LessonNote {
   term: number;
   week: number;
   topic: string;
+  curriculumVersion?: string;
+  isOutdated?: boolean;
+
 
   /**
    * Delivery Pacing & Script

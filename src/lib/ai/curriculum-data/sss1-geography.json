@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Geography",
+  "subjectCode": "GEO",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/geography-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Geography for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Earth as a Planet: Planetary Proofs and Solar System",
+      "subtopics": ["The solar system: Position of the Earth, sun, eight planets, and asteroid belt", "Proofs of the Earth's sphericity: Circumnavigation, ship's hull emergence, circular shadow during lunar eclipse, aerial photography", "Dimensions of the Earth: Equatorial circumference, polar diameter, and surface area"],
+      "objectives": ["List the planets of the solar system in order of distance from the sun", "Provide 5 empirical proofs confirming that the Earth is spherical", "Calculate distances on the Earth's surface using latitude degrees"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Earth Rotation and Revolution: Day, Night and Seasons",
+      "subtopics": ["Rotation of the Earth on its inclined axis (23.5°): Day and night, Coriolis force, time calculation across standard time zones", "Revolution of the Earth around the sun in 365.25 days: Equinoxes (March 21, Sept 23), Solstices (June 21, Dec 22)", "Calculation of local solar time and Greenwich Mean Time (GMT)"],
+      "objectives": ["Explain 4 distinct physical consequences of the Earth's rotation", "Calculate local time for cities given their longitudinal degrees east or west of the Greenwich Meridian", "Diagram the four annual seasonal positions of the Earth relative to the sun"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Internal Structure of the Earth and Lithosphere",
+      "subtopics": ["Concentric layers: The crust (SIAL and SIMA), the mantle (Asthenosphere), the core (Barysphere / NIFE)", "Discontinuities: Mohorovičić (Moho) and Gutenberg discontinuities", "Temperature and pressure gradients within the Earth's interior"],
+      "objectives": ["Draw and label a cross-sectional diagram of the internal structure of the Earth", "Distinguish continental SIAL from oceanic SIMA crustal plates", "State mineral compositions and physical states of the outer and inner core"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Classification of Rocks and Economic Importance",
+      "subtopics": ["Igneous rocks: Plutonic (granite) vs volcanic (basalt) formation from magma/lava", "Sedimentary rocks: Mechanically, organically, and chemically formed rocks (sandstone, limestone, coal)", "Metamorphic rocks: Thermal and regional metamorphism (marble from limestone, slate from shale)"],
+      "objectives": ["Classify 12 common rocks into their primary geological groups", "Explain how stratification and fossilization occur in sedimentary rock beds", "Highlight the economic value of rocks in the Nigerian mining and construction industry"]
+    }
+  ]
+}

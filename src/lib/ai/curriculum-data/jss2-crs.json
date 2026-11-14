@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Christian Religious Studies",
+  "subjectCode": "CRS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/crs-jss2",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Christian Religious Studies for Junior Secondary Schools Book 2",
+    "author": "T. N. O. Quarcoopome",
+    "publisher": "African Universities Press",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Birth of Jesus Christ: Prophecies, Annunciation and Nativity",
+      "subtopics": ["Old Testament prophecies: Isaiah 7:14 ('Immanuel') and Micah 5:2 (Bethlehem)", "The Annunciation to the Virgin Mary by Angel Gabriel (Luke 1:26-38)", "The birth of Jesus in a manger in Bethlehem and adoration of the shepherds (Luke 2)"],
+      "objectives": ["Quote Old Testament messianic prophecies concerning Christ's virgin birth", "Analyze Mary's song of praise (The Magnificat) and her humble submission to God's will", "Explain the spiritual significance of the incarnation of Christ for human redemption"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Baptism and Temptation of Jesus in the Wilderness",
+      "subtopics": ["The ministry of John the Baptist in River Jordan: Baptism of repentance (Matthew 3)", "Baptism of Jesus: The heavens opened and the descent of the Holy Spirit as a dove", "The threefold temptation of Jesus by Satan in the desert and his scriptural defense (Matthew 4)"],
+      "objectives": ["Explain 3 reasons why sinless Jesus submitted to baptism by John", "Analyze the 3 temptations: Physical appetite (bread), presumption (pinnacle), worldly power (idolatry)", "Apply Christ's scriptural defense ('It is written...') to contemporary temptations facing Nigerian youth"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "The Call of the Twelve Disciples and Demands of Discipleship",
+      "subtopics": ["The call of Simon Peter, Andrew, James, and John by the Sea of Galilee (Mark 1)", "The appointment of the 12 apostles: Names, diverse backgrounds (fishermen, tax collector)", "Demands of discipleship: Self-denial, cross-bearing, putting God above wealth and family ties (Luke 9:57-62)"],
+      "objectives": ["List the names of the 12 apostles of Jesus Christ", "Contrast Matthew the publican's calling with Simon the Zealot's political background", "Explain the cost of true Christian discipleship in modern society"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Miracles of Jesus: Power Over Sickness, Nature and Death",
+      "subtopics": ["Healing miracles: Healing of the ten lepers (gratitude of the Samaritan), the centurion's servant", "Nature miracles: Calming the storm on Lake Galilee, feeding of the 5,000 with 5 loaves and 2 fish", "Resurrection miracles: Raising of Lazarus of Bethany from the grave (John 11)"],
+      "objectives": ["Classify miracles of Jesus into healing, nature, exorcism, and resurrection miracles", "Explain lessons of compassionate generosity derived from the feeding of the 5,000", "State theological lessons on the supreme divine authority of Jesus Christ over disease and death"]
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-mathematics",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Junior Secondary Schools 2",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima, G.U. Garba",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Whole Numbers: Standard Form and Quantitative Scientific Notation",
+      "subtopics": [
+        "Writing large and small numbers in standard form A × 10^n where 1 ≤ A < 10",
+        "Converting from standard form to ordinary numbers",
+        "Operations with numbers in standard form"
+      ],
+      "objectives": [
+        "Express astronomical distances and microscopic measurements in standard form",
+        "Convert scientific notation numbers back into decimal representations",
+        "Multiply and divide numbers in standard index notation"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Fractions, Decimals and Commercial Transactions: Household Budgeting",
+      "subtopics": [
+        "Expressing one quantity as a percentage of another",
+        "Profit and loss percentage calculations in trading",
+        "Simple household and cooperative budgeting in Nigeria"
+      ],
+      "objectives": [
+        "Calculate percentage profit and loss on market goods bought at wholesale",
+        "Prepare a balanced personal monthly budget with income and expenditures"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Commercial Arithmetic: Simple Interest and Bank Calculations",
+      "subtopics": [
+        "Principal, rate, time, and simple interest formula: I = (P × R × T) / 100",
+        "Total amount payable: A = P + I",
+        "Calculating interest on agricultural micro-credit and bank deposits in Naira"
+      ],
+      "objectives": [
+        "State and derive the simple interest formula",
+        "Calculate simple interest given Principal, Rate, and Time in years/months",
+        "Solve practical banking word problems involving savings loans"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Algebraic Expressions: Expansion and Factorization of Simple Binomials",
+      "subtopics": [
+        "Expanding expressions like a(b + c) and (a + b)(c + d)",
+        "Factorization by taking out common algebraic factors",
+        "Factorization by grouping 4 terms into pairs"
+      ],
+      "objectives": [
+        "Expand products of algebraic binomial expressions using the FOIL method",
+        "Factorize algebraic expressions completely by identifying the highest common factor"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Algebraic Fractions: Simplification and Common Denominators",
+      "subtopics": [
+        "Simplifying algebraic fractions by factorizing numerator and denominator",
+        "Addition and subtraction of algebraic fractions with monomial denominators",
+        "Multiplication and division of algebraic fractions"
+      ],
+      "objectives": [
+        "Reduce algebraic fractions to lowest terms",
+        "Find LCM of algebraic terms and perform addition/subtraction"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Linear Inequalities in One Unknown: Graphical Representation",
+      "subtopics": [
+        "Inequality symbols: <, >, ≤, ≥",
+        "Solving linear inequalities (rule when multiplying/dividing by negative numbers)",
+        "Representing solutions on the number line using open and filled circles"
+      ],
+      "objectives": [
+        "Solve linear inequalities in one variable",
+        "Apply the sign reversal rule when multiplying by negative scalars",
+        "Graph solution intervals accurately on number lines"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on standard form, interest, expansion, and inequalities",
+        "Remedial clinic for struggling students"
+      ],
+      "objectives": [
+        "Assess mid-term comprehension and deliver targeted interventions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Plane Geometry: Angles at a Point, on a Straight Line, and Intersecting Lines",
+      "subtopics": [
+        "Sum of angles on a straight line equals 180 degrees",
+        "Angles at a point sum to 360 degrees",
+        "Vertically opposite angles and adjacent angles"
+      ],
+      "objectives": [
+        "Calculate unknown angles on intersecting lines with geometrical reasons",
+        "Apply angle theorems to solve geometric diagram problems"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Plane Geometry: Parallel Lines and Transversals",
+      "subtopics": [
+        "Corresponding angles (F-angles)",
+        "Alternate angles (Z-angles)",
+        "Interior co-interior angles summing to 180 degrees (C-angles)"
+      ],
+      "objectives": [
+        "Identify corresponding, alternate, and allied angles formed by parallel lines cut by transversals",
+        "Solve multi-step geometric angle calculations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Polygons: Properties and Sum of Angles of Triangles & Quadrilaterals",
+      "subtopics": [
+        "Sum of interior angles of a triangle is 180 degrees",
+        "Exterior angle theorem of a triangle",
+        "Sum of interior angles of an n-sided polygon: (n - 2) × 180 degrees"
+      ],
+      "objectives": [
+        "Prove that interior angles of a triangle sum to 180 degrees",
+        "Calculate interior and exterior angles of regular polygons up to decagons"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Pythagoras' Theorem and Practical Real-World Applications",
+      "subtopics": [
+        "Statement of Pythagoras Theorem for right-angled triangles: a^2 + b^2 = c^2",
+        "Calculating hypotenuse and remaining sides",
+        "Real-life applications: ladders leaning against walls, roof trusses, distance across fields"
+      ],
+      "objectives": [
+        "State and apply Pythagoras Theorem to find unknown side lengths",
+        "Identify common Pythagorean triples (3-4-5, 5-12-13, 8-15-17)",
+        "Solve practical Nigerian construction measurement scenarios"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Statistics: Data Presentation, Frequency Tables and Bar Charts",
+      "subtopics": [
+        "Collection and organization of statistical data",
+        "Tally marks and frequency distribution tables",
+        "Drawing and interpreting vertical and horizontal bar charts and pictograms"
+      ],
+      "objectives": [
+        "Organize ungrouped raw data into frequency tables with tally marks",
+        "Construct scaled bar charts representing school attendance or market prices"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Comprehensive Revision & Terminal Examination",
+      "subtopics": [
+        "Full termly syllabus revision and terminal examination moderation"
+      ],
+      "objectives": [
+        "Demonstrate complete mastery of JSS 2 Mathematics Term 1 concepts"
+      ]
+    }
+  ]
+}

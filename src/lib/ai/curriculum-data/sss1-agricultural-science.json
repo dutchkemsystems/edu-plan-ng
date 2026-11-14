@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Agricultural Science",
+  "subjectCode": "AGR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/agricultural-science-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Agricultural Science for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Land Use Act and Agricultural Land Tenure Systems in Nigeria",
+      "subtopics": ["The Land Use Act of 1978: Provisions, merits, and demerits", "Land tenure systems: Communal, inheritance, leasehold, freehold, tenancy", "Implications of land tenure constraints on commercial agribusiness"],
+      "objectives": ["Explain key provisions of the Nigerian Land Use Act of 1978", "Compare communal ownership with individual leasehold tenure", "Propose legal reforms to enhance access to farmland for youth and women"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Rock Weathering and Soil Formation Processes",
+      "subtopics": ["Physical weathering: Temperature fluctuation, frost, exfoliation", "Chemical weathering: Carbonation, hydration, oxidation, hydrolysis", "Biological weathering: Plant roots, burrowing earthworms, microbial decay"],
+      "objectives": ["Describe the 3 major rock groups (igneous, sedimentary, metamorphic)", "Formulate chemical equations representing rock carbonation and hydrolysis", "Explain the 5 factors of soil formation: Climate, parent rock, topography, organisms, time"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Soil Profile Horizons and Soil Physical Properties",
+      "subtopics": ["Soil profile horizons: O, A, B, C, and D (bedrock)", "Soil texture determination: Mechanical sieve analysis and feel method", "Soil structure: Platy, prismatic, blocky, granular, and impact on aeration"],
+      "objectives": ["Draw and label a complete vertical soil profile monolith", "Calculate percentage composition of sand, silt, and clay in a soil sample", "Explain how soil porosity influences water retention and drainage"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Plant Nutrients, Nutrient Cycles and Soil Chemistry",
+      "subtopics": ["Macro-elements: N, P, K, Ca, Mg, S and their physiological roles", "Micro-elements: Fe, Zn, Cu, Mn, B, Mo, Cl and deficiency symptoms", "The Nitrogen Cycle: Nitrogen fixation, nitrification, and denitrification"],
+      "objectives": ["Identify chlorosis and stunted growth symptoms caused by nutrient deficits", "Diagram the cyclic biochemical pathway of atmospheric nitrogen into soil nitrates", "Explain soil pH and methods of correcting extreme acidity (liming)"]
+    }
+  ]
+}

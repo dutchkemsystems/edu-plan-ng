@@ -1,0 +1,198 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-mathematics",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Junior Secondary Schools 3",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima, G.U. Garba",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Number Bases: Conversion Between Base 10 and Other Bases (Base 2, 8)",
+      "subtopics": [
+        "Binary numbers (Base 2) in computing and electronic logic",
+        "Converting from Base 10 to Base 2, 5, 8 using successive division",
+        "Converting from other bases back to Base 10 using place values"
+      ],
+      "objectives": [
+        "Explain binary number systems in computer memory",
+        "Convert whole numbers between Base 10 and Base 2, 8 with 100% accuracy",
+        "Perform basic binary addition and subtraction"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Computer Arithmetic: Binary Addition, Subtraction and Logic Gates",
+      "subtopics": [
+        "Rules of binary addition: 1+0=1, 1+1=10, 1+1+1=11",
+        "Binary subtraction with borrowing",
+        "Elementary logic gates (AND, OR, NOT) truth tables"
+      ],
+      "objectives": [
+        "Add and subtract binary numerals showing carry-over and borrowing",
+        "Construct truth tables for AND, OR, and NOT gates"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Direct, Inverse and Joint Variation",
+      "subtopics": [
+        "Direct variation: y = kx and graphical representation through origin",
+        "Inverse variation: y = k / x and hyperbolic curve",
+        "Joint and partial variation formulas with Nigerian commercial contexts"
+      ],
+      "objectives": [
+        "Formulate algebraic equations connecting directly and inversely proportional variables",
+        "Calculate the constant of proportionality k from given initial conditions",
+        "Apply variation principles to calculate fuel consumption or freight costs in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Factorization of Quadratic Expressions: ax^2 + bx + c",
+      "subtopics": [
+        "Product-sum method for factorizing trinomials when a = 1",
+        "Factorizing quadratic expressions when a > 1 by grouping",
+        "Difference of two squares: a^2 - b^2 = (a - b)(a + b)"
+      ],
+      "objectives": [
+        "Factorize quadratic expressions into pairs of binomial factors",
+        "Apply difference of two squares to simplify arithmetic calculations quickly"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Solution of Quadratic Equations: Factorization and Graphical Methods",
+      "subtopics": [
+        "Setting quadratic expressions to zero and solving for roots: (x - p)(x - q) = 0",
+        "Plotting quadratic curves y = ax^2 + bx + c on graph paper",
+        "Reading roots, minimum/maximum values, and line of symmetry from graphs"
+      ],
+      "objectives": [
+        "Solve quadratic equations by factorization method",
+        "Plot parabolic quadratic graphs with correct axes and scale",
+        "Identify roots of quadratic equations from the x-intercepts of the curve"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Simultaneous Linear Equations: Elimination and Substitution Methods",
+      "subtopics": [
+        "Concept of simultaneous equations with two unknown variables (x and y)",
+        "Solving by elimination method (equating coefficients)",
+        "Solving by substitution method and real-life commercial purchasing word problems"
+      ],
+      "objectives": [
+        "Solve pairs of simultaneous linear equations accurately using elimination and substitution",
+        "Formulate simultaneous equations from Nigerian market trading word problems"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic review of number bases, variation, quadratics, and simultaneous equations",
+        "BECE standardized diagnostic test"
+      ],
+      "objectives": [
+        "Assess pupil algebra readiness against Lagos State BECE criteria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Trigonometry: Sine, Cosine and Tangent of Acute Angles (SOHCAHTOA)",
+      "subtopics": [
+        "Opposite, adjacent, and hypotenuse in right-angled triangles",
+        "Definitions of Sin θ, Cos θ, Tan θ using SOHCAHTOA",
+        "Using four-figure trigonometric tables to find angles and lengths"
+      ],
+      "objectives": [
+        "State trigonometric ratios for acute angles in right-angled triangles",
+        "Calculate unknown heights of trees or flagpoles using tangent ratios"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Angles of Elevation and Depression: Real-World Surveying Applications",
+      "subtopics": [
+        "Meaning of horizontal line of sight, angle of elevation, and angle of depression",
+        "Equality of angle of elevation and angle of depression as alternate angles",
+        "Solving word problems involving buildings, cellular masts, and ships"
+      ],
+      "objectives": [
+        "Draw accurate mathematical diagrams representing angles of elevation and depression",
+        "Calculate heights of buildings and distances between objects using trigonometry"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Mensuration: Surface Area and Volume of Cylinders, Cones and Spheres",
+      "subtopics": [
+        "Surface area and volume of right circular cylinders (V = πr^2h)",
+        "Volume and curved surface area of cones (V = 1/3 πr^2h)",
+        "Volume of spheres (V = 4/3 πr^3) and Nigerian water storage containers"
+      ],
+      "objectives": [
+        "Calculate volume and capacity in liters of overhead water tanks (Geepee tanks)",
+        "Solve composite solid mensuration problems"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Compound Interest and Commercial Hire Purchase in Nigeria",
+      "subtopics": [
+        "Difference between simple interest and compound interest",
+        "Step-by-step year-by-year calculation of compound interest",
+        "Hire purchase transactions: deposit, installments, and carrying charges"
+      ],
+      "objectives": [
+        "Compute compound interest over 2 and 3 years on bank loans in Naira",
+        "Calculate total hire purchase cost vs cash price for domestic electronics"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "BECE Mock Examination Clinic & Speed Drills",
+      "subtopics": [
+        "Full review of 3-year junior secondary mathematics syllabus",
+        "WAEC/BECE past question strategies and common candidate pitfalls"
+      ],
+      "objectives": [
+        "Complete 60 standardized BECE objective and structured theory questions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal BECE Examination & Moderation",
+      "subtopics": [
+        "BECE Final Examination administration and script moderation"
+      ],
+      "objectives": [
+        "Complete junior secondary mathematics evaluation"
+      ]
+    }
+  ]
+}

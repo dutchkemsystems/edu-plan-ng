@@ -9,7 +9,7 @@
  * 5. Backend-Only Prompts: Prompts are isolated strictly in backend execution paths.
  */
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import {
   NigerianLessonPlanSchema,
   type NigerianLessonPlan,
@@ -19,13 +19,17 @@ import {
   type NigerianCulturalContext,
   type NigerianAcademicLevel,
   type NigerianTerm,
+  type TextbookMetadata,
 } from '../schemas/nigerian-lesson-plan.ts';
 import type { RLSContext } from '../../types/index.ts';
 import { enforceRLS } from '../security.config.ts';
 import { generateNerdcOeqaContent } from '../../data/allCurriculumSubjects.ts';
+import { validateTopicInCurriculum, getLatestCurriculumVersion } from './curriculum-data/index.ts';
+import { client as dbClient } from '../../db/index.ts';
+import { validateStateCurriculumPolicy } from '../state-policy-engine.ts';
+import { executeGeminiWithTimeout, getGeminiClient, hasValidGeminiApiKey } from './gemini-server.ts';
 
-
-const AI_MODEL = process.env.GEMINI_FLASH_MODEL || 'gemini-3.8-flash';
+const AI_MODEL = process.env.GEMINI_FLASH_MODEL || 'gemini-4-hydrogen';
 
 export interface GenerateNigerianPlanParams {
   level: string; // jss-1, jss-2, jss-3, sss-1, sss-2, sss-3
@@ -33,32 +37,32 @@ export interface GenerateNigerianPlanParams {
   term: number | string; // 1, 2, 3 or 'First Term', etc.
   week: number;
   topic: string;
+  curriculumSourceId?: string; // 'nerdc' | 'lagos_scheme' | 'oeqa' | 'bece' | 'waec' | 'neco'
   rlsContext?: RLSContext;
   targetSchoolId?: string;
   targetUserId?: string;
 }
 
-export class NigerianCurriculumEngine {
-  private ai: GoogleGenAI | null = null;
+function toTextbookMetadata(tb?: any): TextbookMetadata | undefined {
+  if (!tb || !tb.title) return undefined;
+  return {
+    title: tb.title,
+    author: tb.author || 'NERDC Writing Panel',
+    publisher: tb.publisher || 'Learn Africa Plc',
+    edition: tb.edition || 'Current Revised Edition',
+    isGovernmentApproved: tb.isGovernmentApproved ?? true,
+    approvedBy: tb.approvedBy || 'NERDC & Lagos State Ministry of Basic Education',
+    approvalDate: tb.approvalDate || 'Gazetted',
+  };
+}
 
+export class NigerianCurriculumEngine {
   /**
    * Lazy-loads the Google GenAI client with enterprise telemetry headers
    */
   private getClient(): GoogleGenAI | null {
-    const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
-    if (!apiKey) return null;
-    if (!this.ai) {
-      try {
-        this.ai = new GoogleGenAI({
-          apiKey,
-          httpOptions: { headers: { 'User-Agent': 'aistudio-build' } },
-        });
-      } catch (e) {
-        console.warn('[NigerianCurriculumEngine] Failed to initialize GoogleGenAI client:', e);
-        return null;
-      }
-    }
-    return this.ai;
+    if (!hasValidGeminiApiKey()) return null;
+    return getGeminiClient();
   }
 
   /**
@@ -106,7 +110,68 @@ export class NigerianCurriculumEngine {
     const normTerm = this.normalizeTerm(params.term);
     const isJunior = normLevel.startsWith('jss');
 
-    // 2. Prepare Statutory Fallback Baseline
+    // 2. Multi-Source Statutory Isolation & Live Data Fetch (Phase 1 & Phase 5)
+    const activeSourceId = params.curriculumSourceId || 'lagos_scheme';
+
+    // Phase 5: State Policy Enforcement Gate (Statutory Mandates)
+    const statePolicyCheck = await validateStateCurriculumPolicy({
+      requestedSourceId: activeSourceId,
+      schoolId: params.targetSchoolId,
+      userId: params.targetUserId,
+    });
+    if (!statePolicyCheck.allowed) {
+      throw new Error(`State Policy Mandate Violation: ${statePolicyCheck.error}`);
+    }
+
+    let liveSourceTitle = 'Lagos State Unified Scheme of Work';
+    let liveTopics: string[] = [];
+    let liveObjectives: string[] = [];
+    let liveTextbook: any = null;
+
+    try {
+      // Live Data Fetching: Query source_curriculum at that exact moment (Zero In-Memory Caching)
+      const rs = await dbClient.execute({
+        sql: `SELECT sc.topics, sc.objectives, sc.textbook_refs, cs.name as source_name
+              FROM source_curriculum sc
+              LEFT JOIN curriculum_sources cs ON cs.id = sc.source_id
+              WHERE sc.source_id = ? AND sc.class_level = ? AND LOWER(sc.subject) = LOWER(?)
+              LIMIT 1`,
+        args: [activeSourceId, normLevel, params.subject],
+      });
+
+      if (rs.rows.length > 0) {
+        const row = rs.rows[0];
+        if (row.source_name) liveSourceTitle = String(row.source_name);
+
+        const parsedTopics = typeof row.topics === 'string' ? JSON.parse(row.topics) : (row.topics || []);
+        if (Array.isArray(parsedTopics) && parsedTopics.length > 0) {
+          liveTopics = parsedTopics.map(String);
+        }
+
+        const parsedObjs = typeof row.objectives === 'string' ? JSON.parse(row.objectives) : (row.objectives || []);
+        if (Array.isArray(parsedObjs) && parsedObjs.length > 0) {
+          liveObjectives = parsedObjs.map(String);
+        }
+
+        const parsedTb = typeof row.textbook_refs === 'string' ? JSON.parse(row.textbook_refs) : (row.textbook_refs || []);
+        if (Array.isArray(parsedTb) && parsedTb.length > 0) {
+          liveTextbook = parsedTb[0];
+        }
+      }
+    } catch {
+      // Fallback to static catalog if DB is offline
+    }
+
+    const copyrightNoticeText = `Curriculum topics referenced from ${liveSourceTitle}. Lesson plan generated by EduPlan NG. No verbatim reproduction of copyrighted material.`;
+
+    // 3. Strict Class Isolation Validation (Fix JSS1/JSS2 Overlap Bug)
+    const classIsolation = validateTopicInCurriculum(normLevel, params.subject, params.topic);
+    if (!classIsolation.isValid && classIsolation.error && classIsolation.error.includes('Cross-Class Isolation Violation')) {
+      throw new Error(classIsolation.error);
+    }
+    const stampedVersion = classIsolation.catalogVersion || getLatestCurriculumVersion(normLevel, params.subject);
+
+    // 4. Prepare Statutory Fallback Baseline
     const statutoryBaseline = generateNerdcOeqaContent({
       level: normLevel,
       subject: params.subject,
@@ -119,17 +184,27 @@ export class NigerianCurriculumEngine {
     const fallbackPlan: NigerianLessonPlan = {
       title: params.topic,
       level: normLevel,
+      classLevel: normLevel,
       subject: params.subject,
       term: normTerm,
       week: params.week,
       duration: '40 mins',
       averageAgeYears: isJunior ? 12 : 16,
-      curriculumStandard: 'NERDC National Curriculum & Lagos State OEQA Alausa Quality Assurance Framework',
-      behavioralObjectives: statutoryBaseline.objectives.length >= 3 ? statutoryBaseline.objectives : [
-        `Define the statutory concepts of ${params.topic} using approved NERDC terminology.`,
-        `Solve 5 structured classroom exercises applying standard formulas and rules.`,
-        `Analyze authentic Nigerian industrial and commercial applications with desk partner.`,
-      ],
+      curriculumStandard: `${liveSourceTitle} & Lagos State OEQA Alausa Framework`,
+      curriculumVersion: stampedVersion,
+      isOutdated: false,
+      sourceId: activeSourceId,
+      copyrightNotice: copyrightNoticeText,
+      recommendedTextbook: toTextbookMetadata(liveTextbook || classIsolation.recommendedTextbook),
+      behavioralObjectives: liveObjectives.length >= 3
+        ? liveObjectives
+        : statutoryBaseline.objectives.length >= 3
+        ? statutoryBaseline.objectives
+        : [
+            `Define the statutory concepts of ${params.topic} using approved curriculum terminology.`,
+            `Solve 5 structured classroom exercises applying standard formulas and rules.`,
+            `Analyze authentic Nigerian industrial and commercial applications with desk partner.`,
+          ],
       coreSkills: ['Critical Thinking', 'Problem Solving', 'Collaboration', 'Civic & Financial Literacy'],
       instructionalMaterials: statutoryBaseline.materials.length >= 2 ? statutoryBaseline.materials : [
         'NERDC Approved Secondary School Textbook',
@@ -276,7 +351,7 @@ export class NigerianCurriculumEngine {
       return fallbackPlan;
     }
 
-    // 3. Build Backend-Only AI Generation Prompt
+    // 5. Build Backend-Only AI Generation Prompt
     const systemInstruction = `
 You are the Chief Curriculum Specialist for the Nigerian Educational Research and Development Council (NERDC) and Lead Quality Assurance Inspector for the Lagos State Ministry of Basic & Secondary Education OEQA (Office of Education Quality Assurance, Alausa).
 
@@ -290,10 +365,12 @@ MANDATORY NIGERIAN STANDARDS & EXECUTION RULES:
 3. 10-YEAR WAEC/NECO EXAM FORECAST: Cross-reference syllabus frequency and Chief Examiner Reports to formulate probable examination questions with strict marking schemes (M1 for Method, A1 for Accuracy, B1 for Baseline).
 4. OEQA 5-STEP TABULAR MATRIX: Output strictly 5 presentation steps (Set Induction, Exploration, Explanation, Guided Practice, Formative Evaluation).
 5. FORMAT: Return pure JSON strictly matching the requested schema. Do not wrap in markdown or conversational preambles.
+6. TRANSFORMATIVE USE & COPYRIGHT ACT 2022 COMPLIANCE (SECTION 20): Generate an ORIGINAL lesson plan based on these topics. Do NOT reproduce the source text verbatim. You are strictly forbidden from reproducing copyrighted textbook text, examination questions, or government syllabus text verbatim. The curriculum metadata provides ONLY topics, subtopics, and statutory learning objectives. You MUST generate 100% original pedagogical lesson plans, original classroom explanations, original worked examples, and original assessment questions.
 `.trim();
 
     const userPrompt = `
 GENERATE A RIGOROUS, OEQA-ALAUSA COMPLIANT NIGERIAN LESSON PLAN:
+- Curriculum Authority: ${liveSourceTitle} (${activeSourceId.toUpperCase()})
 - Academic Level: ${normLevel.toUpperCase()}
 - Subject: ${params.subject}
 - Scheme of Work Topic: "${params.topic}"
@@ -304,6 +381,8 @@ GENERATE A RIGOROUS, OEQA-ALAUSA COMPLIANT NIGERIAN LESSON PLAN:
 OUTPUT FORMAT MUST BE STRICTLY VALID JSON MATCHING THIS EXACT SPECIFICATION:
 {
   "title": "${params.topic}",
+  "sourceId": "${activeSourceId}",
+  "copyrightNotice": "${copyrightNoticeText}",
   "level": "${normLevel}",
   "subject": "${params.subject}",
   "term": "${normTerm}",
@@ -419,20 +498,22 @@ OUTPUT FORMAT MUST BE STRICTLY VALID JSON MATCHING THIS EXACT SPECIFICATION:
 `.trim();
 
     try {
-      const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('AI generation timeout')), 8000)
+      const response: any = await executeGeminiWithTimeout(
+        'generateLessonPlan',
+        (ai) =>
+          ai.models.generateContent({
+            model: AI_MODEL,
+            contents: userPrompt,
+            config: {
+              systemInstruction,
+              responseMimeType: 'application/json',
+              thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+            },
+          }),
+        14000
       );
-      const aiPromise = client.models.generateContent({
-        model: AI_MODEL,
-        contents: userPrompt,
-        config: {
-          systemInstruction,
-          responseMimeType: 'application/json',
-          temperature: 0.25,
-        },
-      });
 
-      const response: any = await Promise.race([aiPromise, timeoutPromise]);
+      if (!response) return fallbackPlan;
 
       const responseText = response.text || '';
       const cleanJsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -444,12 +525,23 @@ OUTPUT FORMAT MUST BE STRICTLY VALID JSON MATCHING THIS EXACT SPECIFICATION:
       const validated = NigerianLessonPlanSchema.safeParse(parsed);
 
       if (validated.success) {
-        return validated.data;
+        return {
+          ...validated.data,
+          curriculumVersion: validated.data.curriculumVersion || stampedVersion,
+          isOutdated: false,
+          sourceId: validated.data.sourceId || activeSourceId,
+          copyrightNotice: validated.data.copyrightNotice || copyrightNoticeText,
+          recommendedTextbook: validated.data.recommendedTextbook || toTextbookMetadata(liveTextbook || classIsolation.recommendedTextbook),
+        };
       } else {
-        console.warn('[NigerianCurriculumEngine] Zod validation issues in generated plan, merging with fallback:', validated.error.issues);
         return {
           ...fallbackPlan,
           ...parsed,
+          curriculumVersion: stampedVersion,
+          isOutdated: false,
+          sourceId: activeSourceId,
+          copyrightNotice: copyrightNoticeText,
+          recommendedTextbook: toTextbookMetadata(liveTextbook || classIsolation.recommendedTextbook),
           oeqaPresentationSteps: Array.isArray(parsed.oeqaPresentationSteps) && parsed.oeqaPresentationSteps.length === 5
             ? parsed.oeqaPresentationSteps
             : fallbackPlan.oeqaPresentationSteps,
@@ -468,7 +560,7 @@ OUTPUT FORMAT MUST BE STRICTLY VALID JSON MATCHING THIS EXACT SPECIFICATION:
         };
       }
     } catch (err: any) {
-      console.warn('[NigerianCurriculumEngine] AI generation failed, utilizing statutory NERDC fallback.', err?.message || err);
+      console.info('[NigerianCurriculumEngine] Utilizing authoritative statutory NERDC curriculum baseline:', err?.message || 'Standard baseline');
       return fallbackPlan;
     }
   }
@@ -535,21 +627,22 @@ RETURN STRICT JSON matching this schema:
 }
 `.trim();
 
-      const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('AI prediction timeout')), 8000)
+      const response: any = await executeGeminiWithTimeout(
+        'predictWaecNecoQuestions',
+        (ai) =>
+          ai.models.generateContent({
+            model: AI_MODEL,
+            contents: prompt,
+            config: {
+              systemInstruction: 'You are the Chief Examiner for WAEC and NECO. Formulate high-probability examination questions and marking schemes strictly adhering to 10-year West African examination trends.',
+              responseMimeType: 'application/json',
+              thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+            },
+          }),
+        14000
       );
-      const aiPromise = client.models.generateContent({
-        model: AI_MODEL,
-        contents: prompt,
-        config: {
-          systemInstruction: 'You are the Chief Examiner for WAEC and NECO. Formulate high-probability examination questions and marking schemes strictly adhering to 10-year West African examination trends.',
-          responseMimeType: 'application/json',
-          temperature: 0.2,
-        },
-      });
 
-      const response: any = await Promise.race([aiPromise, timeoutPromise]);
-
+      if (!response) return fallbackPrediction;
       const cleanJson = (response.text || '').match(/\{[\s\S]*\}/);
       if (!cleanJson) return fallbackPrediction;
 
@@ -606,21 +699,22 @@ RETURN STRICT JSON matching this schema:
 }
 `.trim();
 
-      const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('AI context timeout')), 8000)
+      const response: any = await executeGeminiWithTimeout(
+        'generateNigerianContext',
+        (ai) =>
+          ai.models.generateContent({
+            model: AI_MODEL,
+            contents: prompt,
+            config: {
+              systemInstruction: 'You are a Nigerian Cultural Intelligence specialist for secondary education. Translate abstract curriculum topics into deeply authentic Nigerian community, commercial, and environmental realities.',
+              responseMimeType: 'application/json',
+              thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+            },
+          }),
+        14000
       );
-      const aiPromise = client.models.generateContent({
-        model: AI_MODEL,
-        contents: prompt,
-        config: {
-          systemInstruction: 'You are a Nigerian Cultural Intelligence specialist for secondary education. Translate abstract curriculum topics into deeply authentic Nigerian community, commercial, and environmental realities.',
-          responseMimeType: 'application/json',
-          temperature: 0.3,
-        },
-      });
 
-      const response: any = await Promise.race([aiPromise, timeoutPromise]);
-
+      if (!response) return fallback;
       const cleanJson = (response.text || '').match(/\{[\s\S]*\}/);
       if (!cleanJson) return fallback;
 

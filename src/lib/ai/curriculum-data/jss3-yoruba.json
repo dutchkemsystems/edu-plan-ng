@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 3",
+  "subject": "Èdè Yorùbá",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-yoruba.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Ìhun Gbólóhùn Èdè Yorùbá: Gbólóhùn Alábọ́dé, Alákànpọ̀, àti Àsọpọ̀",
+      "learningObjectives": [
+        "Ṣe ìtumọ̀ gbólóhùn nínú èdè Yorùbá",
+        "Ṣe ìyàtọ̀ láàárín gbólóhùn alábọ́dé (simple) àti alákànpọ̀ (compound)",
+        "Dámọ̀ gbólóhùn àsọpọ̀ (complex) pẹ̀lú àwọn ọ̀rọ̀ àsomọ́ bíi 'tí', 'nígbà tí'"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Iṣẹ́ Gbólóhùn: Gbólóhùn Ìsọjáde, Ìbéèrè, Àṣẹ, àti Ìgbéyọ̀wú",
+      "learningObjectives": [
+        "Ṣe ìsọ̀rí gbólóhùn gẹ́gẹ́ bí iṣẹ́ tí wọ́n ń ṣe nínú ìbánisọ̀rọ̀",
+        "Kọ gbólóhùn ìbéèrè pẹ̀lú àmì ìbéèrè tó tọ́",
+        "Fi ìmọ̀lára líle hàn nínú gbólóhùn ìgbéyọ̀wú"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Àṣà Ìsìnkú àti Ìtọ́jú Òkú ní Ilẹ̀ Yorùbá: Òkú àgbà àti òkú ọ̀fọ̀",
+      "learningObjectives": [
+        "Ṣàlàyé ìyàtọ̀ láàárín sísìn òkú àgbà àti òkú ọ̀fọ̀ (ọmọdé tàbí ọ̀dọ́)",
+        "Mẹnuba àwọn ètò ìwẹ̀mọ́, títẹ́ òkú, àti àwọn orin arò",
+        "Ṣàlàyé èrò àwọn Yorùbá nípa àtúnbí àti ayé ẹ̀yìn ikú"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Lítíréṣọ̀ Yorùbá: Eré Oníṣe (kókó ọ̀rọ̀, ìforígbárí, àti àwọn ẹ̀dá ìtàn)",
+      "learningObjectives": [
+        "Ka ìwé eré oníṣe tí a yàn fún ìdánwò BECE",
+        "Ṣàlàyé bí ìforígbárí ṣe bẹ̀rẹ̀, tí ó ga, tí ó sì yanjú",
+        "Ṣe àgbéyẹ̀wò ìhùwàsí àwọn ẹ̀dá ìtàn pàtàkì"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Àkọsílẹ̀ Àròsọ Aṣàríyànjiyàn: \"Iṣẹ́ Àgbẹ̀ Dára Ju Iṣẹ́ Ọ́fíìsì Lọ\"",
+      "learningObjectives": [
+        "Mọ àwọn ìlànà kíkọ àròsọ aṣàríyànjiyàn",
+        "Kọ àwọn kókó ọ̀rọ̀ láti ti èrò wọn lẹ́yìn pẹ̀lú ẹ̀rí tó dájú",
+        "Fi ọ̀wọ̀ àti ìmọ̀ hàn láì lo èdè èébú nínú àríyànjiyàn"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Ètò Ìṣèlú àti Oyè Jíjẹ ní Ilẹ̀ Yorùbá: Ọba, Ìjòyè, Oyè Àmútọ̀runwá àti Oyè Ẹ̀yẹ",
+      "learningObjectives": [
+        "Ṣàlàyé bí a ṣe ń yan ọba (afọbajẹ, àwọn ọmọ oyè, ìfọ̀rọ̀wá Ifá lẹ́nu wò)",
+        "Mẹnuba àwọn ìjòyè ilú àti iṣẹ́ tí wọ́n ń ṣe fún ìtẹ̀síwájú ìlú",
+        "Ṣe ìyàtọ̀ láàárín oyè ìbílẹ̀ àbáláyé àti oyè ẹ̀yẹ tí a ń fi fún àwọn olókìkí"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Ìgbéléwọ̀n Àárín Sáà àti Ìdánwò Gbólóhùn",
+      "learningObjectives": [
+        "Wọ́n ìmọ̀ àwọn akẹ́kọ̀ọ́ lórí ìhun gbólóhùn àti ètò ìsìnkú",
+        "Ṣe àyẹ̀wò àròsọ aṣàríyànjiyàn tí wọ́n kọ",
+        "Fún àwọn akẹ́kọ̀ọ́ ní àtìlẹ́yìn kíákíá lórí àwọn kókó tó nira"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Ọ̀rọ̀-Àsopọ̀ àti Ọ̀rọ̀-Ìtọ́ka nínú Èdè Yorùbá",
+      "learningObjectives": [
+        "Tọ́ka sí àwọn ọ̀rọ̀-àsopọ̀ (àti, ṣùgbọ́n, tàbí, torí pé)",
+        "Lo ọ̀rọ̀-àsopọ̀ láti so gbólóhùn méjì tàbí jù bẹ́ẹ̀ lọ pọ̀",
+        "Dámọ̀ ọ̀rọ̀-ìtọ́ka bíi 'náà', 'wọ̀nyí', 'tí' nínú gbólóhùn"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Orin Ìbílẹ̀ Yorùbá: Apala, Sakara, Fuji, Juju, àti Dadakuada",
+      "learningObjectives": [
+        "Ṣàlàyé oríṣiríṣi orin ìbílẹ̀ Yorùbá àti àwọn ohun èlò tí a fi ń kọ wọ́n",
+        "Tọ́ka sí àwọn akọrin olókìkí ní ilẹ̀ Yorùbá",
+        "Ṣàlàyé ipa tí orin ń kó nínú ìkìlọ̀, àríyá, àti ìṣirí ní àwùjọ"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Àkọtọ́ Àpapọ̀: Yíyọ̀ Fáwẹ́lì, Àsomọ́ Ọ̀rọ̀, àti Ìṣẹ̀dá Ọ̀rọ̀ Tuntun",
+      "learningObjectives": [
+        "Ṣàlàyé ìlànà ìṣẹ̀dá ọ̀rọ̀ tuntun nínú èdè Yorùbá (àpèpọ̀, àmúlò, afikun)",
+        "Kọ àwọn ọ̀rọ̀ sáyẹ́ǹsì àti kọ̀mpútà ní èdè Yorùbá (àpẹẹrẹ: ẹ̀rọ-ayélujára)",
+        "Ṣe àtúnṣe gbogbo àṣìṣe àkọtọ́ tí ó fẹsẹ̀ múlẹ̀"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Òfin Àwùjọ àti Èèwọ̀ ní Ilẹ̀ Yorùbá: Ìjẹ́pàtàkì wọn fún àlàáfíà",
+      "learningObjectives": [
+        "Ṣàlàyé ohun tí ń jẹ́ èèwọ̀ àti ìdí tí àwọn àgbàlagbà fi fi wọ́n lélẹ̀",
+        "Mẹnuba àwọn èèwọ̀ tó wọ́pọ̀ (àpẹẹrẹ: má jókòó lórí odó, má fìfọ̀ fọn epo)",
+        "Ṣe àyẹ̀wò ìmọ̀ sáyẹ́ǹsì àti ìrònú tó wà lẹ́yìn àwọn èèwọ̀ náà"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Àtúnyẹ̀wò Gbogbogbòò fún Ìdánwò BECE / JSCE",
+      "learningObjectives": [
+        "Ṣe àtúnyẹ̀wò gbogbo àwọn ẹ̀kọ́ JSS 1 dé JSS 3",
+        "Ṣe àgbéyẹ̀wò àwọn ìbéèrè àtijọ́ ti ìdánwò àpapọ̀ BECE",
+        "Fi ìgboyà àti ìmọ̀ kún àwọn akẹ́kọ̀ọ́ fún àṣeyọrí tó tayọ"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Ìdánwò Ìparí Sáà àti Ìdánwò Ìmúra BECE",
+      "learningObjectives": [
+        "Ṣe ìdánwò àkọ́kọ́ ti ìparí sáà kìn-ín-ní",
+        "Ṣe àyẹ̀wò iṣẹ́ akẹ́kọ̀ọ́ gẹ́gẹ́ bí ìwọ̀n NERDC àti OEQA",
+        "Tẹ àbájáde sí orí àkọsílẹ̀ gbogbogbòò ilé-ẹ̀kọ́"
+      ]
+    }
+  ]
+}

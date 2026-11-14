@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MessageSquare,
   Share2,
@@ -11,12 +11,37 @@ import {
   User,
   School,
   ExternalLink,
-  RefreshCw
+  RefreshCw,
+  ShieldCheck,
+  Lock,
+  FileCheck2,
+  AlertCircle,
+  Check,
+  Users
 } from 'lucide-react';
 import { AppLanguage } from '../lib/i18n.ts';
+import { TeacherUser, DashboardStats } from '../types/index.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
+import { getAuthHeaders } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
 
-export const ParentCommsPage: React.FC = () => {
+interface ParentCommsPageProps {
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+  onPlanQuotaChanged?: () => void;
+}
+
+export const ParentCommsPage: React.FC<ParentCommsPageProps> = ({
+  user,
+  stats,
+  onOpenUpgrade,
+  onPlanQuotaChanged,
+}) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const recommendedParentTier = tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly';
+  const [activeMainTab, setActiveMainTab] = useState<'messaging' | 'consent_portal'>('messaging');
   const [selectedCategory, setSelectedCategory] = useState<'attendance' | 'academic' | 'fee' | 'homework' | 'openday'>('academic');
   const [lang, setLang] = useState<AppLanguage>('en');
   const [studentName, setStudentName] = useState('Chinedu Okafor');
@@ -29,6 +54,95 @@ export const ParentCommsPage: React.FC = () => {
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
   const [aiMessage, setAiMessage] = useState<string | null>(null);
   const [directWaLink, setDirectWaLink] = useState<string | null>(null);
+
+  // Phase 2D: Digital Parental Consent State (NDPA 2023 Sec 24)
+  const [studentsRoster, setStudentsRoster] = useState<any[]>([]);
+  const [selectedConsentStudentId, setSelectedConsentStudentId] = useState<string>('');
+  const [guardianFullName, setGuardianFullName] = useState<string>('');
+  const [guardianPhoneInput, setGuardianPhoneInput] = useState<string>('');
+  const [guardianEmailInput, setGuardianEmailInput] = useState<string>('');
+  const [guardianRelationship, setGuardianRelationship] = useState<string>('Parent / Guardian');
+  const [consentPurposes, setConsentPurposes] = useState({
+    caAnalytics: true,
+    iepDifferentiation: true,
+    whatsappAlerts: true,
+    examVerification: true,
+  });
+  const [isSubmittingConsent, setIsSubmittingConsent] = useState(false);
+  const [consentSuccessNotice, setConsentSuccessNotice] = useState<string | null>(null);
+
+  const fetchRoster = async () => {
+    try {
+      const res = await fetch('/api/students', {
+        headers: getAuthHeaders(),
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setStudentsRoster(data.students || []);
+        if (data.students?.length > 0 && !selectedConsentStudentId) {
+          setSelectedConsentStudentId(data.students[0].id);
+          setGuardianFullName(data.students[0].guardianName || '');
+          setGuardianPhoneInput(data.students[0].guardianPhone?.startsWith('*') ? '' : data.students[0].guardianPhone);
+          setGuardianEmailInput(data.students[0].guardianEmail?.includes('RESTRICTED') ? '' : (data.students[0].guardianEmail || ''));
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load roster for consent form', e);
+    }
+  };
+
+  useEffect(() => {
+    if (ent.hasParentAutopilot) {
+      fetchRoster();
+    }
+  }, [ent.hasParentAutopilot]);
+
+  const selectedConsentStudent = studentsRoster.find((s) => s.id === selectedConsentStudentId);
+
+  const handleSelectStudentForConsent = (studentId: string) => {
+    setSelectedConsentStudentId(studentId);
+    const s = studentsRoster.find((st) => st.id === studentId);
+    if (s) {
+      setGuardianFullName(s.guardianName || '');
+      setGuardianPhoneInput(s.guardianPhone?.startsWith('*') ? '' : s.guardianPhone);
+      setGuardianEmailInput(s.guardianEmail?.includes('RESTRICTED') ? '' : (s.guardianEmail || ''));
+    }
+  };
+
+  const handleExecuteConsent = async (consentGranted: boolean) => {
+    if (!selectedConsentStudentId) return;
+    setIsSubmittingConsent(true);
+    try {
+      const res = await fetch(`/api/students/${selectedConsentStudentId}/consent`, {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
+        body: JSON.stringify({
+          parentName: guardianFullName || selectedConsentStudent?.guardianName,
+          parentPhone: guardianPhoneInput || '0803-123-4567',
+          parentEmail: guardianEmailInput || null,
+          consentGranted,
+          purpose: 'Continuous Assessment, IEP Differentiated Instruction & Examination Verification (NDPA 2023 Sec 24)',
+        }),
+      });
+
+      if (res.ok) {
+        confetti({ particleCount: 50, spread: 60 });
+        setConsentSuccessNotice(
+          consentGranted
+            ? `Statutory parental consent authorized for ${selectedConsentStudent?.firstName} ${selectedConsentStudent?.lastName}. Records and IEP processing unlocked.`
+            : `Consent revoked for ${selectedConsentStudent?.firstName} ${selectedConsentStudent?.lastName}. Student PII restricted.`
+        );
+        await fetchRoster();
+        setTimeout(() => setConsentSuccessNotice(null), 6000);
+      }
+    } catch (e) {
+      console.error('Failed to submit consent', e);
+    } finally {
+      setIsSubmittingConsent(false);
+    }
+  };
 
   const defaultTemplates: Record<string, Record<AppLanguage, string>> = {
     attendance: {
@@ -66,11 +180,20 @@ export const ParentCommsPage: React.FC = () => {
   const currentMessage = aiMessage || defaultTemplates[selectedCategory]?.[lang] || defaultTemplates.academic.en;
 
   const handleGenerateAiMessage = async () => {
+    if (!ent.hasParentAutopilot) {
+      onOpenUpgrade?.(
+        'WhatsApp Parent Autopilot requires B2C Pro Termly (₦1,500), B2B Silver (₦120,000), or B2B Gold (₦250,000).',
+        recommendedParentTier,
+        'Parent Autopilot'
+      );
+      return;
+    }
     setIsGeneratingAi(true);
     try {
       const res = await fetch('/api/ai/parent-message', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           studentName,
           parentName,
@@ -83,10 +206,17 @@ export const ParentCommsPage: React.FC = () => {
           schoolName: "King's College, Lagos",
         }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(data?.error || data?.message || 'Upgrade required for Parent Autopilot.', data?.requiredTier || recommendedParentTier, 'Parent Autopilot');
+        }
+        return;
+      }
       if (data.success && data.data) {
         setAiMessage(data.data.messageText);
         setDirectWaLink(data.data.waLink);
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 50, spread: 50 });
       }
     } catch (e) {
@@ -102,16 +232,42 @@ export const ParentCommsPage: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleWhatsApp = () => {
-    if (directWaLink) {
-      window.open(directWaLink, '_blank');
-      return;
-    }
-    const cleanPhone = parentPhone.replace(/\D/g, '');
-    const intlPhone = cleanPhone.startsWith('0') ? '234' + cleanPhone.slice(1) : cleanPhone;
-    const url = `https://wa.me/${intlPhone}?text=${encodeURIComponent(currentMessage)}`;
-    window.open(url, '_blank');
-  };
+  const cleanPhone = parentPhone.replace(/\D/g, '');
+  const intlPhone = cleanPhone.startsWith('0') ? '234' + cleanPhone.slice(1) : cleanPhone;
+  const whatsappHref = directWaLink || `https://wa.me/${intlPhone}?text=${encodeURIComponent(currentMessage)}`;
+
+  if (!ent.hasParentAutopilot) {
+    return (
+      <div className="bg-white p-8 rounded-2xl border border-amber-200 shadow-2xs text-center space-y-4">
+        <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center mx-auto">
+          <Lock className="w-7 h-7" />
+        </div>
+        <div className="max-w-lg mx-auto space-y-1.5">
+          <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
+            Locked on {tierSummary.segmentLabel} • {ent.name}
+          </span>
+          <h2 className="text-lg font-extrabold text-slate-900">
+            Parent Portal & WhatsApp Autopilot Locked
+          </h2>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Multilingual Yorùbá/Igbo/Hausa/English WhatsApp Parent Autopilot and the NDPA 2023 Digital Parental Consent Portal unlock on B2C Pro Termly (₦1,500/term), B2C Session (₦3,000/yr), B2B Silver (₦120,000/term), B2B Gold (₦250,000/term), and B2G State Platinum.
+          </p>
+        </div>
+        <button
+          onClick={() =>
+            onOpenUpgrade?.(
+              'Unlock Parent Portal, Multilingual WhatsApp Autopilot, and NDPA 2023 Consent Ledger.',
+              recommendedParentTier,
+              'Unlock Parent Portal & Autopilot'
+            )
+          }
+          className="px-5 py-2.5 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-2xs"
+        >
+          {tierSummary.category === 'b2b' ? 'Upgrade to B2B Silver (₦120k/term)' : 'Upgrade to Pro Termly (₦1,500)'}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 animate-in fade-in duration-150">
@@ -144,9 +300,49 @@ export const ParentCommsPage: React.FC = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Controls Column */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
+      {/* Main Tab Switcher */}
+      <div className="flex items-center gap-2 border-b border-slate-200">
+        <button
+          onClick={() => setActiveMainTab('messaging')}
+          className={`pb-3 px-4 text-xs font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            activeMainTab === 'messaging'
+              ? 'border-emerald-600 text-emerald-800'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <MessageSquare className="w-4 h-4" />
+          <span>WhatsApp Parent Dispatch</span>
+        </button>
+
+        <button
+          onClick={() => setActiveMainTab('consent_portal')}
+          className={`pb-3 px-4 text-xs font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            activeMainTab === 'consent_portal'
+              ? 'border-emerald-600 text-emerald-800'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span>Digital Parental Consent Portal (NDPA 2023 Sec 24)</span>
+          {studentsRoster.filter(s => s.consentStatus !== 'GRANTED').length > 0 && (
+            <span className="px-2 py-0.5 text-[10px] font-black rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+              {studentsRoster.filter(s => s.consentStatus !== 'GRANTED').length} Pending
+            </span>
+          )}
+        </button>
+      </div>
+
+      {consentSuccessNotice && (
+        <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-2xl text-xs font-semibold text-emerald-900 flex items-center gap-2.5 shadow-2xs">
+          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+          <span>{consentSuccessNotice}</span>
+        </div>
+      )}
+
+      {activeMainTab === 'messaging' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Controls Column */}
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 uppercase mb-2">Message Category</label>
             <div className="space-y-1.5">
@@ -267,16 +463,265 @@ export const ParentCommsPage: React.FC = () => {
               <span>{copied ? 'Copied to Clipboard!' : 'Copy Text'}</span>
             </button>
 
-            <button
-              onClick={handleWhatsApp}
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-2.5 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl flex items-center gap-2 shadow-2xs transition-all hover:scale-102"
             >
               <Share2 className="w-4 h-4" />
               <span>Send via WhatsApp (+234)</span>
-            </button>
+            </a>
           </div>
         </div>
       </div>
+      ) : (
+        /* Digital Parental Consent Portal View (NDPA 2023 Sec 24) */
+        <div className="space-y-6">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full inline-flex mb-1.5 border border-emerald-300">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Statutory Compliance: Section 24, Nigeria Data Protection Act 2023</span>
+              </div>
+              <h3 className="text-base font-bold text-slate-900">
+                Digital Parental & Guardian Consent Gate
+              </h3>
+              <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
+                Under the NDPA 2023, schools and educational platforms are legally forbidden from processing personal identifiable information (PII) or administering individualized instruction/IEP data for minor learners without verified parental or legal guardian consent.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="text-right">
+                <span className="text-[10px] text-slate-400 font-bold uppercase block">Roster Status</span>
+                <span className="text-xs font-bold text-slate-800">
+                  {studentsRoster.filter(s => s.consentStatus === 'GRANTED').length} / {studentsRoster.length} Authorized
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Student Picker Column */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h4 className="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-emerald-600" />
+                  <span>Enrolled Learners</span>
+                </h4>
+                <span className="text-[11px] text-slate-400 font-medium">{studentsRoster.length} Students</span>
+              </div>
+
+              <div className="space-y-2 max-h-[500px] overflow-y-auto">
+                {studentsRoster.map((st) => (
+                  <button
+                    key={st.id}
+                    onClick={() => handleSelectStudentForConsent(st.id)}
+                    className={`w-full p-3 rounded-xl border text-left transition-all ${
+                      selectedConsentStudentId === st.id
+                        ? 'border-emerald-600 bg-emerald-50/60 shadow-2xs'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-900">
+                        {st.firstName} {st.lastName}
+                      </span>
+                      <span
+                        className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                          st.consentStatus === 'GRANTED'
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            : 'bg-amber-100 text-amber-800 border border-amber-300'
+                        }`}
+                      >
+                        {st.consentStatus === 'GRANTED' ? 'GRANTED' : 'PENDING'}
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 mt-1 flex items-center justify-between">
+                      <span>{st.admissionNumber}</span>
+                      <span className="uppercase font-semibold">{st.classLevel}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Statutory Consent Form Column */}
+            <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-5">
+              {selectedConsentStudent ? (
+                <>
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <FileCheck2 className="w-4 h-4 text-emerald-600" />
+                        <span>Digital Consent Agreement for {selectedConsentStudent.firstName} {selectedConsentStudent.lastName}</span>
+                      </h4>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Admission No: {selectedConsentStudent.admissionNumber} • Class: {selectedConsentStudent.classLevel?.toUpperCase()}
+                      </p>
+                    </div>
+
+                    <span
+                      className={`text-xs font-bold px-3 py-1 rounded-xl flex items-center gap-1.5 ${
+                        selectedConsentStudent.consentStatus === 'GRANTED'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          : 'bg-amber-100 text-amber-800 border border-amber-300'
+                      }`}
+                    >
+                      {selectedConsentStudent.consentStatus === 'GRANTED' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>Active Consent</span>
+                        </>
+                      ) : (
+                        <>
+                          <Lock className="w-3.5 h-3.5 text-amber-700" />
+                          <span>Consent Required</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Parent / Legal Guardian Full Name</label>
+                      <input
+                        type="text"
+                        value={guardianFullName}
+                        onChange={(e) => setGuardianFullName(e.target.value)}
+                        placeholder="e.g. Dr. Babatunde Adeyemi"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-emerald-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Relationship to Learner</label>
+                      <select
+                        value={guardianRelationship}
+                        onChange={(e) => setGuardianRelationship(e.target.value)}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-emerald-600 bg-white"
+                      >
+                        <option value="Father">Father</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Legal Guardian">Legal Guardian</option>
+                        <option value="Authorized Sponsor">Authorized Sponsor</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Guardian WhatsApp / Phone (Nigeria)</label>
+                      <input
+                        type="text"
+                        value={guardianPhoneInput}
+                        onChange={(e) => setGuardianPhoneInput(e.target.value)}
+                        placeholder="0802-345-6789"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-emerald-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Guardian Email Address (Optional)</label>
+                      <input
+                        type="email"
+                        value={guardianEmailInput}
+                        onChange={(e) => setGuardianEmailInput(e.target.value)}
+                        placeholder="parent@example.ng"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-emerald-600"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Purpose Matrix */}
+                  <div className="space-y-2 pt-2 border-t border-slate-100">
+                    <span className="text-xs font-bold text-slate-700 uppercase block mb-1">
+                      Authorized Data Processing Purposes (NDPA 2023 Sec 24)
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                      <label className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={consentPurposes.caAnalytics}
+                          onChange={(e) => setConsentPurposes({ ...consentPurposes, caAnalytics: e.target.checked })}
+                          className="mt-0.5 rounded text-emerald-600"
+                        />
+                        <span>Continuous Assessment (CA) & Terminal Grade Computation</span>
+                      </label>
+
+                      <label className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={consentPurposes.iepDifferentiation}
+                          onChange={(e) => setConsentPurposes({ ...consentPurposes, iepDifferentiation: e.target.checked })}
+                          className="mt-0.5 rounded text-emerald-600"
+                        />
+                        <span>AI Differentiated Instruction & Special Educational Needs (IEP)</span>
+                      </label>
+
+                      <label className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={consentPurposes.whatsappAlerts}
+                          onChange={(e) => setConsentPurposes({ ...consentPurposes, whatsappAlerts: e.target.checked })}
+                          className="mt-0.5 rounded text-emerald-600"
+                        />
+                        <span>Pastoral & Attendance WhatsApp / SMS Dispatch</span>
+                      </label>
+
+                      <label className="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={consentPurposes.examVerification}
+                          onChange={(e) => setConsentPurposes({ ...consentPurposes, examVerification: e.target.checked })}
+                          className="mt-0.5 rounded text-emerald-600"
+                        />
+                        <span>Statutory Exam Verification (BECE / WAEC / NECO)</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Statutory Legal Declaration Box */}
+                  <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl text-[11px] text-emerald-950 space-y-2 leading-relaxed">
+                    <div className="font-bold flex items-center gap-1.5 text-emerald-900">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <span>Statutory Declaration under Section 24 of Nigeria Data Protection Act 2023:</span>
+                    </div>
+                    <p>
+                      I hereby confirm that I am the parent or lawful guardian of <strong>{selectedConsentStudent.firstName} {selectedConsentStudent.lastName}</strong>. In accordance with Section 24 of the Nigeria Data Protection Act 2023, I grant explicit consent to King's College, Lagos and EduPlan NG to process my child's academic, evaluation, and assessment records for the specified educational purposes. I retain the statutory right to review, rectify, or withdraw this consent at any time.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
+                    {selectedConsentStudent.consentStatus === 'GRANTED' && (
+                      <button
+                        type="button"
+                        onClick={() => handleExecuteConsent(false)}
+                        disabled={isSubmittingConsent}
+                        className="px-4 py-2.5 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors"
+                      >
+                        {isSubmittingConsent ? 'Updating...' : 'Revoke Consent'}
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => handleExecuteConsent(true)}
+                      disabled={isSubmittingConsent}
+                      className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 shadow-md transition-all flex items-center gap-2 hover:scale-102"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>{isSubmittingConsent ? 'Recording Consent...' : 'Authorize & Digitally Sign Consent'}</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="p-12 text-center text-xs text-slate-400">
+                  Select a student from the enrolled list to review or grant parental consent.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

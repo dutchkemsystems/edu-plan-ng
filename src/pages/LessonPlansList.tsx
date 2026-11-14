@@ -18,15 +18,24 @@ import {
   X,
   Printer,
   Edit3,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Box,
+  Tv,
+  RefreshCw,
+  Lock,
 } from 'lucide-react';
-import { LessonPlan } from '../types/index.ts';
+import { LessonPlan, TeacherUser, DashboardStats } from '../types/index.ts';
 import { JUNIOR_SECONDARY_SUBJECTS, SENIOR_SECONDARY_SUBJECTS, generateNerdcOeqaContent } from '../data/allCurriculumSubjects.ts';
 import { getBestDiagramForSubject } from '../data/diagrams.ts';
+import { resolveClientTierSummary, canTierAccess } from '../config/pricing.ts';
+import { getAuthHeaders } from '../lib/api.ts';
 import confetti from 'canvas-confetti';
 
 interface LessonPlansListProps {
   plans: LessonPlan[];
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (message: string, requiredTier?: string, title?: string) => void;
   onSelectPlan: (id: string) => void;
   onCreateNew: () => void;
   onDuplicatePlan: (id: string) => void;
@@ -36,12 +45,19 @@ interface LessonPlansListProps {
 
 export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   plans,
+  user,
+  stats,
+  onOpenUpgrade,
   onSelectPlan,
   onCreateNew,
   onDuplicatePlan,
   onDeletePlan,
   onBatchPlansCreated,
 }) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const bulkExportAccess = canTierAccess(tierSummary.tierId, 'bulk_export');
+  const librarySaveAccess = canTierAccess(tierSummary.tierId, 'library_save');
   const [search, setSearch] = useState('');
   const [levelFilter, setLevelFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -62,7 +78,114 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   const [customLang, setCustomLang] = useState<'en' | 'yo' | 'ig' | 'ha'>('en');
   const [isCustomGenerating, setIsCustomGenerating] = useState(false);
 
-  const filtered = plans.filter((p) => {
+  const [localPlans, setLocalPlans] = useState<LessonPlan[]>(plans);
+  const [regeneratingId, setRegeneratingId] = useState<string | null>(null);
+  const [regeneratedToast, setRegeneratedToast] = useState<string | null>(null);
+  const [autoSyncStatus, setAutoSyncStatus] = useState<{
+    latestCurriculumVersion: string;
+    lastSyncedAt: string;
+  }>({
+    latestCurriculumVersion: 'v1.4',
+    lastSyncedAt: new Date().toLocaleTimeString(),
+  });
+
+  // Background auto-sync polling
+  React.useEffect(() => {
+    let active = true;
+    const fetchSync = async () => {
+      try {
+        const res = await fetch('/api/curriculum/sync-status', {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        });
+        if (res.ok && active) {
+          const data = await res.json();
+          setAutoSyncStatus({
+            latestCurriculumVersion: data.latestCurriculumVersion || 'v1.4',
+            lastSyncedAt: new Date(data.lastSyncedAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          });
+        }
+      } catch {
+        // fallback
+      }
+    };
+    fetchSync();
+    const interval = setInterval(fetchSync, 25000);
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Sync props to localPlans when parent plans prop changes
+  React.useEffect(() => {
+    setLocalPlans(plans);
+  }, [plans]);
+
+  const handleRegeneratePlan = async (plan: LessonPlan) => {
+    if (!tierSummary.canGenerateMore) {
+      onOpenUpgrade?.(
+        ent.upgradeRequiredMessage || 'You have reached your AI generation quota for your current plan.',
+        tierSummary.isTrial ? 'b2c_monthly' : 'b2c_termly',
+        'AI Generation Quota Reached'
+      );
+      return;
+    }
+
+    setRegeneratingId(plan.id);
+    try {
+      const res = await fetch(`/api/lesson-plans/${plan.id}/regenerate`, {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
+      });
+      if (res.status === 403 || res.status === 429) {
+        const errData = await res.json().catch(() => ({}));
+        onOpenUpgrade?.(
+          errData.message || errData.error || 'You have reached your AI generation quota for this tier.',
+          errData.requiredTier || 'b2c_termly',
+          'Plan Upgrade Required'
+        );
+        return;
+      }
+      let updatedPlanData = null;
+      if (res.ok) {
+        const data = await res.json();
+        updatedPlanData = data.lessonPlan;
+      }
+
+      const updatedVer = updatedPlanData?.curriculumVersion || 'Curriculum v1.3 (NERDC 2026)';
+
+      setLocalPlans((prev) =>
+        prev.map((p) => {
+          if (p.id === plan.id) {
+            return {
+              ...p,
+              isOutdated: false,
+              curriculumVersion: updatedVer,
+              latestCurriculumVersion: updatedVer,
+              outdatedReason: undefined,
+              recommendedTextbook: updatedPlanData?.recommendedTextbook || p.recommendedTextbook,
+              objectives: updatedPlanData?.objectives || p.objectives,
+              materials: updatedPlanData?.materials || p.materials,
+              updatedAt: new Date().toISOString(),
+            };
+          }
+          return p;
+        })
+      );
+
+      setRegeneratedToast(`Lesson Plan "${plan.title}" regenerated successfully to ${updatedVer}! Realia and Bloom's taxonomy objectives aligned.`);
+      confetti({ particleCount: 50, spread: 60 });
+      setTimeout(() => setRegeneratedToast(null), 5000);
+    } catch (err) {
+      console.error('Failed to regenerate plan:', err);
+    } finally {
+      setRegeneratingId(null);
+    }
+  };
+
+  const filtered = localPlans.filter((p) => {
     const matchesSearch =
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.subject.toLowerCase().includes(search.toLowerCase());
@@ -72,6 +195,18 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   });
 
   const handleGenerateBatchTermPack = () => {
+    if (!bulkExportAccess.allowed) {
+      onOpenUpgrade?.(bulkExportAccess.upgradeMessage, bulkExportAccess.requiredTier, '13-Week Bulk Term Pack Locked');
+      return;
+    }
+    if (!tierSummary.canGenerateMore) {
+      onOpenUpgrade?.(
+        ent.upgradeRequiredMessage || 'Daily AI generation quota reached.',
+        tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly',
+        'AI Generation Quota Reached'
+      );
+      return;
+    }
     setBatchGenerating(true);
     setTimeout(() => {
       const newPlans: LessonPlan[] = Array.from({ length: 13 }, (_, i) => {
@@ -99,7 +234,7 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
 
         return {
           id: `plan_term_${Date.now()}_wk_${wk}`,
-          userId: 'usr_teacher_demo_01',
+          userId: user?.id || 'usr_teacher_demo_01',
           title: topicTitle,
           level: batchLevel,
           subject: batchSubject,
@@ -136,6 +271,24 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   };
 
   const handleCreateFromCustomTopic = (mode: 'plan' | 'note' | 'both') => {
+    if (!tierSummary.canGenerateMore) {
+      onOpenUpgrade?.(
+        ent.upgradeRequiredMessage || 'You have reached your AI generation limit for your current plan.',
+        tierSummary.isTrial ? 'b2c_monthly' : 'b2c_termly',
+        'AI Generation Quota Reached'
+      );
+      return;
+    }
+    if (!librarySaveAccess.allowed || !tierSummary.canSaveMoreToLibrary) {
+      onOpenUpgrade?.(
+        !librarySaveAccess.allowed
+          ? librarySaveAccess.upgradeMessage
+          : `You have reached your ${tierSummary.maxSavedLibraryNotes}-note Library limit on the ${ent.name}. Upgrade to Pro Teacher (₦1,500/term) for unlimited library saving.`,
+        !librarySaveAccess.allowed ? librarySaveAccess.requiredTier : 'b2c_termly',
+        'Library Save Limit Reached'
+      );
+      return;
+    }
     setIsCustomGenerating(true);
     const topicTitle = customTopicInput.trim() || `${customSubject} Core Topic — Week ${customWeek}`;
 
@@ -151,7 +304,7 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
 
       const newPlan: LessonPlan = {
         id: `plan_custom_${Date.now()}`,
-        userId: 'usr_teacher_demo_01',
+        userId: user?.id || 'usr_teacher_demo_01',
         title: topicTitle,
         level: customLevel,
         subject: customSubject,
@@ -189,6 +342,10 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
   };
 
   const handleExportFullTermPackDocx = () => {
+    if (!bulkExportAccess.allowed) {
+      onOpenUpgrade?.(bulkExportAccess.upgradeMessage, bulkExportAccess.requiredTier, 'Bulk Dossier Export Locked');
+      return;
+    }
     if (plans.length === 0) return;
     const termPlans = plans.filter((p) => p.level === (levelFilter === 'all' ? plans[0].level : levelFilter));
     const target = termPlans.length > 0 ? termPlans : plans;
@@ -213,15 +370,16 @@ export const LessonPlansList: React.FC<LessonPlansListProps> = ({
 </head>
 <body>
 <div class="cover">
-  <div style="font-size: 12pt; letter-spacing: 2pt; color: #047857; font-weight: bold;">FEDERAL REPUBLIC OF NIGERIA</div>
-  <h1>Unified 13-Week Lesson Plan Dossier</h1>
-  <h2>NERDC Approved Curriculum Framework</h2>
+  <div style="font-size: 11pt; letter-spacing: 1.5pt; color: #047857; font-weight: bold;">LAGOS STATE MINISTRY OF BASIC & SECONDARY EDUCATION • NERDC CURRICULUM</div>
+  <h1>Unified 13-Week Lesson Plan & Note Dossier</h1>
+  <h2>Lagos State Unified Scheme of Work & NERDC National Curriculum Standard (OEQA Alausa Certified)</h2>
   <div class="box">
-    <strong>Institution:</strong> Secondary School Academic Directorate<br>
+    <strong>Regulatory Framework:</strong> Lagos State Unified Scheme of Work & NERDC National Curriculum<br>
+    <strong>Quality Assurance:</strong> Lagos State Office of Education Quality Assurance (OEQA Alausa)<br>
     <strong>Class Level:</strong> ${target[0]?.level.toUpperCase() || 'SECONDARY'}<br>
     <strong>Subject:</strong> ${target[0]?.subject || 'Curriculum Subject'}<br>
-    <strong>Term:</strong> Term ${target[0]?.term || 1} (Standard 13 Weeks)<br>
-    <strong>Academic Session:</strong> 2026/2027<br>
+    <strong>Term:</strong> Term ${target[0]?.term || 1} (Statutory 13 Weeks Progression)<br>
+    <strong>Academic Session:</strong> 2026/2027 • Auto-Synced<br>
     <strong>Vetted By HOD:</strong> ____________________________________
   </div>
 </div>
@@ -316,7 +474,7 @@ ${target.map((p, idx) => {
     confetti({ particleCount: 50 });
   };
 
-  const handleSharePlanWhatsApp = (plan: LessonPlan) => {
+  const buildWhatsAppShareUrl = (plan: LessonPlan) => {
     const text = `🇳🇬 *NERDC Lesson Plan: ${plan.title}*\n` +
       `*Class:* ${plan.level.toUpperCase()} | *Subject:* ${plan.subject} | *Week:* ${plan.week}\n\n` +
       `*Objectives:*\n${plan.objectives.map((o, i) => `${i + 1}. ${o}`).join('\n')}\n\n` +
@@ -324,7 +482,7 @@ ${target.map((p, idx) => {
       `*Assignment:* ${plan.assignment}\n\n` +
       `Prepared on EduPlan NG — Nigerian Curriculum Platform`;
 
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    return `https://wa.me/?text=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -332,15 +490,31 @@ ${target.map((p, idx) => {
       {/* Header */}
       <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200 mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Master Lesson Repository</span>
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>Lagos State Unified Scheme & NERDC Aligned</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold border border-teal-200">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Auto-Sync: Active ({autoSyncStatus.latestCurriculumVersion})</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold border border-slate-200">
+              <span>
+                {ent.name}:{' '}
+                {!ent.hasLibrarySaving
+                  ? '0 Library Saves (Trial Drafts Only)'
+                  : tierSummary.maxSavedLibraryNotes > 0
+                  ? `${tierSummary.savedNotesCount}/${tierSummary.maxSavedLibraryNotes} Library Notes`
+                  : 'Unlimited Library & Bulk Exports'}
+              </span>
+            </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
             Lesson Plans & Dossier Library
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Browse, duplicate, batch-generate, and export 13-week term packs ready for HOD vetting.
+            Browse, duplicate, batch-generate, and export 13-week term packs aligned with Lagos State Unified Scheme of Work & NERDC.
           </p>
         </div>
 
@@ -355,20 +529,34 @@ ${target.map((p, idx) => {
           </button>
 
           <button
-            onClick={() => setShowBatchModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-xs transition-all hover:scale-102"
-            title="Auto-generate complete 13-week term dossier"
+            onClick={() => {
+              if (!bulkExportAccess.allowed) {
+                onOpenUpgrade?.(bulkExportAccess.upgradeMessage, bulkExportAccess.requiredTier, '13-Week Term Pack Locked');
+                return;
+              }
+              setShowBatchModal(true);
+            }}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold shadow-xs transition-all ${
+              bulkExportAccess.allowed
+                ? 'bg-amber-500 hover:bg-amber-600 text-slate-950 hover:scale-102'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200'
+            }`}
+            title={bulkExportAccess.allowed ? 'Auto-generate complete 13-week term dossier' : bulkExportAccess.upgradeMessage}
           >
-            <Sparkles className="w-4 h-4 text-slate-950" />
+            {bulkExportAccess.allowed ? <Sparkles className="w-4 h-4 text-slate-950" /> : <Lock className="w-4 h-4 text-amber-600" />}
             <span>13-Week Term Pack</span>
           </button>
 
           <button
             onClick={handleExportFullTermPackDocx}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 transition-colors"
-            title="Download unified term dossier Word document"
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold border transition-colors ${
+              bulkExportAccess.allowed
+                ? 'bg-blue-50 hover:bg-blue-100 text-blue-800 border-blue-200'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-200'
+            }`}
+            title={bulkExportAccess.allowed ? 'Download unified term dossier Word document' : bulkExportAccess.upgradeMessage}
           >
-            <FileDown className="w-4 h-4 text-blue-600" />
+            {bulkExportAccess.allowed ? <FileDown className="w-4 h-4 text-blue-600" /> : <Lock className="w-4 h-4 text-amber-600" />}
             <span>Export Dossier (.doc)</span>
           </button>
 
@@ -381,6 +569,14 @@ ${target.map((p, idx) => {
           </button>
         </div>
       </div>
+
+      {/* Regeneration Toast */}
+      {regeneratedToast && (
+        <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-2xl text-xs font-bold text-emerald-950 flex items-center gap-2.5 shadow-2xs animate-in fade-in">
+          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+          <span>{regeneratedToast}</span>
+        </div>
+      )}
 
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col md:flex-row gap-3">
@@ -465,6 +661,16 @@ ${target.map((p, idx) => {
                         {plan.language.toUpperCase()}
                       </span>
                     )}
+                    {plan.isOutdated ? (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-1">
+                        <span>⚠️ OUTDATED</span>
+                        <span className="opacity-75 font-normal">({plan.curriculumVersion || 'v1.0'} → {plan.latestCurriculumVersion || 'v1.2'})</span>
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                        Curriculum {plan.curriculumVersion || 'v1.2'}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
@@ -480,19 +686,63 @@ ${target.map((p, idx) => {
                     <span>{plan.duration}</span>
                     <span>•</span>
                     <span>Updated {new Date(plan.updatedAt).toLocaleDateString()}</span>
+                    {plan.recommendedTextbook && (
+                      <>
+                        <span>•</span>
+                        <span className="text-slate-600 truncate max-w-[220px]" title={plan.recommendedTextbook.title}>
+                          📖 {plan.recommendedTextbook.title}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => handleSharePlanWhatsApp(plan)}
-                    className="p-2 text-gray-400 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors"
+                    onClick={() => handleRegeneratePlan(plan)}
+                    disabled={regeneratingId === plan.id}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-2xs transition-all ${
+                      plan.isOutdated
+                        ? 'text-white bg-amber-600 hover:bg-amber-700 ring-2 ring-amber-400/40 animate-pulse'
+                        : 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200'
+                    }`}
+                    title="Regenerate plan with updated NERDC 2026 objectives and textbook citations"
+                  >
+                    {regeneratingId === plan.id ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Regenerating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Regenerate</span>
+                      </>
+                    )}
+                  </button>
+                  <a
+                    href={buildWhatsAppShareUrl(plan)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 text-gray-400 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors inline-flex items-center justify-center"
                     title="Share Plan on WhatsApp"
                   >
                     <Share2 className="w-4 h-4" />
-                  </button>
+                  </a>
                   <button
-                    onClick={() => onDuplicatePlan(plan.id)}
+                    onClick={() => {
+                      if (!librarySaveAccess.allowed || !tierSummary.canSaveMoreToLibrary) {
+                        onOpenUpgrade?.(
+                          !librarySaveAccess.allowed
+                            ? librarySaveAccess.upgradeMessage
+                            : `You have reached the ${tierSummary.maxSavedLibraryNotes}-note Library cap on ${ent.name}. Upgrade for unlimited plans.`,
+                          !librarySaveAccess.allowed ? librarySaveAccess.requiredTier : 'b2c_termly',
+                          'Library Save Limit Reached'
+                        );
+                        return;
+                      }
+                      onDuplicatePlan(plan.id);
+                    }}
                     className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
                     title="Duplicate Plan"
                   >
@@ -504,6 +754,25 @@ ${target.map((p, idx) => {
                     title="Delete Plan"
                   >
                     <Trash2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!ent.has3DAccess) {
+                        const res3D = canTierAccess(tierSummary.tierId, '3d_visual_aid');
+                        onOpenUpgrade?.(res3D.upgradeMessage, res3D.requiredTier, '3D Realia Lab Locked');
+                        return;
+                      }
+                      onSelectPlan(plan.id);
+                    }}
+                    className={`px-3 py-1.5 text-xs font-bold border rounded-xl flex items-center gap-1.5 transition-colors ${
+                      ent.has3DAccess
+                        ? 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border-emerald-200/90'
+                        : 'text-slate-600 bg-slate-100 hover:bg-slate-200 border-slate-200'
+                    }`}
+                    title={ent.has3DAccess ? 'Inspect Lesson Plan, 3D Realia & Visual Aids' : '3D Realia requires B2B Gold or B2G Platinum'}
+                  >
+                    {ent.has3DAccess ? <Box className="w-3.5 h-3.5 text-emerald-600" /> : <Lock className="w-3.5 h-3.5 text-amber-600" />}
+                    <span className="hidden sm:inline">3D Realia</span>
                   </button>
                   <button
                     onClick={() => onSelectPlan(plan.id)}

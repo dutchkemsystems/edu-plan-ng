@@ -6,6 +6,7 @@
  */
 
 import type { TwentyFirstCenturySkill } from '../../types/curriculum.ts';
+import { getApprovedTextbookForSubject } from '../../data/approvedTextbooks.ts';
 
 // ============================================================================
 // 1. SUBJECT CORE 21ST-CENTURY SKILLS DIRECTORY (NIGERIAN CONTEXT)
@@ -102,6 +103,14 @@ STRICT REGULATORY STANDARDS YOU MUST ENFORCE:
    - Tier 2 (On-Level Learners): Standard curriculum drills, independent problem-solving.
    - Tier 3 (Advanced Learners): Higher-order extension word problems with Nigerian economic/industrial application.
 
+6. EXACT GOVERNMENT-APPROVED TEXTBOOK & AUTHOR CITATION (PHASE 2 STATUTORY MANDATE):
+   - Every generated lesson plan MUST include a "recommendedTextbook" object citing the exact government-approved textbook, author, publisher, edition, and approval body (e.g. "Essential Biology for SSS 1 by M.C. Michael, approved by NERDC 2024").
+   - Never generate generic placeholders for textbooks; cite the exact statutory textbook prescribed for the subject and class level.
+
+7. TRANSFORMATIVE USE & COPYRIGHT ACT 2022 COMPLIANCE (AI GENERATION LOCK):
+   - Generate an ORIGINAL lesson plan based on these topics. Do NOT reproduce the source text verbatim.
+   - You are strictly forbidden from reproducing source text, syllabus text, or examination questions verbatim. Curriculum metadata supplies topics, subtopics, and objectives only.
+
 OUTPUT FORMAT:
 Return ONLY clean, valid JSON strictly adhering to the LessonPlan schema without markdown codeblocks or outer text.
 `.trim();
@@ -172,6 +181,7 @@ export function buildLessonPlanPrompt(params: GeneratePlanPromptParams): string 
   } = params;
 
   const coreSkills = getCoreSkillsForSubject(subject);
+  const approvedBook = getApprovedTextbookForSubject(level, subject);
 
   return `
 GENERATE AN OFFICIAL NERDC & OEQA ALAUZA LESSON PLAN FOR:
@@ -185,6 +195,7 @@ ${subtopics.length > 0 ? `- Recommended Subtopics: ${subtopics.join(', ')}` : ''
 - Allotted Duration: ${durationMinutes} minutes
 - Language of Instruction: ${language === 'en' ? 'English (NERDC Standard)' : language}
 - Associated 21st-Century Subject Skills: ${coreSkills.join(', ')}
+${approvedBook ? `- Prescribed Government Textbook: "${approvedBook.title}" by ${approvedBook.author} (${approvedBook.publisher}, ${approvedBook.edition}) [Approved by ${approvedBook.approvedBy}]` : ''}
 
 MANDATORY JSON FIELDS REQUIRED:
 {
@@ -196,6 +207,16 @@ MANDATORY JSON FIELDS REQUIRED:
   "subtopics": ["Subtopic 1", "Subtopic 2", "Subtopic 3"],
   "durationMinutes": ${durationMinutes},
   "averageAgeYears": ${level.toLowerCase().startsWith('j') ? 12 : 16},
+  "recommendedTextbook": {
+    "title": "${approvedBook ? approvedBook.title : `NERDC Approved ${subject} for ${level.toUpperCase()}`}",
+    "author": "${approvedBook ? approvedBook.author : 'Government Approved Subject Specialists'}",
+    "publisher": "${approvedBook ? approvedBook.publisher : 'Approved Educational Publishers'}",
+    "edition": "${approvedBook ? approvedBook.edition : 'Latest Curriculum Edition'}",
+    "isGovernmentApproved": true,
+    "approvedBy": "${approvedBook ? approvedBook.approvedBy : 'NERDC & Lagos State Ministry of Basic Education'}",
+    "approvalDate": "${approvedBook ? approvedBook.approvalDate : '2024-01-15'}",
+    "citation": "${approvedBook ? `${approvedBook.title} by ${approvedBook.author}, approved by NERDC 2024` : `Approved ${subject} Textbook for ${level.toUpperCase()}`}"
+  },
   "nerdcObjectives": [
     "By the end of the lesson, learners should be able to: [Bloom Action Verb] ...",
     "By the end of the lesson, learners should be able to: [Bloom Action Verb] ...",

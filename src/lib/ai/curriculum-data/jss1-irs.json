@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Islamic Religious Studies",
+  "subjectCode": "IRS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/irs-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Islamic Religious Studies for Junior Secondary Schools Book 1",
+    "author": "M. A. Folorunsho, A. K. Makinde",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Revelation of the Holy Quran and Surah Al-Alaq",
+      "subtopics": ["The night of majesty (Laylatul Qadr) in the cave of Hira", "The first five verses revealed through Angel Jibril: 'Iqra' (Read!)", "Importance of knowledge, literacy, and learning in Islamic civilization"],
+      "objectives": ["Recite the first 5 verses of Surah Al-Alaq with accurate Arabic pronunciation", "Explain the historical circumstances surrounding the first revelation to Prophet Muhammad (SAW)", "Highlight how the commandment 'Iqra' elevates education as an Islamic duty"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Five Pillars of Islam (Arkanul Islam)",
+      "subtopics": ["Overview of the 5 foundational pillars: Shahadah (Declaration of Faith), Salah (Prayer), Zakah (Charity), Sawm (Fasting), Hajj (Pilgrimage)", "The Kalimatush-Shahadah: Meaning, significance, and sincere declaration", "How the 5 pillars foster spiritual discipline, equality, and brotherhood among Muslims"],
+      "objectives": ["Recite the Shahadah in Arabic and provide its complete English translation", "List the five pillars of Islam in sequential order of statutory obligation", "Explain how the pillars build a just, empathetic, and God-conscious society"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Tawheed: The Oneness of Allah and Prohibition of Shirk",
+      "subtopics": ["Meaning of Tawheed (Islamic Monotheism): Tawheed ar-Rububiyyah, al-Uluhiyyah, and al-Asma was-Sifat", "Surah Al-Ikhlas: Text, translation, and declaration of absolute divine unity", "Prohibition of Shirk (associating partners with Allah): Major Shirk vs minor Shirk (Riya/showing off)"],
+      "objectives": ["Explain the three dimensions of Tawheed with scriptural citations", "Recite Surah Al-Ikhlas with proper Tajweed and state its core theological tenets", "Identify real-life manifestations of Shirk and explain why it is the unpardonable sin in Islam"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Taharah (Purification): Cleanliness, Wudu and Ghusl",
+      "subtopics": ["Meaning of Taharah and the Islamic hadith: 'Cleanliness is half of faith'", "Types of water permissible for purification (Mutlaq water: rain, river, sea, well)", "Step-by-step practical performance of Wudu (ablution) and acts that nullify Wudu"],
+      "objectives": ["State the conditions of water required for ritual purification", "Demonstrate sequential steps of performing complete Wudu according to the Sunnah", "List 5 physical occurrences that invalidate ritual ablution"]
+    }
+  ]
+}

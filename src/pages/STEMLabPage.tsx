@@ -14,11 +14,55 @@ import {
   Scale,
   BatteryCharging,
   Sliders,
-  Award
+  Award,
+  Video,
+  Lock
 } from 'lucide-react';
+import { VideoAidPlayer } from '../components/VideoAidPlayer.tsx';
+import { TeacherUser, DashboardStats } from '../types/index.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
+import { getAuthHeaders } from '../lib/api.ts';
 
-export const STEMLabPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'balogun' | 'bridge' | 'cassava' | 'solar'>('balogun');
+interface STEMLabPageProps {
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+}
+
+export const STEMLabPage: React.FC<STEMLabPageProps> = ({
+  user,
+  stats,
+  onOpenUpgrade,
+}) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const [activeTab, setActiveTab] = useState<'4k-visuals' | 'balogun' | 'bridge' | 'cassava' | 'solar'>(
+    ent.has4KAccess ? '4k-visuals' : 'balogun'
+  );
+  const [streamStatus, setStreamStatus] = useState<string | null>(null);
+
+  const verify4KStream = async () => {
+    try {
+      const res = await fetch('/api/stem-lab/4k-stream', {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
+        body: JSON.stringify({ simulationId: 'stem_4k_master_stream' }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(data?.error || '3D & 4K Visual Lab requires B2B Gold (₦250,000/term) or B2G Platinum.', 'b2b_gold', '3D & 4K Visual Lab');
+        }
+        return;
+      }
+      if (data.success) {
+        setStreamStatus(`${data.quality || '4K UHD'} Stream Ready`);
+      }
+    } catch {
+      // fallback
+    }
+  };
 
   // Simulation 1: Balogun Market
   const [costPrice, setCostPrice] = useState(45000);
@@ -78,10 +122,11 @@ export const STEMLabPage: React.FC = () => {
         {/* Tab Navigation */}
         <div className="flex items-center gap-2 pt-6 mt-6 border-t border-white/10 overflow-x-auto">
           {[
-            { id: 'balogun', label: 'Balogun Market Trade (Math/Econ)', icon: TrendingUp },
-            { id: 'bridge', label: 'Third Mainland Bridge (Physics)', icon: Activity },
-            { id: 'cassava', label: 'Garri Fermentation (Chemistry)', icon: FlaskConical },
-            { id: 'solar', label: 'Classroom Solar Sizer (Tech)', icon: Sun },
+            { id: '4k-visuals', label: '4K Ultra-HD STEM & Visual Lab (24 Subjects)', icon: Video, locked: !ent.has4KAccess },
+            { id: 'balogun', label: 'Balogun Market Trade (Math/Econ)', icon: TrendingUp, locked: false },
+            { id: 'bridge', label: 'Third Mainland Bridge (Physics)', icon: Activity, locked: false },
+            { id: 'cassava', label: 'Garri Fermentation (Chemistry)', icon: FlaskConical, locked: false },
+            { id: 'solar', label: 'Classroom Solar Sizer (Tech)', icon: Sun, locked: false },
           ].map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
@@ -95,13 +140,77 @@ export const STEMLabPage: React.FC = () => {
                     : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                {tab.locked ? <Lock className="w-3.5 h-3.5 text-amber-300" /> : <Icon className="w-4 h-4" />}
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
       </div>
+
+      {/* 4K ULTRA-HD STEM & VISUAL LAB (ALL 24 STATUTORY SUBJECTS) */}
+      {activeTab === '4k-visuals' && (
+        !ent.has4KAccess ? (
+          <div className="bg-white p-8 rounded-3xl border border-amber-200 shadow-2xs text-center space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center mx-auto">
+              <Lock className="w-7 h-7" />
+            </div>
+            <div className="max-w-lg mx-auto space-y-1.5">
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
+                B2B Gold & B2G Platinum Exclusive • Current: {ent.name}
+              </span>
+              <h2 className="text-lg font-extrabold text-slate-900">
+                3D & 4K Interactive STEM Visual Lab Requires B2B Gold (₦250,000/term)
+              </h2>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                4K Ultra-HD Interactive Realia Projections and 3D WebGL classroom models are unlocked on B2B Gold (₦250,000/term) and B2G State Platinum licenses. Standard 2D STEM simulations (Balogun Trade, Third Mainland Bridge, Garri Chemistry, Solar Sizer) remain available across all plans.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <button
+                onClick={() =>
+                  onOpenUpgrade?.(
+                    '3D & 4K Interactive Visual Lab is exclusive to B2B Gold (₦250,000/term) and B2G State Platinum.',
+                    'b2b_gold',
+                    'Upgrade to B2B Gold for 4K STEM Lab'
+                  )
+                }
+                className="px-5 py-2.5 text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl shadow-2xs"
+              >
+                Upgrade to B2B Gold (₦250k/term)
+              </button>
+              <button
+                onClick={() => setActiveTab('balogun')}
+                className="px-4 py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
+              >
+                Open 2D Nigerian STEM Sims
+              </button>
+            </div>
+          </div>
+        ) : (
+        <div className="space-y-4">
+          <div className="bg-slate-900/90 p-4 rounded-3xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+              <div>
+                <span className="font-extrabold text-white">4K Ultra-HD Interactive Realia Projection</span>
+                <span className="text-slate-400 ml-2 hidden md:inline">• All 24 statutory subjects loaded with coordinate labeling and audible narration</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={verify4KStream}
+                className="text-[11px] font-bold text-emerald-400 bg-emerald-950/80 hover:bg-emerald-900 px-2.5 py-1 rounded-lg border border-emerald-800/80 flex items-center gap-1.5"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{streamStatus || 'Verify 4K Stream Engine'}</span>
+              </button>
+            </div>
+          </div>
+          <VideoAidPlayer />
+        </div>
+        )
+      )}
 
       {/* SIMULATION 1: Balogun Market Profit & Unit Cost */}
       {activeTab === 'balogun' && (

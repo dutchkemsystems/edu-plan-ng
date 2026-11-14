@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Further Mathematics",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-further-mathematics.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Partial Fractions: Distinct linear, repeated linear, and irreducible quadratic factors",
+      "learningObjectives": [
+        "Decompose proper rational algebraic fractions with distinct linear factors in denominators",
+        "Resolve fractions containing repeated linear factors like (ax + b)²",
+        "Handle denominators containing irreducible quadratic factors like (ax² + bx + c)"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Integration Techniques: Integration by substitution and algebraic partial fractions",
+      "learningObjectives": [
+        "Execute algebraic integration using appropriate variable substitution (u-substitution)",
+        "Integrate rational algebraic expressions resolved into partial fractions",
+        "Evaluate definite integrals using substitution with adjusted boundary limits"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Integration by Parts: Formula ∫ u dv = uv - ∫ v du and repeated parts",
+      "learningObjectives": [
+        "Derive integration by parts from the differential product rule",
+        "Select appropriate choices for u and dv using the LIATE prioritization rule",
+        "Apply repeated integration by parts to cyclic functions like e^x sin x"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Differential Equations: First-order ordinary differential equations with separable variables",
+      "learningObjectives": [
+        "Define order and degree of ordinary differential equations (ODEs)",
+        "Solve first-order ODEs by direct separation of variables: f(y) dy = g(x) dx",
+        "Determine particular solutions satisfying given initial or boundary conditions"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Mechanics: Statics of coplanar forces, resolution, and moments of forces",
+      "learningObjectives": [
+        "Resolve systems of coplanar forces along orthogonal Cartesian axes",
+        "Apply Lami’s Theorem to systems of three coplanar forces in static equilibrium",
+        "Calculate moments of forces and apply the Principle of Moments to uniform and non-uniform beams"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Mechanics: Friction and motion on rough horizontal and inclined planes",
+      "learningObjectives": [
+        "State laws of solid dry friction and define coefficient of friction (μ = tan λ)",
+        "Analyze forces acting on bodies in limiting equilibrium on rough inclined planes",
+        "Calculate minimum tractive forces required to prevent sliding or produce motion up inclined planes"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Mock WASSCE Mechanics Clinic",
+      "learningObjectives": [
+        "Assess pupil mastery of advanced integration techniques and statics equilibrium",
+        "Administer timed test matching WASSCE Further Mathematics Paper 2 section structure",
+        "Remediate common algebraic errors in partial fraction decomposition"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Mechanics: Projectiles launched at an angle to the horizontal",
+      "learningObjectives": [
+        "Derive parametric and Cartesian trajectory equations for projectiles under gravity",
+        "Calculate time of flight (T = 2u sin θ / g) and maximum height (H = u² sin² θ / 2g)",
+        "Determine horizontal range (R = u² sin 2θ / g) and velocity vector at any elapsed time t"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Statistics: Correlation coefficient (Pearson and Spearman Rank) and linear regression",
+      "learningObjectives": [
+        "Calculate Pearson’s product-moment correlation coefficient r from bivariate data",
+        "Compute Spearman’s rank correlation coefficient for qualitative ordered rankings",
+        "Determine lines of regression of y on x using the method of least squares"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Normal Distribution: Standard normal variable Z, normal tables, and hypothesis testing basics",
+      "learningObjectives": [
+        "Understand properties of the Gaussian bell-shaped continuous normal curve",
+        "Transform raw scores X to standard normal scores using Z = (X - μ) / σ",
+        "Use cumulative normal probability distribution tables to calculate probabilities and percentiles"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Operations Research: Linear Programming (graphical maximization and minimization)",
+      "learningObjectives": [
+        "Formulate linear objective functions and linear inequality constraints from word problems",
+        "Graph constraint boundaries and shade the common feasible solution polygon",
+        "Locate optimal solutions using vertex evaluation and objective line sliding methods"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO Further Mathematics Revision & Speed Marathon",
+      "learningObjectives": [
+        "Review entire 3-year Further Mathematics curriculum across Pure Maths, Mechanics, and Statistics",
+        "Solve past 5 years of WASSCE/NECO Paper 1 (objective) and Paper 2 (theory) questions",
+        "Coach students on examination time allocation, accuracy checks, and step-by-step presentation"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Mock Examination and Broadsheet Certification",
+      "learningObjectives": [
+        "Conduct full mock WASSCE Further Mathematics examination across Papers 1 and 2",
+        "Grade scripts according to official WAEC marking schemes and penalize rounding errors",
+        "Certify broadsheet entries and generate graduation readiness assessments"
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Lock,
@@ -8,13 +8,20 @@ import {
   ArrowRight,
   CreditCard,
   Building2,
+  Landmark,
   Zap,
   Clock,
   Star,
   ExternalLink
 } from 'lucide-react';
-import { SUBSCRIPTION_PLANS, SubscriptionPlan, getPlanById } from '../data/subscriptionPlans.ts';
-import { initializeKoraPayment } from '../lib/api.ts';
+import {
+  SUBSCRIPTION_PLANS,
+  B2B_SCHOOL_PLANS,
+  B2G_GOVERNMENT_PLANS,
+  SubscriptionPlan,
+  getPlanById,
+} from '../data/subscriptionPlans.ts';
+import { initializeKoraPayment, getAuthHeaders } from '../lib/api.ts';
 import { TeacherUser } from '../types/index.ts';
 import confetti from 'canvas-confetti';
 
@@ -31,11 +38,21 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   isOpen,
   onClose,
   user,
-  selectedPlanId = 'full_session',
+  selectedPlanId = 'b2c_session',
   onSuccess,
   isExpiredTrial = false,
 }) => {
-  const [activePlanId, setActivePlanId] = useState<string>(selectedPlanId || 'full_session');
+  const resolveTabForPlan = (planId: string): 'teacher' | 'principal' | 'ministry' => {
+    const clean = (planId || '').toLowerCase();
+    if (clean.startsWith('b2g_') || clean.includes('platinum') || clean.includes('state')) return 'ministry';
+    if (clean.startsWith('b2b_') || ['bronze', 'silver', 'gold'].includes(clean)) return 'principal';
+    return 'teacher';
+  };
+
+  const [accountType, setAccountType] = useState<'teacher' | 'principal' | 'ministry'>(() =>
+    resolveTabForPlan(selectedPlanId)
+  );
+  const [activePlanId, setActivePlanId] = useState<string>(() => getPlanById(selectedPlanId || 'b2c_session').id);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -48,7 +65,24 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
     amount: number;
     mode: string;
     publicKey?: string;
+    virtualAccount?: {
+      accountNumber: string;
+      bankName: string;
+      accountName: string;
+      ussdCode: string;
+      transferInstructions?: string;
+    };
   } | null>(null);
+
+  useEffect(() => {
+    if (isOpen && selectedPlanId) {
+      const matched = getPlanById(selectedPlanId);
+      setActivePlanId(matched.id);
+      setAccountType(resolveTabForPlan(matched.id));
+      setCheckoutData(null);
+      setErrorMessage('');
+    }
+  }, [isOpen, selectedPlanId]);
 
   if (!isOpen) return null;
 
@@ -66,10 +100,11 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
       // Trigger webhook callback to update database and unlock subscription
       const webhookRes = await fetch('/api/payments/webhook', {
         method: 'POST',
-        headers: {
+        headers: getAuthHeaders({
           'Content-Type': 'application/json',
           'x-korapay-signature': 'simulated_local_test_sig',
-        },
+        }),
+        credentials: 'include',
         body: JSON.stringify({
           event: 'charge.success',
           data: {
@@ -82,8 +117,11 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               name: payerName,
             },
             metadata: {
-              planId: activePlanId,
+              planId: currentPlan.id,
+              accountType: currentPlan.category,
               userId: user?.id || 'usr_teacher_demo_01',
+              schoolId: currentPlan.category === 'b2b' ? (user?.schoolId || 'sch_kings_college_01') : undefined,
+              ministryStateId: currentPlan.category === 'b2g' ? (user?.state || 'Lagos') : undefined,
             },
           },
         }),
@@ -109,10 +147,14 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
     try {
       // Call Kora Pay payment initialization API
       const res = await initializeKoraPayment({
-        plan: activePlanId,
+        plan: currentPlan.id,
+        planId: currentPlan.id,
+        accountType: currentPlan.category,
+        schoolId: currentPlan.category === 'b2b' ? (user?.schoolId || 'sch_kings_college_01') : undefined,
         email: payerEmail,
         name: payerName,
         amount: currentPlan.price,
+        userId: user?.id || 'usr_teacher_demo_01',
       });
 
       if (res && res.success) {
@@ -167,6 +209,13 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
     }
   };
 
+  const plansToDisplay: SubscriptionPlan[] =
+    accountType === 'teacher'
+      ? SUBSCRIPTION_PLANS
+      : accountType === 'principal'
+      ? B2B_SCHOOL_PLANS
+      : B2G_GOVERNMENT_PLANS;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto"
@@ -205,7 +254,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               : 'Select Your Subscription Plan to Unlock Full Pedagogical Access'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
-            Save 10+ hours every week with 100% NERDC & Lagos State OEQA compliant lesson plans, 13-week schemes of work, and official WAEC grading broadsheets.
+            Save 10+ hours every week with statutory curriculum plans, 13-week schemes of work, and official WAEC grading broadsheets.
           </p>
         </div>
 
@@ -219,10 +268,64 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
 
           {!checkoutData ? (
             <>
+              {/* Account Type Switcher */}
+              <div className="flex justify-center pb-2">
+                <div className="inline-flex p-1 bg-slate-100 rounded-2xl border border-slate-200 shadow-2xs max-w-2xl w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAccountType('teacher');
+                      setActivePlanId('b2c_session');
+                    }}
+                    className={`flex-1 py-2 px-3 text-xs font-extrabold rounded-xl transition-all ${
+                      accountType === 'teacher'
+                        ? 'bg-white text-emerald-950 shadow-sm ring-1 ring-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Teachers (B2C)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAccountType('principal');
+                      setActivePlanId('b2b_silver');
+                    }}
+                    className={`flex-1 py-2 px-3 text-xs font-extrabold rounded-xl transition-all ${
+                      accountType === 'principal'
+                        ? 'bg-white text-emerald-950 shadow-sm ring-1 ring-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Private Schools (B2B)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAccountType('ministry');
+                      setActivePlanId('b2g_state_platinum');
+                    }}
+                    className={`flex-1 py-2 px-3 text-xs font-extrabold rounded-xl transition-all ${
+                      accountType === 'ministry'
+                        ? 'bg-white text-sky-950 shadow-sm ring-1 ring-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    Ministry Platinum (B2G)
+                  </button>
+                </div>
+              </div>
+
               {/* Plan Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                {SUBSCRIPTION_PLANS.map((plan) => {
-                  const isSelected = activePlanId === plan.id;
+              <div
+                className={`grid grid-cols-1 gap-3.5 ${
+                  accountType === 'ministry'
+                    ? 'max-w-xl mx-auto'
+                    : 'sm:grid-cols-2 lg:grid-cols-3'
+                }`}
+              >
+                {plansToDisplay.map((plan) => {
+                  const isSelected = currentPlan.id === plan.id;
                   return (
                     <div
                       key={plan.id}
@@ -269,7 +372,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                       </div>
 
                       <div className="pt-3 mt-3 border-t border-slate-100 space-y-1.5">
-                        {plan.features.slice(0, 3).map((feat, idx) => (
+                        {plan.features.slice(0, 4).map((feat, idx) => (
                           <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                             <span className="leading-tight">{feat}</span>
@@ -318,7 +421,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-slate-500 pt-1">
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>CBN & NDPR Compliant Payment Gateway</span>
+                  <span>CBN &amp; NDPR Compliant Payment Gateway</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Building2 className="w-4 h-4 text-blue-600" />
@@ -336,7 +439,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                   onClick={onClose}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 underline decoration-slate-300 hover:decoration-slate-600 transition-colors py-1 px-3 rounded-lg"
                 >
-                  Continue browsing EduPlan NG frontpage & curriculum
+                  Continue browsing EduPlan NG frontpage &amp; curriculum
                 </button>
               </div>
             </>
@@ -370,6 +473,22 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                   <span className="text-slate-500">Access Duration:</span>
                   <span className="font-semibold">{currentPlan.periodLabel}</span>
                 </div>
+                {checkoutData.virtualAccount && (
+                  <>
+                    <div className="pt-2 border-t border-slate-100 flex justify-between">
+                      <span className="text-slate-500">Virtual NUBAN:</span>
+                      <span className="font-mono font-bold text-slate-900">{checkoutData.virtualAccount.accountNumber}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Bank:</span>
+                      <span className="font-semibold">{checkoutData.virtualAccount.bankName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">USSD Quick Code:</span>
+                      <span className="font-mono font-bold text-emerald-700">{checkoutData.virtualAccount.ussdCode}</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               {checkoutData.gatewayMessage && (
@@ -377,7 +496,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                   {checkoutData.isLiveCheckout ? (
                     <span>Live Kora Pay gateway session initialized.</span>
                   ) : (
-                    <span>Kora Pay test sandbox mode active. Click below to verify and unlock your subscription immediately.</span>
+                    <span>{checkoutData.gatewayMessage}. Click below to verify and unlock your subscription immediately.</span>
                   )}
                 </div>
               )}
@@ -401,7 +520,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                   className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 disabled:opacity-50 shadow-md"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Confirm Payment & Activate {currentPlan.name}</span>
+                  <span>Confirm Payment &amp; Activate {currentPlan.name}</span>
                 </button>
               </div>
             </div>

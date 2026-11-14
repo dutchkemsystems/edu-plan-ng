@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 2",
+  "subject": "Home Economics",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-home-economics.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "The Family House: Sitting room, dining, and bedroom maintenance",
+      "learningObjectives": [
+        "Identify functional areas of a family house",
+        "Describe daily and weekly cleaning routines for living spaces",
+        "Practice arranging furniture for comfort, aesthetics, and safety"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Maintenance of Household Linen and Soft Furnishings",
+      "learningObjectives": [
+        "Classify household linen into bed, table, and bathroom linen",
+        "Demonstrate stain removal techniques from cotton and synthetic fabrics",
+        "Formulate laundry schedules for family bedding and curtains"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Food Nutrients: Carbohydrates, proteins, fats, and water balance",
+      "learningObjectives": [
+        "Explain biochemical roles of energy-yielding and body-building foods",
+        "Calculate caloric needs based on activity levels and age group",
+        "Identify signs of macronutrient malnutrition in growing children"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Vitamins and Mineral Salts: Deficiency diseases and preventive diets",
+      "learningObjectives": [
+        "Distinguish between fat-soluble and water-soluble vitamins",
+        "State dietary sources and metabolic roles of iron, calcium, and iodine",
+        "Explain causes and prevention of scurvy, rickets, and goitre"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Food Hygiene and Food Spoilage Microorganisms",
+      "learningObjectives": [
+        "Identify micro-organisms responsible for food spoilage (moulds, yeasts, bacteria)",
+        "State conditions promoting microbial multiplication on perishable foods",
+        "Apply standard kitchen hygiene protocols to prevent food poisoning"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Food Preservation: Sun-drying, smoking, salting, and refrigeration",
+      "learningObjectives": [
+        "Explain principles underlying traditional and modern preservation methods",
+        "Compare nutritional retention across sun-drying, smoking, and freezing",
+        "Preserve seasonal vegetables and fish using domestic salting techniques"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Food Laboratory Practicals",
+      "learningObjectives": [
+        "Evaluate student mastery of household management and nutrition theory",
+        "Conduct practical assessments on table setting and fabric stain removal",
+        "Provide individualized remediation on dietary planning calculations"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Cooking Methods: Moist heat (boiling, stewing, poaching)",
+      "learningObjectives": [
+        "Demonstrate moist heat culinary techniques using local cooking utensils",
+        "Evaluate effect of temperature and timing on tenderizing tough meats",
+        "Prepare a balanced Nigerian one-pot pottage using stewing principles"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Cooking Methods: Dry heat (baking, roasting, grilling)",
+      "learningObjectives": [
+        "Explain conduction and radiant heat transfer in baking and grilling",
+        "Regulate oven temperatures for pastry baking and poultry roasting",
+        "Prepare baked snacks using locally available flour composites"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Flour Mixtures: Batters, doughs, and raising agents",
+      "learningObjectives": [
+        "Distinguish between pouring batters, coating batters, and stiff doughs",
+        "Explain functions of baking powder, yeast, and steam as raising agents",
+        "Bake Nigerian meat pies and puff-puff adhering to correct leavening rules"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Basic Seams: Plain seam, French seam, and run-and-fell seam",
+      "learningObjectives": [
+        "Differentiate between open and enclosed seam structures",
+        "Sew neat plain and French seams on cotton sample calico squares",
+        "Select appropriate seams for specific garment types and fabric weights"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly Revision & Culinary Practical Exhibition",
+      "learningObjectives": [
+        "Review key competencies across nutrition, kitchen hygiene, and needlework",
+        "Display completed sewing samplers and pastry creations for grading",
+        "Reinforce practical exam time management and safety compliance"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Needlework Portfolio Assessment",
+      "learningObjectives": [
+        "Test theoretical knowledge in Home Economics through objective and essay papers",
+        "Score needlework samplers and pastry practicals against standardized rubrics",
+        "Compile termly continuous assessment marks for official broadsheet entry"
+      ]
+    }
+  ]
+}

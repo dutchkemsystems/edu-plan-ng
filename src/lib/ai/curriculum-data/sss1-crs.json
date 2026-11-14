@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Christian Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-crs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "The Sovereignty of God and Creation: God the creator and sustainer of the universe",
+      "learningObjectives": [
+        "Analyze the two Biblical creation accounts in Genesis 1 and Genesis 2",
+        "Demonstrate God's supreme sovereignty over all created matter and physical laws",
+        "Explain humanity’s divine mandate as caretakers and stewards of the earthly environment"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Leadership and Parental Responsibility: Eli and Samuel as case studies in moral guidance",
+      "learningObjectives": [
+        "Contrast the priestly leadership of Eli and the corruption of his sons, Hophni and Phinehas",
+        "Evaluate the consequences of parental negligence in disciplining children (1 Samuel 2:12-25)",
+        "Examine the prophetic call and upright leadership of Samuel in Israel"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "The Covenant with God: Abraham and the covenant renewal at Shechem",
+      "learningObjectives": [
+        "Trace the call of Abraham and God’s unconditional covenant promises (Genesis 12:1-9, 17:1-8)",
+        "Explain the sign of circumcision as the token of the Abrahamic covenant",
+        "Analyze Joshua’s challenge and the renewal of the covenant at Shechem (Joshua 24:1-28)"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "The Call to Repentance and Justice: Message of Prophet Amos and Hosea",
+      "learningObjectives": [
+        "Analyze the social evils in Israel denounced by Amos: oppression of the poor, false weights, bribery",
+        "Explain Amos's declaration: 'Let justice roll down like waters and righteousness like an ever-flowing stream'",
+        "Explore Hosea's metaphor of unfaithfulness (Gomer) representing God's steadfast divine love (Hesed)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Faith and Works in Daily Life: Teachings of Apostle James (James 2:14-26)",
+      "learningObjectives": [
+        "Explain the relationship between saving faith and active moral deeds according to James",
+        "Examine James’s argument that 'faith without works is dead'",
+        "Apply the principle of impartial treatment of the rich and poor in contemporary society"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Dignity of Labor and Civil Obedience: Biblical ethics in governance (Romans 13)",
+      "learningObjectives": [
+        "Explain Paul’s teaching on submission to civil governing authorities in Romans 13:1-7",
+        "Examine the Biblical view on paying taxes, tolls, and respecting law enforcement agencies",
+        "Highlight the Christian principle of hard work and honest trade (2 Thessalonians 3:6-12)"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Biblical Textual Exegesis Clinic",
+      "learningObjectives": [
+        "Evaluate student mastery of Old Testament covenant theology and prophetic justice",
+        "Analyze selected biblical passages from Genesis, Amos, and Romans under exam conditions",
+        "Provide remedial instruction on drawing practical moral applications from Scripture"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "The Birth and Early Life of Jesus Christ: Prophecies, Annunciation, and Nativity",
+      "learningObjectives": [
+        "Examine Isaiah’s prophecies of the Messiah (Isaiah 7:14, 9:6-7)",
+        "Compare the Annunciation accounts in Matthew 1 and Luke 1",
+        "Analyze the theological significance of the Incarnation and the visit of the Shepherds and Magi"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "The Baptism and Temptation of Jesus Christ: Moral lessons for Christian youth",
+      "learningObjectives": [
+        "Describe the baptism of Jesus by John the Baptist in the Jordan River and divine confirmation",
+        "Analyze the three temptations in the wilderness (bread, temple pinnacle, kingdoms of the world)",
+        "Derive spiritual lessons on overcoming peer temptation through the word of God"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "The Ministry of Jesus: Beatitudes and the Sermon on the Mount (Matthew 5-7)",
+      "learningObjectives": [
+        "Interpret the eight Beatitudes as kingdom values of meekness, mercy, and righteousness",
+        "Explain Christians as the salt of the earth and the light of the world",
+        "Analyze Christ's teachings on retaliation, love for enemies, and sincere prayer"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Compassionate Miracles of Jesus: Healings, nature miracles, and feeding multitudes",
+      "learningObjectives": [
+        "Categorize miracles of Jesus: healing miracles, nature miracles, and raising the dead",
+        "Examine the spiritual and humanitarian purpose behind Christ's miraculous interventions",
+        "Explain the role of faith in healing and receiving divine favor"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive CRS Revision & WAEC Question Paper Analysis",
+      "learningObjectives": [
+        "Review key Old and New Testament themes covered during the first term",
+        "Practice constructing structured essays according to WAEC Paper 2 rubric specifications",
+        "Audit clarity of biblical citations and historical context in student essays"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination, Script Moderation and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer standardized SSS 1 CRS examination covering biblical history and theology",
+        "Grade scripts accurately following official West African Examinations Council marking keys",
+        "Record and certify terminal marks for broadsheet entry"
+      ]
+    }
+  ]
+}

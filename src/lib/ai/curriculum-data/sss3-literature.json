@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Literature-in-English",
+  "subjectCode": "LIT",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/literature-in-english-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "A Guide to WASSCE/SSCE Literature-in-English",
+    "author": "Kola Eke",
+    "publisher": "Spectrum Books Limited",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Shakespearean Drama: Elizabethan Theatre and Tragic Heroics",
+      "subtopics": ["Prescribed Shakespearean tragedy (e.g. Macbeth, Hamlet, Othello): Elizabethan theatrical conventions and worldview (Great Chain of Being)", "The tragic hero: Noble birth, hamartia (fatal flaw), peripeteia (reversal of fortune), anagnorisis (recognition), catharsis", "Themes: Ambition, supernatural solicitation, appearance vs reality, destiny and free will"],
+      "objectives": ["Identify Elizabethan social beliefs reflected in Shakespeare's supernatural elements", "Trace the tragic protagonist's psychological degeneration through dramatic soliloquies", "Explain the concept of tragic catharsis in classical dramatic criticism"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Non-African Poetry: Metaphysical and Romantic Traditions",
+      "subtopics": ["Prescribed British and American poems (e.g. John Donne, William Wordsworth, T.S. Eliot, Maya Angelou)", "Metaphysical conceits, romantic pantheism, modern alienation, and civil rights resistance", "Metrical analysis: Iambic pentameter, blank verse, free verse, enjambment, caesura"],
+      "objectives": ["Analyze a metaphysical conceit comparing spiritual love to a compass", "Scan lines of poetry to identify iambic rhythm and metric variations", "Evaluate how Romantic poets turn to untouched nature as a sanctuary from industrialization"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Unseen Prose and Unseen Poetry Appreciation",
+      "subtopics": ["Techniques for tackling unseen literary comprehension in WAEC/NECO Paper 1 and Paper 2", "Isolating tone, mood, atmosphere, and attitude of the persona in unfamiliar verse", "Evaluating thematic concerns, syntax choices, and figures of speech under exam conditions"],
+      "objectives": ["Determine persona attitude (sarcastic, nostalgic, celebratory, mournful) from linguistic clues", "Analyze an unseen 14-line sonnet and identify its octave/sestet turn (volta)", "Score full marks on the unseen literary analysis section of WAEC examinations"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Comparative Literary Synthesis and WAEC Examination Masterclass",
+      "subtopics": ["Comparative essay writing: Synthesizing themes across African and Non-African prescribed texts", "WAEC Chief Examiner marking rubric (Content, Organization, Expression, Mechanical Accuracy)", "Avoiding plot narration: Structuring analytical, thesis-driven critical responses"],
+      "objectives": ["Structure a comparative essay contrasting female agency in African vs Western literature", "Apply the WAEC marking scheme rubric to grade student practice essays", "Eliminate plot summary habits and write high-scoring critical literature answers"]
+    }
+  ]
+}

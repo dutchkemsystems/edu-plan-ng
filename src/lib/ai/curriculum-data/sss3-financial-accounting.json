@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Financial Accounting",
+  "subjectCode": "ACC",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/financial-accounting-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Financial Accounting for Senior Secondary Schools",
+    "author": "R. A. I. Kazeem",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Partnership Accounts: Profit and Loss Appropriation",
+      "subtopics": ["Partnership Act 1890 and the Partnership Deed provisions (profit sharing ratio, interest on capital, drawings)", "Profit and Loss Appropriation Account: Distribution of net profit among partners", "Partners' Capital Accounts (Fixed vs fluctuating capital methods) and Current Accounts"],
+      "objectives": ["Explain clauses contained in a statutory Partnership Deed", "Prepare a Profit and Loss Appropriation Account calculating interest on capital and drawings", "Construct Partners' Current Accounts in columnar ledger format"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Admission and Retirement of a Partner: Goodwill Valuation",
+      "subtopics": ["Revaluation of assets and liabilities upon admission or retirement of a partner", "Goodwill in partnership: Meaning, causes, methods of valuation", "Accounting treatment: Raising goodwill account, writing off goodwill through profit-sharing ratio"],
+      "objectives": ["Prepare a Revaluation Account recording asset appreciation and depreciation", "Calculate a new partner's capital contribution and premium for goodwill", "Distribute revaluation profit or loss among existing partners"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Company Accounts: Issue of Ordinary and Preference Shares",
+      "subtopics": ["Types of companies: Private vs public limited liability companies", "Share capital structure: Authorized (nominal), issued, called-up, paid-up, calls in arrears", "Accounting entries for issue of shares at par, at premium, and calls on allotment"],
+      "objectives": ["Distinguish Ordinary Shares from Cumulative Preference Shares and Debentures", "Pass ledger journal entries for share applications, allotments, and call monies", "Record the Share Premium Account and its statutory capital uses under CAMA 2020"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Financial Ratio Analysis and Performance Interpretation",
+      "subtopics": ["Profitability ratios: Gross profit margin, net profit margin, return on capital employed (ROCE)", "Liquidity ratios: Current ratio, acid test (quick) ratio", "Efficiency and leverage ratios: Inventory turnover period, debtors collection period, debt-to-equity ratio"],
+      "objectives": ["Calculate profitability and liquidity ratios from final accounts data", "Evaluate the financial health and solvency of a Nigerian enterprise using calculated ratios", "State limitations of accounting ratios in assessing company performance"]
+    }
+  ]
+}

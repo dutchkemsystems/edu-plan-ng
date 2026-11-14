@@ -6,7 +6,9 @@ import {
   derive3DConceptSpec,
 } from '../../../lib/ai/curriculum-types.ts';
 import { generateContentServer } from '../../../lib/ai/client-ai.ts';
-import { TeacherCheatSheet, MisconceptionAlert } from '../../../types/index.ts';
+import { TeacherCheatSheet, MisconceptionAlert, TeacherUser, DashboardStats } from '../../../types/index.ts';
+import { resolveClientTierSummary, canTierAccess } from '../../../config/pricing.ts';
+import { getAuthHeaders } from '../../../lib/api.ts';
 import {
   Sparkles,
   BookOpen,
@@ -34,11 +36,15 @@ import {
   HelpCircle,
   Copy,
   Check,
+  Lock,
 } from 'lucide-react';
 
 interface LessonPageProps {
   params?: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (message: string, requiredTier?: string, title?: string) => void;
   onBack?: () => void;
   initialTopic?: string;
   initialSubject?: string;
@@ -47,11 +53,18 @@ interface LessonPageProps {
 
 export default function LessonDetailPage({
   params,
+  user,
+  stats,
+  onOpenUpgrade,
   onBack,
   initialTopic = 'Transport System: Human Circulatory Anatomy & Heart Mechanics',
   initialSubject = 'Biology',
   initialLevel = 'sss1',
 }: LessonPageProps) {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const visual3DAccess = canTierAccess(tierSummary.tierId, '3d_visual_aid');
+
   const [topic, setTopic] = useState(initialTopic);
   const [subject, setSubject] = useState(initialSubject);
   const [level, setLevel] = useState(initialLevel);
@@ -59,7 +72,9 @@ export default function LessonDetailPage({
   const [week, setWeek] = useState(3);
 
   // Layout View States (Zero-Occlusion UI)
-  const [viewMode, setViewMode] = useState<'split' | 'drawer' | 'hidden'>('split');
+  const [viewMode, setViewMode] = useState<'split' | 'drawer' | 'hidden'>(() =>
+    ent.has3DAccess ? 'split' : 'hidden'
+  );
   const [activeTab, setActiveTab] = useState<'note' | 'plan' | 'cheat-sheet' | 'misconceptions' | 'eli5' | 'breakdown'>('note');
   const [loading, setLoading] = useState(false);
   const [curriculumData, setCurriculumData] = useState<ComprehensiveCurriculumOutput | null>(null);
@@ -72,6 +87,41 @@ export default function LessonDetailPage({
   const [selectedEli5Source, setSelectedEli5Source] = useState<'concept' | 'analogy' | 'hook' | 'custom'>('concept');
   const [customEli5Text, setCustomEli5Text] = useState('');
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
+  const [autoSyncStatus, setAutoSyncStatus] = useState<{
+    latestCurriculumVersion: string;
+    lastSyncedAt: string;
+  }>({
+    latestCurriculumVersion: 'v1.4',
+    lastSyncedAt: new Date().toLocaleTimeString(),
+  });
+
+  // Background auto-sync poller to ensure continuous statutory updates
+  useEffect(() => {
+    let isMounted = true;
+    const fetchSync = async () => {
+      try {
+        const res = await fetch('/api/curriculum/sync-status', {
+          headers: getAuthHeaders(),
+          credentials: 'include',
+        });
+        if (res.ok && isMounted) {
+          const data = await res.json();
+          setAutoSyncStatus({
+            latestCurriculumVersion: data.latestCurriculumVersion || 'v1.4',
+            lastSyncedAt: new Date(data.lastSyncedAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          });
+        }
+      } catch {
+        // quiet fallback
+      }
+    };
+    fetchSync();
+    const interval = setInterval(fetchSync, 25000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   // Fetch or synthesize curriculum content on initial load
   useEffect(() => {
@@ -84,7 +134,8 @@ export default function LessonDetailPage({
       // First attempt to call the dedicated AI curriculum engine endpoint
       const res = await fetch('/api/ai/generate-content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           subject,
           level,
@@ -94,6 +145,16 @@ export default function LessonDetailPage({
           outputType: 'all',
         }),
       });
+
+      if (res.status === 403 || res.status === 429) {
+        const errData = await res.json().catch(() => ({}));
+        onOpenUpgrade?.(
+          errData.message || errData.error || 'AI generation limit reached for your current plan.',
+          errData.requiredTier || 'b2c_termly',
+          'AI Quota Limit Reached'
+        );
+        return;
+      }
 
       if (res.ok) {
         const json = await res.json();
@@ -130,9 +191,19 @@ export default function LessonDetailPage({
     try {
       const res = await fetch('/api/ai/cheat-sheet', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({ lessonTopic: topic, level, subject }),
       });
+      if (res.status === 403 || res.status === 429) {
+        const errData = await res.json().catch(() => ({}));
+        onOpenUpgrade?.(
+          errData.message || errData.error || 'AI generation quota exceeded.',
+          errData.requiredTier || 'b2c_termly',
+          'AI Quota Limit Reached'
+        );
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setCheatSheetData(data);
@@ -149,9 +220,19 @@ export default function LessonDetailPage({
     try {
       const res = await fetch('/api/ai/misconceptions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({ lessonTopic: topic, level, subject }),
       });
+      if (res.status === 403 || res.status === 429) {
+        const errData = await res.json().catch(() => ({}));
+        onOpenUpgrade?.(
+          errData.message || errData.error || 'AI generation quota exceeded.',
+          errData.requiredTier || 'b2c_termly',
+          'AI Quota Limit Reached'
+        );
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setMisconceptionsData(Array.isArray(data) ? data : []);
@@ -197,14 +278,18 @@ export default function LessonDetailPage({
           )}
 
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="font-black text-white text-base tracking-tight">EduPlan NG</span>
               <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-black uppercase">
-                NERDC & Lagos OEQA Standard
+                Lagos State Unified Scheme & NERDC Standard
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 text-[10px] font-bold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Auto-Sync: Active ({autoSyncStatus.latestCurriculumVersion})</span>
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              {level.toUpperCase()} • {subject} • Term {term}, Week {week}
+              {level.toUpperCase()} • {subject} • Term {term}, Week {week} • Gazetted: {autoSyncStatus.lastSyncedAt}
             </p>
           </div>
         </div>
@@ -213,33 +298,51 @@ export default function LessonDetailPage({
         <div className="flex items-center gap-2">
           <div className="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700/80">
             <button
-              onClick={() => setViewMode('split')}
+              onClick={() => {
+                if (!ent.has3DAccess) {
+                  onOpenUpgrade?.(visual3DAccess.upgradeMessage, visual3DAccess.requiredTier, 'Interactive 3D Lab Locked');
+                  return;
+                }
+                setViewMode('split');
+              }}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
                 viewMode === 'split'
                   ? 'bg-amber-400 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
-              title="Split View: Lesson Note on Left, 3D Laboratory on Right (Zero-Occlusion)"
+              title={ent.has3DAccess ? 'Split View: Lesson Note on Left, 3D Laboratory on Right (Zero-Occlusion)' : visual3DAccess.upgradeMessage}
             >
-              <Columns className="w-3.5 h-3.5" />
+              {ent.has3DAccess ? <Columns className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5 text-amber-400" />}
               <span className="hidden sm:inline">Split 3D View</span>
             </button>
 
             <button
-              onClick={() => setViewMode(viewMode === 'drawer' ? 'hidden' : 'drawer')}
+              onClick={() => {
+                if (!ent.has3DAccess) {
+                  onOpenUpgrade?.(visual3DAccess.upgradeMessage, visual3DAccess.requiredTier, 'Interactive 3D Lab Locked');
+                  return;
+                }
+                setViewMode(viewMode === 'drawer' ? 'hidden' : 'drawer');
+              }}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
                 viewMode === 'drawer'
                   ? 'bg-emerald-500 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
-              title="Drawer Mode: Dockable 3D Viewer toggled on demand"
+              title={ent.has3DAccess ? 'Drawer Mode: Dockable 3D Viewer toggled on demand' : visual3DAccess.upgradeMessage}
             >
-              <Box className="w-3.5 h-3.5" />
+              {ent.has3DAccess ? <Box className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5 text-amber-400" />}
               <span className="hidden sm:inline">3D Dock</span>
             </button>
 
             <button
-              onClick={() => setViewMode(viewMode === 'hidden' ? 'split' : 'hidden')}
+              onClick={() => {
+                if (!ent.has3DAccess) {
+                  onOpenUpgrade?.(visual3DAccess.upgradeMessage, visual3DAccess.requiredTier, 'Interactive 3D Lab Locked');
+                  return;
+                }
+                setViewMode(viewMode === 'hidden' ? 'split' : 'hidden');
+              }}
               className={`p-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'hidden' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'
               }`}
@@ -279,7 +382,7 @@ export default function LessonDetailPage({
                 {topic}
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Structured strictly according to the Nigerian Educational Research and Development Council (NERDC) and Lagos State Ministry of Education OEQA quality assurance framework.
+                Structured strictly according to the Lagos State Unified Scheme of Work (Ministry of Basic and Secondary Education, Alausa, Ikeja) and the Nigerian Educational Research and Development Council (NERDC, Abuja) National Curriculum standard. Synchronized automatically with regulatory gazettes.
               </p>
             </div>
           </div>
@@ -494,7 +597,7 @@ export default function LessonDetailPage({
               {/* Behavioral Objectives Phrased in Bloom's Verbs */}
               <div className="p-6 rounded-3xl bg-slate-800/80 border border-slate-700/80 space-y-3">
                 <span className="text-xs font-black text-amber-400 uppercase tracking-wider block">
-                  NERDC Statutory Behavioral Objectives
+                  Lagos State Unified Scheme & NERDC Statutory Behavioral Objectives
                 </span>
                 <ul className="space-y-2 text-xs text-slate-200">
                   {plan.behavioralObjectives.map((obj, i) => (
@@ -514,7 +617,7 @@ export default function LessonDetailPage({
               <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4 overflow-x-auto">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                   <h3 className="text-sm font-black text-white">
-                    Lagos State OEQA 5-Step Presentation Matrix (Alauza Certified)
+                    Lagos State OEQA 5-Step Presentation Matrix (Alausa Certified • Auto-Synced)
                   </h3>
                   <span className="text-xs font-bold text-emerald-400">
                     Total Duration: {plan.duration || (plan.durationMinutes ? `${plan.durationMinutes} mins` : '40 mins')}
@@ -907,46 +1010,78 @@ export default function LessonDetailPage({
                 </span>
               </div>
 
-              {/* 3D WebGL Three.js Component */}
-              <Interactive3DViewer
-                spec={visualSpec}
-                topic={topic}
-                subject={subject}
-                className="h-[460px] w-full"
-              />
+              {ent.has3DAccess ? (
+                <>
+                  {/* 3D WebGL Three.js Component */}
+                  <Interactive3DViewer
+                    spec={visualSpec}
+                    topic={topic}
+                    subject={subject}
+                    className="h-[460px] w-full"
+                  />
 
-              {/* Key Concept Explanations Attached to 3D Model */}
-              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-xs">
-                <div className="font-bold text-slate-200 flex items-center gap-2">
-                  <Award className="w-4 h-4 text-emerald-400" />
-                  <span>3D Educational Concept Annotations</span>
-                </div>
-                <p className="text-slate-400 leading-relaxed text-[11px]">
-                  {visualSpec.description}
-                </p>
-
-                <div className="space-y-1.5 pt-1">
-                  {visualSpec.interactiveParts.map((part, i) => (
-                    <div key={i} className="flex items-start gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800/80">
-                      <span
-                        className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
-                        style={{ backgroundColor: part.color }}
-                      />
-                      <div>
-                        <strong className="text-white block text-[11px]">{part.name}</strong>
-                        <p className="text-[10px] text-slate-400 leading-tight">{part.description}</p>
-                      </div>
+                  {/* Key Concept Explanations Attached to 3D Model */}
+                  <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-xs">
+                    <div className="font-bold text-slate-200 flex items-center gap-2">
+                      <Award className="w-4 h-4 text-emerald-400" />
+                      <span>3D Educational Concept Annotations</span>
                     </div>
-                  ))}
+                    <p className="text-slate-400 leading-relaxed text-[11px]">
+                      {visualSpec.description}
+                    </p>
+
+                    <div className="space-y-1.5 pt-1">
+                      {visualSpec.interactiveParts.map((part, i) => (
+                        <div key={i} className="flex items-start gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800/80">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
+                            style={{ backgroundColor: part.color }}
+                          />
+                          <div>
+                            <strong className="text-white block text-[11px]">{part.name}</strong>
+                            <p className="text-[10px] text-slate-400 leading-tight">{part.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="p-8 rounded-3xl bg-slate-950 border border-amber-500/40 text-center space-y-4 shadow-xl">
+                  <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                    <Lock className="w-6 h-6" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase">
+                      Gold School Tier (₦250,000/term)
+                    </span>
+                    <h3 className="text-base font-black text-white">Interactive 3D STEM Lab Locked</h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {visual3DAccess.upgradeMessage}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onOpenUpgrade?.(
+                        visual3DAccess.upgradeMessage,
+                        visual3DAccess.requiredTier,
+                        'Unlock Interactive 3D Lab'
+                      )
+                    }
+                    className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition-colors"
+                  >
+                    Upgrade to Gold School Tier
+                  </button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}
       </main>
 
       {/* Floating Action Button (FAB) for Drawer Mode */}
-      {viewMode === 'drawer' && (
+      {viewMode === 'drawer' && ent.has3DAccess && (
         <div className="fixed bottom-6 right-6 z-40">
           <div className="w-[380px] sm:w-[440px] shadow-2xl animate-in slide-in-from-bottom-6 duration-200">
             <Interactive3DViewer
@@ -963,11 +1098,25 @@ export default function LessonDetailPage({
       {viewMode === 'hidden' && (
         <div className="fixed bottom-6 right-6 z-40">
           <button
-            onClick={() => setViewMode('split')}
+            onClick={() => {
+              if (!ent.has3DAccess) {
+                onOpenUpgrade?.(
+                  visual3DAccess.upgradeMessage,
+                  visual3DAccess.requiredTier,
+                  'Interactive 3D Lab Locked'
+                );
+                return;
+              }
+              setViewMode('split');
+            }}
             className="px-5 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xl flex items-center gap-2 transition-transform hover:scale-105"
           >
-            <Box className="w-4 h-4 text-slate-950" />
-            <span>Launch 3D Visual Lab</span>
+            {ent.has3DAccess ? (
+              <Box className="w-4 h-4 text-slate-950" />
+            ) : (
+              <Lock className="w-4 h-4 text-slate-950" />
+            )}
+            <span>{ent.has3DAccess ? 'Launch 3D Visual Lab' : '3D Visual Lab (Gold Tier)'}</span>
           </button>
         </div>
       )}

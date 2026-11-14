@@ -24,9 +24,16 @@ import {
   Check,
   HelpCircle,
   TrendingUp,
-  Cpu
+  Cpu,
+  Landmark,
+  Building2
 } from 'lucide-react';
-import { SUBSCRIPTION_PLANS, SubscriptionPlan } from '../data/subscriptionPlans.ts';
+import {
+  SUBSCRIPTION_PLANS,
+  B2B_SCHOOL_PLANS,
+  B2G_GOVERNMENT_PLANS,
+  SubscriptionPlan,
+} from '../data/subscriptionPlans.ts';
 import { TeacherUser } from '../types/index.ts';
 
 interface LandingPageProps {
@@ -556,73 +563,275 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          {/* Pricing Grid (6 Tiers) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SUBSCRIPTION_PLANS.map((plan) => {
-              const isBestValue = plan.popular;
-              return (
-                <div
-                  key={plan.id}
-                  className={`relative rounded-3xl p-6 sm:p-7 transition-all flex flex-col justify-between ${
-                    isBestValue
-                      ? 'bg-gradient-to-b from-slate-900 via-slate-850 to-blue-950 border-2 border-amber-400 shadow-2xl shadow-amber-500/10 scale-[1.02] ring-4 ring-amber-400/20'
-                      : 'bg-slate-800/80 border border-slate-700/80 hover:border-slate-500'
-                  }`}
-                >
-                  {plan.badge && (
-                    <div className="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
-                      <Star className="w-3.5 h-3.5 fill-slate-950" />
-                      <span>{plan.badge}</span>
-                    </div>
-                  )}
+          {/* Pricing Grid (4 B2C Individual Teacher Tiers) */}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
+              <div>
+                <span className="text-[11px] font-black uppercase tracking-wider text-emerald-400">
+                  1. B2C — Individual Teachers
+                </span>
+                <h3 className="text-xl font-black text-white">Flexible Passes for Classroom Educators</h3>
+              </div>
+              <span className="text-xs text-slate-400 font-semibold">Instant activation via Kora Pay • No auto-billing</span>
+            </div>
 
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-black text-white">{plan.name}</h3>
-                    </div>
-
-                    <div className="mt-3 flex items-baseline gap-1.5">
-                      <span className="text-3xl sm:text-4xl font-black text-amber-400">{plan.priceDisplay}</span>
-                      <span className="text-xs font-semibold text-slate-400">/ {plan.periodLabel}</span>
-                    </div>
-
-                    {plan.savings && (
-                      <div className="mt-2 inline-block text-[11px] font-black text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-1 rounded-lg">
-                        {plan.savings}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {SUBSCRIPTION_PLANS.map((plan) => {
+                const isBestValue = plan.popular;
+                return (
+                  <div
+                    key={plan.id}
+                    className={`relative rounded-3xl p-6 sm:p-7 transition-all flex flex-col justify-between ${
+                      isBestValue
+                        ? 'bg-gradient-to-b from-slate-900 via-slate-850 to-blue-950 border-2 border-amber-400 shadow-2xl shadow-amber-500/10 scale-[1.02] ring-4 ring-amber-400/20'
+                        : 'bg-slate-800/80 border border-slate-700/80 hover:border-slate-500'
+                    }`}
+                  >
+                    {plan.badge && (
+                      <div className="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                        <Star className="w-3.5 h-3.5 fill-slate-950" />
+                        <span>{plan.badge}</span>
                       </div>
                     )}
 
-                    <p className="text-xs text-slate-300 mt-3 leading-relaxed">
-                      {plan.description}
-                    </p>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-black text-white">{plan.name}</h3>
+                      </div>
 
-                    <div className="pt-5 mt-5 border-t border-slate-700/80 space-y-2.5">
-                      {plan.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span className="leading-tight">{feat}</span>
+                      <div className="mt-3 flex items-baseline gap-1.5">
+                        <span className="text-3xl sm:text-4xl font-black text-amber-400">{plan.priceDisplay}</span>
+                        <span className="text-xs font-semibold text-slate-400">/ {plan.periodLabel}</span>
+                      </div>
+
+                      {plan.savings && (
+                        <div className="mt-2 inline-block text-[11px] font-black text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-1 rounded-lg">
+                          {plan.savings}
                         </div>
-                      ))}
+                      )}
+
+                      <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                        {plan.description}
+                      </p>
+
+                      <div className="pt-4 mt-4 border-t border-slate-700/80 space-y-2">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Features</div>
+                        {plan.features.map((feat, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <span className="leading-tight">{feat}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {plan.restrictions && plan.restrictions.length > 0 && (
+                        <div className="pt-3 mt-3 border-t border-slate-700/50 space-y-1.5">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Restrictions</div>
+                          {plan.restrictions.map((res, idx) => (
+                            <div key={idx} className="flex items-start gap-2 text-[11px] text-slate-400">
+                              <span className="text-rose-400 font-bold shrink-0">✕</span>
+                              <span className="leading-tight">{res}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-6 mt-6">
+                      <button
+                        onClick={() => handlePlanClick(plan.id)}
+                        className={`w-full py-3.5 px-4 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm ${
+                          isBestValue
+                            ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 hover:scale-[1.02]'
+                            : 'bg-white hover:bg-slate-100 text-slate-950'
+                        }`}
+                      >
+                        <CreditCard className="w-4 h-4" />
+                        <span>{plan.ctaText}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
+                );
+              })}
+            </div>
+          </div>
 
-                  <div className="pt-6 mt-6">
-                    <button
-                      onClick={() => handlePlanClick(plan.id)}
-                      className={`w-full py-3.5 px-4 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm ${
-                        isBestValue
-                          ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 hover:scale-[1.02]'
-                          : 'bg-white hover:bg-slate-100 text-slate-950'
-                      }`}
-                    >
-                      <CreditCard className="w-4 h-4" />
-                      <span>{plan.ctaText}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
+          {/* 2. B2B — Private Schools (Bronze, Silver, Gold) */}
+          <div className="space-y-5 pt-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
+              <div>
+                <span className="text-[11px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5" />
+                  2. B2B — Private Schools &amp; Colleges
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-white">Whole-School Licenses (Per Term)</h3>
+              </div>
+              <span className="text-xs text-slate-400 font-semibold">Dedicated School Workspace • Virtual NUBAN Billing</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {B2B_SCHOOL_PLANS.map((plan) => {
+                const isGold = plan.id === 'b2b_gold';
+                const isPopular = Boolean(plan.popular);
+                return (
+                  <div
+                    key={plan.id}
+                    className={`relative rounded-3xl p-6 sm:p-7 transition-all flex flex-col justify-between ${
+                      isGold
+                        ? 'bg-gradient-to-b from-slate-900 via-amber-950/30 to-slate-900 border-2 border-amber-400 shadow-2xl shadow-amber-500/10'
+                        : isPopular
+                        ? 'bg-gradient-to-b from-slate-800/95 to-emerald-950/40 border-2 border-emerald-400/80 shadow-xl'
+                        : 'bg-slate-800/80 border border-slate-700/80 hover:border-slate-500'
+                    }`}
+                  >
+                    {plan.badge && (
+                      <div
+                        className={`absolute -top-3.5 right-6 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5 ${
+                          isGold ? 'bg-amber-400 text-slate-950' : 'bg-emerald-400 text-slate-950'
+                        }`}
+                      >
+                        <Building2 className="w-3.5 h-3.5" />
+                        <span>{plan.badge}</span>
+                      </div>
+                    )}
+
+                    <div>
+                      <h4 className="text-lg font-black text-white">{plan.name}</h4>
+                      <div className="mt-3 flex flex-wrap items-baseline gap-1.5">
+                        <span className="text-3xl sm:text-4xl font-black text-amber-400">{plan.priceDisplay}</span>
+                        <span className="text-xs font-semibold text-slate-400">/ {plan.periodLabel}</span>
+                      </div>
+
+                      <div className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-200 bg-slate-950/60 border border-slate-700 px-2.5 py-1 rounded-lg">
+                        <Users className="w-3.5 h-3.5 text-amber-400" />
+                        <span>{plan.maxTeachers === -1 ? 'Unlimited teachers' : `${plan.maxTeachers} teachers`}</span>
+                        <span>•</span>
+                        <span>{plan.sourceAccessSummary}</span>
+                      </div>
+
+                      <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                        {plan.description}
+                      </p>
+
+                      <div className="pt-4 mt-4 border-t border-slate-700/80 space-y-2">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Included Capabilities</div>
+                        {plan.features.map((feat, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <span className="leading-tight">{feat}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {plan.restrictions && plan.restrictions.length > 0 && (
+                        <div className="pt-3 mt-3 border-t border-slate-700/50 space-y-1.5">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Restrictions</div>
+                          {plan.restrictions.map((res, idx) => (
+                            <div key={idx} className="flex items-start gap-2 text-[11px] text-slate-400">
+                              <span className="text-rose-400 font-bold shrink-0">✕</span>
+                              <span className="leading-tight">{res}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-6 mt-6">
+                      <button
+                        onClick={() => handlePlanClick(plan.id)}
+                        className={`w-full py-3.5 px-4 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-sm ${
+                          isGold
+                            ? 'bg-amber-400 hover:bg-amber-300 text-slate-950'
+                            : 'bg-white hover:bg-slate-100 text-slate-950'
+                        }`}
+                      >
+                        <CreditCard className="w-4 h-4" />
+                        <span>{plan.ctaText}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 3. B2G — Government / Ministry (Platinum) */}
+          <div className="space-y-4 pt-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700/80 pb-3">
+              <div>
+                <span className="text-[11px] font-black uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                  <Landmark className="w-3.5 h-3.5" />
+                  3. B2G — Government / State Ministry of Education
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-white">Sovereign State-Wide Directorate Infrastructure</h3>
+              </div>
+              <span className="text-xs text-slate-400 font-semibold">Custom On-Premise / Cloud Cluster • SLA-Backed</span>
+            </div>
+
+            {B2G_GOVERNMENT_PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-slate-800/95 via-slate-900 to-sky-950/70 border-2 border-sky-400/60 shadow-2xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
+              >
+                <div className="space-y-4 flex-1">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="px-3 py-1 rounded-full bg-sky-400 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-1.5">
+                      <Landmark className="w-3.5 h-3.5" />
+                      Platinum — {plan.badge}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-sky-300 text-xs font-bold">
+                      All 6 Sources Unlocked State-Wide
+                    </span>
+                  </div>
+
+                  <div>
+                    <h4 className="text-2xl sm:text-3xl font-black text-white">{plan.name}</h4>
+                    <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                      <span className="text-3xl sm:text-4xl font-black text-amber-400">₦100M – ₦300M / year</span>
+                      <span className="text-xs font-semibold text-slate-300">Annual State Ministry Deployment License</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed">
+                      {plan.description}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-2">
+                    {[
+                      'All 6 Curriculum Sources (NERDC, Lagos Scheme, OEQA, BECE, WAEC, NECO)',
+                      'State Policy Enforcement (Mandate Statutory State Schemes)',
+                      'Ministry Command Dashboard (RLS-Isolated State Telemetry)',
+                      'State Levy Tracker & School Accreditation Compliance',
+                      'CPD Module (State Teacher Certification & Training)',
+                      'Sovereign Direct API Access & Emergency Broadcast Engine',
+                    ].map((feat, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-200 bg-slate-950/50 border border-slate-700/70 rounded-xl p-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                        <span className="leading-snug">{feat}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              );
-            })}
+
+                <div className="w-full lg:w-72 shrink-0 bg-slate-950/70 border border-slate-700/80 rounded-2xl p-5 space-y-4">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sky-400">Ministry Procurement</span>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Deploy across all public &amp; private secondary schools in your state with Kora Pay institutional escrow or sovereign PO billing.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handlePlanClick(plan.id)}
+                    className="w-full py-3.5 px-4 rounded-xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    <Landmark className="w-4 h-4" />
+                    <span>Activate Platinum License</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Payment Trust Bar */}
@@ -714,7 +923,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {[
               {
                 q: 'How does the 1-Day (24-Hour) Free Trial work?',
-                a: 'Upon registering a new teacher account, you automatically receive 24 hours of completely unrestricted access to all NERDC curriculum topics, lesson notes, schemes of work, and exam generators. After 24 hours, you can choose any of our 6 affordable plans starting at just ₦500 to continue uninterrupted.',
+                a: 'Upon registering a new teacher account, you automatically receive 24 hours of completely unrestricted access to curriculum topics, lesson notes, schemes of work, and exam generators. After 24 hours, you can choose from our Individual B2C passes (starting at ₦500), Private School B2B Bronze/Silver/Gold tiers, or B2G State Ministry Platinum licenses.',
               },
               {
                 q: 'What payment methods does Kora Pay support?',

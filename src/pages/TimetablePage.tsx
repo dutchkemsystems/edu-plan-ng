@@ -1,8 +1,30 @@
 import React, { useState } from 'react';
-import { Clock, Users, Printer, Plus, AlertTriangle, CheckCircle2, UserCheck, UserX } from 'lucide-react';
+import { Clock, Users, Printer, Plus, AlertTriangle, CheckCircle2, UserCheck, UserX, Lock, Sparkles, RefreshCw } from 'lucide-react';
+import { TeacherUser, DashboardStats } from '../types/index.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
+import { getAuthHeaders } from '../lib/api.ts';
 
-export const TimetablePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'timetable' | 'attendance'>('timetable');
+interface TimetablePageProps {
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+}
+
+export const TimetablePage: React.FC<TimetablePageProps> = ({
+  user,
+  stats,
+  onOpenUpgrade,
+}) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const [activeTab, setActiveTab] = useState<'timetable' | 'attendance'>(
+    ent.hasTimetableAi ? 'timetable' : 'attendance'
+  );
+  const [aiLevel, setAiLevel] = useState('JSS 1');
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiNotice, setAiNotice] = useState<string | null>(null);
+  const [editingCell, setEditingCell] = useState<string | null>(null);
+  const [editingValue, setEditingValue] = useState<string>('');
 
   // Timetable state
   const periods = [
@@ -38,6 +60,60 @@ export const TimetablePage: React.FC = () => {
     'Friday-1': 'MTH Quiz (JSS 1A)',
   });
 
+  const handleGenerateAiTimetable = async () => {
+    if (!ent.hasTimetableAi) {
+      onOpenUpgrade?.(
+        'Clash-Free Timetable AI is available starting on B2B Silver (₦120,000/term) and B2B Gold (₦250,000/term).',
+        'b2b_silver',
+        'Clash-Free Timetable AI'
+      );
+      return;
+    }
+    setAiGenerating(true);
+    setAiNotice(null);
+    try {
+      const res = await fetch('/api/timetable/generate-ai', {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
+        body: JSON.stringify({
+          level: aiLevel,
+          subjects: ['Mathematics', 'English Studies', 'Basic Science', 'Civic Education', 'Business Studies', 'Agricultural Science'],
+          periodsPerDay: 8,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(data?.error || data?.message || 'Timetable AI requires B2B Silver or Gold.', data?.requiredTier || 'b2b_silver', 'Timetable AI');
+        } else {
+          setAiNotice(data?.error || 'Could not generate AI timetable.');
+        }
+        return;
+      }
+      if (data.success && Array.isArray(data.schedule)) {
+        const nextMap: Record<string, string> = {};
+        const teachingRowIndices = [0, 1, 2, 4, 5, 6, 8, 9];
+        data.schedule.forEach((dayObj: any) => {
+          const dayName = dayObj.day;
+          const teachingSlots = (dayObj.slots || []).filter((s: any) => !s.isBreak);
+          teachingSlots.forEach((slot: any, idx: number) => {
+            const pIdx = teachingRowIndices[idx];
+            if (pIdx !== undefined && slot.subject) {
+              nextMap[`${dayName}-${pIdx}`] = `${slot.subject} (${aiLevel})`;
+            }
+          });
+        });
+        setSchedule(nextMap);
+        setAiNotice(`Clash-free ${aiLevel} weekly timetable generated (${data.generatedBy || 'Timetable AI Engine'}).`);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
   // Attendance state
   const [students, setStudents] = useState([
     { id: 1, name: 'Chukwuebuka Okonkwo', reg: 'KC/041', status: 'present' },
@@ -70,7 +146,7 @@ export const TimetablePage: React.FC = () => {
             Class Timetable & Daily Roll Call
           </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Weekly 8-period teaching roster with conflict detection and automated attendance tracking.
+            Weekly 8-period teaching roster with clash-free AI scheduling and automated attendance tracking.
           </p>
         </div>
 
@@ -78,11 +154,12 @@ export const TimetablePage: React.FC = () => {
           <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1">
             <button
               onClick={() => setActiveTab('timetable')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${
                 activeTab === 'timetable' ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-600'
               }`}
             >
-              Weekly Timetable
+              {!ent.hasTimetableAi && <Lock className="w-3 h-3 text-amber-600" />}
+              <span>Weekly Timetable AI</span>
             </button>
             <button
               onClick={() => setActiveTab('attendance')}
@@ -106,14 +183,83 @@ export const TimetablePage: React.FC = () => {
 
       {/* TAB 1: WEEKLY TIMETABLE */}
       {activeTab === 'timetable' && (
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-gray-900">JSS 1 & SSS 1 Teaching Schedule (Term 1)</h2>
-            <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>No Period Clashes Detected</span>
-            </span>
+        !ent.hasTimetableAi ? (
+          <div className="bg-white rounded-2xl border border-amber-200 shadow-xs p-8 text-center space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center mx-auto">
+              <Lock className="w-7 h-7" />
+            </div>
+            <div className="max-w-lg mx-auto space-y-1.5">
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
+                B2B Silver / Gold Exclusive • Current: {ent.name}
+              </span>
+              <h2 className="text-lg font-extrabold text-slate-900">
+                Clash-Free Timetable AI Requires B2B Silver (₦120,000/term)
+              </h2>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Automated multi-class school timetable optimization and conflict resolution are included in B2B Silver (40 teachers), B2B Gold (unlimited teachers), and B2G State Platinum licenses.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <button
+                onClick={() =>
+                  onOpenUpgrade?.(
+                    'Clash-Free Timetable AI is available starting on B2B Silver (₦120,000/term) and B2B Gold (₦250,000/term).',
+                    'b2b_silver',
+                    'Upgrade to B2B Silver for Timetable AI'
+                  )
+                }
+                className="px-5 py-2.5 text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl shadow-2xs"
+              >
+                Upgrade to B2B Silver (₦120k/term)
+              </button>
+              <button
+                onClick={() => setActiveTab('attendance')}
+                className="px-4 py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
+              >
+                Use Daily Roll Call
+              </button>
+            </div>
           </div>
+        ) : (
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-bold text-gray-900">{aiLevel} Clash-Free Teaching Schedule (Term 1)</h2>
+              <p className="text-[11px] text-gray-500">Click any slot to edit inline, or run Timetable AI for an instant conflict-free weekly roster.</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={aiLevel}
+                onChange={(e) => setAiLevel(e.target.value)}
+                className="text-xs font-bold px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl"
+              >
+                <option value="JSS 1">JSS 1</option>
+                <option value="JSS 2">JSS 2</option>
+                <option value="JSS 3">JSS 3</option>
+                <option value="SSS 1">SSS 1</option>
+                <option value="SSS 2">SSS 2</option>
+                <option value="SSS 3">SSS 3</option>
+              </select>
+              <button
+                onClick={handleGenerateAiTimetable}
+                disabled={aiGenerating}
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-2xs"
+              >
+                {aiGenerating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
+                <span>{aiGenerating ? 'Optimizing...' : 'AI Generate Clash-Free Roster'}</span>
+              </button>
+              <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>No Period Clashes</span>
+              </span>
+            </div>
+          </div>
+
+          {aiNotice && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-900">
+              {aiNotice}
+            </div>
+          )}
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-center border-collapse">
@@ -151,22 +297,47 @@ export const TimetablePage: React.FC = () => {
                       {days.map((day) => {
                         const cellKey = `${day}-${pIdx}`;
                         const subjectValue = schedule[cellKey];
+                        const isEditing = editingCell === cellKey;
                         return (
                           <td
                             key={day}
                             onClick={() => {
-                              const val = prompt('Edit Subject/Class for this period:', subjectValue || '');
-                              if (val !== null) {
-                                setSchedule({ ...schedule, [cellKey]: val });
+                              if (!isEditing) {
+                                setEditingCell(cellKey);
+                                setEditingValue(subjectValue || '');
                               }
                             }}
-                            className={`p-2.5 border border-gray-200 font-bold cursor-pointer transition-colors ${
+                            className={`p-2 border border-gray-200 font-bold cursor-pointer transition-colors ${
                               subjectValue
                                 ? 'bg-emerald-50 text-emerald-900 hover:bg-emerald-100/70'
                                 : 'text-gray-300 hover:bg-gray-100/50'
                             }`}
                           >
-                            {subjectValue || '+ Free'}
+                            {isEditing ? (
+                              <input
+                                autoFocus
+                                type="text"
+                                value={editingValue}
+                                onChange={(e) => setEditingValue(e.target.value)}
+                                onBlur={() => {
+                                  setSchedule({ ...schedule, [cellKey]: editingValue.trim() });
+                                  setEditingCell(null);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    setSchedule({ ...schedule, [cellKey]: editingValue.trim() });
+                                    setEditingCell(null);
+                                  } else if (e.key === 'Escape') {
+                                    setEditingCell(null);
+                                  }
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-full px-2 py-1 text-xs font-bold text-slate-900 bg-white border border-emerald-500 rounded focus:outline-none"
+                                placeholder="e.g. MTH (JSS 1A)"
+                              />
+                            ) : (
+                              subjectValue || '+ Free'
+                            )}
                           </td>
                         );
                       })}
@@ -177,6 +348,7 @@ export const TimetablePage: React.FC = () => {
             </table>
           </div>
         </div>
+        )
       )}
 
       {/* TAB 2: ATTENDANCE TRACKER */}

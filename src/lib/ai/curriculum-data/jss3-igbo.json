@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 3",
+  "subject": "Asụsụ Igbo",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-igbo.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Nhazi Ahịrịokwu Igbo: Ahịrịokwu mfe, ahịrịokwu nchikọta na ahịrịokwu mgbagwoju anya",
+      "learningObjectives": [
+        "Ịkọwa ihe bụ ahịrịokwu na usoro njikọ ya n'Igbo",
+        "Ịmata ọdịiche dị n'etiti ahịrịokwu mfe na nke nchikọta",
+        "Iji njikọokwu mepụta ahịrịokwu mgbagwoju anya doro anya"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Ụdị Ahịrịokwu Dịka Ọrụ Ha Si Dị: Nkwupụta, Ajụjụ, Iwu na Mkpọku",
+      "learningObjectives": [
+        "Ịkọwapụta ụdị ahịrịokwu anọ dịka ọrụ ha si dị na nkwurịta okwu",
+        "Iji akara ajụjụ na akara mkpọku n'ahịrịokwu kwesịrị ekwesị",
+        "Ịgbanwe ahịrịokwu nkwupụta ka ọ bụrụ nke ajụjụ ma ọ bụ nke iwu"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Omenaala Ịkwa Ozu na Olili n'Ala Igbo: Ozu ndị agadi na ozu ndị gburu onwe ha",
+      "learningObjectives": [
+        "Ịkọwa usoro e si akwa ozu okenye dịka ikwa ozu, ịgba egwu, na inye nri",
+        "Ịmata ihe ndị Igbo na-eme n'ebe onye gburu onwe ya nọ (arụ na olili n'ajọ ọhịa)",
+        "Ịkọwa nkwenye ndị Igbo banyere ndụ mgbe anwụsịrị na ilo ụwa"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Agụmagụ Ederede maka Ule BECE: Akwụkwọ akụkọ na njikọ atụmatụ okwu",
+      "learningObjectives": [
+        "Ịgụ akwụkwọ akụkọ Igbo a kwadoro maka ule BECE",
+        "Inyocha atụmatụ okwu dịka myiri, mmetọ, egbeokwu na akpụrụokwu",
+        "Ịkọwa etu odeakwụkwọ siri gosipụta omenala n'ime akwụkwọ ya"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Edemede Nkwurịta Okwu / Arụmarụ: \"Ọrụ Ugbo Ka Ọrụ Ọfịs Mma\"",
+      "learningObjectives": [
+        "Ịmata usoro na iwu dị na edemede arụmarụ ụka",
+        "Ikwado echiche nke ha site n'inye ezi ihe akaebe doro anya",
+        "Igosipụta nkwanye ùgwù na ịkwanyere ndị na-emegide echiche ha ùgwù"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Usoro Ọchịchị Ọdịnala n'Ala Igbo: Eze, Igwe, Ndị Nze na Ọzọ, na Òtù Ọgbọ",
+      "learningObjectives": [
+        "Ịkọwa usoro ọchịchị onye kwuo uche ya n'ala Igbo oge ochie",
+        "Ịkọwa ọrụ Eze ma ọ bụ Igwe na ndụmọdụ ndị nze na ọzọ",
+        "Ịmata ọrụ dị mkpa òtù ọgbọ na-arụ na mmepe obodo na nchekwa"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Nlele Nnwale Nke Etiti Oge na Nleba Anya maka BECE",
+      "learningObjectives": [
+        "Inyocha ogo nkwadebe ụmụakwụkwọ maka ule ikpeazụ nke BECE",
+        "Idozi nsogbu dị n'ahịrịokwu na edemede arụmarụ",
+        "Inye ndụmọdụ pụrụ iche maka ụmụakwụkwọ niile"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Njikọokwu na Nnọchianya: Ojiji ha na ịtụ asụsụ ọnụ",
+      "learningObjectives": [
+        "Ịmata njikọokwu dị iche iche dịka 'ma', 'kama', 'n'ihi na', 'tupu'",
+        "Iji nnọchianya mee ka ahịrịokwu ghara inwe nkwughachi okwu na-enweghị isi",
+        "Igosipụta nghọta miri emi n'usoro ụtọasụsụ"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Egwuregwu Ọdịnala na Egwu Ọdịnala Ndị Igbo",
+      "learningObjectives": [
+        "Ịkpọpụta egwuregwu ọdịnala dịka ịgba mgba, ịchụ nta, na ịzụ ahịa mbe",
+        "Ịkọwa mkpa egwu mmanwụ, ekwe, na ogene dị n'emume ọdịnala",
+        "Ịmata etu egwuregwu ndị a si akwalite ahụike na ịdị n'otu"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Ịmepụta Mkpụrụokwu Ọhụrụ n'Asụsụ Igbo maka Sayensị na Nkà na Ụzụ",
+      "learningObjectives": [
+        "Ịkọwa usoro e si emepụta okwu ọhụrụ (ịkpọgharị, nchikota, ntụgharị)",
+        "Ide mkpụrụokwu sayensị dịka kọmpụta (ngwa elektrọnik na-edozi ozi)",
+        "Ịkwalite asụsụ Igbo ka o nwee ike ịsọ asọmpi n'ụwa ọgbara ọhụrụ"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Nsọala na Arụ n'Ala Igbo: Iwu obodo na ihe mgbochi",
+      "learningObjectives": [
+        "Ịkọwa ihe nsọala pụtara na ihe mere obodo ji asọ ha",
+        "Ịkọwa ihe a na-eme ma mmadụ mee arụ (ịkwụ ụgwọ, ịchụ àjà nchụpu)",
+        "Inyocha uru nsọala na-abara nchekwa na ịdị ọcha nke gburugburu ebe obibi"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Nchịkọta Gburugburu na Nkwado Pụrụ Iche maka Ule BECE / JSCE",
+      "learningObjectives": [
+        "Inyocha usoro ajụjụ ule BECE niile gbasara asụsụ Igbo",
+        "Idozi ajụjụ nlereanya nke afọ gara aga na-enweghị njehie",
+        "Ịgba ụmụakwụkwọ ume ka ha nwee mmeri n'ule ikpeazụ"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Ule Ọgwụgwụ Oge na Nnwale Nleba Anya BECE",
+      "learningObjectives": [
+        "Inye ule dịka usoro na ụkpụrụ NERDC na Ministry of Education siri dị",
+        "Iji ụkpụrụ akara kachasị elu gbaa akara",
+        "Idebanye akara na akwụkwọ nchịkọta maka nkwado ikpeazụ"
+      ]
+    }
+  ]
+}

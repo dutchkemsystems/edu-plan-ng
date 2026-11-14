@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Commerce",
+  "subjectCode": "COM",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/commerce-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Commerce for Senior Secondary Schools",
+    "author": "O. A. Longe",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Commerce and Historical Development in Nigeria",
+      "subtopics": ["Definition and scope of Commerce (Trade and Aids to Trade)", "Historical evolution: Barter system, introduction of commodity money (cowries, manillas), modern fiat currency", "Factors that accelerated commercial development in Nigeria (railways, banking, telecommunications, oil boom)"],
+      "objectives": ["Define commerce and illustrate its comprehensive tree diagram", "Analyze difficulties of trade by barter (double coincidence of wants)", "Explain how modern fintech and digital banking have revolutionized Nigerian commerce"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Occupation and Production Classification",
+      "subtopics": ["Meaning of occupation: Industrial, commercial, service occupations", "Stages of production: Primary (extraction), secondary (manufacturing/construction), tertiary (distribution/services)", "Direct vs indirect services (doctors, teachers, civil servants, security)"],
+      "objectives": ["Classify 15 Nigerian jobs into industrial, commercial, and service occupations", "Differentiate extractive from manufacturing industries in Nigeria", "Explain why production is incomplete until goods reach the final consumer"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Home Trade: Wholesaling and Channels of Distribution",
+      "subtopics": ["Wholesale trade: Characteristics, types of wholesalers (merchant, general, specialist, cash-and-carry)", "Functions of wholesalers to manufacturers (financing, warehousing, bulk breaking, market feedback)", "Arguments for and against the elimination of the middleman in Nigeria"],
+      "objectives": ["Analyze 5 essential services provided by wholesalers in Nigerian supply chains", "Evaluate economic conditions under which a manufacturer may bypass wholesalers", "Explain the concept of bulk breaking in traditional commodity markets like Bodija and Alaba"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Retailing and Modern Retailing Trends",
+      "subtopics": ["Small-scale retailing: Hawkers, mobile shops, kiosks, tied shops, market stalls", "Large-scale retailing: Department stores, supermarkets, hypermarkets, chain stores, mail order", "E-commerce and online retail in Nigeria (Jumia, Konga, social commerce via WhatsApp and Instagram)"],
+      "objectives": ["Compare advantages and disadvantages of street hawking versus modern supermarkets", "Identify 4 operational traits of department stores and multiple shops", "Examine logistical and cyber-fraud challenges facing Nigerian e-commerce retailers"]
+    }
+  ]
+}

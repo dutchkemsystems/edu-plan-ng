@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Marketing & Salesmanship",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-marketing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Digital Marketing & E-Commerce: Online storefronts, social media marketing, and SEO in Nigeria",
+      "learningObjectives": [
+        "Define digital marketing and trace the rise of Nigerian e-commerce platforms (Jumia, Konga, Payporte)",
+        "Examine social media commerce (Instagram shopping, WhatsApp Business, TikTok storefronts)",
+        "Explain basic Search Engine Optimization (SEO) and Pay-Per-Click (PPC) digital advertising techniques"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Electronic Payment Gateways and Mobile Banking in Retail Trade (Paystack, Flutterwave, Moniepoint)",
+      "learningObjectives": [
+        "Analyze payment channels: POS card terminals, USSD codes, mobile banking apps, and digital wallets",
+        "Evaluate benefits of cashless transactions for retailers: reduced cash theft, sales tracking, and customer convenience",
+        "Examine security risks: card skimming, phishing fraud, network downtime, and statutory fraud remedies"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "International Marketing: Export and import procedures, foreign market entry modes",
+      "learningObjectives": [
+        "Define international marketing and identify drivers of global commerce (comparative cost, market saturation)",
+        "Analyze modes of foreign market entry: direct exporting, licensing, franchising, joint ventures, and FDI",
+        "Evaluate socio-cultural, political, and currency risks encountered in global marketing expansions"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Export Trade Procedures in Nigeria: Nigerian Export Promotion Council (NEPC) and Documentation",
+      "learningObjectives": [
+        "Detail registration procedures for non-oil exporters with NEPC",
+        "Examine key statutory export documents: Clean Certificate of Inspection (CCI), Bill of Lading, Form NXP, Certificate of Origin",
+        "Analyze high-demand Nigerian agricultural exports (cocoa, sesame seeds, cashew nuts, ginger, shea butter)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Consumer Protection and Statutory Regulatory Agencies: FCCPC, SON, and NAFDAC",
+      "learningObjectives": [
+        "Examine consumer rights under the Federal Competition and Consumer Protection Commission (FCCPC) Act",
+        "Explain the mandate of Standards Organisation of Nigeria (SON) in enforcing MANCAP and SONCAP quality standards",
+        "Analyze NAFDAC’s role in curbing fake pharmaceuticals, cosmetics, and packaged food products"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Sales Management and Sales Force Administration: Recruitment, training, territories, and quotas",
+      "learningObjectives": [
+        "Explain the organizational functions of a corporate sales manager",
+        "Design sales territories based on geographical regions, customer types, and workload balance",
+        "Formulate sales incentive packages: base salary, sales commissions, bonuses, and non-financial recognition"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Mock Export Enterprise Seminar",
+      "learningObjectives": [
+        "Assess pupil comprehension of digital marketing, export documentation, and consumer protection law",
+        "Conduct a simulated business seminar on 'Developing a Non-Oil Export Strategy for Nigerian SMEs'",
+        "Remediate common confusion regarding export documentation and trade financing"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Customer Relationship Management (CRM) and Customer Retention Strategies",
+      "learningObjectives": [
+        "Define Customer Relationship Management (CRM) as a strategy for maximizing customer lifetime value",
+        "Contrast the economic cost of acquiring new customers versus retaining existing loyal customers",
+        "Analyze loyalty programs, after-sales service, and omnichannel customer support systems"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Marketing of Financial, Educational, and Health Services in Nigeria",
+      "learningObjectives": [
+        "Identify unique characteristics of services: intangibility, inseparability, variability, and perishability",
+        "Formulate marketing strategies for retail commercial banks, fintech apps, and insurance policies",
+        "Examine promotional tactics used by private universities and healthcare diagnostic centers"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Strategic Marketing Planning: SWOT Analysis and Competitive Advantage",
+      "learningObjectives": [
+        "Conduct a comprehensive SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) for commercial enterprises",
+        "Explain Michael Porter's generic strategies: Cost Leadership, Differentiation, and Focus",
+        "Draft an operational marketing plan complete with executive summary, budget, and implementation timeline"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Social Responsibility and Marketing Ethics: Truthful advertising and green marketing",
+      "learningObjectives": [
+        "Analyze ethical dilemmas in marketing: bait-and-switch pricing, planned obsolescence, pyramid schemes",
+        "Explain green marketing and corporate environmental sustainability initiatives",
+        "Foster adherence to fair commercial practices and consumer respect among prospective entrepreneurs"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO Marketing Revision & Past Paper Marathon",
+      "learningObjectives": [
+        "Review cumulative senior secondary marketing syllabus across the 4 Ps, salesmanship, e-commerce, and export trade",
+        "Execute timed speed drills on 50 objective questions and 4 structured case study questions",
+        "Coach students on maximizing scores through clear definitions, diagrams, and Nigerian business examples"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Mock Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer comprehensive mock WASSCE Marketing examination under official testing conditions",
+        "Grade answers in strict accordance with WAEC marking schemes and rubric standards",
+        "Certify final continuous assessment grades for graduation records and transcripts"
+      ]
+    }
+  ]
+}

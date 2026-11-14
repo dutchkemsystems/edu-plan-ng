@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Physics",
+  "subjectCode": "PHY",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/physics-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Physics for Senior Secondary Schools",
+    "author": "M. W. Anyakoha",
+    "publisher": "Africana First Publishers Plc",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Electric Charges, Coulomb's Law and Electric Fields",
+      "subtopics": ["Coulomb's inverse square law: F = kq1q2 / r²", "Electric field intensity (E) and potential (V)", "Capacitance, parallel plate capacitors, and dielectrics"],
+      "objectives": ["State Coulomb's law mathematically and in words", "Calculate electric field strength due to isolated point charges", "Determine equivalent capacitance in series and parallel circuits"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Magnetic Fields and Electromagnetic Induction",
+      "subtopics": ["Magnetic field patterns around current-carrying conductors", "Faraday's and Lenz's laws of electromagnetic induction", "Electric generators, step-up and step-down transformers"],
+      "objectives": ["State Faraday's law of induction and Lenz's law of opposing flux", "Explain operating mechanism of dynamos and AC alternators", "Calculate transformer efficiency and secondary voltage (Vs/Vp = Ns/Np)"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Alternating Current (AC) Circuits",
+      "subtopics": ["Peak, peak-to-peak and root-mean-square (r.m.s.) values", "AC through resistors, inductors and capacitors (RLC circuits)", "Resonance frequency in series RLC circuits: f = 1 / (2π√LC)"],
+      "objectives": ["Define r.m.s. voltage and current", "Draw phasor diagrams showing phase lead and lag", "Calculate inductive reactance, capacitive reactance and circuit impedance"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Quantum Physics and Atomic Models",
+      "subtopics": ["Photoelectric effect and Einstein's photoelectric equation (hf = W0 + Kmax)", "Bohr's model of the atom and hydrogen emission spectrum", "Wave-particle duality and de Broglie wavelength"],
+      "objectives": ["Explain threshold frequency and work function in photoelectric emission", "Solve problems using Einstein's photoelectric equation", "Calculate de Broglie wavelength of moving subatomic particles"]
+    }
+  ]
+}

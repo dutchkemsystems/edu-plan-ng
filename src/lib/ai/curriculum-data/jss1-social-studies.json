@@ -1,0 +1,62 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Social Studies",
+  "subjectCode": "SOS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/social-studies-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Solakat New Syllabus Social Studies for Junior Secondary Schools Book 1",
+    "author": "A. O. Oyewole",
+    "publisher": "Solakat Publishers Nigeria Ltd",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning and Scope of Social Studies",
+      "subtopics": ["Definition of Social Studies", "Physical and social environment", "Objectives of Social Studies"],
+      "objectives": ["Define Social Studies accurately", "Distinguish between physical and social environment", "State three objectives of Social Studies in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Family as a Primary Social Unit",
+      "subtopics": ["Types of family (nuclear, extended)", "Roles and responsibilities of family members", "Functions of the family"],
+      "objectives": ["Identify nuclear and extended family structures", "Analyze duties of father, mother and children", "Explain reproductive and socialization functions of the family"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Culture and Social Identity in Nigeria",
+      "subtopics": ["Material and non-material culture", "Cultural diversity across Nigerian ethnic groups", "Characteristics of culture"],
+      "objectives": ["Differentiate between material and non-material culture", "List cultural traits of Yoruba, Hausa and Igbo groups", "Appreciate cultural similarities across Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Socialization and Agents of Socialization",
+      "subtopics": ["Concept of socialization", "Agents: Family, school, religious groups, peer group", "Significance of socialization"],
+      "objectives": ["Define socialization", "Assess the role of the peer group and mass media", "Explain how socialization shapes civic character"]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Common Crimes and Law Enforcement Agencies",
+      "subtopics": ["Crimes in society: Theft, examination malpractice, vandalism", "Causes and consequences of common crimes", "Law enforcement: Police, EFCC, ICPC"],
+      "objectives": ["Identify common crimes in local Nigerian communities", "Explain consequences of crimes on individuals and nation", "Describe the statutory duties of the Nigerian Police and EFCC"]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Road Safety and Accident Prevention",
+      "subtopics": ["Causes of road accidents in Nigeria", "Role of Federal Road Safety Corps (FRSC)", "Road safety rules and traffic signs"],
+      "objectives": ["Enumerate causes of road crashes", "Interpret common highway signs", "Demonstrate safe road crossing procedures"]
+    }
+  ]
+}

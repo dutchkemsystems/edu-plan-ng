@@ -1,0 +1,198 @@
+{
+  "classLevel": "sss-1",
+  "subject": "General Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-mathematics",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Senior Secondary Schools 1",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima, G.U. Garba",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "WASSCE/NECO Senior Secondary 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Federal Ministry of Education",
+    "approvalDate": "2024-04-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Number Bases: Operations and Equations in Various Bases",
+      "subtopics": [
+        "Review of Base 2, 8, 10, and 16 conversions",
+        "Addition, subtraction, and multiplication in bases other than 10",
+        "Solving equations involving unknown number bases: e.g., 23_x + 101_2 = 35_10"
+      ],
+      "objectives": [
+        "Perform arithmetic operations in arbitrary number bases (Base 2 through Base 12)",
+        "Set up and solve algebraic equations to determine unknown base values (x)",
+        "Relate octal and hexadecimal bases to microcomputer architecture"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Modular Arithmetic: Operations in Finite Clocks & Residue Classes",
+      "subtopics": [
+        "Concept of modular systems (clock arithmetic: Modulo 12, Modulo 7 for days of week)",
+        "Addition, subtraction, and multiplication tables in modulo arithmetic",
+        "Solving modular linear equations in Nigerian calendar and market day cycles"
+      ],
+      "objectives": [
+        "Define modulo arithmetic and calculate residues",
+        "Construct operational tables for modulo arithmetic systems",
+        "Apply modulo 4 and modulo 7 to traditional Nigerian market rotations (Eke, Oye, Afor, Nkwo)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Indices: Laws of Indices, Fractional & Negative Powers",
+      "subtopics": [
+        "Statutory laws of indices: multiplication, division, power of power, zero index",
+        "Negative indices (a^-n = 1/a^n) and fractional indices (a^(m/n) = n-th root of a^m)",
+        "Solving exponential equations where the unknown is an index"
+      ],
+      "objectives": [
+        "Apply all laws of indices to simplify complex algebraic fractions",
+        "Solve exponential equations of the form 2^(2x+1) - 9(2^x) + 4 = 0"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Logarithms: Properties and Computations Using Four-Figure Tables",
+      "subtopics": [
+        "Relationship between indices and logarithms: log_b(a) = c <=> b^c = a",
+        "Laws of logarithms (addition, subtraction, power, and change of base)",
+        "Using four-figure logarithm tables for calculations of products, quotients, roots, and powers"
+      ],
+      "objectives": [
+        "State and apply properties of logarithms to simplify expressions",
+        "Perform complex scientific multiplications and cube roots using logarithm tables"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Sets: Set Operations, Venn Diagrams and 2-Set Problems",
+      "subtopics": [
+        "Definition of set, elements, subsets, universal set, empty set, complement of a set",
+        "Union (∪) and Intersection (∩) operations and Venn diagram representations",
+        "Solving 2-set surveying word problems: n(A ∪ B) = n(A) + n(B) - n(A ∩ B)"
+      ],
+      "objectives": [
+        "Draw and shade regions on Venn diagrams representing set operations",
+        "Solve 2-set survey word problems from Nigerian school and market scenarios"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Simple Equations and Variations: Direct, Inverse, Joint and Partial",
+      "subtopics": [
+        "Formulating algebraic equations from practical verbal statements",
+        "Solving simultaneous linear equations in two variables",
+        "Partial variation where one quantity is partly constant and partly varies with another: y = a + bx"
+      ],
+      "objectives": [
+        "Solve partial variation word problems determining the constants a and b",
+        "Apply partial variation to transport taxi tariffs and electric billing in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on bases, modulos, indices, logarithms, sets, and variation",
+        "WASSCE standard problem clinic"
+      ],
+      "objectives": [
+        "Assess pupil performance against WAEC marking guidelines"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Quadratic Equations: Solution by Factorization & Completing the Square",
+      "subtopics": [
+        "Review of factorization methods for quadratic equations",
+        "Method of completing the square step-by-step: making the leading coefficient 1",
+        "Derivation of the quadratic formula: x = [-b ± √(b^2 - 4ac)] / 2a"
+      ],
+      "objectives": [
+        "Solve quadratic equations using completing the square method",
+        "Derive the general quadratic formula algebraically from ax^2 + bx + c = 0"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Quadratic Formula and the Nature of Roots (Discriminant Δ)",
+      "subtopics": [
+        "Using quadratic formula for decimal and non-factorizable quadratic equations",
+        "The discriminant: Δ = b^2 - 4ac",
+        "Conditions for real, distinct, equal, and complex/imaginary roots"
+      ],
+      "objectives": [
+        "Calculate roots to 2 decimal places using the quadratic formula",
+        "Determine the nature of roots without solving the equation using the discriminant"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Logical Reasoning: Statements, Negation, Conjunction, Disjunction & Implications",
+      "subtopics": [
+        "Propositions and truth values (True / False)",
+        "Logical operators: Negation (~p), Conjunction (p ∧ q), Disjunction (p ∨ q)",
+        "Conditional (p -> q) and bi-conditional (p <-> q) statements and truth tables"
+      ],
+      "objectives": [
+        "Identify valid logical statements and determine their truth values",
+        "Construct complete truth tables for compound logical propositions",
+        "Distinguish between converse, inverse, and contrapositive statements"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Mensuration: Length of Arc, Perimeter of Sector, Area of Sector & Segment",
+      "subtopics": [
+        "Length of an arc: L = (θ / 360°) × 2πr",
+        "Area of a sector of a circle: A = (θ / 360°) × πr^2",
+        "Perimeter of a sector (2r + L) and Area of segment = Area of sector - Area of triangle"
+      ],
+      "objectives": [
+        "Calculate arc lengths, sector perimeters, and sector areas in degrees and radians",
+        "Find the area of shaded segments in circular engineering designs"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & WASSCE Past Question Clinic",
+      "subtopics": [
+        "Review of senior algebra, logarithms, quadratic equations, and circular mensuration",
+        "Timed 50-question WAEC Objective & Theory drill"
+      ],
+      "objectives": [
+        "Solve WASSCE past questions with proper M-marks and A-marks workings"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "First Term Senior Examination and continuous assessment moderation"
+      ],
+      "objectives": [
+        "Complete SSS 1 General Mathematics Term 1 evaluation"
+      ]
+    }
+  ]
+}

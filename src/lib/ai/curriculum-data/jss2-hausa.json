@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 2",
+  "subject": "Harshen Hausa",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-hausa.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Aiki da Rabe-rabensa: Aikatau mai karɓar aiki da maras karɓar aiki",
+      "learningObjectives": [
+        "Fahimtar ma'anar aikatau a nahawun Hausa",
+        "Bambanta tsakanin aikatau mai wucewa (transitive) da maras wucewa (intransitive)",
+        "Gina jimloli masu ɗauke da nau'o'in aikatau daban-daban"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Wakilin Suna: Rabe-raben wakilin suna (na kanka, na nuni, na tambaya)",
+      "learningObjectives": [
+        "Bada ma'anar wakilin suna da muhimmancinsa wajen magana",
+        "Gane wakilin sunan mutum (ni, kai, ke, shi, ita, mu, ku, su)",
+        "Amfani da wakilin suna don kauce wa maimaita suna a jimloli"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Al'adun Haihuwa da Rainon Jariri a Ƙasar Hausa",
+      "learningObjectives": [
+        "Bayyana yadda ake kula da mai ciki da rainon sabon jariri a al'ada",
+        "Gane al'adun wanka, duba, da abincin mai jego",
+        "Bayyana alakar da ke tsakanin tarbiyyar farko da zaman lafiyar al'umma"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Adabin Rubuce: Littafin wasan kwaikwayo da jigon labari",
+      "learningObjectives": [
+        "Karatun zaɓaɓɓen littafin wasan kwaikwayo na Hausa da NERDC ta amince da shi",
+        "Gano jigon labari, rikici, da yadda aka warware shi",
+        "Tattauna halayen 'yan wasan da suka fi shahara"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Rubutun Wasika: Wasikar sada zumunci ga 'yan'uwa da abokan arziki",
+      "learningObjectives": [
+        "Koya sassan wasikar zumunci (adireshi, kwanan wata, gaisuwa, bayani, bankwana)",
+        "Amfani da salon magana mai nuna ƙauna da girmamawa",
+        "Rubuta cikakkiyar wasika zuwa ga aboki game da hutu"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Gidajen Gargajiya da Tsarin Unguwanni a Ƙasar Hausa",
+      "learningObjectives": [
+        "Bayyana tsarin ginin gida na gargajiya (zaure, tsakar gida, shinge)",
+        "Gane matsayin mai gida, uwar gida, da sauran 'yan dangi",
+        "Bayyana tsarin sarautar unguwa karkashin Mai Unguwa da Dagaci"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Gwajin Tsakiyar Zango da Tantance Ayyukan Dalubai",
+      "learningObjectives": [
+        "Auna fahimtar ɗalibai a fannin aikatau da wakilin suna",
+        "Duba wasiƙun da ɗalibai suka rubuta don gyara kuskure",
+        "Bada ƙarin haske a wuraren da ba a gane ba sosai"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Siffa da Rabe-rabenta a Harshen Hausa",
+      "learningObjectives": [
+        "Bayyana ma'anar siffa a matsayin mai ƙara bayani kan suna",
+        "Gane siffofin launi, girma, da ɗabi'a (fari, babba, mai kirki)",
+        "Haɗa suna da siffa cikin jimloli masu ma'ana"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Adabin Baka: Habaici, zambo, da kirari a Hausa",
+      "learningObjectives": [
+        "Bambanta tsakanin habaici da zambo a zaman jama'a",
+        "Fahimtar amfanin kirari ga mayaka, maharba, da 'yan kokawa",
+        "Gane illar zambo da zagi a cikin al'umma"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Tsarin Shari'a da Yanke Hukunci a Ƙasar Hausa ta Gargajiya",
+      "learningObjectives": [
+        "Gane matsayin Alkali da Mai Shari'a a al'ummar Hausawa",
+        "Bayyana yadda ake shari'a tsakanin masu jayayya a kotu ko fada",
+        "Gane muhimmancin gaskiya da adalci wajen tabbatar da zaman lafiya"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Ƙa'idojin Rubutu: Ƙarfafa Haruffa da Gajartawa",
+      "learningObjectives": [
+        "Koya yadda ake amfani da babban baƙi wajen rubuta sunayen mutane da garuruwa",
+        "Gane yadda ake gajarta kalmomi a rubuce",
+        "Tabbatar da ingancin rubutun kalmomin zamani a Hausa"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Cikakkiyar Bita don Shirin Jarabawar Ƙarshen Zango",
+      "learningObjectives": [
+        "Sake nazarin dukkan darussan da aka koya tun daga farkon zango",
+        "Amsa tambayoyi daban-daban a kan nahawu da adabi",
+        "Shirya ɗalibai don samun sakamako mai kyau"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Jarabawar Ƙarshen Zango da Tantancewa",
+      "learningObjectives": [
+        "Gudanar da jarabawa don auna ilimin ɗalibai a wannan zangon",
+        "Tantance makin ɗalibai bisa ka'ida",
+        "Shigar da sakamako cikin rajistar makaranta"
+      ]
+    }
+  ]
+}

@@ -109,12 +109,27 @@ export const ChalkboardLessonNoteSchema = z.object({
 export type ChalkboardLessonNote = z.infer<typeof ChalkboardLessonNoteSchema>;
 
 /**
+ * Government-Approved Textbook & Author Metadata Schema
+ */
+export const TextbookMetadataSchema = z.object({
+  title: z.string().describe('Exact approved textbook title'),
+  author: z.string().describe('Author name(s)'),
+  publisher: z.string().describe('Approved publisher'),
+  edition: z.string().describe('Syllabus-aligned edition'),
+  isGovernmentApproved: z.boolean().default(true),
+  approvedBy: z.string().default('NERDC & Lagos State Ministry of Basic Education'),
+  approvalDate: z.string().describe('Official Gazette or NERDC approval year/date'),
+});
+export type TextbookMetadata = z.infer<typeof TextbookMetadataSchema>;
+
+/**
  * Comprehensive Nigerian Lesson Plan Schema (NERDC & Lagos OEQA Standard)
  */
 export const NigerianLessonPlanSchema = z.object({
   id: z.string().optional(),
   title: z.string().describe('Statutory Scheme of Work Topic Title'),
   level: NigerianAcademicLevelSchema,
+  classLevel: NigerianAcademicLevelSchema.optional().describe('Strict class level e.g. jss-1, jss-2'),
   subject: z.string().describe('Unified Scheme Subject (e.g. Mathematics, English Studies, Biology)'),
   term: NigerianTermSchema,
   week: z.number().int().min(1).max(13),
@@ -122,6 +137,11 @@ export const NigerianLessonPlanSchema = z.object({
   averageAgeYears: z.number().int(),
   curriculumStandard: z.string().default('NERDC National Curriculum & Lagos State OEQA Alausa Quality Assurance Framework'),
   
+  // Curriculum Versioning & Textbook Compliance (Phase 1 & Phase 2)
+  curriculumVersion: z.string().default('v1.2').describe('Stamped statutory curriculum version (e.g. v1.2)'),
+  isOutdated: z.boolean().default(false).describe('Flagged true if curriculum version has been superseded'),
+  recommendedTextbook: TextbookMetadataSchema.optional().describe('Government-approved textbook cited for this topic'),
+
   // Behavioral Objectives in Bloom's Taxonomy
   behavioralObjectives: z.array(z.string()).min(3).describe('Measurable objectives beginning with "By the end of the lesson, learners should be able to:"'),
   coreSkills: z.array(z.string()).describe('21st Century Competencies: Critical Thinking, Problem Solving, Collaboration, Civic Literacy'),
@@ -149,8 +169,13 @@ export const NigerianLessonPlanSchema = z.object({
   
   // WAEC / NECO Exam Forecast
   examPrediction: WaecNecoPastExamPredictionSchema,
+
+  // Multi-Source Isolation & Copyright Act 2022 Transformative Use
+  sourceId: z.string().optional().describe('Curriculum source identifier (nerdc, lagos_scheme, oeqa, bece, waec, neco)'),
+  copyrightNotice: z.string().optional().describe('Statutory Nigerian Copyright Act 2022 transformative compliance notice'),
   
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
 export type NigerianLessonPlan = z.infer<typeof NigerianLessonPlanSchema>;
+

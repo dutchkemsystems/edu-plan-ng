@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "English Language",
+  "subjectCode": "ENG",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/english-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Countdown to WASSCE/SSCE English Language",
+    "author": "O. Ogunsanwo and C. E. Oyetunde",
+    "publisher": "Evans Brothers Nigeria Publishers Ltd",
+    "edition": "New Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Nouns and Noun Phrases in Syntactic Positions",
+      "subtopics": ["Types of nouns (proper, common, abstract, collective)", "Functions of noun phrases: Subject, object, complement", "Nominalization of verbs and adjectives"],
+      "objectives": ["Identify noun phrases and their heads in complex sentences", "Analyze grammatical functions of noun phrases", "Transform verbs and adjectives into formal nominal expressions"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Tenses and Aspect in English: Present and Past Perfect",
+      "subtopics": ["Simple present and present continuous aspect", "Past perfect vs past simple distinctions", "Future continuous and future perfect usage in formal writing"],
+      "objectives": ["Use regular and irregular past participles accurately", "Apply past perfect tense to sequence earlier past actions", "Proofread narrative passages for tense consistency"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Reading Comprehension: Topic Sentences and Main Ideas",
+      "subtopics": ["Locating topic sentences in initial, medial, and final positions", "Differentiating main ideas from supporting details", "Contextual deductions of unfamiliar vocabulary"],
+      "objectives": ["Isolate the thesis sentence of an argumentative passage", "Summarize paragraph points in concise single sentences", "Infer author's attitude and tone in WASSCE comprehension texts"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Continuous Writing: Narrative and Descriptive Essays",
+      "subtopics": ["Features of narrative essays: Plot, characterization, dialogue", "Techniques of descriptive essays: Sensory imagery and spatial organization", "Paragraph transition words and cohesive devices"],
+      "objectives": ["Outline a 450-word narrative essay adhering to WAEC rubric", "Incorporate vivid auditory and visual sensory details", "Use subordinating conjunctions to vary sentence structures"]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Civic Education",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-civic.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Values Education: Meaning, types of values, and importance to national cohesion",
+      "learningObjectives": [
+        "Define values in a sociological and civic context",
+        "Distinguish between moral, spiritual, material, and civic values",
+        "Explain how sound national values promote political stability and economic progress"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "National Consciousness, National Integrity, and Building a Unified Nigeria",
+      "learningObjectives": [
+        "Explain the concept of national consciousness and patriotism",
+        "Identify factors that promote national unity (inter-tribal marriage, NYSC, federal character)",
+        "Analyze obstacles to national consciousness: ethnicity, religious bigotry, and nepotism"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Capitalist Democracy: Features, merits, and challenges in developing democracies",
+      "learningObjectives": [
+        "Define capitalist democracy and identify its core principles (free enterprise, multi-party system)",
+        "Highlight advantages: freedom of enterprise, individual initiative, and political choice",
+        "Discuss shortcomings of capitalism in emerging economies like income disparity"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Rule of Law: Principles, equality before the law, and limits to legal authority",
+      "learningObjectives": [
+        "State A.V. Dicey’s three cardinal principles of the Rule of Law",
+        "Explain equality of all citizens before ordinary law courts regardless of rank",
+        "Analyze factors that limit the Rule of Law (state of emergency, diplomatic immunity, judicial corruption)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Fundamental Human Rights: Limitations to rights, state of emergency, and public safety",
+      "learningObjectives": [
+        "List fundamental human rights enshrined in Chapter IV of the 1999 Constitution",
+        "Explain circumstances under which rights may be legally curtailed (curfew, treason, epidemics)",
+        "Evaluate the role of the National Human Rights Commission (NHRC) in safeguarding citizens"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Youth Empowerment: Roles of government and civil society in vocational development",
+      "learningObjectives": [
+        "Define youth empowerment and identify vocational skills for self-reliance",
+        "Evaluate government schemes (NDE, SMEDAN, skills acquisition centers)",
+        "Discuss the impact of youth empowerment on crime reduction and nation building"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & National Policy Colloquium",
+      "learningObjectives": [
+        "Assess pupil mastery of values education, rule of law, and constitutional human rights",
+        "Conduct a classroom debate on \"Capitalist Democracy vs Democratic Socialism in Nigeria\"",
+        "Provide remedial coaching on the limits of constitutional rights"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Responsible Parenthood: Roles of parents, child spacing, and eradicating street hawking",
+      "learningObjectives": [
+        "Define responsible parenthood and list parental obligations under the Child Rights Act",
+        "Discuss consequences of parental irresponsibility (juvenile delinquency, drug abuse, street trading)",
+        "Evaluate community interventions aimed at eradicating out-of-school children"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Traffic Regulations: Causes of road crashes, FRSC guidelines, and highway codes",
+      "learningObjectives": [
+        "Identify common causes of vehicular accidents on Nigerian highways (speeding, drunk driving)",
+        "Explain statutory responsibilities of the Federal Road Safety Corps (FRSC) and VIO",
+        "Interpret regulatory, warning, and informatory road traffic signs"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Public Service in Nigeria: Structure, civil service characteristics, bureaucracy, and reforms",
+      "learningObjectives": [
+        "Define public service and differentiate it from the civil service",
+        "List characteristics of the civil service: anonymity, neutrality, permanence, and meritocracy",
+        "Identify challenges facing Nigerian public service: red tape, tribalism, and ghost workers"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Anti-Corruption Agencies: Mandates of EFCC, ICPC, and Code of Conduct Bureau",
+      "learningObjectives": [
+        "State legislative mandates and establishment history of EFCC and ICPC",
+        "Explain functions of the Code of Conduct Bureau and Code of Conduct Tribunal in asset declaration",
+        "Discuss citizen whistleblowing roles in exposing public financial misappropriation"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Civic Education Revision & Mock WAEC Clinic",
+      "learningObjectives": [
+        "Review key competencies across governance, rule of law, youth empowerment, and integrity",
+        "Practice past WASSCE Paper 1 and Paper 2 essay question construction",
+        "Reinforce precise civic terminology and structured essay arguments"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Evaluate cumulative SSS 1 Civic Education comprehension through standardized papers",
+        "Score essay scripts using official WAEC marking guidelines",
+        "Enter verified student grades into school academic broadsheets"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Government",
+  "subjectCode": "GOV",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/government-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Government for Senior Secondary Schools",
+    "author": "C. C. Dibie",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Pre-Colonial Political Systems in Nigeria",
+      "subtopics": ["The Hausa-Fulani centralized emirate system: Emir, Waziri, Galadima, Madawaki", "The Yoruba Oyo constitutional monarchy: Alaafin, Oyomesi, Bashorun, Ogboni society", "The Igbo acephalous segmented democracy: Ofo titleholders, Umuada, age grades, village assembly"],
+      "objectives": ["Compare administrative centralization in the Sokoto Caliphate with Yoruba checks and balances", "Explain the decentralized republican decision-making process among the pre-colonial Igbo", "Analyze how pre-colonial political traditions continue to shape modern Nigerian politics"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "British Colonial Administration and the Indirect Rule System",
+      "subtopics": ["Meaning, reasons, and structure of Indirect Rule under Lord Lugard", "Application and success in Northern Nigeria", "Implementation difficulties and resistance in Western and Eastern Nigeria (Aba Women's Riots of 1929)"],
+      "objectives": ["Enumerate 5 reasons why Lord Lugard introduced Indirect Rule in Nigeria", "Explain why Indirect Rule failed in Eastern Nigeria (warrant chiefs controversy)", "Assess negative political and economic legacies of British colonial rule in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Constitutional Development in Nigeria (1914 - 1954)",
+      "subtopics": ["The 1914 Amalgamation and the Nigerian Council of Lord Lugard", "The Clifford Constitution of 1922: Introduction of elective principle and first political party (NNDP)", "Richards Constitution (1946), Macpherson Constitution (1951), and Lyttelton Constitution (1954) federal structure"],
+      "objectives": ["Highlight the revolutionary significance of the 1922 elective principle", "Explain how the Richards Constitution divided Nigeria into 3 administrative regions", "Identify the 1954 Lyttelton Constitution as the formal foundation of Nigerian federalism"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Nationalism and Decolonization in Nigeria",
+      "subtopics": ["Meaning and factors that stimulated Nigerian nationalism (post-WWII returnees, West African Pilot, Atlantic Charter)", "Early nationalist movements: NYM, NCNC, AG, NPC", "Contributions of Herbert Macaulay, Nnamdi Azikiwe, Obafemi Awolowo, and Ahmadu Bello"],
+      "objectives": ["Analyze external and internal catalysts of anti-colonial nationalist agitation", "Examine the role of the nationalist press in mobilizing public opinion against colonialism", "Assess the London Constitutional Conferences leading to Nigerian Independence on October 1, 1960"]
+    }
+  ]
+}

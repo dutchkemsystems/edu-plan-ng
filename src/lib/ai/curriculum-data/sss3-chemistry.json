@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Chemistry",
+  "subjectCode": "CHE",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/chemistry-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Chemistry for Senior Secondary Schools",
+    "author": "Osei Yaw Ababio",
+    "publisher": "Africana First Publishers Plc",
+    "edition": "Revised 5th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Organic Chemistry: Hydrocarbons (Alkanes, Alkenes, Alkynes)",
+      "subtopics": ["IUPAC nomenclature of aliphatic hydrocarbons", "Isomerism: Structural and geometric isomerism", "Petroleum refining, fractional distillation, and cracking processes"],
+      "objectives": ["Apply IUPAC nomenclature to branched hydrocarbons", "Draw structural isomers of pentane and butene", "Explain catalytic cracking and reforming in petroleum production"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Alkanols, Alkanoic Acids and Esters",
+      "subtopics": ["Classification of alkanols: Primary, secondary, tertiary", "Esterification reaction and industrial saponification", "Fermentation of starchy food into ethanol"],
+      "objectives": ["Write chemical equations for industrial esterification", "Describe laboratory preparation of soap from vegetable oil", "Differentiate primary, secondary, and tertiary alcohols using oxidation"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Extraction of Metals: Iron and Aluminium",
+      "subtopics": ["Blast furnace extraction of iron from haematite", "Hall-Héroult electrolytic extraction of aluminium from bauxite", "Alloys of iron and aluminium and their engineering applications"],
+      "objectives": ["Label the zones and reactions in the blast furnace", "Explain the role of cryolite in aluminium electrolysis", "List commercial compositions of steel, bronze, and duralumin"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Volumetric Analysis and Quantitative Titration",
+      "subtopics": ["Acid-base titration procedures and indicator selection", "Calculations of molarity, mass concentration, and percentage purity", "Standard solution preparation in secondary school laboratories"],
+      "objectives": ["Tabulate titre values according to WAEC marking schemes", "Calculate molar concentration using C1V1/n1 = C2V2/n2", "Determine percentage purity of an impure acid sample"]
+    }
+  ]
+}

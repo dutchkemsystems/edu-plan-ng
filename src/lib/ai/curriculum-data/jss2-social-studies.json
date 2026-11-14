@@ -1,0 +1,55 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Social Studies",
+  "subjectCode": "SOS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/social-studies-jss2",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Solakat New Syllabus Social Studies for Junior Secondary Schools Book 2",
+    "author": "A. O. Oyewole",
+    "publisher": "Solakat Publishers Nigeria Ltd",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Drug Abuse and Drug Trafficking",
+      "subtopics": ["Definition of drug abuse and commonly abused substances", "Socio-economic effects of drug trafficking", "Role of NDLEA and NAFDAC"],
+      "objectives": ["Identify harmful drugs and abuse patterns", "Analyze effects of substance abuse on youth", "State statutory mandates of NDLEA and NAFDAC"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Courage and National Integrity",
+      "subtopics": ["Types of courage: Moral and physical", "Attributes of integrity in public service", "Benefits of standing for national truth"],
+      "objectives": ["Differentiate moral from physical courage", "Cite examples of Nigerian heroes of integrity", "Demonstrate personal commitment to honesty"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Gender Equity and Discrimination",
+      "subtopics": ["Meaning of gender and gender stereotypes", "Areas of discrimination against women and girls", "Importance of female education and economic empowerment"],
+      "objectives": ["Explain gender equity vs equality", "Identify discriminatory cultural practices", "Propose strategies to promote girl-child schooling"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Peace, Conflict and Conflict Resolution",
+      "subtopics": ["Meaning of peace and types of conflict", "Causes of communal and ethnic conflicts in Nigeria", "Methods of conflict resolution: Dialogue, mediation, arbitration"],
+      "objectives": ["Define peace and conflict dynamics", "Examine causes of inter-ethnic disputes", "Role-play peaceful conflict mediation"]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Corruption in Nigeria: Causes and Solutions",
+      "subtopics": ["Forms of corruption in public and private sectors", "Impact on national development and infrastructure", "Anti-graft commissions: ICPC and EFCC mandates"],
+      "objectives": ["Classify types of corruption in society", "Calculate economic losses due to corrupt practices", "Formulate youth anti-corruption pledges"]
+    }
+  ]
+}

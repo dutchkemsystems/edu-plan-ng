@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Data Processing",
+  "subjectCode": "DPR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/data-processing-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Data Processing for Senior Secondary Schools",
+    "author": "O. A. Adedapo & E. O. Babatunde",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Data Protection Legislation and NDPR/NDPA 2023 Compliance",
+      "subtopics": ["The Nigeria Data Protection Act (NDPA 2023) and NDPR regulations", "Principles of data processing: Lawfulness, fairness, purpose limitation, data minimization, accuracy, storage limitation, integrity", "Rights of data subjects: Right to be informed, access, rectification, erasure ('right to be forgotten'), and portability"],
+      "objectives": ["Explain the statutory mandates of the Nigeria Data Protection Commission (NDPC)", "Audit an electronic school management platform for NDPA 2023 consent compliance", "Demonstrate implementation of data subject access and erasure requests"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Cybersecurity Architecture, Cryptography and Digital Forensics",
+      "subtopics": ["Symmetric encryption (AES) vs asymmetric encryption (RSA, public/private keys)", "Digital signatures, SSL/TLS certificates, and cryptographic hash functions (SHA-256)", "Digital forensics: Incident response, chain of custody, evidence preservation, and log file analysis"],
+      "objectives": ["Differentiate symmetric from asymmetric encryption algorithms", "Explain how digital certificates verify the identity of HTTPS web servers", "Maintain a legally admissible chain of custody during a cyber-intrusion investigation"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Web Design Technologies: HTML5, CSS and Responsive Layouts",
+      "subtopics": ["HTML5 semantic elements: header, nav, section, article, aside, footer", "CSS styling: Selectors, box model (margin, border, padding, content), Flexbox, CSS Grid", "Responsive web design and mobile-friendly media queries"],
+      "objectives": ["Code a valid semantic HTML5 web page structure", "Style web elements with CSS rules controlling typography, colors, and layout positioning", "Apply CSS media queries to ensure proper layout rendering on smartphones and tablets"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Big Data Analytics, Artificial Intelligence and Automation",
+      "subtopics": ["Characteristics of Big Data: The 5 Vs (Volume, Velocity, Variety, Veracity, Value)", "Machine Learning algorithms: Supervised vs unsupervised learning models", "Societal impacts: Automation, algorithmic bias, future of work, and AI ethics in developing nations"],
+      "objectives": ["Identify the 5 V characteristics of contemporary big data streams", "Compare supervised image classification with unsupervised cluster analysis", "Debate ethical considerations regarding biometric surveillance and automated decision-making"]
+    }
+  ]
+}

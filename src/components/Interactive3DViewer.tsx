@@ -406,15 +406,22 @@ function SceneContent({
   wireframe: boolean;
   exploded: boolean;
 }) {
+  const norm = (modelType || '').toLowerCase().trim();
+  const isHeart = norm.includes('heart');
+  const isAtom = norm.includes('atom');
+  const isMotor = norm.includes('motor') || norm.includes('electric') || norm.includes('gear') || norm.includes('prism');
+  const isGlobe = norm.includes('globe') || norm.includes('earth') || norm.includes('geog') || norm.includes('solar');
+
   return (
     <Center>
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
-        {(modelType === 'heart' || modelType === 'heart_model') && <HeartModel wireframe={wireframe} exploded={exploded} />}
-        {modelType === 'atom' && <AtomModel wireframe={wireframe} />}
-        {modelType === 'motor' && <ElectricMotorModel wireframe={wireframe} />}
-        {modelType === 'globe' && <EarthGlobeModel wireframe={wireframe} />}
-        {modelType === 'polyhedron' && <PolyhedronModel wireframe={wireframe} exploded={exploded} />}
-        {modelType === 'generic' && <PolyhedronModel wireframe={wireframe} exploded={exploded} />}
+        {isHeart && <HeartModel wireframe={wireframe} exploded={exploded} />}
+        {isAtom && <AtomModel wireframe={wireframe} />}
+        {isMotor && <ElectricMotorModel wireframe={wireframe} />}
+        {isGlobe && <EarthGlobeModel wireframe={wireframe} />}
+        {!isHeart && !isAtom && !isMotor && !isGlobe && (
+          <PolyhedronModel wireframe={wireframe} exploded={exploded} />
+        )}
       </Float>
     </Center>
   );

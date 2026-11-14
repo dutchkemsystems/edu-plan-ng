@@ -1,0 +1,140 @@
+{
+  "classLevel": "JSS 2",
+  "subject": "French Language",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-french.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Les Verbes du Premier Groupe (-er verbs): Parler, habiter, aimer",
+      "learningObjectives": [
+        "Identify regular -er ending verbs in present indicative tense",
+        "Conjugate verbs with standard endings (-e, -es, -e, -ons, -ez, -ent)",
+        "Formulate sentences expressing personal preferences, hobbies, and sports"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Exprimer l'Heure et les Activités Quotidiennes: What time is it?",
+      "learningObjectives": [
+        "Ask and tell time in French (Quelle heure est-il ? Il est ... heures)",
+        "Use expressions of time (et quart, et demie, moins le quart)",
+        "Relate daily routines to specific hours of the day"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Les Verbes Pronominaux: Se lever, se laver, se brosser les dents",
+      "learningObjectives": [
+        "Understand reflexive pronouns (me, te, se, nous, vous, se)",
+        "Conjugate reflexive verbs describing personal morning routines",
+        "Draft a sequential paragraph recounting daily activities from dawn to dusk"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Les Aliments et les Repas: Le petit-déjeuner, le déjeuner, le dîner",
+      "learningObjectives": [
+        "Identify foods, fruits, and beverages commonly consumed in West Africa",
+        "Use partitive articles (du, de la, de l', des) to express indefinite quantities",
+        "Order meals and drinks politely in a restaurant dialogue (Je voudrais...)"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Le Marché et les Achats: Asking prices and quantities (Combien coûte...?)",
+      "learningObjectives": [
+        "Inquire about prices using Combien coûte... and Ça fait combien ?",
+        "Handle French currency terms and count higher numerals up to 500",
+        "Role-play buying vegetables, fish, and fruits in an open-air French market"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Demander et Indiquer le Chemin: Orientations and prepositions of place",
+      "learningObjectives": [
+        "Inquire about directions (Où se trouve la poste ? Pour aller à la gare ?)",
+        "Give clear navigation instructions (Tournez à droite, allez tout droit)",
+        "Use place prepositions (près de, loin de, devant, derrière, en face de)"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Contrôle Continu et Évaluation Orale de Mi-Semestre",
+      "learningObjectives": [
+        "Evaluate pupil mastery of regular verbs, time-telling, and food vocabulary",
+        "Test listening comprehension using recorded French dialogic scenarios",
+        "Target individual speech articulation difficulties"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Les Vêtements et les Tissus: Dressing and fashionable styles",
+      "learningObjectives": [
+        "Name common articles of clothing, footwear, and accessories",
+        "Use the verb porter to describe outfits worn for weather and ceremonies",
+        "Harmonize adjective agreement for styles, fabrics, and patterns"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Le Corps Humain et la Santé: Chez le médecin (J'ai mal à...)",
+      "learningObjectives": [
+        "Identify major external body parts (la tête, les yeux, le ventre, le bras)",
+        "Express bodily discomfort using the idiom Avoir mal à + article",
+        "Simulate a medical consultation with a French-speaking doctor"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Le Verbe \"Aller\" et le Futur Proche: Going places and upcoming plans",
+      "learningObjectives": [
+        "Conjugate the irregular verb aller in present tense",
+        "Use contractions with à (au, à la, à l', aux) when going to places",
+        "Formulate future plans using the near future structure (Aller + infinitif)"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Les Métiers et les Professions: Future career aspirations",
+      "learningObjectives": [
+        "Name traditional and modern professions in French (médecin, avocat, ingénieur)",
+        "Formulate feminine forms of professions (-eur/-euse, -ien/-ienne)",
+        "Compose a short essay titled \"Mon métier préféré pour l'avenir\""
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Révision Trimestrielle et Pratique des Dialogues Communicatifs",
+      "learningObjectives": [
+        "Synthesize conversational situations: directions, markets, health, and routines",
+        "Review syntax of reflexive verbs and the near future tense",
+        "Practice oral fluency through paired conversational simulations"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Examen de Fin de Trimestre et Enregistrement des Notes",
+      "learningObjectives": [
+        "Assess reading comprehension, functional grammar, and creative writing",
+        "Evaluate oral communication skills in interactive interview stations",
+        "Collate terminal scores for official school report cards"
+      ]
+    }
+  ]
+}

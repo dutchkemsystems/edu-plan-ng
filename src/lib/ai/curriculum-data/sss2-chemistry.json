@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Chemistry",
+  "subjectCode": "CHE",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/chemistry-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Chemistry for Senior Secondary Schools",
+    "author": "Osei Yaw Ababio",
+    "publisher": "Africana First Publishers Plc",
+    "edition": "Revised 5th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Periodic Table and Periodicity",
+      "subtopics": ["Modern periodic law and classification into s, p, d, f blocks", "Periodic trends: Atomic radius, ionization energy, electronegativity", "Properties of Group 1 alkali metals and Group 7 halogens"],
+      "objectives": ["State modern periodic law", "Explain periodic variation of electronegativity and electron affinity", "Relate electronic configurations to chemical reactivities"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Oxidation-Reduction (Redox) Reactions",
+      "subtopics": ["Definitions of oxidation and reduction in terms of oxygen, hydrogen and electrons", "Determination of oxidation numbers in compounds and radicals", "Balancing redox equations in acidic and basic media"],
+      "objectives": ["Assign oxidation numbers to elements in complex ions", "Identify oxidizing and reducing agents in given equations", "Balance ion-electron half-equations accurately"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Rates of Chemical Reactions and Chemical Equilibrium",
+      "subtopics": ["Collision theory and activation energy", "Factors affecting reaction rate: Temperature, concentration, catalyst, surface area", "Le Chatelier's principle and equilibrium shift"],
+      "objectives": ["Explain how catalysts lower activation energy", "Predict equilibrium shifts under changing temperature and pressure", "Calculate reaction rates from concentration-time curves"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Acids, Bases, Salts and pH Concept",
+      "subtopics": ["Arrhenius and Bronsted-Lowry acid-base concepts", "Definition of pH, pOH, and Kw calculation", "Types of salts: Normal, acid, basic, complex, and double salts"],
+      "objectives": ["Distinguish strong from weak acids using dissociation constants", "Calculate pH of strong monoprotic acids and bases", "Identify salts that undergo hydrolysis in aqueous solutions"]
+    }
+  ]
+}

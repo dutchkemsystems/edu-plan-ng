@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Technical Drawing",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-technical-drawing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Introduction to Technical Drawing: Equipment, standards, paper sizes, and line types",
+      "learningObjectives": [
+        "Identify standard drafting instruments (T-square, set-squares, compasses, scales)",
+        "Distinguish between ISO paper sizes (A0 to A4) and correct board mounting",
+        "Draw BS 8888 standard line types (continuous thick, continuous thin, hidden detail, center lines)"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Board Practice: Title block, lettering, dimensioning principles, and border lines",
+      "learningObjectives": [
+        "Construct standard layout border lines (10mm margins) and standard school title blocks",
+        "Practice vertical single-stroke Gothic lettering of numerals and capital letters",
+        "Apply standard engineering dimensioning rules (projection lines, arrowheads, leader lines)"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Geometrical Construction: Bisecting straight lines, arcs, and constructing specific angles",
+      "learningObjectives": [
+        "Bisect straight lines and circular arcs accurately using compasses",
+        "Construct angles of 15°, 30°, 45°, 60°, 75°, 90°, and 105° without protractors",
+        "Divide lines into proportional parts and equal segments geometrically"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Triangles: Classification, properties, and constructing inscribed/circumscribed circles",
+      "learningObjectives": [
+        "Classify triangles according to sides (equilateral, isosceles, scalene) and angles",
+        "Construct triangles given base, altitude, and base angles",
+        "Inscribe, circumscribe, and escribe circles to given triangles geometrically"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Quadrilaterals: Squares, rectangles, parallelograms, rhombuses, and trapeziums",
+      "learningObjectives": [
+        "Construct squares and rectangles given diagonals and side dimensions",
+        "Construct parallelograms and rhombuses given side lengths and included angles",
+        "Determine diagonals and internal geometric properties of quadrilaterals"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Polygons: Regular pentagons, hexagons, heptagons, and octagons",
+      "learningObjectives": [
+        "Construct regular hexagons given across-flats or across-corners measurements",
+        "Construct regular polygons using the general method (dividing diameter into equal parts)",
+        "Determine interior and exterior angles of convex polygons"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Studio Drafting Critique",
+      "learningObjectives": [
+        "Assess pupil drafting accuracy, line contrast, and title block craftsmanship",
+        "Perform timed construction drills on polygon circumscription",
+        "Address individual errors in pencil sharpening, compass play, and smudging"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Circles and Tangency: Constructing internal and external tangents to two circles",
+      "learningObjectives": [
+        "Define terms: radius, diameter, chord, quadrant, sector, and segment",
+        "Construct tangents to a single circle from external points",
+        "Construct common internal and external tangents (open/crossed belts) between unequal circles"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Tangential Arcs and Blending Curves in Engineering Components",
+      "learningObjectives": [
+        "Blend circular arcs to straight lines and intersecting corners smoothly",
+        "Construct internal and external blending arcs between two existing circles",
+        "Draft standard spanner profiles and machine brackets utilizing tangency principles"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Enlargement and Reduction of Plane Figures: Linear and areal ratios",
+      "learningObjectives": [
+        "Enlarge and reduce irregular plane polygons using the radial/pole method",
+        "Enlarge figures using the grid/coordinate method to designated linear proportions",
+        "Calculate ratios of areas for geometrically similar plane figures"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Introduction to Pictorial Drawing: Oblique and Isometric projection fundamentals",
+      "learningObjectives": [
+        "Differentiate between isometric axes (30°/30°) and oblique cabinet/cavalier axes (45°)",
+        "Construct isometric boxes and locate points on shaped solid blocks",
+        "Draw simple stepped blocks in oblique and isometric projection"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly Technical Drawing Revision & Studio Portfolio Review",
+      "learningObjectives": [
+        "Synthesize all geometric construction protocols from lines to isometric primitives",
+        "Evaluate student drawing sheets against WAEC/NECO marking schemes",
+        "Rehearse speed drafting techniques under simulated examination conditions"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Board Practical Assessment",
+      "learningObjectives": [
+        "Examine technical drawing theory and practical board execution",
+        "Score drawing sheets for neatness, linework precision, and dimensional accuracy",
+        "Record standardized termly grades for broadsheet compilation"
+      ]
+    }
+  ]
+}

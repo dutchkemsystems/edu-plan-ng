@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Computer Studies",
+  "subjectCode": "CMP",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/computer-studies-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Computer Studies for Junior Secondary Schools Book 1",
+    "author": "O. A. Bamiro, A. O. Nurudeen, M. O. Akande",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Historical Development of Computers: Early Calculating Devices",
+      "subtopics": ["Early counting mechanisms: Fingers, pebbles, tally marks", "Mechanical calculating devices: Abacus, Napier's bones, slide rule, Pascaline calculator", "Charles Babbage and the Analytical Engine (Father of Modern Computers)"],
+      "objectives": ["Trace the evolution of computing from manual to electro-mechanical devices", "State the historical contributions of Blaise Pascal and Charles Babbage", "Perform basic addition using a wooden Chinese abacus"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Generations of Electronic Computers (1st to 5th Generation)",
+      "subtopics": ["1st Generation: Vacuum tubes, ENIAC, magnetic drums, machine language", "2nd Generation (Transistors) & 3rd Generation (Integrated Circuits)", "4th Generation (VLSI microprocessors) & 5th Generation (Artificial Intelligence, quantum computing)"],
+      "objectives": ["Identify the core electronic switching component for each computer generation", "Compare the physical size, heat output, and speed of 1st vs 4th generation computers", "List 3 contemporary real-world applications of 5th generation Artificial Intelligence"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Classification of Computers: Type, Size and Purpose",
+      "subtopics": ["Classification by type of signal: Analog, digital, and hybrid computers", "Classification by size and processing capability: Supercomputers, mainframes, minicomputers, microcomputers (desktops, laptops, tablets)", "Classification by purpose: General-purpose vs special-purpose computers"],
+      "objectives": ["Distinguish continuous analog signals from discrete binary digital computing", "Explain why meteorological and oil exploration agencies use supercomputers", "Identify examples of dedicated special-purpose microprocessors in household electronics"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Computer System: Hardware, Software and Peopleware",
+      "subtopics": ["Hardware components: System unit, input devices, output devices, secondary storage", "Software: System software (operating systems) vs application software (user programs)", "Peopleware: Computer professionals, operators, and end-users"],
+      "objectives": ["Define the three interdependent pillars of a computer system", "Diagram the flow of data through input, processor (CPU), output, and storage", "State the responsibilities of a database administrator and a computer programmer"]
+    }
+  ]
+}

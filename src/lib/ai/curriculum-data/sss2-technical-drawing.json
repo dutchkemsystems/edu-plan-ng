@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Technical Drawing",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-technical-drawing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Conic Sections: Ellipse construction by auxiliary circles and focal points methods",
+      "learningObjectives": [
+        "Define conics as loci of points with constant eccentricity",
+        "Construct an ellipse using the concentric circles (auxiliary circles) method",
+        "Construct an ellipse given major and minor axes using the focal points (trammel) method"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Conic Sections: Parabola and Hyperbola construction and engineering applications",
+      "learningObjectives": [
+        "Construct parabolas using the rectangular/envelope method and locus method (eccentricity e = 1)",
+        "Construct hyperbolas using the directrix-focus method (eccentricity e > 1)",
+        "Relate parabolic and hyperbolic profiles to bridge arches and cooling towers"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Engineering Loci: Cycloid, Epicycloid, and Hypocycloid generation",
+      "learningObjectives": [
+        "Plot the locus of a point on the circumference of a circle rolling along a straight line (cycloid)",
+        "Plot epicycloids and hypocycloids rolling outside and inside generating circles",
+        "Explain gear tooth profile applications of cycloidal curves"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Engineering Loci: Involutes, Archimedean Spirals, and Linkage Mechanisms",
+      "learningObjectives": [
+        "Construct the involute of a circle and regular polygons",
+        "Construct the Archimedean spiral for one and two complete convolutions",
+        "Plot loci of points on pin-jointed four-bar kinematic link mechanisms"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Orthographic Projection: First-Angle projection of shaped machine components",
+      "learningObjectives": [
+        "Understand the geometry of First-Angle projection (plan below front elevation)",
+        "Project front elevation, end elevation, and plan views from pictorial blocks",
+        "Represent hidden details and center lines in standard first-angle layout"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Orthographic Projection: Third-Angle projection and projection symbol conventions",
+      "learningObjectives": [
+        "Understand Third-Angle projection principles (plan above front elevation)",
+        "Draw ISO First-Angle and Third-Angle truncated cone projection symbols",
+        "Convert pictorial machine bracket drawings into complete 3-view Third-Angle projections"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Orthographic Projection Exam",
+      "learningObjectives": [
+        "Assess pupil proficiency in conic loci and angle of projection layout",
+        "Evaluate dimensional accuracy and projection alignment across orthographic views",
+        "Provide remedial drafting exercises on missing view reconstruction"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Sectional Views: Full section, half section, and cutting-plane lines",
+      "learningObjectives": [
+        "Represent cutting planes using thick ends with directional arrows (A-A, B-B)",
+        "Apply standard 45° hatching rules for sectioned metal, wood, and concrete",
+        "Draw full-sectional and half-sectional views of hollow shafts and pulleys"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Auxiliary Projections: True lengths of lines and true shapes of inclined surfaces",
+      "learningObjectives": [
+        "Determine the true length and inclination angle of oblique lines using revolution",
+        "Project primary auxiliary views to reveal true shapes of truncated surfaces",
+        "Apply auxiliary planes to oblique solid pyramids and prisms"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Isometric Projection of Curves and Circles: Four-center approximate method",
+      "learningObjectives": [
+        "Construct isometric circles on top, front, and side isometric planes",
+        "Use the four-center approximate ellipse method with compasses",
+        "Draw isometric pictorial views of cylinders, bearing housings, and rounded brackets"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Introduction to Architectural Drawing: Ground floor plans, symbols, and conventions",
+      "learningObjectives": [
+        "Recognize standard architectural symbols for doors, windows, walls, and fittings",
+        "Draft a single-bedroom bungalow floor plan to scale 1:50 or 1:100",
+        "Dimension rooms, wall thicknesses, and window schedules according to building codes"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly Technical Drawing Revision & Drafting Speed Clinic",
+      "learningObjectives": [
+        "Review conics, orthographic projection, sectional views, and floor plans",
+        "Execute timed past WAEC Paper 2 practical drawing questions",
+        "Refine layout spacing, title block details, and drafting consistency"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Board Practical Assessment",
+      "learningObjectives": [
+        "Administer standardized SSS 2 Technical Drawing practical examination",
+        "Grade sheets according to national WAEC marking standards",
+        "Record marks for school broadsheet and academic records"
+      ]
+    }
+  ]
+}

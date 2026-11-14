@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Agricultural Science",
+  "subjectCode": "AGR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/agricultural-science-jss2",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Junior Secondary Agricultural Science for Nigerian Schools Book 2",
+    "author": "Anthony Youdeowei, S. O. Ayanlaja, C. C. Agwubike",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Classification and Anatomy of Farm Animals",
+      "subtopics": ["Ruminants (cattle, sheep, goats) vs non-ruminants (pigs, poultry, rabbits)", "Digestive system of ruminants: Rumen, reticulum, omasum, abomasum", "Monogastric digestive tract and nutrient absorption"],
+      "objectives": ["Classify farm animals based on digestive anatomy", "Diagram and label the 4 stomach chambers of ruminants", "Trace the pathway of ingested grass through a goat's stomach"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Farm Animal Feeds, Feeding and Nutrition",
+      "subtopics": ["Classification of animal feeds: Concentrates, roughages, supplements, additives", "Nutrient classes: Proteins, carbohydrates, fats, minerals, vitamins, water", "Balanced ration formulation for broilers and layers"],
+      "objectives": ["Distinguish concentrates from succulent and dry roughages", "State deficiency symptoms of calcium and vitamin A in livestock", "Formulate a balanced broiler starter ration using local ingredients"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Crop Propagation: Sexual and Asexual Methods",
+      "subtopics": ["Sexual propagation through seeds and seed viability testing", "Asexual (vegetative) propagation: Cuttings, grafting, budding, layering, suckers", "Nursery practices: Bed preparation, shading, watering, hardening off"],
+      "objectives": ["Compare sexual and asexual plant propagation", "Demonstrate T-budding and stem cuttings of cassava and citrus", "Describe nursery bed management from seedbed to field transplanting"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Agricultural Farm Structures and Layout",
+      "subtopics": ["Storage structures: Silos, cribs, barns, rhumbus", "Production structures: Poultry battery cages, pig pens, fish ponds", "Processing structures: Cassava grating shed, feed mills"],
+      "objectives": ["Identify 5 major types of farm storage facilities", "Explain construction requirements for a standard modern pig pen", "Select appropriate building materials for tropical farm structures"]
+    }
+  ]
+}

@@ -16,17 +16,36 @@ import {
   BookOpen,
   Filter,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  Lock
 } from 'lucide-react';
-import { AssessmentItem } from '../types/index.ts';
-import { fetchAssessments, generateAssessment } from '../lib/api.ts';
+import { AssessmentItem, TeacherUser, DashboardStats } from '../types/index.ts';
+import { fetchAssessments, generateAssessment, getAuthHeaders } from '../lib/api.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
 import { waecNecoPastQuestions, PastQuestion } from '../data/waecNecoQuestions.ts';
 import confetti from 'canvas-confetti';
 import { GoogleClassroomExportModal } from '../components/GoogleClassroomExportModal.tsx';
 import { MultimodalScriptScanner } from '../components/MultimodalScriptScanner.tsx';
 
-export const AssessmentsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'generator' | 'predict' | 'grading' | 'practice'>('generator');
+interface AssessmentsPageProps {
+  user?: TeacherUser | null;
+  stats?: DashboardStats | null;
+  onOpenUpgrade?: (msg: string, tier?: string, title?: string) => void;
+  onPlanQuotaChanged?: () => void;
+}
+
+export const AssessmentsPage: React.FC<AssessmentsPageProps> = ({
+  user,
+  stats,
+  onOpenUpgrade,
+  onPlanQuotaChanged,
+}) => {
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const ent = tierSummary.config;
+  const recommendedExamUpgradeTier = tierSummary.category === 'b2b' ? 'b2b_silver' : 'b2c_termly';
+  const [activeTab, setActiveTab] = useState<'generator' | 'predict' | 'grading' | 'practice'>(
+    ent.hasExamGen ? 'generator' : 'practice'
+  );
   const [showClassroomModal, setShowClassroomModal] = useState(false);
 
   // Generator state
@@ -103,6 +122,14 @@ export const AssessmentsPage: React.FC = () => {
   };
 
   const handleGenerate = async () => {
+    if (!ent.hasExamGen) {
+      onOpenUpgrade?.(
+        'Exam Generator is unlocked on B2C Pro Termly (₦1,500), B2C Session (₦3,000), B2B Silver (₦120,000), B2B Gold (₦250,000), and B2G Platinum.',
+        recommendedExamUpgradeTier,
+        'Exam & Assessment Generator'
+      );
+      return;
+    }
     setLoading(true);
     try {
       const res = await generateAssessment({
@@ -116,20 +143,34 @@ export const AssessmentsPage: React.FC = () => {
       });
       setAssessments([res.assessment, ...assessments]);
       setSelectedAssessment(res.assessment);
+      onPlanQuotaChanged?.();
       confetti({ particleCount: 80, spread: 60 });
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e?.status === 403 || e?.status === 429) {
+        onOpenUpgrade?.(e.message, e.requiredTier || recommendedExamUpgradeTier, 'Exam & Assessment Generator');
+      } else {
+        console.error(e);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handleRunExamPrediction = async () => {
+    if (!ent.hasExamGen) {
+      onOpenUpgrade?.(
+        '10-Year WAEC / NECO Predictor is unlocked on B2C Pro Termly (₦1,500), B2B Silver (₦120,000), and B2B Gold (₦250,000).',
+        recommendedExamUpgradeTier,
+        'WAEC 10-Year Exam Predictor'
+      );
+      return;
+    }
     setIsPredicting(true);
     try {
       const res = await fetch('/api/ai/predict-exam', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           subject: predictSubject,
           level: predictLevel.toLowerCase().replace(/\s+/g, '-'),
@@ -137,9 +178,16 @@ export const AssessmentsPage: React.FC = () => {
           examBody: predictExamBody,
         }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(data?.error || data?.message || 'Upgrade required for Exam Predictor.', data?.requiredTier || recommendedExamUpgradeTier, 'WAEC 10-Year Exam Predictor');
+        }
+        return;
+      }
       if (data.success && data.data) {
         setPredictionResult(data.data);
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 60, spread: 55 });
       }
     } catch (e) {
@@ -150,11 +198,20 @@ export const AssessmentsPage: React.FC = () => {
   };
 
   const handleRunGrading = async () => {
+    if (!ent.hasExamGen) {
+      onOpenUpgrade?.(
+        'AI Script Grader is unlocked on B2C Pro Termly (₦1,500), B2B Silver (₦120,000), and B2B Gold (₦250,000).',
+        recommendedExamUpgradeTier,
+        'AI Script Grader'
+      );
+      return;
+    }
     setIsGrading(true);
     try {
       const res = await fetch('/api/ai/grade-paper', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
         body: JSON.stringify({
           questionText: gradeQuestion,
           markingScheme: gradeMarkingScheme,
@@ -165,9 +222,16 @@ export const AssessmentsPage: React.FC = () => {
           examType: predictExamBody,
         }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          onOpenUpgrade?.(data?.error || data?.message || 'Upgrade required for AI Script Grader.', data?.requiredTier || recommendedExamUpgradeTier, 'AI Script Grader');
+        }
+        return;
+      }
       if (data.success && data.data) {
         setGradingResult(data.data);
+        onPlanQuotaChanged?.();
         confetti({ particleCount: 50, spread: 50 });
       }
     } catch (e) {
@@ -240,6 +304,10 @@ export const AssessmentsPage: React.FC = () => {
 </style>
 </head>
 <body>
+${ent.hasDraftWatermark ? `
+<div style="border: 2pt dashed #dc2626; background-color: #fef2f2; color: #b91c1c; text-align: center; font-weight: bold; padding: 6pt; margin-bottom: 12pt; font-size: 10pt;">
+  DRAFT — 5-DAY TRIAL PASS (EDUPLAN NG) • UPGRADE TO REMOVE WATERMARK
+</div>` : ''}
 <div class="header">
   <div class="school-title">${selectedAssessment.schoolHeader || "MINISTRY OF BASIC EDUCATION"}</div>
   <div class="exam-title">${selectedAssessment.title.toUpperCase()} • ${selectedAssessment.level.toUpperCase()}</div>
@@ -393,7 +461,7 @@ ${
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Printer className="w-4 h-4 text-emerald-600" />
+              {ent.hasExamGen ? <Printer className="w-4 h-4 text-emerald-600" /> : <Lock className="w-3.5 h-3.5 text-amber-600" />}
               <span>Exam Generator</span>
             </button>
             <button
@@ -404,7 +472,7 @@ ${
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-amber-500" />
+              {ent.hasExamGen ? <Sparkles className="w-4 h-4 text-amber-500" /> : <Lock className="w-3.5 h-3.5 text-amber-600" />}
               <span>WAEC 10-Yr Predictor</span>
             </button>
             <button
@@ -415,7 +483,7 @@ ${
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              {ent.hasExamGen ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <Lock className="w-3.5 h-3.5 text-amber-600" />}
               <span>AI Script Grader</span>
             </button>
             <button
@@ -443,8 +511,52 @@ ${
         </div>
       </div>
 
+      {/* Locked Plan Gate Banner for Exam Gen / Predictor / AI Grader */}
+      {!ent.hasExamGen && activeTab !== 'practice' && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <Lock className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 block">
+                Locked on {tierSummary.segmentLabel} • {ent.name}
+              </span>
+              <h3 className="text-base font-bold text-slate-900 mt-0.5">
+                Exam Generator, 10-Year Predictor & AI Script Grader Locked
+              </h3>
+              <p className="text-xs text-slate-600 mt-1 max-w-2xl">
+                {tierSummary.category === 'b2b'
+                  ? 'Your school is on B2B Bronze (₦45,000/term). Upgrade to B2B Silver (₦120,000/term) or B2B Gold (₦250,000/term) to unlock automated Exams, WAEC Predictor & AI Script Grading. CBT Past Questions Practice remains free.'
+                  : 'Upgrade from 5-Day Trial / Monthly Standard to B2C Pro Termly (₦1,500/term) or B2C Session (₦3,000/yr) to unlock Exam Generator, WAEC Predictor & AI Script Grading. CBT Practice remains open.'}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setActiveTab('practice')}
+              className="px-4 py-2 text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl"
+            >
+              Open CBT Practice
+            </button>
+            <button
+              onClick={() =>
+                onOpenUpgrade?.(
+                  'Unlock Automated Exam Papers, WAEC 10-Year Predictor & AI Script Grading.',
+                  recommendedExamUpgradeTier,
+                  'Unlock Exam Generator Suite'
+                )
+              }
+              className="px-4 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl shadow-2xs"
+            >
+              {tierSummary.category === 'b2b' ? 'Upgrade to B2B Silver' : 'Upgrade to Pro Termly'}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* TAB 1: EXAM GENERATOR */}
-      {activeTab === 'generator' && (
+      {activeTab === 'generator' && ent.hasExamGen && (
         <div className="space-y-6">
           {/* Action Row */}
           {selectedAssessment && (
@@ -474,12 +586,26 @@ ${
                 <span>Export Word (.doc)</span>
               </button>
               <button
-                onClick={() => setShowClassroomModal(true)}
-                className="px-3.5 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl flex items-center gap-1.5 border border-emerald-300"
-                title="Share to Google Classroom"
+                onClick={() => {
+                  if (!ent.hasLmsExport) {
+                    onOpenUpgrade?.(
+                      'Google Classroom LMS Export is exclusive to B2B Gold (₦250,000/term) and B2G State Platinum.',
+                      'b2b_gold',
+                      'Google Classroom LMS Export'
+                    );
+                    return;
+                  }
+                  setShowClassroomModal(true);
+                }}
+                className={`px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 border ${
+                  ent.hasLmsExport
+                    ? 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border-emerald-300'
+                    : 'text-amber-800 bg-amber-50 hover:bg-amber-100 border-amber-300'
+                }`}
+                title={ent.hasLmsExport ? 'Share to Google Classroom' : 'Requires B2B Gold (₦250,000/term) or B2G Platinum'}
               >
-                <Share2 className="w-4 h-4 text-emerald-700" />
-                <span>Google Classroom</span>
+                {ent.hasLmsExport ? <Share2 className="w-4 h-4 text-emerald-700" /> : <Lock className="w-3.5 h-3.5 text-amber-700" />}
+                <span>Google Classroom{!ent.hasLmsExport ? ' (Gold)' : ''}</span>
               </button>
               <button
                 onClick={handlePrint}
@@ -741,7 +867,7 @@ ${
       )}
 
       {/* TAB 2: WAEC/NECO 10-YEAR EXAM PREDICTOR (PHASE 5) */}
-      {activeTab === 'predict' && (
+      {activeTab === 'predict' && ent.hasExamGen && (
         <div className="space-y-6">
           {/* Configuration Form */}
           <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
@@ -947,9 +1073,12 @@ ${
       )}
 
       {/* TAB 3: MULTIMODAL AI SCRIPT SCANNER & GRADING ASSISTANT (PHASE 7) */}
-      {activeTab === 'grading' && (
+      {activeTab === 'grading' && ent.hasExamGen && (
         <div className="space-y-6">
-          <MultimodalScriptScanner />
+          <MultimodalScriptScanner
+            onOpenUpgrade={onOpenUpgrade}
+            onQuotaChanged={onPlanQuotaChanged}
+          />
           <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>

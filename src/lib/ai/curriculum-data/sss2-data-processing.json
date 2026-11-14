@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Data Processing",
+  "subjectCode": "DPR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/data-processing-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Data Processing for Senior Secondary Schools",
+    "author": "O. A. Adedapo & E. O. Babatunde",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Advanced Spreadsheet Modeling: Logical and Lookup Functions",
+      "subtopics": ["Nested logical functions: IF, AND, OR, NOT statements in student grade computation", "Lookup and reference functions: VLOOKUP, HLOOKUP, XLOOKUP, INDEX and MATCH", "Data validation rules, cell protection, and conditional formatting rules"],
+      "objectives": ["Write a nested IF formula that assigns letter grades (A1 to F9) based on numeric scores", "Use VLOOKUP to retrieve student details from a master enrollment sheet", "Apply conditional formatting to highlight students requiring remedial intervention"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Data Transmission Media and Telecommunications",
+      "subtopics": ["Guided transmission media: Twisted pair (UTP/STP), coaxial cable, fiber optic cables", "Unguided transmission media: Radio waves, microwaves, infrared, satellite communications", "Network standards: IEEE 802.11 (Wi-Fi), 4G LTE, 5G cellular broadband"],
+      "objectives": ["Compare bandwidth and attenuation in copper twisted pair vs fiber optic glass cables", "Explain the role of geostationary satellites (NigComSat-1R) in rural internet connectivity", "Select appropriate networking cabling for a 50-workstation school computer lab"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Internet Architecture, Cloud Computing and SaaS",
+      "subtopics": ["Client-server architecture vs peer-to-peer (P2P) networking", "Cloud computing deployment models: Public, private, hybrid, and community clouds", "Cloud service models: Infrastructure as a Service (IaaS), Platform as a Service (PaaS), Software as a Service (SaaS)"],
+      "objectives": ["Diagram client-server request and response handshakes over HTTP", "Differentiate SaaS solutions (Google Workspace, Office 365) from local desktop software", "Evaluate data sovereignty and security risks when hosting institutional records in the cloud"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Database Normalization (1NF, 2NF, 3NF)",
+      "subtopics": ["Concept of database anomalies: Insertion, update, and deletion anomalies in unnormalized data", "First Normal Form (1NF): Eliminating repeating groups and ensuring atomic values", "Second Normal Form (2NF) and Third Normal Form (3NF): Eliminating partial and transitive functional dependencies"],
+      "objectives": ["Identify insertion and update anomalies in flat unnormalized tables", "Decompose an unnormalized school register table into 1NF, 2NF, and 3NF", "Construct an Entity-Relationship Diagram (ERD) with primary and foreign key constraints"]
+    }
+  ]
+}

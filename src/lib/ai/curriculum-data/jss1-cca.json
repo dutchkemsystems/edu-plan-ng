@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Cultural and Creative Arts",
+  "subjectCode": "CCA",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/cca-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Cultural and Creative Arts for Junior Secondary Schools Book 1",
+    "author": "I. N. C. Aniekwe, S. O. Babalola",
+    "publisher": "Evans Brothers Nigeria Publishers Ltd",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Introduction to Cultural and Creative Arts (Visual and Performing Arts)",
+      "subtopics": ["Definition and branches of CCA: Visual arts (fine arts, applied arts) and performing arts (drama, dance, music)", "Historical role of art in Nigerian traditional societies (court regalia, rituals, domestic utensils)", "Career paths: Sculptors, painters, graphic designers, choreographers, music producers, playwrights"],
+      "objectives": ["Define Cultural and Creative Arts comprehensively", "Differentiate fine arts from applied industrial crafts", "List 5 contemporary career opportunities in the Nigerian creative industry"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Elements and Principles of Design in Visual Art",
+      "subtopics": ["Elements of design: Line, shape, form, color, value, texture, space", "Principles of design: Balance (symmetrical, asymmetrical), proportion, rhythm, harmony, contrast, unity", "Practical sketches illustrating lines, tonal gradations, and geometric shapes"],
+      "objectives": ["Identify all 7 elements of art in a classical African painting", "Explain the difference between symmetrical and asymmetrical visual balance", "Draw a tonal value scale showing 5 values from pure white to deepest graphite black"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Color Theory and the Color Wheel",
+      "subtopics": ["Primary colors (Red, Yellow, Blue) and secondary colors (Orange, Green, Violet)", "Tertiary colors, complementary colors, warm colors vs cool colors", "Color mixing demonstration: Pigment behavior and painting simple geometric objects"],
+      "objectives": ["Construct a 12-hue artist color wheel using poster paints", "Identify pairs of complementary colors that produce high visual contrast", "Mix secondary colors from primary pigments without muddiness"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Introduction to Music: Staff Notation and Musical Clefs",
+      "subtopics": ["Definition of music and properties of sound (pitch, duration, intensity, timbre)", "The musical staff/stave: 5 lines and 4 spaces, ledger lines", "Clefs: Treble clef (G-clef) and Bass clef (F-clef), letter names of lines and spaces (EGBDF, FACE)"],
+      "objectives": ["Define music and explain the 4 physical properties of sound", "Draw a neat Treble clef on a 5-line musical stave", "Identify musical pitch notes placed on lines and in spaces of the treble staff"]
+    }
+  ]
+}

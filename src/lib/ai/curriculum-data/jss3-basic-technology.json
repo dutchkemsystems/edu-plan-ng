@@ -1,0 +1,198 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Basic Technology",
+  "subjectCode": "BTECH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-basic-technology",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Technology for Junior Secondary Schools 3",
+    "author": "P.B. Nwachukwu, O.A. Adebayo, C.O. Ibe",
+    "publisher": "Evans Brothers Nigeria Publishers",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-06-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Woodwork Joints: Framing and Widening Joints",
+      "subtopics": [
+        "Classification of woodwork joints: widening joints (butt, tongue and groove, dowel)",
+        "Framing joints: mortise and tenon joint, halving lap joints, bridle joints, housing joints",
+        "Corner joints: common dovetail joint and finger comb joints for drawer construction"
+      ],
+      "objectives": [
+        "Construct a standard mortise and tenon joint using mortise chisel, tenon saw, and mallet",
+        "Apply PVA wood adhesive and cramp joints securely with sash clamps"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Metal Joining Methods: Soldering, Brazing and Welding",
+      "subtopics": [
+        "Soft soldering: lead-tin solder alloy, soldering flux (zinc chloride, resin), electric soldering copper bit",
+        "Hard soldering (brazing): spelter brass alloy and borax flux using blowpipes",
+        "Fusion welding: electric arc welding (flux-coated electrodes) and oxy-acetylene gas welding"
+      ],
+      "objectives": [
+        "Explain functions of chemical flux in preventing oxidation and promoting molten metal flow",
+        "Execute a clean soft soldered electrical wire splice joint",
+        "Wear appropriate welding helmet with shaded filter glass during arc demonstrations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Mechanical Fasteners: Screws, Bolts, Nuts, Studs and Rivets",
+      "subtopics": [
+        "Permanent fasteners (welding, rivets) vs semi-permanent fasteners (bolts, screws)",
+        "Types of bolt heads: hexagonal, square, countersunk, Allen socket heads",
+        "Locking devices: spring washers, split pins, castle nuts to prevent vibrational loosening"
+      ],
+      "objectives": [
+        "Differentiate bolts from studs and screws",
+        "Identify thread types and apply locking washers on vehicle engine components"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Hydraulic and Pneumatic Systems: Pascal's Principle & Applications",
+      "subtopics": [
+        "Pascal's Principle: pressure applied to an enclosed liquid is transmitted undiminished in all directions",
+        "Mathematical formula: P = F1 / A1 = F2 / A2 and hydraulic force multiplication",
+        "Hydraulic applications: hydraulic bottle jack, vehicle hydraulic brake system",
+        "Pneumatic systems using compressed air: pneumatic drills, workshop spray painting guns"
+      ],
+      "objectives": [
+        "Calculate output lifting force on a hydraulic jack slave piston given input effort and piston areas",
+        "Trace hydraulic fluid flow from master cylinder to brake calipers in motor vehicles"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Electronic Components: Resistors, Capacitors, Diodes & Transistors",
+      "subtopics": [
+        "Passive components: fixed resistors, carbon color coding bands, potentiometers (rheostats)",
+        "Capacitors: electrolytic and ceramic capacitors; dielectric storage of electrostatic charge",
+        "Semiconductor diodes: p-n junction, forward bias vs reverse bias, rectification of AC to DC",
+        "Transistors: bipolar junction transistors (BJT: NPN and PNP) as electronic switches and amplifiers"
+      ],
+      "objectives": [
+        "Decode 4-band resistor color codes to calculate resistance in Ohms (Ω) with tolerance percentages",
+        "Construct a simple half-wave rectifier circuit using a step-down transformer and diode"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Building Construction II: Foundation Types and Wall Bonding",
+      "subtopics": [
+        "Functions of foundations (distributing dead and live loads safely to subsoil)",
+        "Types of foundations: strip foundation, pad foundation, raft foundation, pile foundation",
+        "Brick and block bonding: Stretcher bond, English bond (alternating headers and stretchers), Flemish bond"
+      ],
+      "objectives": [
+        "Select appropriate foundation types for firm soil (strip) vs swampy coastal soils (raft/pile)",
+        "Draw two consecutive courses of brickwork in English bond showing quoin headers and closers"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation on woodwork joints, soldering, hydraulics, electronics, and building walls",
+        "BECE standardized diagnostic practical test"
+      ],
+      "objectives": [
+        "Assess pupil performance against BECE Basic Technology criteria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Roofs and Roof Coverings: Timber Trusses & Structural Members",
+      "subtopics": [
+        "Structural members of a timber roof truss: tie beam, rafters, king post, struts, purlins, wall plate",
+        "Types of roofs: flat, shed (lean-to), gable, hip, mansard roofs",
+        "Roof covering materials: corrugated aluminum sheets, galvanized iron, clay roofing tiles, asphalt shingles"
+      ],
+      "objectives": [
+        "Draw and label complete structural members of a king post timber roof truss",
+        "Explain how roof pitch prevents rain penetration during heavy Nigerian tropical downpours"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Automotive Systems: Transmission Clutches and Braking Systems",
+      "subtopics": [
+        "Function of the clutch in motor vehicles (engaging and disengaging engine from gearbox)",
+        "Friction clutch components: flywheel, friction clutch disc, pressure plate, release bearing",
+        "Vehicle braking systems: disc brakes (rotor and brake pads) vs drum brakes (brake shoes and wheel cylinder)"
+      ],
+      "objectives": [
+        "Explain operation of a single-plate friction clutch",
+        "Compare braking efficiency and heat dissipation between ventilated disc brakes and drum brakes"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Domestic Electrical Installation: Consumer Unit & Safety Earthing",
+      "subtopics": [
+        "Parts of domestic electrical installation: service intake cable, kilowatt-hour energy meter, consumer unit",
+        "Circuit protection: Miniature Circuit Breakers (MCB) and Earth Leakage Circuit Breakers (ELCB/RCD)",
+        "The earthing system: earth electrode rod driven into ground, green/yellow protective earth conductor"
+      ],
+      "objectives": [
+        "Draw schematic diagram of a domestic consumer control unit distribution board",
+        "Explain how earth bonding prevents fatal electric shocks if appliance casing becomes live"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Maintenance & Troubleshooting of Household Appliances",
+      "subtopics": [
+        "Fault-finding and maintenance of electric pressing iron (thermostat contact points, heating element)",
+        "Electric blender maintenance (bearing lubrication, carbon brush replacement, blade coupler)",
+        "Safety isolation procedures before disassembling electrical appliances"
+      ],
+      "objectives": [
+        "Test continuity of a heating element using a digital multimeter",
+        "Diagnose and replace worn carbon brushes in small domestic universal motors"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "BECE Mock Technical Examination & Speed Drafting Drills",
+      "subtopics": [
+        "Comprehensive 3-year junior secondary technical drawing and engineering review",
+        "Timed BECE objective and design drawing paper"
+      ],
+      "objectives": [
+        "Complete standardized BECE examination questions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal BECE Technical Certification",
+      "subtopics": [
+        "Final examination administration and script moderation"
+      ],
+      "objectives": [
+        "Complete junior secondary basic technology graduation certification"
+      ]
+    }
+  ]
+}

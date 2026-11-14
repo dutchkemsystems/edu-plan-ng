@@ -15,7 +15,8 @@ import {
   Zap
 } from 'lucide-react';
 import { AppLanguage, translations } from '../lib/i18n.ts';
-import { TeacherUser, NotificationItem } from '../types/index.ts';
+import { TeacherUser, DashboardStats } from '../types/index.ts';
+import { resolveClientTierSummary } from '../config/pricing.ts';
 import { PWAInstallButton } from './PWAInstallButton.tsx';
 import { useLowDataMode } from '../lib/LowDataContext.tsx';
 
@@ -28,6 +29,7 @@ interface NavbarProps {
   onLogout: () => void;
   unreadCount: number;
   user: TeacherUser | null;
+  stats?: DashboardStats | null;
   onNavigate: (route: string) => void;
   streak: number;
 }
@@ -41,11 +43,22 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   unreadCount,
   user,
+  stats,
   onNavigate,
   streak,
 }) => {
   const t = translations[currentLang];
   const { isLowDataMode, toggleLowDataMode, dataSavingsEstimateKb } = useLowDataMode();
+  const tierSummary = resolveClientTierSummary(user, stats);
+  const segmentBadge = tierSummary.category === 'b2g' ? 'B2G' : tierSummary.category === 'b2b' ? 'B2B' : 'B2C';
+  const roleLabel =
+    user?.role === 'ministry_official' || tierSummary.category === 'b2g'
+      ? 'Ministry Directorate'
+      : user?.role === 'principal' || user?.role === 'admin'
+      ? 'Principal'
+      : user?.role === 'superadmin' || user?.role === 'super_admin'
+      ? 'Super Admin'
+      : 'Teacher';
 
   return (
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-950/10 px-4 lg:px-8 py-3 flex items-center justify-between shadow-xs">
@@ -172,13 +185,23 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
         </button>
 
-        {/* Upgrade / Pro CTA */}
+        {/* Active Subscription Tier & Segment Pill */}
         <button
           onClick={() => onNavigate('pricing')}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white shadow-xs transition-all hover:shadow-md"
+          title={`${tierSummary.segmentLabel} — ${tierSummary.config.name} (${tierSummary.daysRemaining}d left)`}
+          className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white shadow-xs transition-all hover:shadow-md ${
+            tierSummary.category === 'b2g'
+              ? 'bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900'
+              : tierSummary.tierId === 'b2b_gold'
+              ? 'bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800'
+              : tierSummary.category === 'b2b'
+              ? 'bg-gradient-to-r from-slate-800 to-blue-900 hover:from-slate-900 hover:to-blue-950'
+              : 'bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800'
+          }`}
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-          <span>Pro Active</span>
+          <span className="px-1 py-0.2 rounded bg-white/15 text-[10px] font-black">{segmentBadge}</span>
+          <span>{tierSummary.config.name}</span>
         </button>
 
         {/* Low-Data Mode Global Toggle */}
@@ -220,10 +243,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <p className="font-semibold text-gray-800 leading-tight">{user.name}</p>
                   <span
                     className={`text-[9px] px-1.5 py-0.2 rounded font-extrabold uppercase ${
-                      user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-emerald-100 text-emerald-800'
+                      tierSummary.category === 'b2g' || user.role === 'ministry_official'
+                        ? 'bg-blue-100 text-blue-800'
+                        : user.role === 'admin' || user.role === 'principal'
+                        ? 'bg-purple-100 text-purple-800'
+                        : 'bg-emerald-100 text-emerald-800'
                     }`}
                   >
-                    {user.role === 'admin' ? 'Principal' : 'Teacher'}
+                    {roleLabel}
                   </span>
                 </div>
                 <p className="text-[10px] text-gray-500 leading-tight truncate max-w-[120px]">

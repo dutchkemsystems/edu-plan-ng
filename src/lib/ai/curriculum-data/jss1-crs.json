@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Christian Religious Studies",
+  "subjectCode": "CRS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/crs-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Christian Religious Studies for Junior Secondary Schools Book 1",
+    "author": "T. N. O. Quarcoopome",
+    "publisher": "African Universities Press",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Sovereignty of God: The Creation Account in Genesis",
+      "subtopics": ["The biblical creation story (Genesis 1 and 2): Order of creation", "God's sovereignty over living and non-living creatures", "Human stewardship over nature: Environmental conservation and animal welfare"],
+      "objectives": ["Recount the day-by-day order of creation in Genesis 1", "Explain the theological concept of humans being created in the 'image and likeness of God'", "Identify 3 ways students can practice godly stewardship over natural resources in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "God Cares for His People: Provision in the Wilderness",
+      "subtopics": ["The Exodus from Egypt and crossing of the Red Sea (Exodus 14)", "God's provision of manna, quails, and water from the rock (Exodus 16 and 17)", "Lessons of divine faithfulness, patience, and gratitude during national economic hardship"],
+      "objectives": ["Narrate how God miraculously delivered the Israelites at the Red Sea", "Describe God's daily provision of manna and water in the wilderness of Sin", "Draw moral parallels showing that God provides for family needs in tough economic times"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Parental Responsibility: The Families of Eli and Samuel Compared",
+      "subtopics": ["Eli as high priest and the irresponsible conduct of Hophni and Phinehas (1 Samuel 2)", "God's judgment on the house of Eli for lack of parental discipline", "The child Samuel dedicated to God by Hannah and his obedient listening (1 Samuel 3)"],
+      "objectives": ["Identify the specific sins committed by Eli's sons in the temple of Shiloh", "Explain consequences of poor parental upbringing and lack of disciplinary restraint", "Contrast Eli's failure with Hannah's prayerful consecration of Samuel"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Obedience to God: The Call and Faith of Abraham",
+      "subtopics": ["The call of Abram from Ur of the Chaldees to an unknown land (Genesis 12)", "God's unconditional covenant promises to Abraham (great nation, blessings, land of Canaan)", "Abraham's supreme obedience in the sacrifice of Isaac on Mount Moriah (Genesis 22)"],
+      "objectives": ["List the 7 divine promises made to Abraham upon his departure from Haran", "Demonstrate how Abraham exhibited extraordinary faith during the trial on Mount Moriah", "State 3 moral benefits of obedience to parents, teachers, and statutory laws"]
+    }
+  ]
+}

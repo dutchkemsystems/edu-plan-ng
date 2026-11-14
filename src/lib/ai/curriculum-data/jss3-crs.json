@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Christian Religious Studies",
+  "subjectCode": "CRS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/crs-jss3",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Christian Religious Studies for Junior Secondary Schools Book 3",
+    "author": "T. N. O. Quarcoopome",
+    "publisher": "African Universities Press",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Passion, Crucifixion and Resurrection of Jesus Christ",
+      "subtopics": ["The Triumphal Entry into Jerusalem (Palm Sunday) and Cleansing of the Temple", "The Last Supper: Institution of the Holy Communion and washing of disciples' feet", "Agony in the Garden of Gethsemane, trial before Pontius Pilate, crucifixion at Golgotha, and glorious resurrection on Easter Sunday"],
+      "objectives": ["Explain the theological significance of the bread and wine during the Last Supper", "Describe the legal irregularities in Jesus's trial before the Sanhedrin and Pontius Pilate", "Highlight the central Christian doctrine of the bodily resurrection of Jesus Christ"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Promise and Descent of the Holy Spirit on the Day of Pentecost",
+      "subtopics": ["The Ascension of Jesus Christ and the Great Commission (Matthew 28:18-20)", "The Day of Pentecost: Rushing mighty wind, tongues of fire, speaking in other tongues (Acts 2)", "Peter's bold Pentecost sermon, conviction of hearers, and conversion of 3,000 souls"],
+      "objectives": ["Enumerate the physical manifestations that accompanied the Holy Spirit's descent", "Summarize the core messianic arguments in Peter's Pentecost sermon", "State 4 fruits and 4 gifts of the Holy Spirit active in the Church today"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "The Early Church: Fellowship, Persecution and Expansion",
+      "subtopics": ["Communal fellowship in the early church: Sharing possessions, daily prayers, breaking of bread", "The sin and death of Ananias and Sapphira (deceit and lying to the Holy Spirit)", "Persecution: Arrest of the apostles, the martyrdom of Stephen (Acts 7), and dispersal of believers"],
+      "objectives": ["Explain how the early church practiced genuine love, unity, and financial transparency", "Analyze the tragic judgment on Ananias and Sapphira as a warning against hypocrisy", "Demonstrate how Stephen's forgiving prayer during his stoning reflected the spirit of Christ"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Conversion and Missionary Journeys of Apostle Paul",
+      "subtopics": ["Saul of Tarsus as a fierce persecutor of Christians and his Damascus road encounter (Acts 9)", "Baptism and ministry of Paul, partnership with Barnabas on the First Missionary Journey", "The Council of Jerusalem (Acts 15): Settling the Gentile circumcision controversy"],
+      "objectives": ["Narrate the supernatural events that led to Saul's dramatic conversion on the Damascus road", "Trace the geographic route of Paul's First Missionary Journey through Cyprus and Galatia", "Explain how the Jerusalem Council promoted peaceful coexistence between Jewish and Gentile believers"]
+    }
+  ]
+}

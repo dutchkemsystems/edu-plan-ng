@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 3",
+  "subject": "Civic Education",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-civic.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Constitutional Democracy: Separation of powers, checks and balances, and judicial review",
+      "learningObjectives": [
+        "Explain Montesquieu’s doctrine of separation of powers among the three arms of government",
+        "Illustrate mechanisms of checks and balances in Nigeria’s presidential system",
+        "Define judicial review and its supremacy in curbing legislative and executive excesses"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Electoral System in Nigeria: INEC mandate, voter registration, and electronic voting (BVAS/IReV)",
+      "learningObjectives": [
+        "Detail the constitutional mandate of the Independent National Electoral Commission (INEC)",
+        "Explain the Continuous Voter Registration (CVR) process and issuance of PVCs",
+        "Analyze modern electoral technologies: Bimodal Voter Accreditation System (BVAS) and IReV portal"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Electoral Malpractices: Vote buying, ballot snatching, intimidation, and preventive reforms",
+      "learningObjectives": [
+        "Categorize pre-election, election day, and post-election malpractices in Nigeria",
+        "Examine the socio-economic causes and consequences of commercialized vote-buying ('stomach infrastructure')",
+        "Propose institutional reforms to secure polling units and safeguard election sanctity"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Civil Society Organizations (CSOs): Roles in democracy, human rights, and policy advocacy",
+      "learningObjectives": [
+        "Define Civil Society Organizations (CSOs) and non-governmental organizations (NGOs)",
+        "Highlight CSO contributions to election observation, anti-corruption, and women empowerment",
+        "Evaluate challenges faced by civil society: funding constraints and state intimidation"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Public Service Reforms: SERVICOM, IPPIS, Due Process, and Whistleblower Policy",
+      "learningObjectives": [
+        "Explain the founding principles of SERVICOM (Service Compact with All Nigerians)",
+        "Analyze the Integrated Personnel and Payroll Information System (IPPIS) in ghost worker elimination",
+        "Examine the Bureau of Public Procurement (Due Process) in ensuring transparency in government contracts"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "National Security and Emerging Security Threats: Terrorism, banditry, and cybercrime",
+      "learningObjectives": [
+        "Define national security and explain the interplay between human security and military defense",
+        "Analyze root causes of violent extremism, banditry, kidnapping, and pipeline vandalism in Nigeria",
+        "Highlight statutory provisions of the Cybercrimes Act of 2015 and citizen reporting responsibilities"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Mock Electoral Tribunal Simulation",
+      "learningObjectives": [
+        "Assess student comprehension of electoral processes, CSOs, and national security challenges",
+        "Conduct a simulated Election Petition Tribunal demonstrating evidence presentation and legal adjudication",
+        "Provide corrective tutoring on the operational functions of BVAS and SERVICOM"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "International Human Rights Instruments: Universal Declaration of Human Rights (UDHR 1948)",
+      "learningObjectives": [
+        "Trace the historical origin of the Universal Declaration of Human Rights (UDHR) by the United Nations",
+        "Analyze key articles safeguarding civil, political, economic, social, and cultural rights",
+        "Evaluate the African Charter on Human and Peoples' Rights and its domestication in Nigerian law"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Nigeria's Foreign Policy Principles: Non-alignment, Afrocentrism, and ECOWAS leadership",
+      "learningObjectives": [
+        "Identify core pillars of Nigeria’s foreign policy since independence in 1960",
+        "Explain Africa as the center-piece of Nigerian foreign diplomacy (liberation struggles, anti-apartheid)",
+        "Examine Nigeria's leading role in ECOWAS, ECOMOG peacekeeping missions, and the African Union"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Environmental Sanitation, Climate Change, and Sustainable Development Goals (SDGs)",
+      "learningObjectives": [
+        "Analyze environmental degradation in Nigeria: desertification in the North, erosion in the East, oil pollution in the Delta",
+        "Explain the United Nations Sustainable Development Goals (SDGs) framework",
+        "Advocate for personal and community eco-friendly habits (tree planting, plastic recycling, clean energy)"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "National Ethics and the National Orientation Agency (NOA) Mandate",
+      "learningObjectives": [
+        "Enumerate national core values under Section 23 of the 1999 Constitution (discipline, integrity, social justice)",
+        "Evaluate campaigns of the National Orientation Agency (NOA) in fostering civic orientation",
+        "Promote active citizenship, self-reliance, and zero tolerance for corrupt practices"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive WASSCE/NECO Civic Education Revision & Past Paper Marathon",
+      "learningObjectives": [
+        "Review entire senior secondary civic education syllabus spanning governance, rights, and international relations",
+        "Execute timed speed drills on 50 objective questions and structured theory essays",
+        "Coach candidates on answering multi-part questions to maximize marks in WAEC Paper 2"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Mock Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer standardized mock WASSCE Civic Education examination",
+        "Score scripts strictly according to WAEC criteria and rubric guidelines",
+        "Record and certify final continuous assessment scores for graduation transcripts"
+      ]
+    }
+  ]
+}

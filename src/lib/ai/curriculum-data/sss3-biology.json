@@ -1,0 +1,200 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Biology",
+  "subjectCode": "BIO",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss3-biology",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Biology for Senior Secondary Schools",
+    "author": "M.C. Michael",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "6th Revised Edition (WAEC/NECO Standard)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Federal Ministry of Education",
+    "approvalDate": "2024-04-12"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Genetics: Mendelian Laws of Inheritance & Monohybrid Crosses",
+      "subtopics": [
+        "Gregor Mendel's experiments on Pisum sativum (garden peas)",
+        "First Law of Segregation: monohybrid crosses with complete dominance (3:1 phenotypic, 1:2:1 genotypic)",
+        "Genetic terms: dominant, recessive, homozygous, heterozygous, allele, phenotype, genotype, test cross"
+      ],
+      "objectives": [
+        "Construct Punnett squares for monohybrid crosses showing parental genotypes, gametes, F1, and F2 generations",
+        "Perform test crosses to determine the genotype of an organism displaying a dominant phenotype"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Dihybrid Crosses, Incomplete Dominance and Codominance",
+      "subtopics": [
+        "Mendel's Second Law of Independent Assortment: dihybrid cross yielding a 9:3:3:1 phenotypic ratio",
+        "Incomplete dominance (Mirabilis jalapa: red × white = pink 1:2:1)",
+        "Codominance: ABO blood group system (alleles I^A, I^B, I^O) and Roan cattle coat color"
+      ],
+      "objectives": [
+        "Draw Punnett squares for 2-trait dihybrid crosses",
+        "Differentiate incomplete dominance from codominance with biological examples",
+        "Predict offspring blood groups given parental genotypes"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Human Genetics: Sex Determination, Sex Linkage & Sickle Cell Anemia",
+      "subtopics": [
+        "Sex chromosomes (XX for females, XY for males) and 1:1 sex ratio determination",
+        "Sex-linked traits on X-chromosome: hemophilia (bleeder's disease) and red-green color blindness",
+        "Sickle cell hemoglobin (HbA and HbS): genotypes AA, AS, SS, and malaria resistance in heterozygotes"
+      ],
+      "objectives": [
+        "Trace inheritance of sex-linked hemophilia across pedigrees",
+        "Calculate statistical probabilities of carrier and sickle cell offspring",
+        "Advocate for pre-marital genotype testing in Nigerian communities"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Biological Variation: Morphological vs Physiological Traits",
+      "subtopics": [
+        "Continuous variation: height, weight, skin color (bell-shaped normal distribution curve)",
+        "Discontinuous variation: ABO blood groups, ability to roll tongue, presence of hitchhiker's thumb",
+        "Fingerprint patterns: arches, loops, whorls, composites, and forensic identification"
+      ],
+      "objectives": [
+        "Measure and plot histograms of heights of 40 students showing normal distribution",
+        "Survey class for tongue rolling ability and fingerprint types",
+        "Explain how biological variation provides raw material for natural selection"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Theories of Evolution: Lamarckism and Darwinian Natural Selection",
+      "subtopics": [
+        "Jean-Baptiste Lamarck's theory of use and disuse and inheritance of acquired characteristics",
+        "Charles Darwin's theory of natural selection: overproduction, struggle for existence, survival of the fittest",
+        "Modern synthetic theory of evolution, speciation, and evidence from comparative anatomy (homologous vs analogous structures)"
+      ],
+      "objectives": [
+        "Compare Lamarck's and Darwin's explanations for the long neck of the giraffe",
+        "Distinguish homologous structures (pentadactyl limb) from analogous structures (insect vs bird wing)",
+        "Cite industrial melanism in peppered moths as observable evidence of natural selection"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Animal Behavior: Innate Instincts, Reflexes and Social Insects",
+      "subtopics": [
+        "Innate vs learned behavior: simple reflexes, taxes, kineses, and instincts",
+        "Conditioned reflexes (Ivan Pavlov's classical conditioning experiments with dogs)",
+        "Social organization in insects: division of labor and castes in termites and honeybees"
+      ],
+      "objectives": [
+        "Draw and identify castes in a termite colony (king, queen, workers, soldiers)",
+        "Explain the biological significance of pheromone communication in social insect colonies"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Practical Laboratory Test",
+      "subtopics": [
+        "Assessment on Mendelian genetics, sex linkage, variation, evolution, and termite castes",
+        "WASSCE mock specimen identification test"
+      ],
+      "objectives": [
+        "Demonstrate mastery of WAEC practical genetics and anatomical specimen drawing"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Human Nervous System II & Endocrine Regulation",
+      "subtopics": [
+        "Comparison of nervous coordination (fast, electrical, specific) with endocrine coordination (slow, chemical, systemic)",
+        "Endocrine glands: pituitary, thyroid, adrenal glands, pancreas (islets of Langerhans), gonads",
+        "Disorders caused by hypersecretion and hyposecretion (gigantism, dwarfism, diabetes mellitus, goiter)"
+      ],
+      "objectives": [
+        "Map endocrine glands on a human anatomical outline and state their hormones",
+        "Explain negative feedback regulation of blood glucose by insulin and glucagon",
+        "Discuss nutritional prevention of simple goiter using iodized salt in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Sense Organs II: Advanced Optical Correction & Ear Acoustics",
+      "subtopics": [
+        "Optical accommodation: ciliary muscle contraction and suspensory ligament tension",
+        "Correction of myopia (concave lens), hypermetropia (convex lens), presbyopia, and astigmatism",
+        "Anatomy of the cochlea, organ of Corti, and semicircular canals for auditory perception and balance"
+      ],
+      "objectives": [
+        "Draw ray diagrams illustrating short-sightedness and its optical correction using diverging lenses",
+        "Trace acoustic vibrations from the tympanic membrane across ossicles to the cochlea"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Environmental Health: Crude Oil Spills, Eutrophication & Resource Conservation",
+      "subtopics": [
+        "Ecological consequences of petroleum spillage in the Niger Delta mangrove creeks",
+        "Eutrophication: agricultural fertilizer run-off leading to algal blooms and fish death",
+        "Conservation of natural resources: national parks and game reserves in Nigeria (Yankari, Kainji Lake)"
+      ],
+      "objectives": [
+        "Analyze the biochemical oxygen demand (BOD) cascade during aquatic eutrophication",
+        "Formulate community conservation strategies to protect endangered Nigerian wildlife (gorillas, drill monkeys)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "WASSCE Biology Practical Masterclass: Specimen Handling & Staining",
+      "subtopics": [
+        "WAEC biological drawing rules (sharp HB pencil, no shading, ruled parallel label lines, magnification)",
+        "Alternative-to-practical test: biochemical food tests, bone identification, and transverse sections",
+        "Common candidate pitfalls highlighted in WAEC Chief Examiner Reports"
+      ],
+      "objectives": [
+        "Produce standardized drawings of biological specimens scoring full marks on magnification and labels",
+        "Execute rapid biochemical tests on unknown food solutions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Final WASSCE & NECO Mock Examination Clinic",
+      "subtopics": [
+        "Full 3-year senior secondary biology examination simulation (Paper 1, Paper 2, Paper 3)",
+        "Scoring guide review and question elimination techniques"
+      ],
+      "objectives": [
+        "Complete senior secondary biology mock examination"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal WASSCE Graduation Certification",
+      "subtopics": [
+        "Final examination moderation and graduation certification"
+      ],
+      "objectives": [
+        "Complete Senior Secondary School Biology certification"
+      ]
+    }
+  ]
+}

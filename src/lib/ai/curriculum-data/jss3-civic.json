@@ -1,0 +1,195 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Civic Education",
+  "subjectCode": "CIV",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss3-civic",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Civic Education for Junior Secondary Schools 3",
+    "author": "M.O. Adebayo, S.A. Falade, E.O. Ajibola",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-20"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The 1999 Constitution: Features and Constitutional Amendment Process",
+      "subtopics": [
+        "Structure of the 1999 Nigerian Constitution (Preamble, Chapters, Schedules)",
+        "Rigid constitution concept: special amendment procedure requiring 2/3 majority in National Assembly and approval by 24 State Houses of Assembly",
+        "Key provisions on federal character, state creation, and fundamental objectives of state policy"
+      ],
+      "objectives": [
+        "Explain why the Nigerian constitution is classified as written and rigid",
+        "Outline the statutory legislative steps required to amend the 1999 Constitution"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Democratic Governance and Pillars of Democracy in Nigeria",
+      "subtopics": [
+        "Meaning of democracy ('government of the people, by the people, and for the people')",
+        "Pillars of democracy: multiparty system, independent judiciary, free press, transparent electoral body, active civil society",
+        "Advantages of democratic governance over military dictatorship in Nigeria"
+      ],
+      "objectives": [
+        "List 5 fundamental pillars of sustainable democracy in Nigeria",
+        "Contrast democratic governance with past military rule regarding civil liberties and freedom of speech"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "The Electoral Process: INEC, Voter Registration and Voting Protocols",
+      "subtopics": [
+        "Independent National Electoral Commission (INEC): composition, constitutional duties, autonomy",
+        "Continuous Voter Registration (CVR), Permanent Voter Card (PVC), Bimodal Voter Accreditation System (BVAS)",
+        "Step-by-step voting procedures on election day: accreditation, secret balloting, sorting, counting, collation"
+      ],
+      "objectives": [
+        "Explain statutory functions of INEC in conducting federal and state elections",
+        "Describe how electronic accreditation (BVAS) protects electoral integrity against over-voting"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Electoral Malpractices: Vote Buying, Rigging and Political Thuggery",
+      "subtopics": [
+        "Forms of electoral malpractices: ballot snatching, vote buying, falsification of results, underage voting",
+        "Causes of electoral malpractice: desperate political greed, poverty, illiteracy, weak law enforcement",
+        "Consequences: emergence of incompetent leaders, violent unrest, waste of national resources"
+      ],
+      "objectives": [
+        "Analyze the destructive effects of vote trading on democratic governance and social infrastructure",
+        "Suggest institutional measures to prevent youth recruitment into political thuggery"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "National Security Agencies I: The Military, Police Force and NSCDC",
+      "subtopics": [
+        "The Armed Forces of Nigeria: Army (land defense), Navy (maritime security), Air Force (airspace protection)",
+        "The Nigeria Police Force (NPF): internal law enforcement, crime investigation, public order",
+        "Nigeria Security and Civil Defence Corps (NSCDC): protecting critical national infrastructure (pipelines, telecommunications)"
+      ],
+      "objectives": [
+        "Differentiate military defense of territorial integrity from internal policing by the NPF",
+        "State statutory roles of the NSCDC in countering petroleum pipeline vandalism"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "National Security Agencies II: Intelligence and Protective Services",
+      "subtopics": [
+        "Department of State Services (DSS): domestic intelligence, counter-espionage, internal security threats",
+        "Nigeria Customs Service (NCS): border protection, preventing smuggling, tariff collection",
+        "Nigeria Immigration Service (NIS): border passport control, managing expatriate quotas, tackling irregular migration"
+      ],
+      "objectives": [
+        "Explain how the Customs Service prevents illicit weapon smuggling into Nigerian ports",
+        "Identify statutory functions of the Immigration Service at international airports"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on the constitution, democracy, INEC, and security agencies",
+        "BECE standardized civic question clinic"
+      ],
+      "objectives": [
+        "Assess pupil performance against BECE Civic Education standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Human Trafficking and Child Labor: Statutory Mandate of NAPTIP",
+      "subtopics": [
+        "Meaning and forms of human trafficking (forced labor, commercial sexual exploitation, organ harvesting)",
+        "National Agency for the Prohibition of Trafficking in Persons (NAPTIP): establishment and enforcement",
+        "Protection of children: the Child Rights Act, rehabilitation of victims, prosecuting human traffickers"
+      ],
+      "objectives": [
+        "Identify deceitful recruitment tactics used by human traffickers targeting vulnerable youths",
+        "State NAPTIP's toll-free reporting channels and victim protection protocols"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Anti-Corruption Agencies in Nigeria: The EFCC and ICPC",
+      "subtopics": [
+        "Economic and Financial Crimes Commission (EFCC): prosecuting money laundering, advance fee fraud (419), cybercrime",
+        "Independent Corrupt Practices and Other Related Offences Commission (ICPC): investigating public sector graft and bribery",
+        "The Code of Conduct Bureau (CCB) and Code of Conduct Tribunal (CCT): asset declaration for public officers"
+      ],
+      "objectives": [
+        "Distinguish statutory jurisdictions between the EFCC and ICPC",
+        "Explain why public asset declaration promotes financial transparency in governance"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Peace, Conflict Resolution and National Integration",
+      "subtopics": [
+        "Meaning of peace (positive peace vs negative peace) and causes of communal conflict in Nigeria",
+        "Methods of non-violent conflict resolution: negotiation, mediation, conciliation, arbitration, judicial settlement",
+        "Promoting national integration: National Youth Service Corps (NYSC), Unity Schools, Inter-ethnic marriages"
+      ],
+      "objectives": [
+        "Apply mediation steps to resolve a simulated interpersonal conflict between students",
+        "Explain the founding ideals of the NYSC scheme in building national solidarity"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Self-Reliance, Wealth Creation and Economic Self-Determination",
+      "subtopics": [
+        "Economic self-reliance as a civic virtue for personal dignity and national independence",
+        "Government empowerment programs: Small and Medium Enterprises Development Agency of Nigeria (SMEDAN)",
+        "Drafting a mini-business enterprise plan incorporating book-keeping and customer service"
+      ],
+      "objectives": [
+        "Explain how vocational enterprise reduces poverty and crime in local government areas",
+        "Present a viable enterprise proposal for producing local commodities"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "BECE Mock Civic Education Masterclass & Speed Drills",
+      "subtopics": [
+        "Full review of 3-year junior secondary Civic Education syllabus",
+        "Timed 80-question BECE Objective and Essay paper simulation"
+      ],
+      "objectives": [
+        "Complete standardized BECE examination questions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal BECE Certification & Graduation",
+      "subtopics": [
+        "Final examination administration and script moderation"
+      ],
+      "objectives": [
+        "Complete junior secondary civic education graduation certification"
+      ]
+    }
+  ]
+}

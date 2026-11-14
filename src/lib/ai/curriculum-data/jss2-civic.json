@@ -1,0 +1,195 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Civic Education",
+  "subjectCode": "CIV",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-civic",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Civic Education for Junior Secondary Schools 2",
+    "author": "M.O. Adebayo, S.A. Falade, E.O. Ajibola",
+    "publisher": "Rasmed Publications Limited",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-05-20"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Integrity and Moral Courage in Public and Private Life",
+      "subtopics": [
+        "Definition of integrity as steadfast adherence to moral and ethical principles",
+        "Attributes of integrity: accountability, probity, moral courage, resisting bribery",
+        "People of integrity in Nigerian history (e.g. Chief Gani Fawehinmi, Dora Akunyili)"
+      ],
+      "objectives": [
+        "Define integrity and contrast it with opportunistic compromise",
+        "Evaluate case studies of ethical whistleblowing in Nigerian regulatory agencies"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Discipline and Contentment: Virtues for a Corrupt-Free Nigeria",
+      "subtopics": [
+        "Meaning of discipline (self-control, obedience to rules without supervision)",
+        "Meaning and attributes of contentment (satisfaction with honest earnings, avoiding greed)",
+        "Negative effects of lack of contentment: cybercrime (yahoo-yahoo), armed robbery, fraud"
+      ],
+      "objectives": [
+        "Explain how contentment shields youth from criminal get-rich-quick peer pressures",
+        "Formulate personal codes of conduct for academic and digital integrity"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Courage: Types, Attributes and Demonstration in Daily Life",
+      "subtopics": [
+        "Meaning of courage (ability to stand for what is right despite fear or intimidation)",
+        "Types of courage: physical courage vs moral courage vs spiritual courage",
+        "Demonstrating moral courage against school bullying and exam malpractice"
+      ],
+      "objectives": [
+        "Differentiate physical courage from moral courage with relatable secondary school examples",
+        "Role-play reporting an injustice to school authorities with moral firmness"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Rule of Law: Equality Before the Law and Due Process",
+      "subtopics": [
+        "A.V. Dicey's principles of the Rule of Law: supremacy of regular law, equality before the law, fundamental human liberties",
+        "Due process in legal arrest, detention, and trial in Nigerian courts",
+        "Factors that hinder the Rule of Law: executive lawlessness, judicial corruption, delay in justice delivery"
+      ],
+      "objectives": [
+        "State the three cardinal pillars of the Rule of Law formulated by A.V. Dicey",
+        "Explain why no citizen or public official is above the law in a constitutional democracy"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Protection of Human Rights and the 1948 UDHR Declaration",
+      "subtopics": [
+        "History and adoption of the Universal Declaration of Human Rights (UDHR) by the United Nations in 1948",
+        "Seven core categories of human rights (civil, political, economic, social, cultural rights)",
+        "Agencies protecting human rights in Nigeria: National Human Rights Commission (NHRC), Legal Aid Council"
+      ],
+      "objectives": [
+        "Cite major articles of the 1948 Universal Declaration of Human Rights",
+        "Explain how the National Human Rights Commission investigates abuses in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Consumer Rights and Protection Agencies: FCCPC, NAFDAC & SON",
+      "subtopics": [
+        "Consumer rights: right to safety, right to be informed, right to choose, right to redress",
+        "Federal Competition and Consumer Protection Commission (FCCPC) mandates",
+        "NAFDAC (regulation of processed food, cosmetics, drugs) and SON (Standards Organisation of Nigeria for manufactured goods)"
+      ],
+      "objectives": [
+        "Inspect product packaging for NAFDAC registration numbers, manufacturing dates, and expiry dates",
+        "Outline steps for filing a formal consumer complaint to the FCCPC over defective goods"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation on integrity, contentment, courage, rule of law, human rights, and consumer rights",
+        "Interactive human rights debate"
+      ],
+      "objectives": [
+        "Assess pupil performance against JSS 2 Civic Education standards"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Emergency Management in Nigeria: NEMA and Disaster Preparedness",
+      "subtopics": [
+        "Definition of disasters: natural disasters (flooding, windstorms) vs man-made disasters (fire, building collapse, pipeline explosion)",
+        "Establishment and roles of the National Emergency Management Agency (NEMA) and State Emergency Management Agencies (SEMA)",
+        "Emergency phone numbers and school fire evacuation drills"
+      ],
+      "objectives": [
+        "Differentiate natural disasters from preventable man-made disasters in Nigeria",
+        "Describe NEMA's search, rescue, and relief operations during flood emergencies"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Cultism in Schools: Dangers, Prevention and Legal Sanctions",
+      "subtopics": [
+        "Meaning and historical origin of secret cults in Nigerian tertiary and secondary institutions",
+        "Causes of youth involvement in cultism: search for power, peer pressure, intimidation, false protection",
+        "Consequences: violence, loss of life, expulsion from school, criminal imprisonment under state anti-cultism laws"
+      ],
+      "objectives": [
+        "Explain why secondary school students must reject invitations to secret cult gatherings",
+        "Outline severe legal and academic sanctions enacted against cult membership in Nigeria"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Drug and Substance Abuse: Roles of NDLEA and NAFDAC",
+      "subtopics": [
+        "Meaning of drug abuse: using prescription drugs without a doctor's prescription or consuming illicit substances",
+        "Commonly abused substances: tramadol, codeine cough syrups, cannabis (marijuana), Colorado, synthetic narcotics",
+        "Health and social hazards: psychosis, organ failure, crime; statutory roles of the National Drug Law Enforcement Agency (NDLEA)"
+      ],
+      "objectives": [
+        "List physical, psychological, and social effects of substance abuse on Nigerian adolescents",
+        "Describe NDLEA's interdiction and rehabilitation programs across the 36 states"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Leadership and Followership in Democratic Governance",
+      "subtopics": [
+        "Qualities of an effective democratic leader: visionary, accountable, empathetic, communicative",
+        "Qualities of constructive followers: law-abiding, constructive criticism, active civic participation",
+        "Role-playing executive leadership in school prefect councils"
+      ],
+      "objectives": [
+        "Contrast democratic leadership with autocratic and laissez-faire leadership styles",
+        "Formulate a manifesto for a student representative council election"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Civic Values Clinic",
+      "subtopics": [
+        "Review of integrity, rule of law, NEMA, cultism prevention, and leadership",
+        "Classroom civic ethics mock tribunal"
+      ],
+      "objectives": [
+        "Complete JSS 2 Civic Education Term 1 syllabus review"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal examination and grading"
+      ],
+      "objectives": [
+        "Complete JSS 2 Civic Education evaluation"
+      ]
+    }
+  ]
+}

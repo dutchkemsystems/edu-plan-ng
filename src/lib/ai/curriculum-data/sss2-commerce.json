@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Commerce",
+  "subjectCode": "COM",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/commerce-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Commerce for Senior Secondary Schools",
+    "author": "O. A. Longe",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Foreign Trade and International Commercial Terms",
+      "subtopics": ["Concept of foreign (international) trade: Visible vs invisible exports and imports", "Mercantile terms and incoterms: FOB (Free On Board), CIF (Cost, Insurance and Freight), Ex-works, COD", "Documents in international commerce: Bill of lading, consular invoice, certificate of origin, letter of credit"],
+      "objectives": ["Distinguish balance of trade from balance of payments", "Interpret FOB and CIF price quotations in foreign exchange trade contracts", "Trace the documentary credit procedure of opening an irrevocable Letter of Credit (LC) with commercial banks"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Customs and Excise, Ports Administration in Nigeria",
+      "subtopics": ["Statutory functions of the Nigeria Customs Service (NCS): Tariff collection, anti-smuggling", "Nigerian Ports Authority (NPA) and bonded terminal operations in Lagos ports (Apapa and Tin Can)", "Bonded warehouses, customs duties (ad valorem vs specific duties), and import prohibition lists"],
+      "objectives": ["Calculate ad valorem import duty on imported commercial cargo in Naira", "Explain the economic rationale of bonded warehouses for dutiable goods", "Analyze economic damages of smuggling and contraband entry on local Nigerian manufacturing"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Insurance: Principles and Business Risk Management",
+      "subtopics": ["Meaning of insurance and difference between insurance and assurance", "Basic principles: Insurable interest, utmost good faith (uberrimae fidei), indemnity, subrogation, proximate cause, contribution", "Classes: Marine insurance (hull, cargo, freight), fire insurance, motor insurance, burglary, life assurance"],
+      "objectives": ["Explain the principle of indemnity and why an insured cannot profit from a loss", "Apply the principle of contribution to double insurance claims", "Evaluate compulsory motor third-party insurance under Nigerian traffic laws"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Warehousing and Modern Logistics Systems",
+      "subtopics": ["Importance of warehousing to commerce (seasonal production balancing, security, quality maturation)", "Types: Private, public, bonded, state/cooperative warehouses", "Logistics and supply chain management: Cold chain storage for agricultural perishables"],
+      "objectives": ["Identify 4 features of a modern commercial warehouse", "Explain how cold chain warehouses prevent post-harvest tomato and fish rot in Nigeria", "Examine location factors determining where to site a central distribution hub"]
+    }
+  ]
+}

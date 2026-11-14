@@ -1,0 +1,80 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Physics",
+  "subjectCode": "PHY",
+  "version": "v1.6",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/physics-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "New School Physics for Senior Secondary Schools",
+    "author": "M.W. Anyakoha",
+    "publisher": "Africana First Publishers",
+    "edition": "Revised 5th Edition (WAEC/NERDC & Lagos OEQA Standard)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Fundamental and Derived Quantities and Units",
+      "subtopics": [
+        "SI units of fundamental quantities (length, mass, time, temperature, current)",
+        "Derived physical quantities and dimensional analysis",
+        "Measurement instruments: Vernier callipers and micrometer screw gauge"
+      ],
+      "objectives": [
+        "Identify the 7 fundamental SI base units",
+        "Determine dimensions of force, pressure, work, and power",
+        "Read Vernier calipers and micrometer gauges with precision"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Position, Distance and Displacement",
+      "subtopics": [
+        "Frame of reference and coordinates in 2D space",
+        "Scalar vs vector quantities",
+        "Resolution of vectors into rectangular components"
+      ],
+      "objectives": [
+        "Distinguish scalar distance from vector displacement",
+        "Calculate resultant vectors using parallelogram law",
+        "Resolve inclined forces into horizontal and vertical components"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Rectilinear Motion: Speed, Velocity and Acceleration",
+      "subtopics": [
+        "Uniform speed and instantaneous velocity",
+        "Acceleration and retardation",
+        "Equations of uniformly accelerated motion: v = u + at, s = ut + 0.5at², v² = u² + 2as"
+      ],
+      "objectives": [
+        "Interpret displacement-time and velocity-time graphs",
+        "Derive the three fundamental equations of motion",
+        "Calculate distance traveled from area under a velocity-time graph"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Position, Distance, Displacement and Motion Kinematics",
+      "subtopics": [
+        "Scalar and vector quantities: Definition, notation, and vector resolution",
+        "Rectilinear motion parameters: Speed, velocity, uniform acceleration, and deceleration",
+        "Derivation and graphical analysis of the three equations of uniformly accelerated motion"
+      ],
+      "objectives": [
+        "Resolve coplanar vector systems using parallelogram and trigonometric methods.",
+        "Derive the 3 fundamental kinematics equations from first velocity-time graphical principles.",
+        "Solve 5 multi-step WAEC standard numerical problems on motion under gravity."
+      ]
+    }
+  ]
+}

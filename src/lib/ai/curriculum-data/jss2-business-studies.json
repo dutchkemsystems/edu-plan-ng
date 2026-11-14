@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Business Studies",
+  "subjectCode": "BUS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/business-studies-jss2",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "WABP Junior Secondary Business Studies Book 2",
+    "author": "Ehiametalor, E. T., Makore, C., & Awoyemi, M. O.",
+    "publisher": "West African Book Publishers Ltd",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Consumer Rights and Consumer Protection Agencies",
+      "subtopics": ["Rights of consumers: Right to safety, information, choice, hearing, redress", "Statutory consumer protection agencies: FCCPC, SON, NAFDAC, CPC", "Procedure for seeking redress when supplied defective goods or fake products"],
+      "objectives": ["List 6 fundamental universal rights of consumers", "State specific regulatory mandates of NAFDAC and Standards Organisation of Nigeria (SON)", "Draft a formal complaint letter seeking refund for sub-standard merchandise"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Trade: Wholesale and Retail Trade Dynamics",
+      "subtopics": ["Wholesale trade: Functions to manufacturer and to retailer", "Retail trade: Itinerant trading, roadside shops, supermarkets, convenience stores", "Distribution channels and reasons for eliminating the middleman"],
+      "objectives": ["Distinguish wholesalers from retailers in Nigerian trade channels", "Explain how wholesalers finance small-scale producers through cash advances", "Evaluate consumer price effects of buying directly from factories"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Bookkeeping: Source Documents and Business Transactions",
+      "subtopics": ["Meaning and purpose of commercial source documents", "Types: Invoice, proforma invoice, receipt, credit note, debit note, payment voucher", "Extracting accounting figures from transaction slips in Naira"],
+      "objectives": ["Identify 5 primary bookkeeping source documents", "Explain the difference between a Debit Note and a Credit Note", "Fill out a standard commercial receipt and payment voucher accurately"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "The Cash Book: Single-Column Cash Book",
+      "subtopics": ["Meaning, ruling, and format of a single-column Cash Book", "Debit entries (receipts of cash) vs credit entries (payments of cash)", "Balancing the Cash Book: Balance c/d and b/d"],
+      "objectives": ["Rule a standard single-column Cash Book with date, particulars, folio, amount", "Post 10 hypothetical cash transactions into the Cash Book", "Calculate closing balance and bring down opening balance for the new trading month"]
+    }
+  ]
+}

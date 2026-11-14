@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Marketing & Salesmanship",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-marketing.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Introduction to Marketing: Definition, marketing philosophy, and role in Nigerian economic growth",
+      "learningObjectives": [
+        "Define marketing according to the Chartered Institute of Marketing (CIM) and American Marketing Association (AMA)",
+        "Distinguish between marketing, selling, and advertising",
+        "Explain the importance of marketing in wealth creation, employment, and living standards in Nigeria"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Evolution of Marketing Concepts: Production, product, selling, marketing, and societal marketing",
+      "learningObjectives": [
+        "Trace the historical progression of business orientations from the Industrial Revolution to date",
+        "Compare the inward focus of the production concept with the consumer focus of the marketing concept",
+        "Explain the societal marketing concept balancing corporate profits, consumer satisfaction, and public welfare"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Marketing Environment: Micro-environment (suppliers, customers, competitors) and Macro-environment",
+      "learningObjectives": [
+        "Identify internal and external actors influencing marketing operations",
+        "Analyze macro-environmental PESTEL forces (political, economic, socio-cultural, technological, environmental, legal)",
+        "Examine how inflation and exchange rates affect commercial purchasing in Nigerian retail markets"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Consumer Markets vs Organizational/Industrial Markets: Characteristics and buying motives",
+      "learningObjectives": [
+        "Differentiate between B2C (Business-to-Consumer) and B2B (Business-to-Business) market structures",
+        "Analyze emotional and rational buying motives influencing domestic household purchases",
+        "Explain organizational buying characteristics: derived demand, formal purchasing procedures, and buying centers"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "The Marketing Mix: The Traditional 4 Ps (Product, Price, Place, Promotion) and Modern 7 Ps",
+      "learningObjectives": [
+        "Explain each of the 4 Ps and their strategic integration in market campaigns",
+        "Introduce the extended 3 Ps for services marketing: People, Process, and Physical Evidence",
+        "Formulate a balanced marketing mix strategy for a newly introduced consumer beverage in Lagos"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Product Planning and Classification: Consumer goods and industrial goods",
+      "learningObjectives": [
+        "Define a product as a bundle of tangible and intangible satisfaction",
+        "Classify consumer goods into convenience, shopping, specialty, and unsought goods",
+        "Classify industrial goods into raw materials, capital items, manufactured parts, and supplies"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Business Case Study Simulation",
+      "learningObjectives": [
+        "Assess student comprehension of marketing concepts, environmental scanning, and the 4 Ps",
+        "Evaluate student case study analysis diagnosing declining product sales in local retail stores",
+        "Provide remedial instruction on distinguishing between selling and customer-oriented marketing"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Product Life Cycle (PLC): Introduction, growth, maturity, and decline stages",
+      "learningObjectives": [
+        "Draw and label the standard S-shaped Product Life Cycle curve",
+        "Describe sales volume, cost structures, competition, and profits across each PLC stage",
+        "Formulate marketing strategies for reviving mature consumer brands facing decline"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Branding, Packaging, and Labeling: Strategic roles in consumer product differentiation",
+      "learningObjectives": [
+        "Define brand name, trademark, brand equity, and brand loyalty",
+        "Explain protective, promotional, and informational functions of packaging",
+        "Detail statutory labeling requirements mandated by NAFDAC and SON on packaged goods"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Pricing Concepts and Strategies: Cost-plus, skimming, penetration, and psychological pricing",
+      "learningObjectives": [
+        "Explain internal and external factors influencing pricing decisions",
+        "Calculate selling prices using cost-plus / markup pricing models in Naira",
+        "Differentiate market skimming for innovative electronics from penetration pricing for everyday FMCG products"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Salesmanship: Attributes of an effective sales representative and sales ethics",
+      "learningObjectives": [
+        "Define personal selling and highlight qualities of successful salespeople (product knowledge, empathy, resilience)",
+        "Explain stages in the personal selling process (prospecting, pre-approach, approach, presentation, closing, follow-up)",
+        "Examine professional sales ethics and avoiding deceitful claims regarding product performance"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive Termly Marketing Revision & Product Pitch Presentations",
+      "learningObjectives": [
+        "Review key principles of product design, pricing formulas, and salesmanship techniques",
+        "Conduct mock product pitch presentations before student panels with peer critique",
+        "Practice past WASSCE and NECO Marketing Paper 1 objective and Paper 2 essay questions"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer official SSS 1 Marketing end-of-term examination",
+        "Grade theory and objective scripts in accordance with WAEC standardized scoring keys",
+        "Record and publish official continuous assessment and examination results"
+      ]
+    }
+  ]
+}

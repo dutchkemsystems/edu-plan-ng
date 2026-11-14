@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Home Economics",
+  "subjectCode": "HEC",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/home-economics-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Home Economics for Junior Secondary Schools Book 1",
+    "author": "Elizabeth U. Anyakoha",
+    "publisher": "Africana First Publishers Plc",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning and Scope of Home Economics",
+      "subtopics": ["Definition and objectives of Home Economics", "Three major areas: Food and Nutrition, Clothing and Textiles, Home Management", "Career opportunities: Dietitians, fashion designers, caterers, interior decorators"],
+      "objectives": ["Define Home Economics accurately", "List the three main integrated areas of study", "Identify 4 career paths available to Home Economics students in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "The Human Body: Care of Hands, Feet, Teeth and Skin",
+      "subtopics": ["Structure of the skin and hair", "Daily care of teeth, preventing dental caries and plaque", "Care of hands, feet, and trimming nails cleanly"],
+      "objectives": ["Diagram the structure of the human skin showing sweat glands", "Explain the causes of tooth decay and demonstrate correct tooth brushing techniques", "Outline daily personal grooming habits for adolescents"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Puberty, Adolescence and Personal Hygiene",
+      "subtopics": ["Physical and emotional changes during puberty in boys and girls", "Menstruation and menstrual hygiene management", "Personal hygiene rules, clean clothing, and managing body odor"],
+      "objectives": ["Identify secondary sexual characteristics in adolescent boys and girls", "Explain safe menstrual hygiene practices and disposal of sanitary materials", "Differentiate healthy peer relationships from risky adolescent behavior"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Sewing Tools and Basic Sewing Stitches",
+      "subtopics": ["Classification of sewing tools: Measuring, marking, cutting, sewing equipment", "Care and safety when using scissors, pins, and needles", "Temporary stitches (even basting) vs permanent stitches (running stitch, backstitch)"],
+      "objectives": ["Identify 6 basic manual needlework tools", "Demonstrate threading a needle and sewing a flat running stitch sample", "Distinguish temporary basting stitches from permanent backstitches"]
+    }
+  ]
+}

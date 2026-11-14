@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Geography",
+  "subjectCode": "GEO",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/geography-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Geography for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Map Work: Contours and Topographic Landforms",
+      "subtopics": ["Interpretation of contour lines: Uniform slope, concave slope, convex slope, stepped slope", "Landforms on 1:50,000 maps: Valleys, spurs, cols, ridges, knolls, plateaus, cliffs, escarpments", "Intervisibility between two points and gradient calculation (Vertical Interval / Horizontal Equivalent)"],
+      "objectives": ["Identify 6 standard relief features represented by contour patterns on topographical sheets", "Calculate topographical gradient between two spot heights", "Draw a cross-sectional relief profile between two given points on a WAEC map"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Weather, Climate and Elements of the Atmosphere",
+      "subtopics": ["Distinction between weather and climate", "Meteorological instruments: Stevenson screen, maximum and minimum thermometer, hygrometer, barometer, wind vane, anemometer, rain gauge", "Factors influencing world climates: Latitude, altitude, continentality, ocean currents, prevailing winds"],
+      "objectives": ["Describe the construction and placement rules of a standard meteorological Stevenson screen", "Calculate mean monthly temperature, annual temperature range, and total annual rainfall from climatic tables", "Explain why Jos Plateau experiences cooler temperatures than surrounding northern lowlands"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Hydrological Cycle and River Action Landforms",
+      "subtopics": ["Processes of the hydrological cycle: Evaporation, evapotranspiration, condensation, precipitation, runoff, infiltration", "Stages of a river course: Youth/upper course (V-shaped valleys, waterfalls, gorges)", "Mature/middle course (meanders, river cliffs) and old/lower course (ox-bow lakes, braided channels, deltas)"],
+      "objectives": ["Diagram the closed hydrological water cycle with all transfer and storage pathways", "Explain the hydraulic mechanisms of river erosion (corrasion, attrition, solution, hydraulic action)", "Describe the developmental stages of an ox-bow lake using progressive diagrams"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Action of Wind and Water in Arid Regions",
+      "subtopics": ["Wind erosion mechanisms: Deflation and abrasion", "Erosional landforms in deserts: Rock pedestals, zeugens, yardangs, inselbergs, deflation hollows", "Wind deposition features: Barchan dunes, seif dunes, loess deposits"],
+      "objectives": ["Distinguish wind deflation from wind abrasion", "Draw and label a typical zeugen and yardang illustrating differential rock hardness", "Explain the asymmetric cross-section and crescent shape of a sand barchan dune"]
+    }
+  ]
+}

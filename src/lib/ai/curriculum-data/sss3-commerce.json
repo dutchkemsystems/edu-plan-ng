@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Commerce",
+  "subjectCode": "COM",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/commerce-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Commerce for Senior Secondary Schools",
+    "author": "O. A. Longe",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The Nigerian Capital Market and the Stock Exchange",
+      "subtopics": ["The Nigerian Exchange Group (NGX): Functions, operations, listing requirements", "Primary capital market (initial public offerings - IPOs) vs secondary market (trading existing shares)", "Securities and Exchange Commission (SEC): Statutory regulatory oversight and investor protection"],
+      "objectives": ["Explain 5 functions of the stock exchange in mobilizing long-term corporate capital", "Differentiate equity shares from fixed-interest bonds and debentures", "Describe the role of stockbrokers, registrars, and issuing houses during an IPO"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Business Mergers, Acquisitions and Takeovers",
+      "subtopics": ["Forms of business combinations: Horizontal, vertical, conglomerate, and lateral integration", "Motivations for mergers: Economies of scale, eliminating competition, expanding market share, diversification", "Regulatory approvals under the Federal Competition and Consumer Protection Act (FCCPA 2018)"],
+      "objectives": ["Compare horizontal mergers with vertical backward/forward integrations", "Analyze real-world mergers in the Nigerian banking sector (e.g. Access Bank acquisition of Diamond Bank)", "Assess anti-monopoly powers of the FCCPC in preventing market cartels"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Electronic Commerce, Digital Marketing and FinTech in Nigeria",
+      "subtopics": ["E-commerce models: B2B, B2C, C2C, and B2G frameworks", "Electronic payment platforms: NIBSS Instant Payments (NIP), debit cards, QR codes, POS terminals, and e-wallets", "Legal frameworks and consumer redress for cyber frauds in electronic banking"],
+      "objectives": ["Identify advantages and security vulnerabilities of electronic commercial transactions", "Explain the operational role of NIBSS in inter-bank funds transfers in Nigeria", "Outline statutory requirements for electronic merchants under the Cybercrime Act 2015"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Trade Associations and Chambers of Commerce",
+      "subtopics": ["Chambers of Commerce (e.g. LCCI - Lagos Chamber of Commerce and Industry): Aims and services to businesses", "Trade associations (Manufacturers Association of Nigeria - MAN, NACCIMA): Protecting industrial interests", "Trade fairs and international trade exhibitions in economic promotion"],
+      "objectives": ["State 4 functions of the Lagos Chamber of Commerce and Industry (LCCI)", "Explain how the Manufacturers Association of Nigeria (MAN) lobbies government on foreign exchange policy", "Evaluate benefits of attending the annual Lagos International Trade Fair"]
+    }
+  ]
+}

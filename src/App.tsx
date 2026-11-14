@@ -6,9 +6,11 @@ import { NotificationModal } from './components/NotificationModal.tsx';
 import { OnboardingModal } from './components/OnboardingModal.tsx';
 import { AuthModal } from './components/AuthModal.tsx';
 import { PaywallModal } from './components/PaywallModal.tsx';
+import { UpgradeModal } from './components/UpgradeModal.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import { PWAInstallBanner } from './components/PWAInstallBanner.tsx';
 import { checkUserAccess } from './lib/trial.ts';
+import { resolveClientTierSummary } from './config/pricing.ts';
 
 // Pages
 import { LandingPage } from './pages/LandingPage.tsx';
@@ -61,7 +63,8 @@ import {
   createLessonPlan,
   signOutUser
 } from './lib/api.ts';
-import { Menu, WifiOff, Download, Sparkles, LogOut } from 'lucide-react';
+import { Menu, WifiOff, Download, Sparkles, LogOut, Clock } from 'lucide-react';
+import { useInactivityTimeout } from './hooks/useInactivityTimeout.ts';
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState<string>(() => {
@@ -102,7 +105,29 @@ export default function App() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
-  const [selectedPlanForCheckout, setSelectedPlanForCheckout] = useState<string>('full_session');
+  const [selectedPlanForCheckout, setSelectedPlanForCheckout] = useState<string>('b2c_session');
+  const [inactivityNotice, setInactivityNotice] = useState<string | null>(null);
+  const [upgradePrompt, setUpgradePrompt] = useState<{
+    open: boolean;
+    message: string;
+    requiredTier?: string;
+    title?: string;
+  }>({ open: false, message: '' });
+
+  const openUpgradeModal = (message: string, requiredTier?: string, title?: string) => {
+    setUpgradePrompt({ open: true, message, requiredTier, title });
+  };
+
+  // 10-Minute Inactivity Auto-Logout Tracker (Phase 6)
+  useInactivityTimeout({
+    isAuthenticated: Boolean(user),
+    onTimeout: (msg) => {
+      setUser(null);
+      setInactivityNotice(msg);
+      setIsAuthOpen(true);
+      setCurrentRoute('landing');
+    },
+  });
 
   // PWA Offline status
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
@@ -127,35 +152,41 @@ export default function App() {
     };
     window.addEventListener('hashchange', handleHashSync);
 
-    // SSE notification stream
+    // SSE notification stream (only when authenticated/on non-landing workspace or softly handled)
+    let eventSource: EventSource | null = null;
     try {
-      const eventSource = new EventSource('/api/notifications/stream');
+      eventSource = new EventSource('/api/notifications/stream');
       eventSource.onmessage = (e) => {
         try {
           const data = JSON.parse(e.data);
           if (data.type === 'unread_sync' && typeof data.unreadCount === 'number') {
             setUnreadCount(data.unreadCount);
           }
-        } catch (err) {
+        } catch {
           // ignore
         }
       };
-      return () => {
-        eventSource.close();
-        window.removeEventListener('online', handleOnline);
-        window.removeEventListener('offline', handleOffline);
-        window.removeEventListener('hashchange', handleHashSync);
+      eventSource.onerror = () => {
+        eventSource?.close();
       };
-    } catch (e) {
+    } catch {
       // SSE fallback
     }
 
     return () => {
+      eventSource?.close();
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
       window.removeEventListener('hashchange', handleHashSync);
     };
   }, []);
+
+  // Safely redirect authenticated users away from the dedicated login route
+  useEffect(() => {
+    if (currentRoute === 'login' && user) {
+      setCurrentRoute('dashboard');
+    }
+  }, [currentRoute, user]);
 
   const loadInitialData = async () => {
     try {
@@ -259,9 +290,8 @@ export default function App() {
     );
   }
 
-  // TASK 3: Route Guard - If already authenticated, redirect away from login directly to dashboard
+  // Route Guard - authenticated users on login route transition via useEffect above
   if (currentRoute === 'login' && user) {
-    setCurrentRoute('dashboard');
     return null;
   }
 
@@ -270,8 +300,28 @@ export default function App() {
   if (!user && protectedRoutes.includes(currentRoute)) {
     return (
       <ErrorBoundary>
+        {inactivityNotice && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-lg w-[92%] bg-red-900/95 text-white p-4 rounded-2xl shadow-2xl border border-red-700/80 flex items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-red-800 flex items-center justify-center shrink-0">
+                <Clock className="w-4 h-4 text-red-200" />
+              </div>
+              <div>
+                <p className="text-xs font-bold leading-tight">Session Expired</p>
+                <p className="text-[11px] text-red-100 mt-0.5">{inactivityNotice}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setInactivityNotice(null)}
+              className="p-1 px-2 rounded-lg hover:bg-red-800 text-red-200 hover:text-white text-xs font-bold transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         <LoginPage
           onSuccess={() => {
+            setInactivityNotice(null);
             loadInitialData();
             setCurrentRoute('dashboard');
           }}
@@ -287,8 +337,28 @@ export default function App() {
   if (currentRoute === 'login') {
     return (
       <ErrorBoundary>
+        {inactivityNotice && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-lg w-[92%] bg-red-900/95 text-white p-4 rounded-2xl shadow-2xl border border-red-700/80 flex items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-red-800 flex items-center justify-center shrink-0">
+                <Clock className="w-4 h-4 text-red-200" />
+              </div>
+              <div>
+                <p className="text-xs font-bold leading-tight">Session Expired</p>
+                <p className="text-[11px] text-red-100 mt-0.5">{inactivityNotice}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setInactivityNotice(null)}
+              className="p-1 px-2 rounded-lg hover:bg-red-800 text-red-200 hover:text-white text-xs font-bold transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         <LoginPage
           onSuccess={() => {
+            setInactivityNotice(null);
             loadInitialData();
             setCurrentRoute('dashboard');
           }}
@@ -301,6 +371,7 @@ export default function App() {
   }
 
   const userAccess = checkUserAccess(user);
+  const tierSummary = resolveClientTierSummary(user, stats);
 
   // Render Frontpage / Landing page if selected
   if (currentRoute === 'landing') {
@@ -342,7 +413,7 @@ export default function App() {
           isOpen={isPaywallOpen}
           onClose={() => setIsPaywallOpen(false)}
           user={user}
-          selectedPlanId={selectedPlanForCheckout || 'full_session'}
+          selectedPlanId={selectedPlanForCheckout || 'b2c_session'}
           isExpiredTrial={userAccess.isTrialExpired && !userAccess.hasActiveSubscription}
           onSuccess={() => {
             setIsPaywallOpen(false);
@@ -355,26 +426,49 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col selection:bg-emerald-200 selection:text-emerald-950">
-      {/* 24-Hour Free Trial Countdown Alert Banner */}
-      {userAccess.isTrialActive && (
-        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 text-white text-xs py-2 px-4 border-b border-amber-400/30 flex flex-wrap items-center justify-between gap-3 shadow-xs">
-          <div className="flex items-center gap-2">
+      {/* Dynamic Active Subscription & Quota Status Strip */}
+      {user && (
+        <div
+          className={`text-white text-xs py-2 px-4 border-b flex flex-wrap items-center justify-between gap-3 shadow-xs ${
+            tierSummary.category === 'b2g'
+              ? 'bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 border-blue-400/30'
+              : tierSummary.tierId === 'b2b_gold'
+              ? 'bg-gradient-to-r from-slate-950 via-amber-950 to-slate-900 border-amber-400/40'
+              : 'bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 border-emerald-400/30'
+          }`}
+        >
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase">
-              24-Hour Free Trial Active
+              {tierSummary.segmentLabel} · {tierSummary.config.name}
             </span>
             <span className="text-slate-200">
-              You have <strong>{userAccess.hoursRemaining} hours remaining</strong> of unrestricted access to all NERDC and OEQA tools.
+              {tierSummary.isExpired ? (
+                <strong className="text-rose-300">Subscription expired — operating on 5-Day Trial limits.</strong>
+              ) : (
+                <>
+                  <strong>{tierSummary.daysRemaining} days left</strong> • AI Quota:{' '}
+                  <strong>
+                    {tierSummary.maxGenerationsTotal !== null
+                      ? `${tierSummary.totalGenerated}/${tierSummary.maxGenerationsTotal} total`
+                      : `${tierSummary.usedToday}/${tierSummary.dailyFairUseCap} today`}
+                  </strong>{' '}
+                  • <strong>{tierSummary.config.allowedSourcesCount}/6 Sources</strong>
+                </>
+              )}
             </span>
           </div>
-          <button
-            onClick={() => {
-              setSelectedPlanForCheckout('full_session');
-              setIsPaywallOpen(true);
-            }}
-            className="px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-colors"
-          >
-            Upgrade to Full Session (₦3,000 Best Value)
-          </button>
+          {tierSummary.tierId !== 'b2g_state_platinum' && (
+            <button
+              onClick={() => setCurrentRoute('pricing')}
+              className="px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-colors"
+            >
+              {tierSummary.isTrial
+                ? 'Upgrade Plan (Remove Watermark & Unlock Tools)'
+                : tierSummary.category === 'b2b'
+                ? 'Manage School Tier'
+                : 'Upgrade / Manage Plan'}
+            </button>
+          )}
         </div>
       )}
       {/* WCAG 2.1 AA Skip Navigation Link */}
@@ -398,6 +492,7 @@ export default function App() {
         onLogout={handleLogout}
         unreadCount={unreadCount}
         user={user}
+        stats={stats}
         onNavigate={setCurrentRoute}
         streak={stats?.currentStreak || 5}
       />
@@ -438,6 +533,8 @@ export default function App() {
           currentLang={currentLang}
           isOpenMobile={isMobileNavOpen}
           onCloseMobile={() => setIsMobileNavOpen(false)}
+          user={user}
+          stats={stats}
         />
 
         {/* Content Viewport with WCAG Landmark */}
@@ -458,11 +555,15 @@ export default function App() {
               onNavigate={setCurrentRoute}
               onSelectPlan={handleSelectPlan}
               onDuplicatePlan={handleDuplicatePlan}
+              onOpenUpgrade={openUpgradeModal}
             />
           )}
 
           {currentRoute === 'ai-coach' && (
             <AITeacherCoachPage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onNavigateToComposer={() => setCurrentRoute('lesson-plans-new')}
               onNavigateToCopilot={() => setCurrentRoute('ai-copilot')}
             />
@@ -470,6 +571,9 @@ export default function App() {
 
           {currentRoute === 'curriculum' && (
             <CurriculumBrowser
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onCreatePlanFromTopic={handleCreatePlanFromTopic}
             />
           )}
@@ -477,6 +581,9 @@ export default function App() {
           {currentRoute === 'lesson-plans' && (
             <LessonPlansList
               plans={plans}
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onSelectPlan={handleSelectPlan}
               onCreateNew={() => {
                 setActivePlanId(null);
@@ -485,7 +592,10 @@ export default function App() {
               }}
               onDuplicatePlan={handleDuplicatePlan}
               onDeletePlan={handleDeletePlan}
-              onBatchPlansCreated={(newPlans) => setPlans([...newPlans, ...plans])}
+              onBatchPlansCreated={(newPlans) => {
+                setPlans([...newPlans, ...plans]);
+                loadInitialData();
+              }}
             />
           )}
 
@@ -494,6 +604,9 @@ export default function App() {
               topic={activePlan?.title || initialTopicForComposer?.topic || 'Transport System: Human Circulatory Anatomy & Heart Mechanics'}
               subject={activePlan?.subject || (initialTopicForComposer as any)?.subjectName || 'Biology'}
               level={activePlan?.level || initialTopicForComposer?.levelId || 'sss1'}
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onBack={() => setCurrentRoute('lesson-plans')}
             />
           )}
@@ -548,6 +661,10 @@ export default function App() {
                     })()
                   : null)
               }
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
+              onPlanQuotaChanged={loadInitialData}
               onBack={() => setCurrentRoute('lesson-plans')}
               onSaved={handlePlanSaved}
             />
@@ -555,6 +672,9 @@ export default function App() {
 
           {currentRoute === 'schemes' && (
             <SchemeOfWorkPage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onPlanTopic={(topicData) => {
                 setInitialTopicForComposer({
                   id: `sow_plan_${Date.now()}`,
@@ -588,9 +708,13 @@ export default function App() {
             />
           )}
 
-          {currentRoute === 'assessments' && <AssessmentsPage />}
+          {currentRoute === 'assessments' && (
+            <AssessmentsPage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
-          {currentRoute === 'grades' && <GradeBookPage />}
+          {currentRoute === 'grades' && (
+            <GradeBookPage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
           {currentRoute === 'resources' && <ResourcesPage />}
 
@@ -598,16 +722,23 @@ export default function App() {
 
           {currentRoute === 'calendar' && <CalendarPage />}
 
-          {currentRoute === 'timetable' && <TimetablePage />}
+          {currentRoute === 'timetable' && (
+            <TimetablePage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
           {currentRoute === 'sms-access' && <SMSAccessPage />}
 
           {currentRoute === 'oeqa' && <OEQAPage />}
 
-          {currentRoute === 'parent-comms' && <ParentCommsPage />}
+          {currentRoute === 'parent-comms' && (
+            <ParentCommsPage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
           {currentRoute === 'community' && (
             <CommunityLibraryPage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onPlanForked={(plan) => {
                 setPlans([plan, ...plans]);
                 handleSelectPlan(plan.id);
@@ -617,6 +748,9 @@ export default function App() {
 
           {currentRoute === 'marketplace' && (
             <MarketplacePage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
               onNavigateToComposer={(planId) => {
                 handleSelectPlan(planId);
               }}
@@ -625,16 +759,33 @@ export default function App() {
 
           {currentRoute === 'live-poll' && <LivePollPage />}
 
-          {currentRoute === 'stem-lab' && <STEMLabPage />}
+          {currentRoute === 'stem-lab' && (
+            <STEMLabPage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
-          {currentRoute === 'ai-copilot' && <AIPedagogicalCoPilotPage />}
+          {currentRoute === 'ai-copilot' && (
+            <AIPedagogicalCoPilotPage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
+            />
+          )}
 
-          {currentRoute === 'ministry' && <MinistryCommandPage />}
+          {currentRoute === 'ministry' && (
+            <MinistryCommandPage user={user} stats={stats} onOpenUpgrade={openUpgradeModal} />
+          )}
 
-          {currentRoute === 'admin' && <AdminDashboardPage user={user} />}
+          {currentRoute === 'admin' && (
+            <AdminDashboardPage
+              user={user}
+              stats={stats}
+              onOpenUpgrade={openUpgradeModal}
+              onNavigate={setCurrentRoute}
+            />
+          )}
 
           {currentRoute === 'pricing' && (
-            <PricingPage user={user} onPlanUpgraded={loadInitialData} />
+            <PricingPage user={user} onPlanUpgraded={loadInitialData} onNavigate={setCurrentRoute} />
           )}
 
           {currentRoute === 'settings' && (
@@ -724,15 +875,52 @@ export default function App() {
         }}
       />
 
+      {inactivityNotice && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-lg w-[92%] bg-red-900/95 text-white p-4 rounded-2xl shadow-2xl border border-red-700/80 flex items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-red-800 flex items-center justify-center shrink-0">
+              <Clock className="w-4 h-4 text-red-200" />
+            </div>
+            <div>
+              <p className="text-xs font-bold leading-tight">Session Expired</p>
+              <p className="text-[11px] text-red-100 mt-0.5">{inactivityNotice}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setInactivityNotice(null)}
+            className="p-1 px-2 rounded-lg hover:bg-red-800 text-red-200 hover:text-white text-xs font-bold transition-colors"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       <PaywallModal
         isOpen={isPaywallOpen}
         onClose={() => setIsPaywallOpen(false)}
         user={user}
-        selectedPlanId={selectedPlanForCheckout || 'full_session'}
+        selectedPlanId={selectedPlanForCheckout || 'b2c_session'}
         isExpiredTrial={userAccess.isTrialExpired && !userAccess.hasActiveSubscription}
         onSuccess={() => {
           setIsPaywallOpen(false);
           loadInitialData();
+        }}
+      />
+
+      <UpgradeModal
+        isOpen={upgradePrompt.open}
+        onClose={() => setUpgradePrompt((prev) => ({ ...prev, open: false }))}
+        title={upgradePrompt.title}
+        message={upgradePrompt.message}
+        requiredTier={upgradePrompt.requiredTier}
+        onNavigateToPricing={() => {
+          setUpgradePrompt((prev) => ({ ...prev, open: false }));
+          setCurrentRoute('pricing');
+        }}
+        onDirectCheckout={(tierId) => {
+          setUpgradePrompt((prev) => ({ ...prev, open: false }));
+          setSelectedPlanForCheckout(tierId);
+          setIsPaywallOpen(true);
         }}
       />
     </div>

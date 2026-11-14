@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Agricultural Science",
+  "subjectCode": "AGR",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/agricultural-science-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Agricultural Science for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Agronomy of Major Cereal and Legume Crops",
+      "subtopics": ["Cultivation of Maize (Zea mays): Soil preparation, planting spacing, weed control, harvesting", "Cultivation of Cowpea (Vigna unguiculata): Inoculation with Rhizobium, pest control, storage", "Economic importance, post-harvest losses, and storage in hermetic bags"],
+      "objectives": ["State recommended plant population per hectare for hybrid maize", "Describe the life cycle and chemical control of the cowpea pod borer (Maruca)", "Explain advantages of Purdue Improved Crop Storage (PICS) bags"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Plant Pathology: Fungal, Bacterial and Viral Crop Diseases",
+      "subtopics": ["Fungal diseases: Maize rust, cocoa black pod (Phytophthora), groundnut leaf spot", "Bacterial and viral diseases: Cassava mosaic disease (CMD), bacterial blight", "Symptoms, vectors (whitefly Bemisia tabaci), economic damage, and integrated pest management (IPM)"],
+      "objectives": ["Classify major tropical crop diseases by pathogen", "Describe mode of transmission of cassava mosaic virus", "Formulate an integrated disease management protocol for a cocoa plantation"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Animal Reproduction and Artificial Insemination",
+      "subtopics": ["Reproductive anatomy of bull, cow, ram, and ewe", "Estrous cycle, heat detection signs, ovulation, gestation periods in cattle (283 days)", "Artificial Insemination (AI): Semen collection, cryopreservation in liquid nitrogen, insemination technique"],
+      "objectives": ["Draw and label male and female reproductive tracts of ruminants", "Identify 4 behavioral symptoms of estrus (heat) in dairy cows", "Evaluate benefits of AI in genetic improvement of indigenous White Fulani cattle"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Animal Nutrition: Digestibility and Pearson Square Ration Formulation",
+      "subtopics": ["Apparent digestibility calculation: (Nutrient consumed - Nutrient in feces) / Nutrient consumed", "Metabolizable energy and total digestible nutrients (TDN)", "Pearson Square method for balancing crude protein (CP) in livestock feed"],
+      "objectives": ["Calculate percentage digestibility of crude protein from metabolism trial data", "Use Pearson Square to formulate a 20% crude protein broiler finisher feed using maize (9% CP) and soybean meal (44% CP)", "Explain economic consequences of feeding sub-optimal protein rations"]
+    }
+  ]
+}

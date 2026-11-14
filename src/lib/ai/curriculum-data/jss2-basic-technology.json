@@ -1,0 +1,197 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Basic Technology",
+  "subjectCode": "BTECH",
+  "version": "v1.7",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-basic-technology",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Technology for Junior Secondary Schools 2",
+    "author": "G.N. Nneji, O.M. Olaitan",
+    "publisher": "Evans Brothers Nigeria Publishers",
+    "edition": "UBE Edition (Lagos Unified Scheme Compliant)",
+    "isGovernmentApproved": true,
+    "approvedBy": "Lagos State Ministry of Basic Education & NERDC",
+    "approvalDate": "2026-09-01"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "First-Angle Orthographic Projection: Principal Planes and Standard Views",
+      "subtopics": [
+        "Concept of projection and difference between pictorial and orthographic drawings",
+        "Principal planes of projection: Vertical Plane (VP) and Horizontal Plane (HP)",
+        "Arrangement of views in First Angle: Front Elevation on top, Plan directly below, End Elevation on side"
+      ],
+      "objectives": [
+        "Draw the international first-angle projection symbol",
+        "Project the Front Elevation, Plan, and End Elevation of a stepped block with accurate alignment"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Isometric Drawing vs Oblique Projection: Angles and Axes",
+      "subtopics": [
+        "Isometric projection axes: vertical axis and two receding axes inclined at 30° to horizontal",
+        "Isometric box construction technique for shaping curved or irregular objects",
+        "Oblique projection: front face drawn true to shape with receding axis at 45° (Cabinet vs Cavalier)"
+      ],
+      "objectives": [
+        "Construct an isometric block drawing using a 30°/60° set-square and T-Square",
+        "Differentiate isometric from oblique projections in technical drafting"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Metalwork Hand Tools: Hacksaws, Files, Chisels & Bench Vice",
+      "subtopics": [
+        "Holding tools: engineer's bench vice, vice clamps (soft jaws to protect workpieces)",
+        "Hacksaw frame and blade mounting (teeth must point forward away from handle)",
+        "Types of engineering files: flat, hand, half-round, triangular, round, square",
+        "Cold chisels: flat, crosscut, round nose, diamond point"
+      ],
+      "objectives": [
+        "Mount a hacksaw blade with correct tension and teeth facing forward",
+        "Execute cross-filing and draw-filing techniques on mild steel plates"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Woodwork Processing Machines: Circular Saw, Planer and Lathe",
+      "subtopics": [
+        "Functions and operations of the circular saw (ripping and crosscutting timber)",
+        "Surface planer and thicknesser (producing smooth, uniform wooden boards)",
+        "Wood turning lathe: turning table legs, bowls, and spindles between centers"
+      ],
+      "objectives": [
+        "Identify parts of a circular saw machine: riving knife, crown guard, rip fence",
+        "State safety precautions when operating high-speed woodworking machinery"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Metalwork Machine Tools: The Center Lathe & Drilling Machine",
+      "subtopics": [
+        "The center lathe machine: headstock, tailstock, carriage, tool post, lead screw, bed",
+        "Lathe operations: turning, facing, chamfering, knurling, parting off",
+        "Sensitive bench drilling machine and pillar drill press: chuck, spindle, depth stop"
+      ],
+      "objectives": [
+        "Identify principal assemblies of the center lathe machine",
+        "Explain facing and cylindrical turning operations on metal workpieces"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Friction in Machines: Lubrication, Bearings & Power Loss",
+      "subtopics": [
+        "Effects of friction on industrial machine performance (wear, heat, power loss)",
+        "Methods of reducing friction: liquid lubricants (engine oils), solid lubricants (graphite, grease)",
+        "Types of bearings: journal (plain) bearings, ball bearings, roller bearings"
+      ],
+      "objectives": [
+        "Explain why machine bearings prevent rapid metal-on-metal abrasion",
+        "Select appropriate lubricant viscosity for motor vehicle engines and gearboxes"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on orthographic projection, metalwork tools, machines, and friction",
+        "Practical drafting test"
+      ],
+      "objectives": [
+        "Assess pupil mastery against JSS 2 technical benchmarks"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Digital Fabrication, Elementary Robotics & Clean Energy in Nigeria",
+      "subtopics": [
+        "Introduction to automated machines and solar energy conversions",
+        "Safety protocols in technology laboratories and workshops",
+        "Local assembly of emergency solar lanterns and circuit testing"
+      ],
+      "objectives": [
+        "Identify 3 clean energy sources in Nigeria.",
+        "Demonstrate safe handling of basic solar panels and DC meters.",
+        "Formulate a schematic diagram of a residential solar inverter setup."
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Mechanical Drives II: Gears and Gear Trains",
+      "subtopics": [
+        "Types of gears: spur gears (parallel shafts), bevel gears (intersecting shafts at 90°), worm and wheel (high speed reduction)",
+        "Gear ratio formula: Gear Ratio = Number of teeth on driven gear / Number of teeth on driver gear",
+        "Direction of rotation in meshed gears (adjacent meshed gears rotate in opposite directions)"
+      ],
+      "objectives": [
+        "Calculate gear speed ratios and output torque for 2-gear and 3-gear gear trains",
+        "Explain the role of an idler gear in reversing rotational direction without altering speed ratio"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Building Construction I: Site Preparation & Setting Out (3-4-5 Method)",
+      "subtopics": [
+        "Site clearing, removal of vegetable topsoil, and leveling",
+        "Setting out building foundations using profile boards, builder's line, pegs, and plumb bob",
+        "The 3-4-5 builder's square theorem for establishing exact 90° right angles at building corners"
+      ],
+      "objectives": [
+        "Demonstrate the 3-4-5 mathematical triangulation method on the school field",
+        "Construct profile boards and mark trench lines for strip foundations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Energy Conversion Systems: Generators, Batteries and Solar Panels",
+      "subtopics": [
+        "Electromechanical energy conversion: petrol/diesel generators converting mechanical to electrical energy",
+        "Chemical cells: primary dry cells vs secondary lead-acid wet accumulator batteries",
+        "Photovoltaic solar panels: converting sunlight directly into DC electricity in Nigerian homes"
+      ],
+      "objectives": [
+        "Trace energy transformations from fuel combustion to domestic light output",
+        "Connect solar photovoltaic panels in series and parallel to supply specified voltage and current"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Machine Safety Masterclass",
+      "subtopics": [
+        "Review of orthographic drawing, mechanical drives, lathe machines, and building construction",
+        "Practical engineering drafting and workshop examination"
+      ],
+      "objectives": [
+        "Complete JSS 2 Basic Technology Term 1 syllabus review"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal examination and grading"
+      ],
+      "objectives": [
+        "Complete JSS 2 Basic Technology certification"
+      ]
+    }
+  ]
+}

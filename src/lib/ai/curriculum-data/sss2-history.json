@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "History & Heritage Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-history.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "The Trans-Atlantic Slave Trade: Origins, triangular trade network, and abolition",
+      "learningObjectives": [
+        "Trace the origins and geopolitical factors establishing the triangular trade connecting Europe, West Africa, and the Americas",
+        "Analyze the horrific Middle Passage and slave trading coastal ports in Nigeria (Badagry, Bonny, Calabar, Lagos)",
+        "Examine the economic, demographic, and moral factors spurring the British Abolition Act of 1807"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Transition to Legitimate Commerce: Palm oil trade, groundnuts, and rise of merchant princes",
+      "learningObjectives": [
+        "Define legitimate commerce as trade in agricultural and natural commodities in post-abolition 19th-century Nigeria",
+        "Explain the strategic rise of the palm oil trade in the Niger Delta to fuel Industrial Revolution machines in Britain",
+        "Analyze the rise of powerful merchant princes: King Jaja of Opobo, Nana Olomu of Itsekiri, and King William Pepple of Bonny"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Christian Missionary Enterprises in Nigeria: CMS, Catholic, Methodist, and Presbyterian missions",
+      "learningObjectives": [
+        "Trace the arrival of Christian missionaries starting in Badagry (1842) led by Thomas Birch Freeman and Henry Townsend",
+        "Evaluate the monumental scholarly and ecclesiastical contributions of Bishop Samuel Ajayi Crowther",
+        "Examine missionary impacts: introduction of Western education, printing presses, vernacular Bible translation, and stopping twin killing"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "19th Century Yoruba Wars (Kiriji / Ekitiparapo War): Causes, course, and peacemaking (1886)",
+      "learningObjectives": [
+        "Analyze the causes of 19th-century warfare following the fall of Old Oyo: Ibadan's imperialist ambitions and tribute extraction",
+        "Trace the formation of the Ekitiparapo confederacy led by Fabunmi of Imesi-Ile and Ogedengbe of Ilesa",
+        "Examine the protracted Kiriji war tactics, introduction of breech-loading rifles, and the British-mediated Peace Treaty of 1886"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "European Explorers and Geopolitical Scramble: Mungo Park, the Landers, and Berlin Conference (1884-1885)",
+      "learningObjectives": [
+        "Trace British exploratory expeditions to map the course and termination of the River Niger (Mungo Park, Clapperton, Lander brothers)",
+        "Analyze the Berlin Conference (1884-1885) convened by Otto von Bismarck and the principle of 'effective occupation'",
+        "Examine how European imperial powers carved out African spheres of influence without African consent"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "The Royal Niger Company: Sir George Goldie, commercial monopoly, and treaties of cession",
+      "learningObjectives": [
+        "Examine Sir George Goldie's role in amalgamating British trading firms into the National African Company (Royal Niger Company)",
+        "Analyze the 1886 Royal Charter granting the company administrative and military powers over the Niger territories",
+        "Examine dubious treaties of cession signed with local chiefs and the company’s monopoly enforcing gunboat diplomacy"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Imperial Treaties Analysis Clinic",
+      "learningObjectives": [
+        "Assess pupil comprehension of the slave trade transition, missionary enterprises, and the Berlin Conference",
+        "Examine historical primary source treaties signed between the Royal Niger Company and traditional rulers",
+        "Remediate student confusion regarding the sequence of 19th-century colonial treaties"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "British Military Conquest and Indigenous Resistance: Lagos Annexation (1861) and Jaja of Opobo",
+      "learningObjectives": [
+        "Analyze the British bombardment of Lagos (1851), the deposition of Oba Kosoko, and the formal 1861 Treaty of Cession by Oba Dosunmu",
+        "Examine King Jaja of Opobo’s defiance of British commercial encroachment on inland oil markets",
+        "Trace the fraudulent abduction, trial, and exile of Jaja to the West Indies by Consul Harry Johnston in 1887"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "British Conquest and Indigenous Resistance: Nana Olomu, Oba Ovonramwen of Benin (1897)",
+      "learningObjectives": [
+        "Examine Nana Olomu of Itsekiri's trading stronghold at Ebrohimi and the 1894 British military siege",
+        "Analyze the 1897 British Punitive Expedition against the Kingdom of Benin following the Phillips incident",
+        "Trace the looting of thousands of sacred Benin bronzes and the deposition and exile of Oba Ovonramwen to Calabar"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "British Conquest of Northern Nigeria: Fall of Kano, Sokoto (1903), and Satiru Uprising",
+      "learningObjectives": [
+        "Trace Lord Lugard’s military expeditions against the Emirates of Northern Nigeria using the West African Frontier Force (WAFF)",
+        "Analyze the resistance and fall of Kano and the battle of Sokoto leading to the martyrdom of Sultan Attahiru I at Burmi (1903)",
+        "Examine the 1906 messianic Satiru peasant rebellion and severe British reprisals"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "The 1914 Amalgamation of Nigeria: Lord Lugard, colonial administrative objectives, and immediate impacts",
+      "learningObjectives": [
+        "Analyze economic and administrative rationales behind merging the Northern and Southern Protectorates in 1914",
+        "Examine Lord Frederick Lugard’s administrative architecture and the amalgamation report",
+        "Critique the structural defects and lasting fault lines created by unifying distinct sovereign nations under colonial rule"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive SSS 2 History Termly Revision & Historical Source Analysis",
+      "learningObjectives": [
+        "Consolidate learning across 19th-century wars, missionary movements, colonial conquest, and the 1914 amalgamation",
+        "Practice timed essay writing answering past WASSCE History Paper 2 questions with historical citations",
+        "Refine student capability in evaluating bias in colonial dispatches and indigenous oral chronicles"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Broadsheet Entry",
+      "learningObjectives": [
+        "Administer official SSS 2 History end-of-term examination",
+        "Grade theory scripts according to standardized West African Examinations Council criteria",
+        "Record and publish official continuous assessment and examination results"
+      ]
+    }
+  ]
+}

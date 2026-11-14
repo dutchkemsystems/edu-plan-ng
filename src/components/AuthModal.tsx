@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, Mail, User, School, ArrowRight, ShieldCheck, Sparkles, Home } from 'lucide-react';
 import { signInUser, signUpUser } from '../lib/api.ts';
+import { ActiveSessionConflictModal } from './ActiveSessionConflictModal.tsx';
 import confetti from 'canvas-confetti';
 
 interface AuthModalProps {
@@ -18,18 +19,48 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   const [schoolName, setSchoolName] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const [conflictIp, setConflictIp] = useState('102.89.44.12');
+  const [conflictUa, setConflictUa] = useState<string | undefined>();
+  const [conflictLastActive, setConflictLastActive] = useState<string | undefined>();
+  const [pendingEmail, setPendingEmail] = useState('');
+  const [pendingPassword, setPendingPassword] = useState('');
 
   if (!isOpen) return null;
+
+  const handleForceLogoutAndLogin = async () => {
+    try {
+      await signInUser(pendingEmail, pendingPassword, { forceLogout: true });
+      setShowConflictModal(false);
+      confetti({ particleCount: 60 });
+      onSuccess();
+      onClose();
+    } catch (e: any) {
+      setErrorMessage(e?.message || 'Failed to force logout other session');
+      setShowConflictModal(false);
+    }
+  };
 
   const handleDemoTeacherLogin = async () => {
     setLoading(true);
     setErrorMessage('');
+    const demoEmail = 'amina.balogun@schools.ng';
+    const demoPass = 'password123';
+    setPendingEmail(demoEmail);
+    setPendingPassword(demoPass);
     try {
-      await signInUser('amina.balogun@schools.ng', 'password123');
+      await signInUser(demoEmail, demoPass);
       confetti({ particleCount: 50 });
       onSuccess();
       onClose();
     } catch (e: any) {
+      if (e?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(e.activeIp || '102.89.44.12');
+        setConflictUa(e.activeUserAgent);
+        setConflictLastActive(e.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(e?.message || 'Login failed');
     } finally {
       setLoading(false);
@@ -39,12 +70,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   const handleDemoPrincipalLogin = async () => {
     setLoading(true);
     setErrorMessage('');
+    const demoEmail = 'principal@kingscollege.sch.ng';
+    const demoPass = 'password123';
+    setPendingEmail(demoEmail);
+    setPendingPassword(demoPass);
     try {
-      await signInUser('principal@kingscollege.sch.ng', 'password123');
+      await signInUser(demoEmail, demoPass);
       confetti({ particleCount: 50 });
       onSuccess();
       onClose();
     } catch (e: any) {
+      if (e?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(e.activeIp || '102.89.44.12');
+        setConflictUa(e.activeUserAgent);
+        setConflictLastActive(e.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(e?.message || 'Login failed');
     } finally {
       setLoading(false);
@@ -55,6 +97,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
+    setPendingEmail(email);
+    setPendingPassword(password);
     try {
       if (mode === 'signin') {
         await signInUser(email, password);
@@ -72,6 +116,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
       onSuccess();
       onClose();
     } catch (err: any) {
+      if (err?.code === 'ACTIVE_SESSION_CONFLICT') {
+        setConflictIp(err.activeIp || '102.89.44.12');
+        setConflictUa(err.activeUserAgent);
+        setConflictLastActive(err.lastActivity);
+        setShowConflictModal(true);
+        return;
+      }
       setErrorMessage(err?.message || 'Authentication error. Please check credentials.');
     } finally {
       setLoading(false);
@@ -270,6 +321,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           )}
         </div>
       </div>
+
+      {showConflictModal && (
+        <ActiveSessionConflictModal
+          isOpen={showConflictModal}
+          onClose={() => setShowConflictModal(false)}
+          activeIp={conflictIp}
+          activeUserAgent={conflictUa}
+          lastActivity={conflictLastActive}
+          onForceLogoutAndProceed={handleForceLogoutAndLogin}
+        />
+      )}
     </div>
   );
 };

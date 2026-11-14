@@ -1,0 +1,210 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Basic Science",
+  "subjectCode": "BSC",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss2-basic-science",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Science for Junior Secondary Schools 2",
+    "author": "F.O.C. Ndu, P. Asun, J.O. Aina",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "UBE Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-06-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Living Things: Habitats and Environmental Adaptations",
+      "subtopics": [
+        "Definition of habitat (aquatic, terrestrial, arboreal)",
+        "Adaptive features of plants and animals to aquatic environments (mangrove swamps, fish gills)",
+        "Adaptive features to arid and savanna environments (cactus, camel)"
+      ],
+      "objectives": [
+        "Define habitat and categorize habitats into aquatic and terrestrial types",
+        "Describe specific morphological adaptations of tilapia fish to fresh and brackish water",
+        "Relate plant adaptations in Nigerian Guinea Savanna to water conservation"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Human Respiratory System and Mechanism of Breathing",
+      "subtopics": [
+        "Structure of the respiratory tract (trachea, bronchi, lungs, alveoli)",
+        "Inhalation and exhalation mechanics (role of diaphragm and intercostal muscles)",
+        "Differences between breathing and cellular respiration"
+      ],
+      "objectives": [
+        "Identify and label principal organs of the human respiratory system",
+        "Demonstrate rib cage and diaphragm movement using a bell-jar balloon model",
+        "Differentiate internal cellular respiration from external pulmonary ventilation"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Human Circulatory System and Blood Composition",
+      "subtopics": [
+        "Structure and function of the heart (atria, ventricles, valves)",
+        "Composition of blood (red cells, white cells, platelets, plasma)",
+        "ABO blood grouping system and genotype awareness (AA, AS, SS)"
+      ],
+      "objectives": [
+        "Trace double circulation pathway through systemic and pulmonary circuits",
+        "Explain functions of red blood cells, white blood cells, and platelets",
+        "Discuss importance of pre-marital genotype counseling in Nigerian society"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Human Digestive System and Enzyme Action",
+      "subtopics": [
+        "Alimentary canal organs (mouth, esophagus, stomach, duodenum, ileum)",
+        "Mechanical vs chemical digestion",
+        "Action of digestive enzymes (ptyalin, pepsin, trypsin, lipase)"
+      ],
+      "objectives": [
+        "Trace path of swallowed food from mouth to rectum",
+        "Demonstrate starch breakdown by salivary amylase in the laboratory",
+        "Identify sites of absorption of digested nutrients into the bloodstream"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Human Excretory System: Kidney and Skin Mechanics",
+      "subtopics": [
+        "Meaning of excretion and excretory organs in humans",
+        "Structure of the kidney and nephron filtration unit",
+        "Structure of the human skin and sweat production"
+      ],
+      "objectives": [
+        "Distinguish between excretion of metabolic waste and egestion of feces",
+        "Label longitudinal section of human kidney and trace urine passage to the bladder",
+        "Explain thermoregulatory role of sweat glands during hot Nigerian afternoons"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Kinetic Theory of Matter: Molecular Movement in Solids, Liquids & Gases",
+      "subtopics": [
+        "Postulates of the kinetic theory of matter",
+        "Arrangement and motion of particles in solids, liquids, and gases",
+        "Diffusion and Brownian motion demonstrations"
+      ],
+      "objectives": [
+        "State postulates of the kinetic molecular theory",
+        "Demonstrate diffusion using potassium permanganate crystals in water and perfume in classroom air",
+        "Explain thermal expansion of matter based on kinetic energy of particles"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Comprehensive diagnostic assessment on Weeks 1-6 systems and kinetic theory",
+        "Practical laboratory test and corrective feedback"
+      ],
+      "objectives": [
+        "Evaluate pupil mastery of circulatory, respiratory, digestive, and excretory systems",
+        "Provide tiered remediation for students struggling with physiological pathways"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Boiling, Evaporation and Thermal Energy Changes",
+      "subtopics": [
+        "Meaning and differences between boiling and evaporation",
+        "Factors affecting evaporation rate (temperature, surface area, humidity, wind)",
+        "Cooling effect of evaporation in traditional clay pots"
+      ],
+      "objectives": [
+        "Contrast boiling with evaporation in terms of temperature, surface location, and bubbles",
+        "Investigate factors affecting water evaporation rate in school courtyard",
+        "Explain how traditional Nigerian earthenware water pots keep drinking water chilled"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Work, Energy and Power: Quantitative Calculations",
+      "subtopics": [
+        "Scientific definition of work done: Work = Force × Distance (W = F × d)",
+        "Calculations of work done in Joules",
+        "Concept of power as rate of doing work: Power = Work / Time (P = W / t in Watts)"
+      ],
+      "objectives": [
+        "Define work and power with their statutory S.I. units (Joules and Watts)",
+        "Calculate work done lifting bags of cement or water containers against gravity",
+        "Solve numerical word problems calculating electric generator power output"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Simple Machines: Levers, Pulleys, and Mechanical Advantage",
+      "subtopics": [
+        "Types of simple machines (levers, pulleys, inclined planes, wheel and axle)",
+        "Classes of levers (1st, 2nd, 3rd class with everyday tools: bottle opener, scissors, wheelbarrow)",
+        "Mechanical Advantage (MA), Velocity Ratio (VR), and Efficiency"
+      ],
+      "objectives": [
+        "Classify common tools used in Nigerian households into 1st, 2nd, or 3rd class levers",
+        "Calculate Mechanical Advantage using formula MA = Load / Effort",
+        "Explain why machine efficiency can never exceed 100% due to friction"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Crude Oil and Petrochemicals: Refining and Petroleum in Nigeria",
+      "subtopics": [
+        "Origin and formation of crude oil in the Niger Delta basin",
+        "Fractional distillation of petroleum (fractions: petroleum gas, petrol, kerosene, diesel, bitumen)",
+        "Economic importance and environmental hazards of oil spillage and bunkering"
+      ],
+      "objectives": [
+        "Describe formation of petroleum over millions of years from marine sediments",
+        "List key petroleum fractions in order of boiling point ranges",
+        "Analyze environmental devastation of oil spills on aquatic ecosystems in the Niger Delta"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Thermal Energy Transfer: Conduction, Convection and Radiation",
+      "subtopics": [
+        "Conduction in metals vs thermal insulators (cooking utensils with wooden handles)",
+        "Convection currents in fluids, sea breezes, and domestic hot water systems",
+        "Radiation from the Sun and solar cookers"
+      ],
+      "objectives": [
+        "Compare conduction, convection, and radiation with practical laboratory demonstrations",
+        "Explain daytime sea breeze and night land breeze along the Lagos coastline",
+        "Design a simple solar water heater utilizing absorption of radiant thermal energy"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Comprehensive Revision & Terminal Examination",
+      "subtopics": [
+        "Review of physiological systems, kinetic theory, machines, and crude oil refining",
+        "Terminal examination and broadsheet entry"
+      ],
+      "objectives": [
+        "Demonstrate complete mastery of JSS 2 Basic Science Term 1 syllabus"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Government",
+  "subjectCode": "GOV",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/government-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Government for Senior Secondary Schools",
+    "author": "C. C. Dibie",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "The 1999 Constitution of the Federal Republic of Nigeria",
+      "subtopics": ["Origins and promulgation of the 1999 Constitution under Decree No. 24", "Features: Presidential democracy, 36 states, separation of powers, exclusive and concurrent legislative lists", "Constitutional amendment procedures and ongoing restructuring debates"],
+      "objectives": ["Analyze key structural features of the 1999 Constitution", "Differentiate exclusive, concurrent, and residual legislative lists", "Evaluate arguments for state police and fiscal federalism in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Military Rule in Nigerian Political History",
+      "subtopics": ["First military coup of January 15, 1966, counter-coup of July 1966, and civil war (1967-1970)", "Causes of military intervention in Nigerian politics (election rigging, corruption, ethnic rivalry)", "Structure of military governments (SMC/AFRC/PRC) and decrees vs rule of law"],
+      "objectives": ["Identify 5 internal socio-political causes of military coups d'état", "Evaluate positive and negative impacts of military rule on Nigerian development", "Explain mechanisms employed by military regimes to repress democratic dissent"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Nigeria's Foreign Policy and Afrocentric Diplomacy",
+      "subtopics": ["Basic principles of Nigerian foreign policy (Africa as centerpiece, non-alignment, sovereign equality)", "Nigeria's role in the liberation of Southern Africa and anti-apartheid campaigns", "Establishment and peace-keeping leadership in ECOWAS and ECOMOG"],
+      "objectives": ["Define foreign policy and explain Nigeria's Afrocentric foreign doctrine", "Evaluate Nigeria's leadership in the formation of ECOWAS and mediation in Liberia/Sierra Leone", "Analyze contemporary economic diplomacy and bilateral relations with world powers"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "International Organizations: AU, ECOWAS, Commonwealth and UN",
+      "subtopics": ["African Union (AU): Transformation from OAU, organs, and African Continental Free Trade Area (AfCFTA)", "Economic Community of West African States (ECOWAS): Free movement of persons and trade protocols", "The United Nations (UN): Security Council, General Assembly, and Nigeria's peacekeeping contributions"],
+      "objectives": ["Compare the charter of the OAU with the modern AU Constitutive Act", "Evaluate the achievements and obstacles of ECOWAS trade integration", "Assess Nigeria's quest for a permanent seat on the United Nations Security Council"]
+    }
+  ]
+}

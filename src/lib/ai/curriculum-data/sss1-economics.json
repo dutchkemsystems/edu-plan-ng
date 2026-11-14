@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-1",
+  "subject": "Economics",
+  "subjectCode": "ECO",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/economics-sss1",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Economics for Senior Secondary Schools",
+    "author": "J. U. Anyaele",
+    "publisher": "A. Johnson Publishers Ltd",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning and Scope of Economics",
+      "subtopics": ["Definitions of Economics (Adam Smith, Alfred Marshall, Lionel Robbins)", "Economics as a social science", "Basic concepts: Wants, scarcity, choice, scale of preference, opportunity cost"],
+      "objectives": ["Analyze Lionel Robbins's definition of Economics", "Construct an individual scale of preference", "Calculate opportunity cost in decision scenarios"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Basic Tools of Economic Analysis",
+      "subtopics": ["Tables, charts (pie chart, bar chart, histogram)", "Measures of central tendency: Mean, median, mode", "Economic graphs and calculating slopes of linear curves"],
+      "objectives": ["Compute mean, median and mode from grouped and ungrouped data", "Construct pie charts representing national trade data", "Interpret slopes of economic demand and supply curves"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Theory of Production and Factors of Production",
+      "subtopics": ["Meaning and types of production (primary, secondary, tertiary)", "Factors of production: Land, labour, capital, entrepreneurship", "Rewards of factors of production: Rent, wages, interest, profit"],
+      "objectives": ["Distinguish between direct and indirect production", "Analyze characteristics and rewards of each factor of production", "Examine mobility of labour in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Division of Labour and Specialization",
+      "subtopics": ["Meaning and origins of division of labour", "Advantages and disadvantages of division of labour", "Limitations of division of labour: Extent of the market and capital"],
+      "objectives": ["Explain Adam Smith's pin-making illustration", "Evaluate psychological effects of repetitive assembly work", "Assess how market size limits specialization in West Africa"]
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "classLevel": "sss-2",
+  "subject": "General Mathematics",
+  "subjectCode": "MTH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-mathematics",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "New General Mathematics for Senior Secondary Schools 2",
+    "author": "M.F. Macrae, A.O. Kalejaiye, Z.I. Chima, G.U. Garba",
+    "publisher": "Pearson / Longman Nigeria",
+    "edition": "WASSCE/NECO Senior Secondary 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Federal Ministry of Education",
+    "approvalDate": "2024-04-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Logarithms of Numbers Less than 1: Characteristics and Mantissa Calculations",
+      "subtopics": [
+        "Expressing decimal fractions in standard form A × 10^-n",
+        "Negative characteristics (bar notation: 1̄, 2̄, 3̄)",
+        "Logarithmic multiplication, division, powers, and roots using four-figure tables"
+      ],
+      "objectives": [
+        "Determine the characteristic and mantissa of numbers less than 1",
+        "Evaluate compound computations with negative characteristics using four-figure log tables",
+        "Solve physics and chemistry quantitative problems using logarithms"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Approximations, Significant Figures and Percentage Errors",
+      "subtopics": [
+        "Rounding off to specified significant figures and decimal places",
+        "Absolute error, relative error, and percentage error formulas",
+        "Percentage error = (Absolute Error / True Value) × 100%"
+      ],
+      "objectives": [
+        "Calculate limits of accuracy in physical measurements",
+        "Compute percentage error in experimental laboratory determinations and commercial trade"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Algebraic Fractions: Undefined Fractions and Fractional Equations",
+      "subtopics": [
+        "Conditions under which an algebraic fraction is undefined (setting denominator = 0)",
+        "Addition and subtraction of algebraic fractions with polynomial denominators",
+        "Solving fractional equations reducible to quadratic equations"
+      ],
+      "objectives": [
+        "Find the values of x for which algebraic fractions are undefined",
+        "Simplify complex algebraic fractions by factorizing quadratic terms"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Simultaneous Linear and Quadratic Equations: Analytical & Graphical Solutions",
+      "subtopics": [
+        "Systems consisting of one linear and one quadratic equation: y = mx + c and y = ax^2 + bx + d",
+        "Solving by substitution: expressing y in terms of x and substituting into the quadratic equation",
+        "Intersection of straight lines and circles: x + y = k and x^2 + y^2 = r^2"
+      ],
+      "objectives": [
+        "Solve simultaneous linear and quadratic systems yielding two pairs of coordinates",
+        "Interpret points of intersection graphically as solutions to simultaneous equations"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Linear Inequalities in Two Variables and Linear Programming",
+      "subtopics": [
+        "Graphing linear inequalities in two variables using solid or dashed boundary lines",
+        "Shading unwanted regions to identify the feasible region",
+        "Formulating objective functions and constraints for Nigerian business profit maximization"
+      ],
+      "objectives": [
+        "Graph systems of linear inequalities on Cartesian coordinate planes",
+        "Determine maximum profit coordinates within the feasible region using vertex evaluation"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Chord Properties of Circles and Angle Subtended by Arcs",
+      "subtopics": [
+        "Perpendicular from the center of a circle to a chord bisects the chord",
+        "Equal chords are equidistant from the center",
+        "Angle subtended by an arc at the center is twice that subtended at the circumference"
+      ],
+      "objectives": [
+        "Prove and apply circle chord theorems to calculate lengths and distances",
+        "Solve multi-step geometric angle problems using the center-angle theorem"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Evaluation on logarithms, algebraic fractions, simultaneous quadratics, and circle theorems",
+        "WASSCE diagnostic test"
+      ],
+      "objectives": [
+        "Assess pupil mastery against WAEC Senior Secondary benchmarks"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Circle Theorems II: Angles in the Same Segment & Cyclic Quadrilaterals",
+      "subtopics": [
+        "Angles in the same segment of a circle are equal",
+        "Angle in a semicircle is a right angle (90°)",
+        "Opposite angles of a cyclic quadrilateral are supplementary (sum to 180°)",
+        "Exterior angle of a cyclic quadrilateral equals the interior opposite angle"
+      ],
+      "objectives": [
+        "Apply circle theorems to evaluate complex interconnected angle diagrams",
+        "State geometric reasons (theorems) alongside every step in mathematical proofs"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Tangent Properties of Circles: Alternate Segment Theorem",
+      "subtopics": [
+        "A tangent to a circle is perpendicular to the radius at the point of contact",
+        "Tangents from an external point to a circle are equal in length",
+        "The alternate segment theorem and practical geometric proof"
+      ],
+      "objectives": [
+        "Prove and apply the alternate segment theorem",
+        "Solve geometric engineering problems involving belt drives and tangent wheels"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Trigonometry: The Sine Rule and The Cosine Rule",
+      "subtopics": [
+        "Derivation and statement of the Sine Rule: a / Sin A = b / Sin B = c / Sin C",
+        "Derivation and statement of the Cosine Rule: a^2 = b^2 + c^2 - 2bc Cos A",
+        "Solving non-right-angled scalene triangles"
+      ],
+      "objectives": [
+        "Apply the Sine Rule when given two angles and one side or two sides and a non-included angle",
+        "Apply the Cosine Rule when given two sides and an included angle or three sides"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Bearings and Distances: Practical Maritime and Aviation Navigation",
+      "subtopics": [
+        "Three-figure bearings (000° to 360°) measured clockwise from true North",
+        "Drawing accurate navigational sketch diagrams with North directional arrows",
+        "Applying the Sine and Cosine rules to solve two-step navigation problems in Nigeria"
+      ],
+      "objectives": [
+        "Translate verbal navigational flight paths into precise geometric sketches",
+        "Calculate direct distances and reverse bearings between Nigerian cities (e.g., Lagos, Abuja, Port Harcourt)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & WASSCE Masterclass",
+      "subtopics": [
+        "Review of circle theorems, Sine/Cosine rules, bearings, and linear programming",
+        "Timed WASSCE past question drills"
+      ],
+      "objectives": [
+        "Complete 50 WASSCE exam questions under timed test conditions"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "First Term Senior Secondary 2 Examination and script moderation"
+      ],
+      "objectives": [
+        "Complete SSS 2 General Mathematics Term 1 evaluation"
+      ]
+    }
+  ]
+}

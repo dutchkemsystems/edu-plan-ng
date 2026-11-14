@@ -1,0 +1,140 @@
+{
+  "classLevel": "SSS 2",
+  "subject": "Civic Education",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-civic.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Citizenship: Acquisition methods, dual citizenship, and renunciation under 1999 Constitution",
+      "learningObjectives": [
+        "Explain modes of acquiring Nigerian citizenship (birth, registration, naturalization)",
+        "Analyze constitutional qualifications and disqualifications for naturalization",
+        "Explain circumstances under which citizenship can be revoked or renounced"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Duties and Obligations of Citizens: Paying taxes, voting, obeying laws, and defense",
+      "learningObjectives": [
+        "Distinguish between civic rights and civic obligations",
+        "Explain economic consequences of tax evasion on infrastructural development",
+        "Describe national defense duties and reporting suspicious security threats"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Democracy and National Development: Popular participation and voter apathy",
+      "learningObjectives": [
+        "Define popular participation in political and community decision-making",
+        "Analyze causes of voter apathy in Nigerian general elections (rigging fears, violence, empty promises)",
+        "Propose measures to overcome voter apathy through civic sensitization"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Human Trafficking: Causes, recruitment tricks, consequences, and NAPTIP interventions",
+      "learningObjectives": [
+        "Define human trafficking and differentiate between internal and cross-border trafficking",
+        "Identify vulnerable groups (women, children) and deceitful recruitment tactics",
+        "Evaluate statutory enforcement functions of NAPTIP and rehabilitation of survivors"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Cultism: Origin in Nigerian universities, symbols, rituals, and destructive effects",
+      "learningObjectives": [
+        "Trace the historical evolution of campus confraternities into violent secret cults",
+        "Identify reasons students join secret cults (intimidation, false protection, greed)",
+        "Examine legal sanctions against cult membership and preventative strategies in schools"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Drug Abuse and Drug Trafficking: NDLEA mandate, illicit substances, and rehabilitation",
+      "learningObjectives": [
+        "Classify commonly abused substances: opioids (tramadol, codeine), cannabis, and stimulants",
+        "Analyze socio-economic and medical repercussions of drug addiction on youth",
+        "Evaluate enforcement mechanisms of NDLEA and community rehabilitation homes"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Human Rights Forum",
+      "learningObjectives": [
+        "Assess pupil mastery of citizenship acquisition, voter apathy, and societal menaces",
+        "Organize an interactive symposium on eradicating cultism and substance abuse in secondary schools",
+        "Provide tailored remediation on legal processes of citizenship revocation"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Poverty Alleviation: Government poverty alleviation programmes (NAPEP, N-Power, TraderMoni)",
+      "learningObjectives": [
+        "Define poverty and differentiate between absolute and relative poverty in Nigeria",
+        "Critique successive government poverty alleviation programs from 1999 to date",
+        "Identify grassroots micro-credit models that enhance sustainable household livelihoods"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Peace and Conflict Resolution: Meaning of peace, conflict causes, and mediation tools",
+      "learningObjectives": [
+        "Distinguish between positive peace and negative peace",
+        "Identify causes of ethnic and communal conflicts in Nigeria (boundary disputes, resources)",
+        "Demonstrate non-violent conflict resolution tools: negotiation, mediation, arbitration, and litigation"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Inter-Personal and Inter-Communal Relationships: Importance to communal harmony",
+      "learningObjectives": [
+        "Define interpersonal relationships and list stages of relationship formation",
+        "Explain factors that promote communal harmony (tolerance, empathy, dialogue)",
+        "Examine the role of traditional rulers and faith-based leaders in inter-tribal peacebuilding"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Dangers of Examination Malpractice and Countermeasures (WAEC/NECO Decrees)",
+      "learningObjectives": [
+        "Identify forms of examination malpractice (leakages, impersonation, electronic cheating)",
+        "Highlight legal penalties under Examination Malpractices Act No. 33 of 1999",
+        "Foster a culture of hard work, integrity, and self-belief in academic assessments"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive SSS 2 Civic Education Revision & Past Paper Drill",
+      "learningObjectives": [
+        "Consolidate learning on civic responsibilities, social vices, and conflict resolution",
+        "Execute timed essay responses simulating WASSCE Paper 2 Section A questions",
+        "Audit student understanding of institutional statutory mandates"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination and Score Entry into Broadsheet",
+      "learningObjectives": [
+        "Administer official SSS 2 end-of-term Civic Education examination",
+        "Grade answers against national standardized marking guides",
+        "Record and publish moderated terminal continuous assessment results"
+      ]
+    }
+  ]
+}

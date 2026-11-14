@@ -1,0 +1,202 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Biology",
+  "subjectCode": "BIO",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss2-biology",
+  "accreditationBody": "NERDC & WAEC WASSCE Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Biology for Senior Secondary Schools",
+    "author": "M.C. Michael",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "6th Revised Edition (WAEC/NECO Standard)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Federal Ministry of Education",
+    "approvalDate": "2024-04-12"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Respiratory Mechanisms in Lower and Higher Organisms",
+      "subtopics": [
+        "Respiratory surfaces and their characteristics (large surface area, thin, moist, vascularized)",
+        "Respiration in Amoeba (body surface), Earthworm (moist skin), Insect (tracheal system), Fish (gills)",
+        "Human pulmonary mechanism: diaphragm and intercostal muscle kinetics, inhalation vs exhalation"
+      ],
+      "objectives": [
+        "State four characteristics of an efficient respiratory surface",
+        "Dissect a fresh tilapia fish head to display and label gill rakers, gill arch, and gill filaments",
+        "Explain the counter-current gas exchange mechanism across fish gills"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Excretory Systems Across Animal Phyla: Invertebrates to Mammals",
+      "subtopics": [
+        "Excretory structures: contractile vacuole (Protozoa), flame cells (Flatworms), Malpighian tubules (Insects)",
+        "Structure of the mammalian kidney and microscopic nephron anatomy",
+        "Urine formation: ultrafiltration in Bowman's capsule, selective reabsorption, and tubular secretion"
+      ],
+      "objectives": [
+        "Map animal phyla to their specific statutory excretory organs",
+        "Draw and label the functional unit of the kidney (nephron) satisfying WAEC specifications",
+        "Explain hormonal regulation of water balance by Antidiuretic Hormone (ADH)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Skeletal Systems: Supporting Tissues, Types of Skeletons & Human Bones",
+      "subtopics": [
+        "Types of skeletons: hydrostatic (earthworm), exoskeleton (arthropods), endoskeleton (vertebrates)",
+        "Axial skeleton: skull, vertebral column (cervical, thoracic, lumbar, sacral, caudal vertebrae)",
+        "Appendicular skeleton: pectoral and pelvic girdles, bones of the forelimbs and hindlimbs"
+      ],
+      "objectives": [
+        "Compare biological advantages of exoskeletons and endoskeletons",
+        "Identify and draw thoracic, lumbar, and cervical vertebrae with neural spine, canal, and centrum",
+        "Classify human joints into fibrous, cartilaginous, and synovial (ball-and-socket, hinge)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Supporting Tissues and Movement in Plants",
+      "subtopics": [
+        "Plant supporting tissues: collenchyma, sclerenchyma, xylem vessels, phloem fibers",
+        "Turgor pressure in herbaceous plant support and wilting mechanics",
+        "Secondary thickening in woody dicot stems and cambium activity"
+      ],
+      "objectives": [
+        "Examine transverse sections of dicot and monocot stems under a light microscope",
+        "Distinguish collenchyma from sclerenchyma based on cell wall thickening and lignification"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Ecological Concepts: Nigerian Biomes and Environmental Factors",
+      "subtopics": [
+        "Biomes of Nigeria: Mangrove Swamp, Tropical Rainforest, Southern Guinea Savanna, Northern Guinea Savanna, Sudan/Sahel",
+        "Abiotic ecological factors: temperature, rainfall, relative humidity, light intensity, soil pH, wind",
+        "Instruments for measuring abiotic factors: rain gauge, hygrometer, anemometer, Secchi disc"
+      ],
+      "objectives": [
+        "Characterize dominant vegetation and climatic parameters of Nigerian ecological zones",
+        "Demonstrate use of wind vane and rain gauge on the school meteorological plot"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Population Ecology: Sampling Methods, Density and Dispersal",
+      "subtopics": [
+        "Population characteristics: size, density, birth rate (natality), death rate (mortality), immigration/emigration",
+        "Ecological sampling techniques: throw-quadrat method for plants, capture-recapture technique for animals",
+        "Calculation of population density: Density = Total number of individuals / Total area sampled"
+      ],
+      "objectives": [
+        "Conduct a field study on school sports field calculating density of weeds using a 1m² quadrat",
+        "Apply the Lincoln-Petersen index formula to estimate grasshopper population"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Practical Laboratory Test",
+      "subtopics": [
+        "Assessment on respiration, excretion, skeletons, Nigerian biomes, and population quadrat sampling",
+        "Alternative to practical specimen identification test"
+      ],
+      "objectives": [
+        "Demonstrate mastery of WAEC alternative-to-practical biological protocols"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Nutrient Cycling in Nature: Carbon, Nitrogen and Water Cycles",
+      "subtopics": [
+        "The Nitrogen Cycle: nitrogen fixation (Rhizobium, lightning), nitrification (Nitrosomonas, Nitrobacter), denitrification",
+        "The Carbon Cycle: photosynthesis, respiration, combustion of fossil fuels, decomposition",
+        "The Water Cycle and ecological balance in tropical ecosystems"
+      ],
+      "objectives": [
+        "Draw clear schematic flowcharts of the nitrogen cycle showing biological and chemical transformations",
+        "Identify root nodules on freshly uprooted groundnut or cowpea plants",
+        "Explain how deforestation and excessive fossil fuel burning cause global warming"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Plant Reproduction: Floral Anatomy, Pollination and Double Fertilization",
+      "subtopics": [
+        "Structure of a typical flower (calyx, corolla, androecium, gynoecium)",
+        "Adaptations for wind pollination vs insect pollination (Pride of Barbados, Hibiscus, Maize)",
+        "Pollen tube growth, double fertilization in angiosperms, seed and fruit development"
+      ],
+      "objectives": [
+        "Dissect, draw, and label floral parts of Hibiscus rosa-sinensis and Pride of Barbados",
+        "Tabulate 5 distinct morphological differences between insect and wind-pollinated flowers",
+        "Explain double fertilization: formation of 2n zygote and 3n triploid endosperm"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Animal Reproduction: Mammalian Gametogenesis and Fertilization",
+      "subtopics": [
+        "Structure of male and female reproductive systems in mammals",
+        "Spermatogenesis and Oogenesis: meiotic division stages",
+        "The human menstrual cycle: hormonal regulation by FSH, LH, Estrogen, and Progesterone",
+        "Fertilization in fallopian tube, implantation, and placenta functions"
+      ],
+      "objectives": [
+        "Diagram human sperm cell and ovum with appropriate biological labels",
+        "Graph hormonal fluctuations across the 28-day human menstrual cycle",
+        "State four barrier and endocrine functions of the mammalian placenta"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Fruits and Seed Dispersal: Morphological Adaptations",
+      "subtopics": [
+        "Classification of fruits: simple, aggregate, composite; dry dehiscent vs dry indehiscent vs fleshy fruits (berry, drupe)",
+        "Agents of seed/fruit dispersal: wind, water, animals, explosive mechanism",
+        "Morphological adaptations: parachute pappus (Tridax), hooks (Desmodium), buoyant fibrous mesocarp (Coconut)"
+      ],
+      "objectives": [
+        "Classify locally collected Nigerian fruits into drupes (mango, oil palm) and berries (tomato, orange)",
+        "Relate structural seed modifications to their agents of dispersal"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & WASSCE Practical Masterclass",
+      "subtopics": [
+        "Practical dissection of flowers, bone identification, and ecological problem solving",
+        "Full review of SSS 2 Term 1 syllabus"
+      ],
+      "objectives": [
+        "Complete SSS 2 Biology Term 1 examination preparation"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "First Term Senior Secondary 2 Examination and script moderation"
+      ],
+      "objectives": [
+        "Complete SSS 2 Biology Term 1 evaluation"
+      ]
+    }
+  ]
+}

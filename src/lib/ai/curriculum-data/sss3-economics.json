@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Economics",
+  "subjectCode": "ECO",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/economics-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Comprehensive Economics for Senior Secondary Schools",
+    "author": "J. U. Anyaele",
+    "publisher": "A. Johnson Publishers Ltd",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "National Income Accounting (GDP, GNP, NNI)",
+      "subtopics": ["Gross Domestic Product (GDP) vs Gross National Product (GNP)", "Measurement methods: Output, income, and expenditure approaches", "Challenges of national income computation in Nigeria"],
+      "objectives": ["Define GDP, GNP, NNI and per capita income", "Calculate GDP using the expenditure approach (C + I + G + (X - M))", "Explain how unrecorded informal sector transactions skew national accounts"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Money and Central Banking in Nigeria",
+      "subtopics": ["Functions and characteristics of money", "Central Bank of Nigeria (CBN): Statutory functions and monetary policy", "Commercial banking and credit creation formula"],
+      "objectives": ["Analyze how monetary policy rate (MPR) controls inflation", "Calculate money multiplier and bank deposit expansion", "Evaluate the role of cashless banking and eNaira"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Public Finance and Government Budgeting",
+      "subtopics": ["Sources of government revenue in Nigeria (oil and non-oil taxes)", "Principles of taxation (Adam Smith's canons) and direct vs indirect taxes", "Government budget: Balanced, deficit, and surplus budgets"],
+      "objectives": ["Distinguish progressive, proportional, and regressive taxation", "Analyze economic effects of fiscal deficits and national debt", "Evaluate tax evasion and compliance challenges in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "International Trade and Balance of Payments",
+      "subtopics": ["Absolute and comparative cost advantage theories (David Ricardo)", "Terms of trade and balance of payments (current vs capital account)", "Trade barriers: Tariffs, quotas, embargoes, and AFCFTA"],
+      "objectives": ["Calculate gains from trade based on comparative advantage", "Distinguish balance of trade from balance of payments", "Examine benefits and challenges of the African Continental Free Trade Area (AfCFTA)"]
+    }
+  ]
+}

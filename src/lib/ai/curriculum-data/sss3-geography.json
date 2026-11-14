@@ -1,0 +1,48 @@
+{
+  "classLevel": "sss-3",
+  "subject": "Geography",
+  "subjectCode": "GEO",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/geography-sss3",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Geography for Senior Secondary Schools",
+    "author": "O. A. Iwena",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Regional Geography of Nigeria: Relief and Drainage Basins",
+      "subtopics": ["Broad physical relief regions: North-Central plateau (Jos Plateau), Eastern highlands, Western highlands, Coastal plains, Chad basin", "Drainage systems: The Niger-Benue drainage basin, inland drainage of Lake Chad, short coastal rivers", "River regimes: Single peak vs double peak flood hydrographs, and seasonal river navigability"],
+      "objectives": ["Sketch an outline map of Nigeria showing the 5 major relief units", "Analyze economic benefits of River Niger and River Benue (hydro-electricity at Kainji, irrigation, fishing)", "Explain why Lake Chad has drastically shrunk in surface area over recent decades"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Climate and Vegetation Zones of Nigeria",
+      "subtopics": ["Air masses affecting Nigeria: Tropical Maritime (cT) moist south-westerly winds vs Tropical Continental (cT) dry North-East trade winds (Harmattan)", "The Inter-Tropical Discontinuity (ITD) and rainfall distribution across Nigeria", "Vegetation belts: Mangrove swamp, fresh water swamp, rainforest, Guinea savanna, Sudan savanna, Sahel savanna"],
+      "objectives": ["Explain the seasonal migration of the Inter-Tropical Discontinuity (ITD)", "Compare plant adaptations of the rainforest (buttress roots, epiphytes) with the Sahel savanna (acacia thorns, deep roots)", "Evaluate deforestation and desertification mitigation projects like the Great Green Wall"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Mineral and Energy Resources of Nigeria",
+      "subtopics": ["Petroleum and natural gas in the Niger Delta and offshore continental shelf", "Solid minerals: Coal in Enugu, tin and columbite on Jos Plateau, limestone across Benue and Ogun, iron ore at Itakpe", "Renewable energy potential: Solar radiation in Northern Nigeria, hydro-power sites"],
+      "objectives": ["Map location sites of 6 major economic mineral deposits across Nigeria", "Analyze socio-economic and environmental consequences of petroleum extraction and gas flaring in the Niger Delta", "Propose strategies to modernize artisanal and small-scale mining (ASM) operations"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Geographic Information Systems (GIS) and Remote Sensing",
+      "subtopics": ["Basic concepts of GIS: Hardware, software, spatial data (vector vs raster), and attribute tables", "Remote sensing principles: Satellites, spectral bands, orbital paths, and aerial photographic interpretation", "Applications in Nigeria: Urban planning in Lagos, flood hazard monitoring, crop yield estimation, mineral exploration"],
+      "objectives": ["Differentiate vector data models (points, lines, polygons) from raster grid cells in GIS", "Explain how satellite imagery detects real-time coastal erosion in Victoria Island, Lagos", "Outline procedures for digitizing topographical land parcels into GIS databases"]
+    }
+  ]
+}

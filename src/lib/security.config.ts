@@ -27,7 +27,7 @@ export const SECURITY_CONFIG = {
       windowMs: 60 * 1000,
     },
     AUTH_ROUTES: {
-      maxRequests: 15,
+      maxRequests: 25, // 25 requests/minute per IP on credential auth routes
       windowMs: 60 * 1000,
     },
     GENERAL_API: {
@@ -41,21 +41,35 @@ export const SECURITY_CONFIG = {
       priceNgn: 45000,
       period: 'per_term',
       maxTeachers: 15,
-      features: ['OEQA Lesson Plans', 'Basic Scheme Sync', 'School Analytics'],
+      allowedSources: 1,
+      features: ['1 Source per Class', 'Up to 15 Teachers', 'OEQA Lesson Plans', 'Basic Scheme Sync'],
     },
     silver: {
       name: 'Silver College',
       priceNgn: 120000,
       period: 'per_term',
-      maxTeachers: 50,
-      features: ['OEQA Matrix', 'WAEC/NECO Predictions', 'HOD Review Workflow', 'Batch Plan Generation'],
+      maxTeachers: 40,
+      allowedSources: 2,
+      features: ['2 Curriculum Sources', 'Up to 40 Teachers', 'Exams AI', 'Timetable AI', 'SEN Module', 'Parent Portal'],
     },
     gold: {
       name: 'Gold Enterprise Unity',
       priceNgn: 250000,
       period: 'per_term',
-      maxTeachers: 500,
-      features: ['Full White-Label Portal', 'Custom Domain', 'Principal Command Analytics', 'NDPA Audit Logs', 'VIP Kora Concierge'],
+      maxTeachers: -1,
+      allowedSources: 6,
+      features: ['All 6 Curriculum Sources', 'Unlimited Teachers', 'Principal Heatmap', 'Fee Recovery', '3D/4K Visuals', 'White-Label Portal', 'LMS Export'],
+    },
+  },
+  B2G_TIER_LIMITS: {
+    state_platinum: {
+      name: 'State-Wide Platinum (Ministry & Directorate)',
+      priceMinNgn: 100000000,
+      priceMaxNgn: 300000000,
+      period: 'per_year',
+      maxTeachers: -1,
+      allowedSources: 6,
+      features: ['All 6 Sources', 'State Policy Enforcement', 'Ministry Command Dashboard', 'State Levy Tracker', 'CPD Module', 'Sovereign Direct API'],
     },
   },
   B2C_TIER_LIMITS: {

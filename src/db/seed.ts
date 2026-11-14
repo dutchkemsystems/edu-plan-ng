@@ -12,7 +12,8 @@ import {
   subscriptions,
   notifications,
   schemesOfWork,
-  gradeRecords
+  gradeRecords,
+  textbooks
 } from './schema.ts';
 import { eq } from 'drizzle-orm';
 
@@ -91,13 +92,16 @@ export async function seedDatabase() {
     { id: 'sss-3', name: 'Senior Secondary School 3', code: 'SSS 3', order: 6 },
   ];
 
+  const subjectRows: Array<typeof curriculumSubjects.$inferInsert> = [];
+  const topicRows: Array<typeof curriculumTopics.$inferInsert> = [];
+
   // Seed Junior Subjects & Topics
   for (const lvl of juniorLevels) {
     for (const sub of JUNIOR_SECONDARY_SUBJECTS) {
       const subjectId = `${lvl.id}-${sub.id}`;
       totalSubjects++;
 
-      await db.insert(curriculumSubjects).values({
+      subjectRows.push({
         id: subjectId,
         levelId: lvl.id,
         name: sub.name,
@@ -105,7 +109,7 @@ export async function seedDatabase() {
         description: sub.description,
         icon: sub.icon,
         termCount: 3,
-      }).onConflictDoNothing();
+      });
 
       for (let term = 1; term <= 3; term++) {
         const weeklyTopics = getSubjectTermTopics(sub, term, lvl.id);
@@ -182,7 +186,7 @@ export async function seedDatabase() {
               ];
 
           totalTopics++;
-          await db.insert(curriculumTopics).values({
+          topicRows.push({
             id: topicId,
             subjectId: subjectId,
             levelId: lvl.id,
@@ -199,7 +203,7 @@ export async function seedDatabase() {
             studentActivities: JSON.stringify(studentActs),
             materials: JSON.stringify(materials),
             evaluation: JSON.stringify(evaluation),
-          }).onConflictDoNothing();
+          });
         }
       }
     }
@@ -211,7 +215,7 @@ export async function seedDatabase() {
       const subjectId = `${lvl.id}-${sub.id}`;
       totalSubjects++;
 
-      await db.insert(curriculumSubjects).values({
+      subjectRows.push({
         id: subjectId,
         levelId: lvl.id,
         name: sub.name,
@@ -219,7 +223,7 @@ export async function seedDatabase() {
         description: sub.description,
         icon: sub.icon,
         termCount: 3,
-      }).onConflictDoNothing();
+      });
 
       for (let term = 1; term <= 3; term++) {
         const weeklyTopics = getSubjectTermTopics(sub, term, lvl.id);
@@ -296,7 +300,7 @@ export async function seedDatabase() {
               ];
 
           totalTopics++;
-          await db.insert(curriculumTopics).values({
+          topicRows.push({
             id: topicId,
             subjectId: subjectId,
             levelId: lvl.id,
@@ -313,11 +317,20 @@ export async function seedDatabase() {
             studentActivities: JSON.stringify(studentActs),
             materials: JSON.stringify(materials),
             evaluation: JSON.stringify(evaluation),
-          }).onConflictDoNothing();
+          });
         }
       }
     }
   }
+
+  await db.transaction(async (tx) => {
+    for (let i = 0; i < subjectRows.length; i += 100) {
+      await tx.insert(curriculumSubjects).values(subjectRows.slice(i, i + 100)).onConflictDoNothing();
+    }
+    for (let i = 0; i < topicRows.length; i += 200) {
+      await tx.insert(curriculumTopics).values(topicRows.slice(i, i + 200)).onConflictDoNothing();
+    }
+  });
 
   console.log(`✅ Fully seeded all core subjects (${totalSubjects} subjects) and ${totalTopics} curriculum topics across JSS & SSS.`);
 
@@ -676,6 +689,29 @@ export async function seedDatabase() {
       }).onConflictDoNothing();
     }
 
-    console.log('✅ Demo user, lesson plans, resources, schemes, and broadsheets seeded.');
+    // Phase 2: Seed Official Government-Approved Textbooks & Author Metadata
+    const { APPROVED_TEXTBOOKS } = await import('../data/approvedTextbooks.ts');
+    const nowIso = new Date().toISOString();
+    const textbookRows = APPROVED_TEXTBOOKS.map((tb) => ({
+      id: tb.id,
+      classLevel: tb.classLevel,
+      subject: tb.subject,
+      title: tb.title,
+      author: tb.author,
+      publisher: tb.publisher,
+      edition: tb.edition,
+      isGovernmentApproved: tb.isGovernmentApproved,
+      approvedBy: tb.approvedBy,
+      approvalDate: tb.approvalDate,
+      createdAt: nowIso,
+    }));
+    await db.transaction(async (tx) => {
+      for (let i = 0; i < textbookRows.length; i += 100) {
+        await tx.insert(textbooks).values(textbookRows.slice(i, i + 100)).onConflictDoNothing();
+      }
+    });
+    console.log(`📚 Seeded ${APPROVED_TEXTBOOKS.length} government-approved textbooks into database.`);
+
+    console.log('✅ Demo user, lesson plans, resources, schemes, broadsheets, and textbooks seeded.');
     console.log('🎉 Database seeding complete!');
 }

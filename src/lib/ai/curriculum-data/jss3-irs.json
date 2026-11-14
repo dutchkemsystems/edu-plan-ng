@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Islamic Religious Studies",
+  "subjectCode": "IRS",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/irs-jss3",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Islamic Religious Studies for Junior Secondary Schools Book 3",
+    "author": "M. A. Folorunsho, A. K. Makinde",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Zakah and Sadaqah: Islamic Philanthropy and Poverty Alleviation",
+      "subtopics": ["Definition and difference between Zakah (obligatory tax) and Sadaqah (voluntary charity)", "Nisab (minimum threshold) calculation on cash, gold, silver, crops, and livestock", "The 8 statutory categories of Zakah recipients gazetted in Surah At-Tawbah (9:60)"],
+      "objectives": ["Distinguish compulsory Zakah from voluntary everyday Sadaqah", "Calculate 2.5% Zakatul-Mal on accumulated annual savings above the Nisab in Naira", "Analyze how effective Zakah collection eradicates extreme poverty and inequality in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Sawm (Fasting) in Ramadan and Health/Spiritual Virtues",
+      "subtopics": ["The obligation of fasting during the holy month of Ramadan (Surah Al-Baqarah 2:183)", "Conditions, intentions, things that invalidate fasting, and exemptions (travelers, sick, elderly)", "Spiritual benefits: Taqwa (God-consciousness), self-control, empathy for the hungry, Laylatul Qadr"],
+      "objectives": ["Explain the theological definition and purpose of fasting prescribed in Surah Al-Baqarah", "Identify categories of individuals granted statutory exemptions from fasting under Shariah", "Outline the spiritual discipline cultivated through abstaining from food, drink, and foul speech"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Hajj and Umrah: Rites, Sacred Sites and Spiritual Brotherhood",
+      "subtopics": ["Meaning and conditions for the obligation of Hajj (Islam, sanity, puberty, physical and financial capability)", "Rites of Hajj: Ihram, Tawaf around the Ka'aba, Sa'y between Safa and Marwah, standing at Arafah, Jamarat", "Spiritual symbolism: Total equality of all human races clothed in identical white Ihram garments"],
+      "objectives": ["Differentiate between the major pilgrimage (Hajj) and the lesser pilgrimage (Umrah)", "Explain why standing on the plain of Arafah on the 9th of Dhul-Hijjah is the pinnacle of Hajj", "Assess how the international Hajj pilgrimage exemplifies global racial and ethnic equality"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Commercial Ethics in Islam: Prohibition of Riba and Fraud",
+      "subtopics": ["Islamic business ethics: Honesty, truthfulness, mutual consent, accurate weights and measures", "Prohibition of Riba (usury/interest) and extortionate financial contracts in Surah Al-Baqarah", "Prohibition of cheating, hoarding (Ihtikar), selling adulterated or hazardous merchandise"],
+      "objectives": ["State 4 core ethical principles governing commercial business transactions in Islam", "Explain why the Quran strictly bans usurious interest (Riba) and exploitation of the poor", "Describe the spiritual rewards promised to truthful and trustworthy merchants (At-Tajirul Amin)"]
+    }
+  ]
+}

@@ -6,16 +6,27 @@
  * No API keys are ever leaked to the client browser.
  */
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import type { WebSocket } from 'ws';
+import { geminiCircuitBreaker } from '../reliability-engine.ts';
+import { logger } from '../logger.ts';
 
 export function getGeminiApiKey(): string | undefined {
   return process.env.GEMINI_API_KEY || process.env.API_KEY;
 }
 
-export function getGeminiClient(): GoogleGenAI | null {
+export function hasValidGeminiApiKey(): boolean {
   const apiKey = getGeminiApiKey();
-  if (!apiKey) return null;
+  if (!apiKey) return false;
+  const trimmed = apiKey.trim();
+  if (trimmed.length < 12) return false;
+  if (/your_|changeme|placeholder|example|dummy|test_key/i.test(trimmed)) return false;
+  return true;
+}
+
+export function getGeminiClient(): GoogleGenAI | null {
+  if (!hasValidGeminiApiKey()) return null;
+  const apiKey = getGeminiApiKey()!;
 
   return new GoogleGenAI({
     apiKey,
@@ -27,14 +38,45 @@ export function getGeminiClient(): GoogleGenAI | null {
   });
 }
 
+export async function executeGeminiWithTimeout<T>(
+  operationName: string,
+  fn: (ai: GoogleGenAI) => Promise<T>,
+  timeoutMs: number = 14000
+): Promise<T | null> {
+  const ai = getGeminiClient();
+  if (!ai) {
+    return null;
+  }
+
+  return geminiCircuitBreaker.execute<T | null>(
+    async () => {
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      try {
+        return await Promise.race([
+          fn(ai),
+          new Promise<never>((_, reject) => {
+            timer = setTimeout(() => reject(new Error(`Gemini ${operationName} timed out after ${timeoutMs}ms`)), timeoutMs);
+          }),
+        ]);
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    },
+    (err) => {
+      logger.info(`[Gemini:${operationName}] Graceful fallback to statutory engine`, { reason: err.message });
+      return null;
+    }
+  );
+}
+
 /**
  * Server-Side Streaming Text Generator
- * Streams tokens via SSE using gemini-3.8-flash
+ * Streams tokens via SSE using gemini-4-hydrogen
  */
 export async function* streamGeminiContent(
   prompt: string,
   systemInstruction?: string,
-  modelName: string = 'gemini-3.8-flash'
+  modelName: string = 'gemini-4-hydrogen'
 ): AsyncGenerator<string, void, unknown> {
   const ai = getGeminiClient();
 
@@ -52,9 +94,10 @@ export async function* streamGeminiContent(
     const responseStream = await ai.models.generateContentStream({
       model: modelName,
       contents: prompt,
-      config: systemInstruction
-        ? { systemInstruction }
-        : undefined,
+      config: {
+        ...(systemInstruction ? { systemInstruction } : {}),
+        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+      },
     });
 
     for await (const chunk of responseStream) {
@@ -92,13 +135,13 @@ export function handleLiveApiWebSocket(clientWs: WebSocket, queryToken?: string)
         if (parsed.type === 'text' && parsed.data) {
           if (ai) {
             try {
-              // Server-proxied streaming response back to client
               const responseStream = await ai.models.generateContentStream({
-                model: 'gemini-3.8-flash',
+                model: 'gemini-4-hydrogen',
                 contents: parsed.data,
                 config: {
                   systemInstruction:
                     'You are an interactive Nigerian secondary school pedagogical coach. Respond with concise, encouraging, spoken classroom speech.',
+                  thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
                 },
               });
 

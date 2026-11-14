@@ -1,0 +1,80 @@
+{
+  "classLevel": "sss-2",
+  "subject": "Financial Accounting",
+  "subjectCode": "ACC",
+  "version": "v1.6",
+  "lastUpdated": "2026-11-07",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/senior-secondary/financial-accounting-sss2",
+  "accreditationBody": "NERDC & WAEC/NECO Syllabus",
+  "recommendedTextbook": {
+    "title": "Essential Financial Accounting for Senior Secondary Schools",
+    "author": "R. A. I. Kazeem",
+    "publisher": "Tonad Publishers Limited",
+    "edition": "Revised 4th Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Bank Reconciliation Statements and Discrepancies",
+      "subtopics": [
+        "Causes of differences between Cash Book bank balance and Bank Statement balance",
+        "Unpresented cheques, uncredited lodgements, bank charges, standing orders, direct debits",
+        "Adjusting the Cash Book (Electronic banking updates) and preparing the Bank Reconciliation Statement"
+      ],
+      "objectives": [
+        "Identify 6 standard causes of timing differences in bank balances",
+        "Update the Cash Book with bank charges, credit transfers, and dishonored cheques",
+        "Draft a complete Bank Reconciliation Statement reconciling adjusted cash balance with bank statement"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Correction of Accounting Errors and the Suspense Account",
+      "subtopics": [
+        "Errors that do NOT affect the agreement of the Trial Balance (Omission, commission, principle, compensation, original entry, reversal of entries)",
+        "Errors that DO affect the Trial Balance and creation of the Suspense Account",
+        "Journal entries correcting errors and eliminating the suspense balance"
+      ],
+      "objectives": [
+        "Differentiate errors of principle from errors of commission",
+        "Draft correcting journal entries with explanatory narrations",
+        "Open, post, and close a Suspense Account in the ledger"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Final Accounts of a Sole Trader with Year-End Adjustments",
+      "subtopics": [
+        "Trading, Profit and Loss Account (Statement of Profit or Loss)",
+        "Balance Sheet (Statement of Financial Position) horizontal and vertical formats",
+        "Year-end adjustments: Accrued expenses, prepaid expenses, bad debts written off, provision for doubtful debts"
+      ],
+      "objectives": [
+        "Prepare a comprehensive Trading Account showing Gross Profit calculation",
+        "Compute and record provisions for bad debts and depreciation of non-current assets",
+        "Present a classified Statement of Financial Position adhering to WAEC marking schemes"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Control Accounts: Sales Ledger and Purchases Ledger Control",
+      "subtopics": [
+        "Meaning, advantages, and sources of information for Control Accounts (Total Debtors & Total Creditors)",
+        "Sales Ledger Control Account: Debits for sales, credits for cash received, returns, discounts allowed",
+        "Purchases Ledger Control Account: Debits for cash paid, returns, discounts received, credits for purchases"
+      ],
+      "objectives": [
+        "Explain 3 reasons why large Nigerian enterprises maintain control accounts",
+        "Prepare Sales Ledger and Purchases Ledger Control Accounts from given transaction summaries",
+        "Identify contra-settlements (set-offs) and bad debt transfers between ledgers"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Basic Technology",
+  "subjectCode": "BTECH",
+  "version": "v1.2",
+  "lastUpdated": "2026-10-30",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/jss1-basic-technology",
+  "accreditationBody": "NERDC & Lagos State OEQA Alausa",
+  "recommendedTextbook": {
+    "title": "Basic Technology for Junior Secondary Schools 1",
+    "author": "P.B. Nwachukwu, O.A. Adebayo, C.O. Ibe",
+    "publisher": "Evans Brothers Nigeria Publishers",
+    "edition": "Universal Basic Education Edition (Revised)",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC",
+    "approvalDate": "2024-06-10"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Understanding Technology: Meaning, Technology in Nigeria & Career Paths",
+      "subtopics": [
+        "Definition of technology as applied science to solve human problems",
+        "Indigenous technology in Nigeria (blacksmithing, cloth weaving, pottery, canoe carving)",
+        "Modern STEM careers: civil, electrical, mechanical, software engineering, and architecture"
+      ],
+      "objectives": [
+        "Define technology and differentiate science (knowing) from technology (doing)",
+        "Appraise indigenous Nigerian technological inventions in traditional industries",
+        "State four modern engineering career options for Nigerian secondary students"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Workshop Safety Rules, First Aid and Protective Equipment (PPE)",
+      "subtopics": [
+        "Causes of workshop accidents (carelessness, horseplay, faulty tools, wet floors)",
+        "Workshop safety rules and Personal Protective Equipment (safety goggles, boots, aprons, gloves)",
+        "First aid box contents and treatment of simple cuts, burns, and fainting spells"
+      ],
+      "objectives": [
+        "List 10 statutory safety rules governing secondary school technical workshops",
+        "Demonstrate immediate first aid protocols for a minor workshop laceration or thermal burn"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Safety Signs and Color Codes: Prohibition, Warning & Mandatory",
+      "subtopics": [
+        "Red circular signs: Prohibition (e.g., No Smoking, No Naked Flames)",
+        "Yellow triangular signs: Caution and Hazard Warning (e.g., Flammable, High Voltage)",
+        "Blue circular signs: Mandatory instructions (e.g., Wear Ear Protection, Wear Helmet)",
+        "Green rectangular signs: Safety equipment and Emergency Exits"
+      ],
+      "objectives": [
+        "Interpret industrial safety color codes and geometric symbols",
+        "Draw and color three standard workshop safety caution signs"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Identification of Materials I: Hardwoods vs Softwoods in Nigeria",
+      "subtopics": [
+        "Classification of trees: deciduous hardwoods (broad leaves, fruit-bearing) vs coniferous softwoods (needle-like leaves)",
+        "Common Nigerian commercial hardwoods: Iroko, Mahogany, Obeche, Teak, Afara",
+        "Physical properties and structural uses of timber in roofing and furniture"
+      ],
+      "objectives": [
+        "Differentiate hardwoods from softwoods based on leaf morphology and seed structure",
+        "Identify wood samples collected from local sawmills in timber-producing states"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 5,
+      "topic": "Identification of Materials II: Ferrous vs Non-Ferrous Metals",
+      "subtopics": [
+        "Definition of metals and extraction from mineral ores",
+        "Ferrous metals containing iron: cast iron, wrought iron, mild steel, high-carbon steel",
+        "Non-ferrous metals containing no iron: aluminum, copper, zinc, lead, brass, bronze"
+      ],
+      "objectives": [
+        "Distinguish ferrous from non-ferrous metals using bar magnets and visual luster",
+        "State applications of copper (electrical cables) and aluminum (roofing sheets, aircraft)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 6,
+      "topic": "Identification of Materials III: Ceramics, Plastics and Rubber",
+      "subtopics": [
+        "Ceramics: clay, cement, glass, tiles, bricks, and their heat-resistant properties",
+        "Plastics: thermoplastics (can be remolded by heating) vs thermosetting plastics",
+        "Natural rubber (latex from rubber trees) vs synthetic rubber (petrochemical origin)"
+      ],
+      "objectives": [
+        "Classify household plastic products into thermoplastics (polyethene) and thermosetting (Bakelite plugs)",
+        "Explain vulcanization of natural rubber for vehicle tires"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 7,
+      "topic": "Mid-Term Continuous Assessment & Intervention Drill",
+      "subtopics": [
+        "Diagnostic evaluation on safety rules, signs, wood, metals, plastics, and ceramics",
+        "Workshop safety drill assessment"
+      ],
+      "objectives": [
+        "Assess pupil mastery of basic technology foundational modules"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 8,
+      "topic": "Technical Drawing Instruments and Proper Board Setup",
+      "subtopics": [
+        "Drawing instruments: drawing board, T-Square, 30°/60° and 45° set-squares, metric ruler, French curves",
+        "Fastening drawing paper onto board with masking tape: aligning with working edge of T-Square",
+        "Ruling standard 10mm border margins and constructing the title block"
+      ],
+      "objectives": [
+        "Align drawing paper parallel to the working edge of the T-Square without wrinkles",
+        "Rule clean 10mm border lines and complete a standard 3-row title block"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 9,
+      "topic": "Technical Lettering and Line Types in Drafting",
+      "subtopics": [
+        "Single-stroke upright capital lettering between 3mm and 5mm guidelines",
+        "Alphabet of lines: thick continuous (visible outlines), thin continuous (dimension/projection lines)",
+        "Thin dashed lines (hidden details), thin long/short dash (center lines)"
+      ],
+      "objectives": [
+        "Execute neat, uniform engineering lettering without flourishes",
+        "Draw five statutory drafting line types with correct pencil weights (2H for construction, HB for outlines)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 10,
+      "topic": "Woodwork Hand Tools: Measuring, Marking Out and Sawing",
+      "subtopics": [
+        "Measuring tools: steel tape rule, steel rule, try square (checking 90° squareness)",
+        "Marking out tools: scriber, marking gauge, mortise gauge, center punch",
+        "Sawing hand tools: rip saw, crosscut saw, tenon saw, coping saw"
+      ],
+      "objectives": [
+        "Check squareness of a wooden block using a try square",
+        "Select the correct saw for cutting along wood grain (rip saw) vs across grain (crosscut saw)"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 11,
+      "topic": "Bench Work & Tool Maintenance: Cleaning, Oiling and Storage",
+      "subtopics": [
+        "Care and maintenance of woodworking tools: cleaning sawdust, applying light machine oil to prevent rust",
+        "Proper tool storage in tool racks and shadow boards",
+        "Sharpening plane irons and wood chisels on an oilstone"
+      ],
+      "objectives": [
+        "Sharpen a chisel blade on an oilstone maintaining the correct 25° grinding angle",
+        "State reasons for storing cutting hand tools separately to prevent dulling"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 12,
+      "topic": "Comprehensive Termly Revision & Practical Drafting Workshop",
+      "subtopics": [
+        "Review of materials, safety, drawing board practice, and hand tools",
+        "Timed practical engineering drafting test"
+      ],
+      "objectives": [
+        "Complete a standardized JSS 1 Basic Technology drafting dossier"
+      ]
+    },
+    {
+      "term": 1,
+      "week": 13,
+      "topic": "Terminal Examination & Broadsheet Entry",
+      "subtopics": [
+        "Terminal practical and theory examination"
+      ],
+      "objectives": [
+        "Complete JSS 1 Basic Technology certification"
+      ]
+    }
+  ]
+}

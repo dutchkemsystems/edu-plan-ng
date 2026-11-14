@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-2",
+  "subject": "Computer Studies",
+  "subjectCode": "CMP",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/computer-studies-jss2",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Computer Studies for Junior Secondary Schools Book 2",
+    "author": "O. A. Bamiro, A. O. Nurudeen, M. O. Akande",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Central Processing Unit (CPU) and Memory Hierarchy",
+      "subtopics": ["The CPU architecture: Control Unit (CU), Arithmetic Logic Unit (ALU), and Registers", "Primary memory: RAM (Random Access Memory, volatile) vs ROM (Read Only Memory, non-volatile)", "Secondary storage media: Hard Disk Drives (HDD), Solid State Drives (SSD), flash memory, optical disks (CD, DVD, Blu-ray)"],
+      "objectives": ["Explain the fetch-decode-execute cycle of the microprocessor", "Differentiate temporary RAM storage from permanent ROM BIOS chips", "Compare storage capacity and data transfer speeds of HDDs vs NVMe SSDs"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "System Software: Operating Systems and Utilities",
+      "subtopics": ["Definition and core functions of an Operating System (processor, memory, file, and device management)", "Types of Operating Systems: Single-user, multi-user, multi-tasking, distributed OS", "User interfaces: Command Line Interface (CLI) vs Graphical User Interface (GUI)"],
+      "objectives": ["State 4 functions performed by an operating system during computer operation", "Distinguish text-based Command Prompt commands from GUI desktop icons", "Identify common disk defragmentation and antivirus utility software"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Number Bases in Computing: Binary, Octal and Hexadecimal",
+      "subtopics": ["Binary number system (Base 2): Bits, nibbles, bytes, kilobytes, megabytes, gigabytes, terabytes", "Conversion between Base 10 (decimal) and Base 2 (binary)", "Binary addition and subtraction using the two's complement principle"],
+      "objectives": ["Convert decimal numbers up to 255 into 8-bit binary representation", "Perform binary addition with carry bits accurately", "Calculate storage capacity needed to store 500 digital textbook files in gigabytes"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Word Processing: Document Creation and Formatting",
+      "subtopics": ["Introduction to word processors (Microsoft Word, Google Docs)", "Document editing tools: Cut, copy, paste, undo, redo, spell check", "Formatting features: Font styling, margins, bulleted lists, header and footer, table insertion"],
+      "objectives": ["Create, format, and save an official letter in a word processor", "Apply bullet points and line spacing to structured paragraphs", "Demonstrate insertion of a 3-column timetable table into a word processing document"]
+    }
+  ]
+}

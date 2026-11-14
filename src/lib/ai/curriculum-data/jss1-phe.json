@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-1",
+  "subject": "Physical and Health Education",
+  "subjectCode": "PHE",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/phe-jss1",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Physical and Health Education for Junior Secondary Schools Book 1",
+    "author": "A. O. Folawiyo, B. A. Miller, S. M. Oloyede",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Meaning, Scope and Objectives of Physical and Health Education",
+      "subtopics": ["Definition of Physical Education and Health Education", "Objectives: Physical fitness, motor skills, character development, emotional balance", "Career opportunities: Sports coaching, physiotherapy, fitness training, sports journalism"],
+      "objectives": ["Define Physical and Health Education accurately", "State 5 specific developmental benefits of regular exercise", "Identify 4 career paths available in sports and health sciences in Nigeria"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Track Events: Sprints (100m, 200m) and Relay Races",
+      "subtopics": ["Sprint races (100m, 200m): Crouch start ('On your mark', 'Set', 'Go' / gun shot), arm drive, stride cadence, finish techniques", "Relay races (4x100m, 4x400m): Baton grip and baton exchange techniques (visual vs non-visual exchange)", "Rules and lane disqualifications in sprint races according to World Athletics rules"],
+      "objectives": ["Demonstrate correct body posture during the 'Set' position in crouch start", "Execute smooth non-visual baton exchange inside the 20-meter changeover box", "List 3 common track infractions that lead to athlete disqualification"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "Field Events: Basic High Jump and Long Jump Techniques",
+      "subtopics": ["Long jump phases: Approach run, take-off, flight (sail / hitch-kick style), and landing in the sand pit", "High jump techniques: Scissors jump and introduction to the Fosbury Flop", "Safety equipment: Sand pit raking, foam landing mats, and takeoff board maintenance"],
+      "objectives": ["Break down long jump into its 4 biomechanical phases", "Demonstrate safe two-foot landing in the long jump pit to prevent knee injury", "State the international rules governing valid take-off and foul jumps"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Personal Cleanliness, Grooming and Environmental Sanitation",
+      "subtopics": ["Care of body organs: Skin, teeth, hair, eyes, ears, and fingernails", "Clothing and footwear hygiene in tropical West African climates", "School compound environmental sanitation and proper refuse disposal"],
+      "objectives": ["Explain causes and prevention of dental caries and body odor", "Outline daily personal hygiene routines for growing adolescents", "Participate in a structured environmental sanitation clean-up drill"]
+    }
+  ]
+}

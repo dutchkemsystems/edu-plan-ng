@@ -1,0 +1,141 @@
+{
+  "classLevel": "SSS 1",
+  "subject": "Islamic Religious Studies",
+  "curriculumVersion": "v1.2",
+  "lastUpdated": "2024-09-01",
+  "sourceUrl": "https://nerdc.gov.ng/curriculum/sss1-irs.html",
+  "approvedBy": "NERDC & Lagos State OEQA",
+  "topics": [
+    {
+      "week": 1,
+      "term": 1,
+      "topic": "Preservation and Compilation of the Holy Quran: Caliph Abu Bakr and Uthman (RA)",
+      "learningObjectives": [
+        "Detail oral memorization and recording of revelations on parchment, stones, and shoulder bones under Prophet Muhammad (SAW)",
+        "Explain the compilation of the first unified Mushaf by Zayd ibn Thabit under Caliph Abu Bakr following the Battle of Yamama",
+        "Analyze the standardization and distribution of the Uthmanic codex across Islamic provinces to eliminate dialectal divergences"
+      ]
+    },
+    {
+      "week": 2,
+      "term": 1,
+      "topic": "Quranic Exegesis: Study, recitation, and translation of Suratul Hujurat (Quran 49:1-10)",
+      "learningObjectives": [
+        "Recite verses 1-10 of Suratul Hujurat with proper application of Tajweed rules",
+        "Translate Arabic text and explain the context of revelation (Asbab an-Nuzul)",
+        "Derive ethical lessons on respecting leadership, verifying rumors, and reconciling disputing brethren"
+      ]
+    },
+    {
+      "week": 3,
+      "term": 1,
+      "topic": "Quranic Exegesis: Suratul Hujurat (Quran 49:11-18) on social decorum and brotherhood",
+      "learningObjectives": [
+        "Recite verses 11-18 with Tajweed and translate into clear English",
+        "Examine divine prohibitions against defamation, mocking, offensive nicknames, suspicion, and backbiting",
+        "Analyze verse 13 establishing universal human brotherhood and declaring Taqwa (piety) as the sole criterion of nobility"
+      ]
+    },
+    {
+      "week": 4,
+      "term": 1,
+      "topic": "Hadith Studies: Sincerity in intentions (Hadith 1 of An-Nawawi) and science of Hadith",
+      "learningObjectives": [
+        "Differentiate between Sanad (chain of narrators) and Matn (textual content) in Hadith scholarship",
+        "Recite, translate, and comment on Hadith 1 ('Actions are judged by intentions')",
+        "Apply sincerity (Ikhlas) to acts of worship, academic study, and social interaction"
+      ]
+    },
+    {
+      "week": 5,
+      "term": 1,
+      "topic": "Tawheed (Islamic Monotheism): Three categories (Rububiyyah, Uluhiyyah, Asma wa Sifat)",
+      "learningObjectives": [
+        "Explain Tawheed ar-Rububiyyah (Unity of Lordship, creation, and sustenance)",
+        "Explain Tawheed al-Uluhiyyah (Unity of Worship and devotion)",
+        "Explain Tawheed al-Asma was-Sifat (Affirmation of Allah's Beautiful Names and Attributes without anthropomorphism)",
+        "Identify forms of major Shirk (polytheism) and minor Shirk (Riya/showing off)"
+      ]
+    },
+    {
+      "week": 6,
+      "term": 1,
+      "topic": "Taharah (Purification): Ghusl (ritual bath), Tayammum (dry ablution), and cleanliness",
+      "learningObjectives": [
+        "State circumstances obligating Ghusl (post-marital intercourse, menses, post-natal bleeding)",
+        "Demonstrate step-by-step performance of major ablution (Ghusl) according to the Sunnah",
+        "Explain conditions permitting Tayammum and demonstrate its performance on clean earth"
+      ]
+    },
+    {
+      "week": 7,
+      "term": 1,
+      "topic": "Mid-Term Continuous Assessment & Quranic Recitation Diagnostic Test",
+      "learningObjectives": [
+        "Evaluate pupil mastery of Suratul Hujurat exegesis, Hadith terminology, and Tawheed",
+        "Conduct individualized oral Tajweed recitation examinations",
+        "Provide remedial coaching on Hadith memorization and theological distinctions"
+      ]
+    },
+    {
+      "week": 8,
+      "term": 1,
+      "topic": "Zakat and Sadaqah: Economic empowerment, social equity, and poverty eradication",
+      "learningObjectives": [
+        "Define Zakat as the third pillar of Islam and differentiate it from voluntary charity (Sadaqah)",
+        "Calculate Nisab (minimum taxable threshold) and rates (2.5%) for gold, silver, and commercial merchandise",
+        "Enumerate the eight statutory categories of Zakat recipients specified in Surah at-Tawbah (9:60)"
+      ]
+    },
+    {
+      "week": 9,
+      "term": 1,
+      "topic": "Sirah: The Makkan Period, persecution of early Muslims, and Boycott of Banu Hashim",
+      "learningObjectives": [
+        "Trace the secret and open call to Islam in Makkah and early converts",
+        "Examine the brutal persecution endured by Bilal, Yasir, Sumayyah, and Khabbab",
+        "Analyze the three-year socio-economic boycott of Banu Hashim in the valley of Shi'b Abi Talib"
+      ]
+    },
+    {
+      "week": 10,
+      "term": 1,
+      "topic": "Sirah: The Hijrah to Abyssinia and the Landmark Migration (Hijrah) to Madinah (622 CE)",
+      "learningObjectives": [
+        "Examine the two migrations to Abyssinia and Ja'far ibn Abi Talib's eloquent defense before King Negus",
+        "Analyze the Pledges of al-Aqabah with the Ansar of Yathrib",
+        "Detail the dramatic escape from Makkah, stay in the Cave of Thawr, and arrival in Madinah initiating the Islamic calendar"
+      ]
+    },
+    {
+      "week": 11,
+      "term": 1,
+      "topic": "Islamic Moral Ethics: Truthfulness (Sidq), honesty, kindness to parents (Birr al-Walidayn)",
+      "learningObjectives": [
+        "State Quranic and prophetic injunctions regarding unflinching truthfulness in speech and business",
+        "Explain filial piety and the divine prohibition against saying even 'Fie' (Uff) to parents (Quran 17:23)",
+        "Contrast Islamic moral virtues with prevalent social vices like dishonesty and disrespect"
+      ]
+    },
+    {
+      "week": 12,
+      "term": 1,
+      "topic": "Comprehensive IRS Revision & WAEC Past Question Clinic",
+      "learningObjectives": [
+        "Review key Quranic texts, Hadith narrations, Tawheed, and historical Sirah milestones",
+        "Practice constructing structured essay answers conforming to WAEC Paper 2 rubric specifications",
+        "Audit student precision in Arabic transliteration and scriptural references"
+      ]
+    },
+    {
+      "week": 13,
+      "term": 1,
+      "topic": "Terminal Examination, Paper Moderation and Score Recording",
+      "learningObjectives": [
+        "Administer official SSS 1 IRS theory and objective examination papers",
+        "Score scripts in strict compliance with West African Examinations Council marking guidelines",
+        "Record and publish verified student marks for academic broadsheet compilation"
+      ]
+    }
+  ]
+}

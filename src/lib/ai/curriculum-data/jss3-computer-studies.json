@@ -1,0 +1,48 @@
+{
+  "classLevel": "jss-3",
+  "subject": "Computer Studies",
+  "subjectCode": "CMP",
+  "version": "v1.2",
+  "lastUpdated": "2026-03-01",
+  "sourceUrl": "https://nerdc.org.ng/curriculum/junior-secondary/computer-studies-jss3",
+  "accreditationBody": "NERDC & Lagos State OEQA",
+  "recommendedTextbook": {
+    "title": "Computer Studies for Junior Secondary Schools Book 3",
+    "author": "O. A. Bamiro, A. O. Nurudeen, M. O. Akande",
+    "publisher": "Learn Africa Plc",
+    "edition": "Revised 3rd Edition",
+    "isGovernmentApproved": true,
+    "approvedBy": "NERDC & Lagos State Ministry of Basic Education",
+    "approvalDate": "2024-08-15"
+  },
+  "topics": [
+    {
+      "term": 1,
+      "week": 1,
+      "topic": "Spreadsheets: Electronic Ledger Modeling and Formulas",
+      "subtopics": ["Features of spreadsheet applications (Microsoft Excel, Google Sheets): Worksheets, cells, rows, columns", "Data types in spreadsheets: Text, numbers, date/time, formulas", "Basic arithmetic functions: SUM, AVERAGE, COUNT, MAX, MIN, and relative vs absolute cell referencing"],
+      "objectives": ["Enter numerical data into a spreadsheet grid with proper headers", "Use the SUM and AVERAGE functions to calculate student test scores and grades", "Construct a 2D column bar chart displaying termly broadsheet statistics"]
+    },
+    {
+      "term": 1,
+      "week": 2,
+      "topic": "Computer Networks and Network Topologies",
+      "subtopics": ["Meaning and benefits of computer networks (resource sharing, centralized data, communication)", "Classification by geographical scale: LAN (Local Area Network), MAN (Metropolitan), WAN (Wide Area Network)", "Network physical topologies: Bus, star, ring, mesh, tree, and hybrid topologies"],
+      "objectives": ["Differentiate a school local area network (LAN) from the global internet (WAN)", "Draw and explain star topology using a central network switch", "State advantages and failure risks of bus and ring network setups"]
+    },
+    {
+      "term": 1,
+      "week": 3,
+      "topic": "The Internet, Web Browsers and Search Engines",
+      "subtopics": ["The World Wide Web (WWW) vs the Internet: URL structure, web pages, hyperlinks", "Web browsers (Chrome, Firefox, Safari) and web search engines (Google, Bing)", "Internet protocols: HTTP, HTTPS, TCP/IP, email protocols (SMTP, POP3, IMAP)"],
+      "objectives": ["Deconstruct the components of a complete URL (Protocol, domain, path)", "Demonstrate effective information retrieval using boolean search operators (AND, OR, NOT)", "Explain the security significance of the padlock icon and HTTPS encryption"]
+    },
+    {
+      "term": 1,
+      "week": 4,
+      "topic": "Cybersecurity, Computer Viruses and Ethics",
+      "subtopics": ["Malware threats: Viruses, worms, trojans, ransomware, spyware, phishing attacks", "Symptoms of virus infection: Slow system, corrupted files, unexpected popups, reboot loops", "Preventive security: Antivirus software updates, firewalls, strong passwords, data backups"],
+      "objectives": ["Distinguish computer viruses from worms and phishing scams", "Outline 5 golden rules for creating secure digital passwords", "Formulate cyber-ethics guidelines for responsible social media participation"]
+    }
+  ]
+}
